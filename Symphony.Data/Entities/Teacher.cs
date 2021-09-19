@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,15 +6,11 @@ using System.Threading.Tasks;
 
 namespace Symphony.Data.Entities
 {
-    public class AppUser : IdentityUser<Guid>
+    public class Teacher
     {
+        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Address { get; set; }
-        public DateTime DOB { get; set; }
-        public char Gender { get; set; }
-        public int? ImageId { get; set; }
-        public Image Image { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }
