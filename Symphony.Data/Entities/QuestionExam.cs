@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Symphony.Data.Entities
 {
-    public class Questions_In_Exam
+    public class QuestionExam
     {
         public int QuestionId { get; set; }
         public Question Question { get; set; }
