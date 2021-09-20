@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace Symphony.Data.Entities
 {
-    public class Image
+    public class Enrollment
     {
         public int Id { get; set; }
-        public string Path { get; set; }
-        public List<Image_Subject> Image_Subjects { get; set; }
+        public Guid UserId { get; set; }
+        public int CourseId { get; set; }
+        public AppUser AppUser { get; set; }
+        public Course Course { get; set; }
     }
 }

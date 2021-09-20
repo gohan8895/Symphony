@@ -20,12 +20,18 @@ namespace Symphony.Data.Entities
         [PersonalData]
         public char Gender { get; set; }
         [PersonalData]
-        public int? ImageId { get; set; }
-        [PersonalData]
-        public Image Image { get; set; }
+        public int BatchId { get; set; }
         [PersonalData]
         public DateTime CreatedAt { get; set; }
         [PersonalData]
         public DateTime UpdatedAt { get; set; }
+        [PersonalData]
+        public Batch Batch { get; set; }
+        public List<Student_Course> Student_Courses { get; set; }
+        public List<Student_In_Exam> Student_In_Exams { get; set; }
+        public List<Exam_Result> Exam_Results { get; set; }
+        public List<Enrollment> Enrollments { get; set; }
+        public List<CourseRegistration> CourseRegistrations { get; set; }
+        public List<ExamRegistration> ExamRegistrations { get; set; }
     }
 }
