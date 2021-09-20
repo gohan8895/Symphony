@@ -8,7 +8,7 @@ namespace Symphony.Data.Entities
 {
     public class Subject
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public int Duration { get; set; }
@@ -17,7 +17,7 @@ namespace Symphony.Data.Entities
         public DateTime UpdatedAt { get; set; }
         public bool IsShown { get; set; }
         public List<Subject_Course> Subject_Courses { get; set; }
-        public List<Image_Subject> Image_Subjects { get; set; }
+        public List<Image> Images { get; set; }
         public List<Question> Questions { get; set; }
         public List<File> Files { get; set; }
         public List<Exam> Exams { get; set; }

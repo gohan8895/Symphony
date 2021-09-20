@@ -7,20 +7,20 @@ using System.Text;
 
 namespace Symphony.Data.Configurations
 {
-    public class FAQConfiguration : IEntityTypeConfiguration<FAQ>
+    public class NewsConfiguration : IEntityTypeConfiguration<News>
 
     {
-        public void Configure(EntityTypeBuilder<FAQ> builder)
+        public void Configure(EntityTypeBuilder<News> builder)
         {
-            builder.ToTable("FAQs");
+            builder.ToTable("News");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
 
-            builder.Property(x => x.Question).HasMaxLength(512).IsRequired();
-            builder.Property(x => x.Answer).HasMaxLength(512).IsRequired();
-            builder.Property(x => x.IsShown).HasDefaultValue(true);
+            builder.Property(x => x.Title).HasMaxLength(512).IsRequired();
+            builder.Property(x => x.Description).IsRequired();
             builder.Property(x => x.CreatedAt);
             builder.Property(x => x.UpdatedAt);
+            builder.Property(x => x.IsShown).HasDefaultValue(true);
         }
     }
 }

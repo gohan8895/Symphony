@@ -14,7 +14,7 @@ namespace Symphony.Data.Entities
         public string Address { get; set; }
         public DateTime DOB { get; set; }
         public char Gender { get; set; }
-        public int BatchId { get; set; }
+        public int? BatchId { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public Batch Batch { get; set; }
@@ -24,5 +24,6 @@ namespace Symphony.Data.Entities
         public List<Enrollment> Enrollments { get; set; }
         public List<CourseRegistration> CourseRegistrations { get; set; }
         public List<ExamRegistration> ExamRegistrations { get; set; }
+        public List<ConsultRegistration> ConsultRegistrations { get; set; }
     }
 }
