@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Symphony.Data.Entities
 {
-    public class Student_in_batch
+    public class Student_In_Exam
     {
-        public int BatchId { get; set; }
-        public Batch Batch { get; set; }
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         public AppUser AppUser { get; set; }
+        public int ExamId { get; set; }
+        public Exam Exam { get; set; }
     }
 }
