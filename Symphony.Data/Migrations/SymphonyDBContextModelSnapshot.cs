@@ -172,7 +172,7 @@ namespace Symphony.Data.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "7f5be8dd-f252-44cd-848d-911b552a3e91",
+                            ConcurrencyStamp = "b0db4269-66bf-4143-829d-48e6369de788",
                             Description = "Administrator Role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -267,7 +267,7 @@ namespace Symphony.Data.Migrations
                         {
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "51064276-bbb5-4b16-8beb-415be32aee4d",
+                            ConcurrencyStamp = "191adf67-9946-46f3-b2c5-cabe56293244",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DOB = new DateTime(1995, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "trung.nguyen@gmail.com",
@@ -278,7 +278,7 @@ namespace Symphony.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "trung.nguyen@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAEsnJjmg0FMgKjmK17T9bum11ViwNl2a6ez2n4SXrVAvgpo0KijPgf28eTrJbMAWg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP3WlQGsmzuvKafLZNzbAdiKMF/v9Q1m0SHWfNYGBv/xHwCybtBiQxA/A7HE1qC0VA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
