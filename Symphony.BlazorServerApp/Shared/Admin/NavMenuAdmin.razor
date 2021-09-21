@@ -7,18 +7,39 @@
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <ul class="nav flex-column">
-        <li class="nav-item px-3">
+        <li class="nav-item px-3 fw-bold">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="material-icons me-2">
-                    home
-                </span> Home
+                    dashboard
+                </span> Dashboard
             </NavLink>
         </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
+        <li class="nav-item px-3 fw-bold">
+            <NavLink class="nav-link" href="userManagement">
                 <span class="material-icons me-2">
-                    add_circle_outline
-                </span> Counter
+                    people
+                </span> User Management
+            </NavLink>
+        </li>
+        <li class="nav-item px-3 fw-bold">
+            <NavLink class="nav-link" href="courseManagement">
+                <span class="material-icons me-2">
+                    menu_book
+                </span> Course Management
+            </NavLink>
+        </li>
+        <li class="nav-item px-3 fw-bold">
+            <NavLink class="nav-link" href="examManagement">
+                <span class="material-icons me-2">
+                    quiz
+                </span> Exam Management
+            </NavLink>
+        </li>
+        <li class="nav-item px-3 fw-bold">
+            <NavLink class="nav-link" href="userManagement">
+                <span class="material-icons me-2">
+                    feed
+                </span> Registration
             </NavLink>
         </li>
     </ul>
