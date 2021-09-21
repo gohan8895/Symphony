@@ -1,7 +1,7 @@
-@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+@import url('material-design-icons-3.0.1/');
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Quicksand', sans-serif;
 }
 
 a, .btn-link {

@@ -20,6 +20,8 @@
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Controls\" />
+    <Folder Include="Pages\User\" />
+    <Folder Include="Pages\Admin\" />
     <Folder Include="Services\" />
   </ItemGroup>
 
