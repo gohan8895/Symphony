@@ -29,7 +29,7 @@ namespace Symphony.Services.Services.EmailSenderService
                 /*
                  * Change to your email address to get confirmation email.
                  */
-                From = new EmailAddress("diepvien004b@gmail.com", "Password Recovery"),
+                From = new EmailAddress("diepvien004b@gmail.com", "Email Confirmation"),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message
