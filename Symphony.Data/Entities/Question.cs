@@ -22,7 +22,7 @@ namespace Symphony.Data.Entities
         public int Score { get; set; }
         public int SubjectId { get; set; }
         public Subject Subject { get; set; }
-        public List<Questions_In_Exam> Questions_In_Exams { get; set; }
+        public List<QuestionExam> QuestionExams { get; set; }
         public List<Student_Answer> Student_Answers { get; set; }
     }
 }

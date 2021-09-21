@@ -7,11 +7,12 @@ using System.Text;
 
 namespace Symphony.Data.Configurations
 {
-    public class FAQConfiguration
+    public class FAQConfiguration : IEntityTypeConfiguration<FAQ>
+
     {
         public void Configure(EntityTypeBuilder<FAQ> builder)
         {
-            builder.ToTable("FAQ");
+            builder.ToTable("FAQs");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,11 +17,11 @@ namespace Symphony.Data.Entities
         [PersonalData]
         public string Address { get; set; }
         [PersonalData]
+        [DataType(DataType.Date)]
         public DateTime DOB { get; set; }
         [PersonalData]
         public char Gender { get; set; }
-        [PersonalData]
-        public int BatchId { get; set; }
+        public int? BatchId { get; set; }
         [PersonalData]
         public DateTime CreatedAt { get; set; }
         [PersonalData]
@@ -33,5 +34,6 @@ namespace Symphony.Data.Entities
         public List<Enrollment> Enrollments { get; set; }
         public List<CourseRegistration> CourseRegistrations { get; set; }
         public List<ExamRegistration> ExamRegistrations { get; set; }
+        public List<ConsultRegistration> ConsultRegistrations { get; set; }
     }
 }

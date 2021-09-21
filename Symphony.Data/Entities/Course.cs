@@ -20,6 +20,7 @@ namespace Symphony.Data.Entities
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public bool IsShown { get; set; }
+        public List<Exam> Exams { get; set; }
         public List<Subject_Course> Subject_Courses { get; set; }
         public List<Student_Course> Student_Courses { get; set; }
         public List<Enrollment> Enrollments { get; set; }
