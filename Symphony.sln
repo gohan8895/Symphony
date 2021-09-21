@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Symphony.Backend", "Symphon
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Symphony.Data", "Symphony.Data\Symphony.Data.csproj", "{7CE8EA50-8848-49B9-BF7B-77D57003D1DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Symphony.BlazorServerApp", "Symphony.BlazorServerApp\Symphony.BlazorServerApp.csproj", "{EA8BC3E5-7BEB-4242-9A25-C0A8218E2E01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Symphony.BlazorServerApp", "Symphony.BlazorServerApp\Symphony.BlazorServerApp.csproj", "{EA8BC3E5-7BEB-4242-9A25-C0A8218E2E01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Symphony.Services", "Symphony.Services\Symphony.Services.csproj", "{C249D91D-F08F-4384-BF2E-FA00AF739076}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{EA8BC3E5-7BEB-4242-9A25-C0A8218E2E01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA8BC3E5-7BEB-4242-9A25-C0A8218E2E01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA8BC3E5-7BEB-4242-9A25-C0A8218E2E01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C249D91D-F08F-4384-BF2E-FA00AF739076}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C249D91D-F08F-4384-BF2E-FA00AF739076}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C249D91D-F08F-4384-BF2E-FA00AF739076}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C249D91D-F08F-4384-BF2E-FA00AF739076}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

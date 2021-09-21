@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Threading.Tasks;
 
-namespace Symphony.BlazorServerApp.Areas.Identity
+namespace Symphony.Services.Services.EmailSenderService
 {
-    public class EmailSeder : IEmailSender
+    public class EmailSender : IEmailSender
     {
         public Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
