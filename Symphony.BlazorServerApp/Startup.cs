@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Symphony.BlazorServerApp.Areas.Identity;
 using Symphony.Data.EF;
 using Symphony.Data.Entities;
+using Symphony.Services.Services.EmailSenderService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +43,10 @@ namespace Symphony.BlazorServerApp
              * Config HttpClient to consumes a web api name symphony with specify uri.
              */
             services.AddHttpClient("symphony", c => { c.BaseAddress = new Uri("http://localhost:39699/api/"); });
+
+            // Add Email Sending Service
+            services.AddScoped<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

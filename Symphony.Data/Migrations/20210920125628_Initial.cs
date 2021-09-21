@@ -679,7 +679,7 @@ namespace Symphony.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AppRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
-                values: new object[] { new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"), "7f5be8dd-f252-44cd-848d-911b552a3e91", "Administrator Role", "admin", "admin" });
+                values: new object[] { new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"), "b0db4269-66bf-4143-829d-48e6369de788", "Administrator Role", "admin", "admin" });
 
             migrationBuilder.InsertData(
                 table: "AppUserRoles",
@@ -689,7 +689,7 @@ namespace Symphony.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AppUsers",
                 columns: new[] { "Id", "AccessFailedCount", "Address", "BatchId", "ConcurrencyStamp", "CreatedAt", "DOB", "Email", "EmailConfirmed", "FirstName", "Gender", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UpdatedAt", "UserName" },
-                values: new object[] { new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"), 0, null, null, "51064276-bbb5-4b16-8beb-415be32aee4d", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1995, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "trung.nguyen@gmail.com", true, "Trung", " ", "Nguyen", false, null, "trung.nguyen@gmail.com", "admin", "AQAAAAEAACcQAAAAEAEsnJjmg0FMgKjmK17T9bum11ViwNl2a6ez2n4SXrVAvgpo0KijPgf28eTrJbMAWg==", null, false, "", false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin" });
+                values: new object[] { new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"), 0, null, null, "191adf67-9946-46f3-b2c5-cabe56293244", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1995, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "trung.nguyen@gmail.com", true, "Trung", " ", "Nguyen", false, null, "trung.nguyen@gmail.com", "admin", "AQAAAAEAACcQAAAAEP3WlQGsmzuvKafLZNzbAdiKMF/v9Q1m0SHWfNYGBv/xHwCybtBiQxA/A7HE1qC0VA==", null, false, "", false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AppUsers_BatchId",

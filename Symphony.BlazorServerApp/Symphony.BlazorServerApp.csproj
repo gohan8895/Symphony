@@ -20,11 +20,14 @@
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Controls\" />
+    <Folder Include="Pages\User\" />
+    <Folder Include="Pages\Admin\" />
     <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Symphony.Data\Symphony.Data.csproj" />
+    <ProjectReference Include="..\Symphony.Services\Symphony.Services.csproj" />
   </ItemGroup>
 
 </Project>

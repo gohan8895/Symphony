@@ -9,6 +9,7 @@ namespace Symphony.Data.Entities
 {
     public class AppRole : IdentityRole<Guid>
     {
+        [PersonalData]
         public string Description { get; set; }
     }
 }

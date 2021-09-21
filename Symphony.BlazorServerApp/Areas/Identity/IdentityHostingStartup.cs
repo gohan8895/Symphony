@@ -1,8 +1,7 @@
 using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,10 +20,11 @@ namespace Symphony.BlazorServerApp.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("SymphonyDb")));
 
-                services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = false)
-                   .AddEntityFrameworkStores<SymphonyDBContext>();
+                services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = true)
+                   .AddRoles<AppRole>()
+                   .AddEntityFrameworkStores<SymphonyDBContext>()
+                   .AddDefaultTokenProviders();
 
-                services.AddScoped<IEmailSender, EmailSeder>();
 
                 services.Configure<IdentityOptions>(options =>
                 {
@@ -57,6 +57,13 @@ namespace Symphony.BlazorServerApp.Areas.Identity
                     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                     options.SlidingExpiration = true;
                 });
+
+                /*services.AddAuthorization(options =>
+                {
+                    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        .Build();
+                });*/
             });
         }
     }

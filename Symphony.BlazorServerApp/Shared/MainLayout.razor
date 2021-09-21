@@ -2,13 +2,26 @@
 
 <div class="page">
     <div class="sidebar">
-        <NavMenu />
+        <AuthorizeView Roles="admin">
+            <Authorized>
+                <NavMenuAdmin />
+            </Authorized>
+            <NotAuthorized>
+                <NavMenu />
+            </NotAuthorized>
+        </AuthorizeView>
     </div>
 
     <div class="main">
         <div class="top-row px-4 auth">
-            <LoginDisplay />
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            <AuthorizeView Roles="admin">
+                <Authorized>
+                    <LoginDisplayAdmin />
+                </Authorized>
+                <NotAuthorized>
+                    <LoginDisplay />
+                </NotAuthorized>
+            </AuthorizeView>
         </div>
 
         <div class="content px-4">
