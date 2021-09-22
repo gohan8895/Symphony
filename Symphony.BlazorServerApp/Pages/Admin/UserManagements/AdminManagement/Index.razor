@@ -1,7 +1,21 @@
-﻿@page "/adminManager"
+﻿@page "/admin/userManagement/adminManager"
+
+@inject UserManager<AppUser> userManager
+@using Symphony.Data.DTOs.AppUserDTOs
+@using Symphony.Data.Extensions.AppUserExtensions
 
 <h3>Index</h3>
 
 @code {
 
+    #region DTO
+    private List<AppUserDTO> Users { get; set; } = new();
+    #endregion
+
+    protected async override Task OnInitializedAsync()
+    {
+        Users = userManager.Users.Select(u => u.AsDTO()).ToList();
+
+
+    }
 }

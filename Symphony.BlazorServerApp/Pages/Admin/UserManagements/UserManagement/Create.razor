@@ -1,4 +1,4 @@
-﻿@page "/admin/userManagement/createAdmin"
+﻿@page "/admin/userManagement/createUser"
 
 @using Symphony.BlazorServerApp.Controls.FormComponents
 @using Symphony.BlazorServerApp.Controls.Utilities
@@ -7,8 +7,8 @@
 <div class="container">
     <AuthorizeView Roles="admin">
         <Authorized Context="User">
-            <h2 class="fw-bolder text-center fs">Create an Admin</h2>
-            <CreateUserComponent InputUser="@InputUser" IsCreateAdmin="true"/>
+            <h2 class="fw-bolder text-center fs">Create a User</h2>
+            <CreateUserComponent InputUser="@InputUser" IsCreateAdmin="false" />
         </Authorized>
         <NotAuthorized>
             <UnauthorizedAccess />

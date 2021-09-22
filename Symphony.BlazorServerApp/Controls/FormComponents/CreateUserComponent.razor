@@ -78,7 +78,8 @@
                 Email = InputUser.Email,
                 UserName = InputUser.Email,
                 Gender = InputUser.Gender,
-                EmailConfirmed = true
+                EmailConfirmed = true,
+                CreatedAt = DateTime.Now
             };
 
             var result = await userManager.CreateAsync(user, InputUser.Password);
