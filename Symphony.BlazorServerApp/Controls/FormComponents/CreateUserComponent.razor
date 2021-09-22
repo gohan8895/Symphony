@@ -1,0 +1,102 @@
+﻿@using Symphony.Data.DTOs.AppUserDTOs
+@inject UserManager<AppUser> userManager
+@inject RoleManager<AppRole> roleManager
+@inject NavigationManager Nav
+
+<EditForm Model="@InputUser" OnValidSubmit="@createUser" class="row g-3">
+    <DataAnnotationsValidator />
+    <div class="col-md-6">
+        <label class="form-label fw-bold">@nameof(InputUser.FirstName)</label>
+        <InputText @bind-Value="InputUser.FirstName" class="form-control" />
+        <ValidationMessage For="@(() => InputUser.FirstName)" />
+    </div>
+    <div class="col-md-6">
+        <label class="form-label fw-bold">@nameof(InputUser.LastName)</label>
+        <InputText @bind-Value="InputUser.LastName" class="form-control" />
+        <ValidationMessage For="@(() => InputUser.LastName)" />
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+            <label class="form-label col-12 fw-bold">@nameof(InputUser.Gender)</label>
+            <div class="col-12">
+                <div class="form-check form-check-inline">
+                    <input @onclick="() => InputUser.Gender = 'M'" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1">
+                    <label class="form-check-label" for="inlineRadio1">Male</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input @onclick="() => InputUser.Gender = 'F'" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2">
+                    <label class="form-check-label" for="inlineRadio2">Female</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label fw-bold">@nameof(InputUser.DOB)</label>
+        <InputDate @bind-Value="InputUser.DOB" class="form-control" />
+        <ValidationMessage For="@(() => InputUser.DOB)" />
+    </div>
+    <div class="col-md-12">
+        <label class="form-label fw-bold">@nameof(InputUser.Email)</label>
+        <InputText @bind-Value="InputUser.Email" class="form-control" />
+        <ValidationMessage For="@(() => InputUser.Email)" />
+    </div>
+    <div class="col-md-12">
+        <label class="form-label fw-bold">@nameof(InputUser.Password)</label>
+        <InputText @bind-Value="InputUser.Password" class="form-control" type="password" />
+        <ValidationMessage For="@(() => InputUser.Password)" />
+    </div>
+    <div class="col-md-12">
+        <label class="form-label fw-bold">@nameof(InputUser.ConfirmPassword)</label>
+        <InputText @bind-Value="InputUser.ConfirmPassword" class="form-control" type="password" />
+        <ValidationMessage For="@(() => InputUser.ConfirmPassword)" />
+    </div>
+    <div class="col-md-12">
+        <div class="btn btn-dark align-items-center">
+            <input type="submit" value="Create" class="btn btn-dark" />
+            <span class="material-icons">
+                add
+            </span>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public CreateAppUserDTO InputUser { get; set; } = new();
+    [Parameter]
+    public bool IsCreateAdmin { get;set; }
+
+    private async Task createUser()
+    {
+        if (InputUser is not null)
+        {
+            var user = new AppUser
+            {
+                FirstName = InputUser.FirstName,
+                LastName = InputUser.LastName,
+                DOB = InputUser.DOB,
+                Email = InputUser.Email,
+                UserName = InputUser.Email,
+                Gender = InputUser.Gender,
+                EmailConfirmed = true
+            };
+
+            var result = await userManager.CreateAsync(user, InputUser.Password);
+
+            if (result.Succeeded)
+            {
+                if (IsCreateAdmin)
+                {
+                    var role = await roleManager.FindByNameAsync("admin");
+
+                    await userManager.AddToRoleAsync(user, role.Name);
+                }
+
+                if (!userManager.Options.SignIn.RequireConfirmedAccount)
+                {
+                    Nav.NavigateTo("/adminManager");
+                }
+            }
+        }
+    }
+}
