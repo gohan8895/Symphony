@@ -10,7 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BackendServices\" />
+    <ProjectReference Include="..\Symphony.Data\Symphony.Data.csproj" />
+    <ProjectReference Include="..\Symphony.ViewModels\Symphony.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>
