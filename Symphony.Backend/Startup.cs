@@ -1,11 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Symphony.Data.EF;
+using Symphony.Services.BackendServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,8 +28,10 @@ namespace Symphony.Backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
+            services.AddDbContext<SymphonyDBContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("SymphonyDb")));
+            services.AddTransient<IConsultService, ConsultService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Symphony.Backend", Version = "v1" });
