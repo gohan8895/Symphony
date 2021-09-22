@@ -28,6 +28,8 @@ namespace Symphony.BlazorServerApp.Areas.Identity
 
                 services.Configure<IdentityOptions>(options =>
                 {
+                    //Other
+
                     // Password settings.
                     options.Password.RequireDigit = false;
                     options.Password.RequireLowercase = true;
@@ -43,7 +45,7 @@ namespace Symphony.BlazorServerApp.Areas.Identity
 
                     // User settings.
                     options.User.AllowedUserNameCharacters =
-                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+/ ";
                     options.User.RequireUniqueEmail = true;
                 });
 

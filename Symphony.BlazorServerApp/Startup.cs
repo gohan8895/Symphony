@@ -13,7 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Symphony.BlazorServerApp.Areas.Identity;
 using Symphony.Data.EF;
 using Symphony.Data.Entities;
-using Symphony.Services.Services.EmailSenderService;
+using Symphony.Services.ClientSideServices.Services.EmailSenderService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
