@@ -1,0 +1,19 @@
+﻿@inject NavigationManager Nav
+
+<div class="alert alert-danger">Unauthorized Access, admin only!</div>
+
+@code{
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    // Redirect to home page if user is not authenticated & authorized
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        var user = (await authenticationStateTask).User;
+        if (!user.Identity.IsAuthenticated || !user.IsInRole("admin"))
+        {
+            await Task.Delay(2000);
+            Nav.NavigateTo("/");
+        }
+    }
+}

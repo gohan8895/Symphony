@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Symphony.Data", "Symphony.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Symphony.BlazorServerApp", "Symphony.BlazorServerApp\Symphony.BlazorServerApp.csproj", "{EA8BC3E5-7BEB-4242-9A25-C0A8218E2E01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Symphony.Services", "Symphony.Services\Symphony.Services.csproj", "{C249D91D-F08F-4384-BF2E-FA00AF739076}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Symphony.Services", "Symphony.Services\Symphony.Services.csproj", "{C249D91D-F08F-4384-BF2E-FA00AF739076}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
