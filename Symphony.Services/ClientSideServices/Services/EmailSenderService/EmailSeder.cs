@@ -5,7 +5,7 @@ using SendGrid;
 using System;
 using SendGrid.Helpers.Mail;
 
-namespace Symphony.Services.Services.EmailSenderService
+namespace Symphony.Services.ClientSideServices.Services.EmailSenderService
 {
     public class EmailSender : IEmailSender
     {
@@ -29,7 +29,7 @@ namespace Symphony.Services.Services.EmailSenderService
                 /*
                  * Change to your email address to get confirmation email.
                  */
-                From = new EmailAddress("diepvien004b@gmail.com", "Email Confirmation"),
+                From = new EmailAddress("diepvien004b@gmail.com", "Confirm Email"),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message
