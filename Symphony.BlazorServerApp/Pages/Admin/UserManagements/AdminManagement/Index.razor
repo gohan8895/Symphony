@@ -1,7 +1,37 @@
-﻿@page "/adminManager"
+﻿@page "/admin/userManagement/adminManager"
 
-<h3>Index</h3>
+@inject UserManager<AppUser> userManager
+@inject RoleManager<AppRole> roleManager
+@using Symphony.Data.DTOs.AppUserDTOs
+@using Symphony.Data.Extensions.AppUserExtensions
+
+
+<AuthorizeView Roles="admin">
+    <Authorized>
+        <h3>Admin Manager</h3>
+        <ul>
+            @foreach (var user in @Users)
+            {
+                <li>@user.Email</li>
+            }
+        </ul>
+    </Authorized>
+    <NotAuthorized>
+        <UnauthorizedAccess/>
+    </NotAuthorized>
+</AuthorizeView>
+
 
 @code {
 
+    #region DTO
+    private List<AppUserDTO> Users { get; set; } = new();
+    #endregion
+
+    protected async override Task OnInitializedAsync()
+    {
+        var users = await userManager.GetUsersInRoleAsync("admin");
+
+        Users = users.Select(u => u.AsDTO()).ToList();
+    }
 }

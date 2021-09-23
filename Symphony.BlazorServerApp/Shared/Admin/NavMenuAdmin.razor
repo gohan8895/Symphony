@@ -15,16 +15,19 @@
             </NavLink>
         </li>
         <li class="nav-item px-3 fw-bold dropdown">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <NavLink class="nav-link dropdown-toggle" href="" id="navbarDarkDropdownMenuLink" role="button"
-                data-bs-toggle="dropdown" aria-expanded="false">
+                     data-bs-toggle="dropdown" aria-expanded="false">
                 <span class="material-icons me-2">
                     people
                 </span> User Management
             </NavLink>
             <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
-                <li><a class="dropdown-item" href="createAdmin">Admin Management</a></li>
-                <li><a class="dropdown-item" href="#">Teacher Management</a></li>
-                <li><a class="dropdown-item" href="#">User Management</a></li>
+                <li><a class="dropdown-item" href="admin/userManagement/createAdmin">Admin Management</a></li>
+                <li><a class="dropdown-item" href="admin/userManagement/createTeacher">Teacher Management</a></li>
+                <li><a class="dropdown-item" href="admin/userManagement/createUser">User Management</a></li>
             </ul>
         </li>
         <li class="nav-item px-3 fw-bold">
