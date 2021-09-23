@@ -12,6 +12,7 @@ namespace Symphony.Data.Extensions.AppUserExtensions
     {
         public static AppUserDTO AsDTO(this AppUser appUser) => new AppUserDTO
         {
+            Id = appUser.Id,
             FirstName = appUser.FirstName,
             LastName = appUser.LastName,
             DOB = appUser.DOB,

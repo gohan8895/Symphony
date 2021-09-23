@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Symphony.BlazorServerApp", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Symphony.Services", "Symphony.Services\Symphony.Services.csproj", "{C249D91D-F08F-4384-BF2E-FA00AF739076}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Symphony.Utilities", "Symphony.Utilities\Symphony.Utilities.csproj", "{011A6726-DBF8-4DA4-BAA6-1D5596E6B4BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Symphony.Utilities", "Symphony.Utilities\Symphony.Utilities.csproj", "{011A6726-DBF8-4DA4-BAA6-1D5596E6B4BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Symphony.ViewModels", "Symphony.ViewModels\Symphony.ViewModels.csproj", "{22B4A8F6-48F0-45C2-8A1C-C17E9FFA2146}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Symphony.ViewModels", "Symphony.ViewModels\Symphony.ViewModels.csproj", "{22B4A8F6-48F0-45C2-8A1C-C17E9FFA2146}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

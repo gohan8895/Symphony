@@ -10,6 +10,7 @@ namespace Symphony.Data.DTOs.AppUserDTOs
 {
     public class AppUserDTO
     {
+        public Guid Id { get; set; }
         [DisplayName("First Name")]
         public string FirstName { get; set; }
         [DisplayName("Last Name")]
@@ -26,6 +27,7 @@ namespace Symphony.Data.DTOs.AppUserDTOs
         public string UserName { get; set; }
         [DisplayName("Account Status")]
         public bool EmailConfirmed { get; set; }
+        [DisplayName("Created Date")]
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }
