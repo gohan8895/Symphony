@@ -101,9 +101,11 @@
                     var role = await roleManager.FindByNameAsync("admin");
 
                     await userManager.AddToRoleAsync(user, role.Name);
+
+                    Nav.NavigateTo("/admin/userManagement/adminManager");
                 }
 
-                Nav.NavigateTo("/admin/userManagement/adminManager");
+                Nav.NavigateTo("/admin/userManagement/userManager");
             }
         }
     }

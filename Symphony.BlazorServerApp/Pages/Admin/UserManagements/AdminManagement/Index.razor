@@ -37,8 +37,8 @@
                 <td><p>@(user.EmailConfirmed ? "Confirmed" : "Unconfirmed")</p></td>
                 <td><p>@user.CreatedAt</p></td>
                 <td class="text-center">
-                    <a href="/admin/userManagement/editAdmin/{@(user.Id)}" class="material-icons nav-item text-warning me-4">edit</a>
-                    <a href="/admin/userManagement/deleteAdmin/@(user.Id)}" class="material-icons nav-item text-danger">delete</a>
+                    <NavLink href=@($"/admin/userManagement/editAdmin/{user.Id}") class="material-icons nav-item text-warning me-4">edit</NavLink>
+                    <NavLink href="#" @onclick="() => DeleteAdmin(user.Email)" class="material-icons nav-item text-danger me-2">delete</NavLink>
                 </td>
             </RowTemplate>
         </TableTemplate>
@@ -61,5 +61,14 @@
         var users = await userManager.GetUsersInRoleAsync("admin");
 
         Users = users.Select(u => u.AsVM()).ToList();
+    }
+
+    private async Task DeleteAdmin(string email)
+    {
+        var user = await userManager.FindByEmailAsync(email);
+
+        if (user is not null) await userManager.DeleteAsync(user);
+
+        StateHasChanged();
     }
 }

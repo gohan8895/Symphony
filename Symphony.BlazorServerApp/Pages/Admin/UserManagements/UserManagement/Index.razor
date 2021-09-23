@@ -14,7 +14,7 @@
                 <span class="material-icons">add</span>
             </a>
         </div>
-        <TableTemplate Caption="Admins" Items="Users" Context="user">
+        <TableTemplate Caption="Users" Items="Users" Context="user">
             <TableHeader>
                 <td><p>@nameof(User.FirstName)</p></td>
                 <td><p>@nameof(User.LastName)</p></td>
@@ -38,8 +38,8 @@
                 <td><p>@(user.EmailConfirmed ? "Confirmed" : "Unconfirmed")</p></td>
                 <td><p>@user.CreatedAt</p></td>
                 <td class="text-center">
-                    <a href="/admin/userManagement/editUser/{@(user.Id)}" class="material-icons nav-item text-warning me-4">edit</a>
-                    <a href="/admin/userManagement/deleteUser/{@(user.Id)}" class="material-icons nav-item text-danger me-2">delete</a>
+                    <NavLink href=@($"/admin/userManagement/editUser/{user.Id}") class="material-icons nav-item text-warning me-4">edit</NavLink>
+                    <NavLink href="#" @onclick="() => DeleteUser(user.Email)" class="material-icons nav-item text-danger me-2">delete</NavLink>
                 </td>
             </RowTemplate>
         </TableTemplate>
@@ -62,5 +62,14 @@
         var users =  userManager.Users;
 
         Users = users.Select(u => u.AsVM()).ToList();
+    }
+
+    private async Task DeleteUser(string email)
+    {
+        var user = await userManager.FindByEmailAsync(email);
+
+        if (user is not null) await userManager.DeleteAsync(user);
+
+        StateHasChanged();
     }
 }
