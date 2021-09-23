@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Symphony.Data.EF;
 using Symphony.Services.BackendServices;
+using Symphony.Services.BackendServices.AboutServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,13 @@ namespace Symphony.Backend
             services.AddControllers();
             services.AddDbContext<SymphonyDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("SymphonyDb")));
+
+            /*
+             * Data Injection
+             */
             services.AddTransient<IConsultService, ConsultService>();
+            services.AddTransient<IAboutService, AboutService>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Symphony.Backend", Version = "v1" });
