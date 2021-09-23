@@ -2,10 +2,7 @@
 
 @inject UserManager<AppUser> userManager
 @inject RoleManager<AppRole> roleManager
-@using Symphony.Data.DTOs.AppUserDTOs
-@using Symphony.Data.Extensions.AppUserExtensions
 @using Symphony.BlazorServerApp.Controls.TableComponents
-
 
 <AuthorizeView Roles="admin">
     <Authorized>
@@ -40,8 +37,8 @@
                 <td><p>@(user.EmailConfirmed ? "Confirmed" : "Unconfirmed")</p></td>
                 <td><p>@user.CreatedAt</p></td>
                 <td class="text-center">
-                    <a href="/admin/userManagement/editAdmin/{@(user.Id)}" class="material-icons nav-item text-warning me-4">edit</a>
-                    <a href="/admin/userManagement/deleteAdmin" class="material-icons nav-item text-danger me-2">delete</a>
+                    <a href="/admin/userManagement/editAdmin/{@(user.Id.ToString())}" class="material-icons nav-item text-warning me-4">edit</a>
+                    <a href="/admin/userManagement/deleteAdmin/@(user.Id.ToString())}" class="material-icons nav-item text-danger">delete</a>
                 </td>
             </RowTemplate>
         </TableTemplate>
@@ -57,12 +54,13 @@
     #region DTO
     private List<AppUserVM> Users { get; set; } = new();
     private AppUserVM User { get; set; }
+    private string StringId { get; set; }
     #endregion
 
     protected async override Task OnInitializedAsync()
     {
         var users = await userManager.GetUsersInRoleAsync("admin");
 
-        Users = users.Select(u => u.AsDTO()).ToList();
+        Users = users.Select(u => u.AsVM()).ToList();
     }
 }

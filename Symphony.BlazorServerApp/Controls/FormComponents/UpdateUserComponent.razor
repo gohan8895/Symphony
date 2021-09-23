@@ -1,5 +1,164 @@
-﻿<h3>UpdateUserComponent</h3>
+﻿@using Symphony.ViewModels.Consult
+@inject UserManager<AppUser> userManager
+@inject RoleManager<AppRole> roleManager
+@inject NavigationManager Nav
+
+<EditForm Model="@InputUser" OnValidSubmit="UpdateUser" class="row g-3">
+    <DataAnnotationsValidator />
+    <div class="col-md-6">
+        <label class="form-label fw-bold">@nameof(InputUser.FirstName)</label>
+        <InputText @bind-Value="InputUser.FirstName" class="form-control" />
+        <ValidationMessage For="@(() => InputUser.FirstName)" />
+    </div>
+    <div class="col-md-6">
+        <label class="form-label fw-bold">@nameof(InputUser.LastName)</label>
+        <InputText @bind-Value="InputUser.LastName" class="form-control" />
+        <ValidationMessage For="@(() => InputUser.LastName)" />
+    </div>
+    <div class="col-md-4">
+        <label class="form-label fw-bold">@nameof(InputUser.PhoneNumber)</label>
+        <InputText @bind-Value="InputUser.PhoneNumber" class="form-control" />
+        <ValidationMessage For="@(() => InputUser.PhoneNumber)" />
+    </div>
+    <div class="col-md-2">
+        <div class="row">
+            <label class="form-label col-12 fw-bold">@nameof(InputUser.Gender)</label>
+            <div class="col-12">
+                <div class="form-check form-check-inline">
+                    <input @onclick="() =>  InputUser.Gender = 'M'" checked="@(InputUser.Gender == 'M' ? true : false)" 
+                           class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1">
+                    <label class="form-check-label" for="inlineRadio1">Male</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input @onclick="() => InputUser.Gender = 'F'" checked="@(InputUser.Gender == 'F' ? true : false)" 
+                           class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2">
+                    <label class="form-check-label" for="inlineRadio2">Female</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <label class="form-label fw-bold">Remove Permission</label>
+        <InputCheckbox @bind-Value="RemovePermission" class="form-control"/>
+    </div>
+    <div class="col-md-4">
+        <label class="form-label fw-bold">@nameof(InputUser.DOB)</label>
+        <InputDate @bind-Value="InputUser.DOB" class="form-control" />
+        <ValidationMessage For="@(() => InputUser.DOB)" />
+    </div>
+    <div class="col-md-12">
+        <label class="form-label fw-bold">@nameof(InputUser.Email)</label>
+        <InputText @bind-Value="InputUser.Email" class="form-control" />
+        <ValidationMessage For="@(() => InputUser.Email)" />
+    </div>
+    <div class="col-md-12">
+        <label class="form-label fw-bold">@nameof(InputUser.Password)</label>
+        <InputText @bind-Value="InputUser.Password" class="form-control" type="password" />
+        <ValidationMessage For="@(() => InputUser.Password)" />
+    </div>
+    <div class="col-md-12">
+        <label class="form-label fw-bold">@nameof(InputUser.ConfirmPassword)</label>
+        <InputText @bind-Value="InputUser.ConfirmPassword" class="form-control" type="password" />
+        <ValidationMessage For="@(() => InputUser.ConfirmPassword)" />
+    </div>
+    
+    <div class="col-md-12">
+        <div class="btn btn-dark align-items-center">
+            <input type="submit" value="Update" class="btn btn-dark" />
+            <span class="material-icons">
+                add
+            </span>
+        </div>
+    </div>
+</EditForm>
 
 @code {
+    #region Parameter & Props
+
+    [Parameter]
+    public string Id { get; set; }
+
+    [Parameter]
+    public UpdateAppUserVM InputUser { get; set; } = new();
+
+    private AppUser User { get; set; } = new AppUser();
+
+    private bool RemovePermission { get; set; } = false;
+    #endregion
+
+    #region Functions
+
+    protected async override Task OnInitializedAsync()
+    {
+        if (Id != String.Empty)
+        {
+            var GuidId = Guid.Parse(Id);
+            User = userManager.Users.FirstOrDefault(u => u.Id == GuidId);
+            InputUser = new UpdateAppUserVM
+            {
+                FirstName = User.FirstName,
+                LastName = User.LastName,
+                DOB = User.DOB,
+                PhoneNumber = User.PhoneNumber,
+                Gender = User.Gender,
+                Email = User.Email
+            };
+        }
+    }
+
+    private async Task UpdateUser()
+    {
+        if (InputUser is not null)
+        {
+            if (InputUser.FirstName != User.FirstName)
+            {
+                User.FirstName = InputUser.FirstName;
+            }
+
+            if (InputUser.LastName != User.LastName)
+            {
+                User.LastName = InputUser.LastName;
+            }
+
+            if (InputUser.PhoneNumber != User.PhoneNumber)
+            {
+                User.PhoneNumber = InputUser.PhoneNumber;
+            }
+
+            if (InputUser.Gender != User.Gender)
+            {
+                User.Gender = InputUser.Gender;
+            }
+
+            if (InputUser.Email != User.Email)
+            {
+                User.Email = InputUser.Email;
+            }
+
+            if (InputUser.DOB != User.DOB)
+            {
+                User.DOB = InputUser.DOB;
+            }
+
+            var result = await userManager.UpdateAsync(User);
+
+            if (InputUser.Password is not null)
+            {
+                result = await userManager.AddPasswordAsync(User, InputUser.Password);
+            }
+
+            if (result.Succeeded)
+            {
+                if (RemovePermission)
+                {
+                    await userManager.RemoveFromRoleAsync(User, "admin");
+                }
+
+                Nav.NavigateTo("/admin/userManagement/userManager");
+            }
+        }
+    }
+
+    #endregion
 
 }
