@@ -37,8 +37,8 @@
                 <td><p>@(user.EmailConfirmed ? "Confirmed" : "Unconfirmed")</p></td>
                 <td><p>@user.CreatedAt</p></td>
                 <td class="text-center">
-                    <a href="/admin/userManagement/editAdmin/{@(user.Id.ToString())}" class="material-icons nav-item text-warning me-4">edit</a>
-                    <a href="/admin/userManagement/deleteAdmin/@(user.Id.ToString())}" class="material-icons nav-item text-danger">delete</a>
+                    <a href="/admin/userManagement/editAdmin/{@(user.Id)}" class="material-icons nav-item text-warning me-4">edit</a>
+                    <a href="/admin/userManagement/deleteAdmin/@(user.Id)}" class="material-icons nav-item text-danger">delete</a>
                 </td>
             </RowTemplate>
         </TableTemplate>
@@ -52,9 +52,8 @@
 @code {
 
     #region DTO
-    private List<AppUserVM> Users { get; set; } = new();
-    private AppUserVM User { get; set; }
-    private string StringId { get; set; }
+    public List<AppUserVM> Users { get; set; } = new();
+    public AppUserVM User { get; set; }
     #endregion
 
     protected async override Task OnInitializedAsync()

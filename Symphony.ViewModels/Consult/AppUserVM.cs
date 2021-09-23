@@ -68,4 +68,44 @@ namespace Symphony.ViewModels.Consult
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
+
+    public class UpdateAppUserVM
+    {
+        public Guid Id { get; set; }
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        [Display(Name = "Day of Birth")]
+        public DateTime DOB { get; set; }
+
+        [Required]
+        public char Gender { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [DataType(DataType.PhoneNumber)]
+        public string PhoneNumber { get; set; }
+
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
+        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+    }
 }

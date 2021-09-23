@@ -38,8 +38,8 @@
                 <td><p>@(user.EmailConfirmed ? "Confirmed" : "Unconfirmed")</p></td>
                 <td><p>@user.CreatedAt</p></td>
                 <td class="text-center">
-                    <a href="/admin/userManagement/editAdmin/{@(user.Id)}" class="material-icons nav-item text-warning me-4">edit</a>
-                    <a href="/admin/userManagement/deleteAdmin" class="material-icons nav-item text-danger me-2">delete</a>
+                    <a href="/admin/userManagement/editUser/{@(user.Id)}" class="material-icons nav-item text-warning me-4">edit</a>
+                    <a href="/admin/userManagement/deleteUser/{@(user.Id)}" class="material-icons nav-item text-danger me-2">delete</a>
                 </td>
             </RowTemplate>
         </TableTemplate>

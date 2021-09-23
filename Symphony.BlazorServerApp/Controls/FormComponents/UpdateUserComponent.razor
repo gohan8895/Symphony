@@ -5,43 +5,46 @@
 
 <EditForm Model="@InputUser" OnValidSubmit="UpdateUser" class="row g-3">
     <DataAnnotationsValidator />
-    <div class="col-md-6">
+    <div class="col-md-6 col-sm-12">
         <label class="form-label fw-bold">@nameof(InputUser.FirstName)</label>
         <InputText @bind-Value="InputUser.FirstName" class="form-control" />
         <ValidationMessage For="@(() => InputUser.FirstName)" />
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6 col-sm-12">
         <label class="form-label fw-bold">@nameof(InputUser.LastName)</label>
         <InputText @bind-Value="InputUser.LastName" class="form-control" />
         <ValidationMessage For="@(() => InputUser.LastName)" />
     </div>
-    <div class="col-md-4">
+    <div class="@(IsAdminUpdate ? "col-md-4" : "col-md-6") col-sm-12">
         <label class="form-label fw-bold">@nameof(InputUser.PhoneNumber)</label>
         <InputText @bind-Value="InputUser.PhoneNumber" class="form-control" />
         <ValidationMessage For="@(() => InputUser.PhoneNumber)" />
     </div>
-    <div class="col-md-2">
+    <div class="col-md-2 col-sm-6">
         <div class="row">
             <label class="form-label col-12 fw-bold">@nameof(InputUser.Gender)</label>
             <div class="col-12">
                 <div class="form-check form-check-inline">
-                    <input @onclick="() =>  InputUser.Gender = 'M'" checked="@(InputUser.Gender == 'M' ? true : false)" 
+                    <input @onclick="() =>  InputUser.Gender = 'M'" checked="@(InputUser.Gender == 'M' ? true : false)"
                            class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1">
                     <label class="form-check-label" for="inlineRadio1">Male</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input @onclick="() => InputUser.Gender = 'F'" checked="@(InputUser.Gender == 'F' ? true : false)" 
+                    <input @onclick="() => InputUser.Gender = 'F'" checked="@(InputUser.Gender == 'F' ? true : false)"
                            class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2">
                     <label class="form-check-label" for="inlineRadio2">Female</label>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-2">
-        <label class="form-label fw-bold">Remove Permission</label>
-        <InputCheckbox @bind-Value="RemovePermission" class="form-control"/>
-    </div>
-    <div class="col-md-4">
+    @if (IsAdminUpdate)
+    {
+        <div class="form-check col-md-2 col-sm-6 form-switch mt-5">
+            <label class="form-check-label fw-bold" for="flexSwitchCheckDefault">Remove Permission</label>
+            <input class="form-check-input" type="checkbox" @onclick="() => RemovePermission = !RemovePermission" id="flexSwitchCheckDefault">
+        </div>
+    }
+    <div class="col-md-4 col-sm-12">
         <label class="form-label fw-bold">@nameof(InputUser.DOB)</label>
         <InputDate @bind-Value="InputUser.DOB" class="form-control" />
         <ValidationMessage For="@(() => InputUser.DOB)" />
@@ -61,7 +64,7 @@
         <InputText @bind-Value="InputUser.ConfirmPassword" class="form-control" type="password" />
         <ValidationMessage For="@(() => InputUser.ConfirmPassword)" />
     </div>
-    
+
     <div class="col-md-12">
         <div class="btn btn-dark align-items-center">
             <input type="submit" value="Update" class="btn btn-dark" />
@@ -70,16 +73,20 @@
             </span>
         </div>
     </div>
+    <ValidationSummary />
 </EditForm>
 
 @code {
     #region Parameter & Props
 
     [Parameter]
-    public string Id { get; set; }
+    public Guid Id { get; set; }
 
     [Parameter]
     public UpdateAppUserVM InputUser { get; set; } = new();
+
+    [Parameter]
+    public bool IsAdminUpdate { get; set; }
 
     private AppUser User { get; set; } = new AppUser();
 
@@ -90,10 +97,9 @@
 
     protected async override Task OnInitializedAsync()
     {
-        if (Id != String.Empty)
+        if (Id != Guid.Empty)
         {
-            var GuidId = Guid.Parse(Id);
-            User = userManager.Users.FirstOrDefault(u => u.Id == GuidId);
+            User = userManager.Users.FirstOrDefault(u => u.Id == Id);
             InputUser = new UpdateAppUserVM
             {
                 FirstName = User.FirstName,
@@ -140,6 +146,7 @@
                 User.DOB = InputUser.DOB;
             }
 
+            User.UpdatedAt = DateTime.Now;
             var result = await userManager.UpdateAsync(User);
 
             if (InputUser.Password is not null)
@@ -147,14 +154,20 @@
                 result = await userManager.AddPasswordAsync(User, InputUser.Password);
             }
 
+
             if (result.Succeeded)
             {
-                if (RemovePermission)
+                if (IsAdminUpdate)
                 {
-                    await userManager.RemoveFromRoleAsync(User, "admin");
-                }
+                    if (RemovePermission)
+                    {
+                        await userManager.RemoveFromRoleAsync(User, "admin");
+                    }
 
-                Nav.NavigateTo("/admin/userManagement/userManager");
+                    Nav.NavigateTo("/admin/userManagement/adminManager");
+                }
+                else
+                    Nav.NavigateTo("/admin/userManagement/userManager");
             }
         }
     }
