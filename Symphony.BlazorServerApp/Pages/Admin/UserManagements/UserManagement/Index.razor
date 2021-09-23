@@ -1,9 +1,7 @@
-﻿@page "/admin/userManagement/adminManager"
+﻿@page "/admin/userManagement/userManager"
 
 @inject UserManager<AppUser> userManager
 @inject RoleManager<AppRole> roleManager
-@using Symphony.Data.DTOs.AppUserDTOs
-@using Symphony.Data.Extensions.AppUserExtensions
 @using Symphony.BlazorServerApp.Controls.TableComponents
 
 
@@ -11,8 +9,8 @@
     <Authorized>
         <h1 class="text-center fw-bolder">Admin Manager</h1>
         <div class="w-25">
-            <a class="btn btn-dark text-white w-75 d-flex justify-content-around" href="/admin/userManagement/createAdmin">
-                <span>Create a New Admin</span>
+            <a class="btn btn-dark text-white w-75 d-flex justify-content-around" href="/admin/userManagement/createUser">
+                <span>Create a New User</span>
                 <span class="material-icons">add</span>
             </a>
         </div>
@@ -61,8 +59,8 @@
 
     protected async override Task OnInitializedAsync()
     {
-        var users = await userManager.GetUsersInRoleAsync("admin");
+        var users =  userManager.Users;
 
-        Users = users.Select(u => u.AsDTO()).ToList();
+        Users = users.Select(u => u.AsVM()).ToList();
     }
 }

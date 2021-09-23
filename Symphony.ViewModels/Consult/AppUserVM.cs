@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Symphony.Data.DTOs.AppUserDTOs
+namespace Symphony.ViewModels.Consult
 {
-    public class AppUserDTO
+    public class AppUserVM
     {
         public Guid Id { get; set; }
         [DisplayName("First Name")]
@@ -32,7 +28,7 @@ namespace Symphony.Data.DTOs.AppUserDTOs
         public DateTime UpdatedAt { get; set; }
     }
 
-    public class CreateAppUserDTO
+    public class CreateAppUserVM
     {
         [Required]
         [DataType(DataType.Text)]

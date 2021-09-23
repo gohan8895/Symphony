@@ -1,16 +1,11 @@
-﻿using Symphony.Data.DTOs.AppUserDTOs;
-using Symphony.Data.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Symphony.Data.Entities;
+using Symphony.ViewModels.Consult;
 
-namespace Symphony.Data.Extensions.AppUserExtensions
+namespace Symphony.ViewModels.Extensions
 {
-    public static class Extension
+    public static class AppUserExtension
     {
-        public static AppUserDTO AsDTO(this AppUser appUser) => new AppUserDTO
+        public static AppUserVM AsVM(this AppUser appUser) => new AppUserVM
         {
             Id = appUser.Id,
             FirstName = appUser.FirstName,
