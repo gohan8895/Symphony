@@ -1,9 +1,9 @@
-﻿@using Symphony.Data.DTOs.AppUserDTOs
+﻿@using Symphony.ViewModels.Consult
 @inject UserManager<AppUser> userManager
 @inject RoleManager<AppRole> roleManager
 @inject NavigationManager Nav
 
-<EditForm Model="@InputUser" OnValidSubmit="@createUser" class="row g-3">
+<EditForm Model="@InputUser" OnValidSubmit="CreateUser" class="row g-3">
     <DataAnnotationsValidator />
     <div class="col-md-6">
         <label class="form-label fw-bold">@nameof(InputUser.FirstName)</label>
@@ -15,12 +15,17 @@
         <InputText @bind-Value="InputUser.LastName" class="form-control" />
         <ValidationMessage For="@(() => InputUser.LastName)" />
     </div>
-    <div class="col-md-6">
+    <div class="col-md-5">
+        <label class="form-label fw-bold">@nameof(InputUser.PhoneNumber)</label>
+        <InputText @bind-Value="InputUser.PhoneNumber" class="form-control" />
+        <ValidationMessage For="@(() => InputUser.PhoneNumber)" />
+    </div>
+    <div class="col-md-3">
         <div class="row">
             <label class="form-label col-12 fw-bold">@nameof(InputUser.Gender)</label>
             <div class="col-12">
                 <div class="form-check form-check-inline">
-                    <input @onclick="() => InputUser.Gender = 'M'" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1">
+                    <input @onclick="() =>  InputUser.Gender = 'M'" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1">
                     <label class="form-check-label" for="inlineRadio1">Male</label>
                 </div>
                 <div class="form-check form-check-inline">
@@ -30,7 +35,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
         <label class="form-label fw-bold">@nameof(InputUser.DOB)</label>
         <InputDate @bind-Value="InputUser.DOB" class="form-control" />
         <ValidationMessage For="@(() => InputUser.DOB)" />
@@ -61,12 +66,17 @@
 </EditForm>
 
 @code {
-    [Parameter]
-    public CreateAppUserDTO InputUser { get; set; } = new();
-    [Parameter]
-    public bool IsCreateAdmin { get;set; }
+    #region Parameter
 
-    private async Task createUser()
+    [Parameter]
+    public CreateAppUserVM InputUser { get; set; } = new();
+
+    [Parameter]
+    public bool IsCreateAdmin { get; set; }
+
+    #endregion
+
+    private async Task CreateUser()
     {
         if (InputUser is not null)
         {
@@ -91,12 +101,11 @@
                     var role = await roleManager.FindByNameAsync("admin");
 
                     await userManager.AddToRoleAsync(user, role.Name);
+
+                    Nav.NavigateTo("/admin/userManagement/adminManager");
                 }
 
-                if (!userManager.Options.SignIn.RequireConfirmedAccount)
-                {
-                    Nav.NavigateTo("/adminManager");
-                }
+                Nav.NavigateTo("/admin/userManagement/userManager");
             }
         }
     }

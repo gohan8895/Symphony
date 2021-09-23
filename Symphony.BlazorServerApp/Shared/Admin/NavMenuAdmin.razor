@@ -15,65 +15,86 @@
             </NavLink>
         </li>
         <li class="nav-item px-3 fw-bold dropdown">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <NavLink class="nav-link dropdown-toggle" href="" id="navbarDarkDropdownMenuLink" role="button"
-                     data-bs-toggle="dropdown" aria-expanded="false">
+            <NavLink class="nav-link dropdown-toggle @*@(userManagementActive ? " active" : "" )*@" href="#"
+                     id="navbarDarkDropdownMenuLink" role="button"
+                     data-bs-toggle="dropdown" aria-expanded="false"
+                     @onclick="ChangeUserManagentStatus">
                 <span class="material-icons me-2">
                     people
                 </span> User Management
             </NavLink>
             <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
-                <li><a class="dropdown-item" href="admin/userManagement/createAdmin">Admin Management</a></li>
-                <li><a class="dropdown-item" href="admin/userManagement/createTeacher">Teacher Management</a></li>
-                <li><a class="dropdown-item" href="admin/userManagement/createUser">User Management</a></li>
+                <li><NavLink class="dropdown-item" href="admin/userManagement/adminManager">Admin Management</NavLink></li>
+                <li><NavLink class="dropdown-item" href="admin/userManagement/createTeacher">Teacher Management</NavLink></li>
+                <li><NavLink class="dropdown-item" href="admin/userManagement/userManager">User Management</NavLink></li>
             </ul>
         </li>
         <li class="nav-item px-3 fw-bold">
-            <NavLink class="nav-link dropdown-toggle" href="" id="navbarDarkDropdownMenuLink" role="button"
-                data-bs-toggle="dropdown" aria-expanded="false">
+            <NavLink class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+                     data-bs-toggle="dropdown" aria-expanded="false">
                 <span class="material-icons me-2">
                     menu_book
                 </span> Course Management
             </NavLink>
             <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <li><NavLink class="dropdown-item" href="#">Action</NavLink></li>
+                <li><NavLink class="dropdown-item" href="#">Another action</NavLink></li>
+                <li><NavLink class="dropdown-item" href="#">Something else here</NavLink></li>
             </ul>
         </li>
         <li class="nav-item px-3 fw-bold">
-            <NavLink class="nav-link dropdown-toggle" href="" id="navbarDarkDropdownMenuLink" role="button"
-                data-bs-toggle="dropdown" aria-expanded="false">
+            <NavLink class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+                     data-bs-toggle="dropdown" aria-expanded="false">
                 <span class="material-icons me-2">
                     quiz
                 </span> Exam Management
             </NavLink>
             <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <li><NavLink class="dropdown-item" href="#">Action</NavLink></li>
+                <li><NavLink class="dropdown-item" href="#">Another action</NavLink></li>
+                <li><NavLink class="dropdown-item" href="#">Something else here</NavLink></li>
             </ul>
         </li>
         <li class="nav-item px-3 fw-bold">
-            <NavLink class="nav-link dropdown-toggle" href="" id="navbarDarkDropdownMenuLink" role="button"
-                data-bs-toggle="dropdown" aria-expanded="false">
+            <NavLink class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+                     data-bs-toggle="dropdown" aria-expanded="false">
                 <span class="material-icons me-2">
                     feed
                 </span> Registration
             </NavLink>
             <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <li><NavLink class="dropdown-item" href="#">Action</NavLink></li>
+                <li><NavLink class="dropdown-item" href="#">Another action</NavLink></li>
+                <li><NavLink class="dropdown-item" href="#">Something else here</NavLink></li>
             </ul>
+        </li>
+        <li class="nav-item px-3 ">
+            <NavLink class="nav-link" href="/courses">
+                <span class="material-icons me-2">
+                    class
+                </span> Courses
+            </NavLink>
+        </li>
+        <li class="nav-item px-3 ">
+            <NavLink class="nav-link" href="/studentCorner">
+                <span class="material-icons me-2">
+                    menu_book
+                </span> Student Corner
+            </NavLink>
         </li>
     </ul>
 </div>
 
 @code {
     private bool collapseNavMenu = true;
+
+    #region active status
+
+    private bool userManagementActive = false;
+
+    private void ChangeUserManagentStatus() => userManagementActive = !userManagementActive;
+
+    #endregion
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 

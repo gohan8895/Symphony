@@ -1,0 +1,30 @@
+﻿@typeparam TItem
+
+<table class="table caption-top table-bordered shadow-sm table-striped table-hover">
+    <caption>List of @Caption</caption>
+    <thead class="text-white fw-bold" style="background-color: #3A0647; ">
+        <tr>
+            @TableHeader
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Items)
+        {
+            <tr>@RowTemplate(item)</tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    public string Caption { get; set; }
+
+    [Parameter]
+    public RenderFragment TableHeader { get; set; }
+
+    [Parameter]
+    public RenderFragment<TItem> RowTemplate { get; set; }
+
+    [Parameter]
+    public IReadOnlyList<TItem> Items { get; set; }
+}

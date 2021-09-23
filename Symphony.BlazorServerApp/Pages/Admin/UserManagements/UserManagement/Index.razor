@@ -1,19 +1,20 @@
-﻿@page "/admin/userManagement/adminManager"
+﻿@page "/admin/userManagement/userManager"
 
 @inject UserManager<AppUser> userManager
 @inject RoleManager<AppRole> roleManager
 @using Symphony.BlazorServerApp.Controls.TableComponents
 
+
 <AuthorizeView Roles="admin">
     <Authorized>
         <h1 class="text-center fw-bolder">Admin Manager</h1>
         <div class="w-25">
-            <a class="btn btn-dark text-white w-75 d-flex justify-content-around" href="/admin/userManagement/createAdmin">
-                <span>Create a New Admin</span>
+            <a class="btn btn-dark text-white w-75 d-flex justify-content-around" href="/admin/userManagement/createUser">
+                <span>Create a New User</span>
                 <span class="material-icons">add</span>
             </a>
         </div>
-        <TableTemplate Caption="Admins" Items="Users" Context="user">
+        <TableTemplate Caption="Users" Items="Users" Context="user">
             <TableHeader>
                 <td><p>@nameof(User.FirstName)</p></td>
                 <td><p>@nameof(User.LastName)</p></td>
@@ -37,8 +38,8 @@
                 <td><p>@(user.EmailConfirmed ? "Confirmed" : "Unconfirmed")</p></td>
                 <td><p>@user.CreatedAt</p></td>
                 <td class="text-center">
-                    <NavLink href=@($"/admin/userManagement/editAdmin/{user.Id}") class="material-icons nav-item text-warning me-4">edit</NavLink>
-                    <NavLink href="#" @onclick="() => DeleteAdmin(user.Email)" class="material-icons nav-item text-danger me-2">delete</NavLink>
+                    <NavLink href=@($"/admin/userManagement/editUser/{user.Id}") class="material-icons nav-item text-warning me-4">edit</NavLink>
+                    <NavLink href="#" @onclick="() => DeleteUser(user.Email)" class="material-icons nav-item text-danger me-2">delete</NavLink>
                 </td>
             </RowTemplate>
         </TableTemplate>
@@ -52,18 +53,18 @@
 @code {
 
     #region DTO
-    public List<AppUserVM> Users { get; set; } = new();
-    public AppUserVM User { get; set; }
+    private List<AppUserVM> Users { get; set; } = new();
+    private AppUserVM User { get; set; }
     #endregion
 
     protected async override Task OnInitializedAsync()
     {
-        var users = await userManager.GetUsersInRoleAsync("admin");
+        var users =  userManager.Users;
 
         Users = users.Select(u => u.AsVM()).ToList();
     }
 
-    private async Task DeleteAdmin(string email)
+    private async Task DeleteUser(string email)
     {
         var user = await userManager.FindByEmailAsync(email);
 

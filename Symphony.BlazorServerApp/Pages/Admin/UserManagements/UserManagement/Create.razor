@@ -1,13 +1,9 @@
 ﻿@page "/admin/userManagement/createUser"
 
-@using Symphony.BlazorServerApp.Controls.FormComponents
-@using Symphony.BlazorServerApp.Controls.Utilities
-@using Symphony.Data.DTOs.AppUserDTOs
-
 <div class="container">
     <AuthorizeView Roles="admin">
         <Authorized Context="User">
-            <h2 class="fw-bolder text-center fs">Create a User</h2>
+            <h2 class="fw-bolder text-center">Create a User</h2>
             <CreateUserComponent InputUser="@InputUser" IsCreateAdmin="false" />
         </Authorized>
         <NotAuthorized>
@@ -19,6 +15,6 @@
 
 @code {
     #region DTO
-    private CreateAppUserDTO InputUser { get; set; } = new();
+    private CreateAppUserVM InputUser { get; set; } = new();
     #endregion
 }
