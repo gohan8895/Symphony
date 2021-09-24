@@ -7,42 +7,39 @@
 
 <AuthorizeView Roles="admin">
     <Authorized>
-        <h1 class="text-center fw-bolder">Admin Manager</h1>
-        <div class="w-25">
-            <a class="btn btn-dark text-white w-75 d-flex justify-content-around" href="/admin/userManagement/createUser">
-                <span>Create a New User</span>
-                <span class="material-icons">add</span>
-            </a>
+        <div class="container-fluid">
+            <h1 class="text-center fw-bolder">Admin Manager</h1>
+            <CreateButton Url="admin/userManagement/createUser" Who="a New User" />
+            <TableTemplate Caption="Users" Items="Users" Context="user">
+                <TableHeader>
+                    <td><p>@nameof(User.FirstName)</p></td>
+                    <td><p>@nameof(User.LastName)</p></td>
+                    <td><p>@nameof(User.DOB)</p></td>
+                    <td><p>@nameof(User.Gender)</p></td>
+                    <td><p>@nameof(User.PhoneNumber)</p></td>
+                    <td><p>@nameof(User.Address)</p></td>
+                    <td><p>@nameof(User.Email)</p></td>
+                    <td><p>@nameof(User.EmailConfirmed)</p></td>
+                    <td><p>@nameof(User.CreatedAt)</p></td>
+                    <td></td>
+                </TableHeader>
+                <RowTemplate>
+                    <td><p>@user.FirstName</p></td>
+                    <td><p>@user.LastName</p></td>
+                    <td><p>@user.DOB</p></td>
+                    <td><p>@user.Gender</p></td>
+                    <td><p>@user.PhoneNumber</p></td>
+                    <td><p>@user.Address</p></td>
+                    <td><p>@user.Email</p></td>
+                    <td><p>@(user.EmailConfirmed ? "Confirmed" : "Unconfirmed")</p></td>
+                    <td><p>@user.CreatedAt</p></td>
+                    <td class="text-center">
+                        <NavLink href=@($"/admin/userManagement/editUser/{user.Id}") class="material-icons nav-item text-warning me-4">edit</NavLink>
+                        <NavLink href="#" @onclick="() => DeleteUser(user.Email)" class="material-icons nav-item text-danger me-2">delete</NavLink>
+                    </td>
+                </RowTemplate>
+            </TableTemplate>
         </div>
-        <TableTemplate Caption="Users" Items="Users" Context="user">
-            <TableHeader>
-                <td><p>@nameof(User.FirstName)</p></td>
-                <td><p>@nameof(User.LastName)</p></td>
-                <td><p>@nameof(User.DOB)</p></td>
-                <td><p>@nameof(User.Gender)</p></td>
-                <td><p>@nameof(User.PhoneNumber)</p></td>
-                <td><p>@nameof(User.Address)</p></td>
-                <td><p>@nameof(User.Email)</p></td>
-                <td><p>@nameof(User.EmailConfirmed)</p></td>
-                <td><p>@nameof(User.CreatedAt)</p></td>
-                <td></td>
-            </TableHeader>
-            <RowTemplate>
-                <td><p>@user.FirstName</p></td>
-                <td><p>@user.LastName</p></td>
-                <td><p>@user.DOB</p></td>
-                <td><p>@user.Gender</p></td>
-                <td><p>@user.PhoneNumber</p></td>
-                <td><p>@user.Address</p></td>
-                <td><p>@user.Email</p></td>
-                <td><p>@(user.EmailConfirmed ? "Confirmed" : "Unconfirmed")</p></td>
-                <td><p>@user.CreatedAt</p></td>
-                <td class="text-center">
-                    <NavLink href=@($"/admin/userManagement/editUser/{user.Id}") class="material-icons nav-item text-warning me-4">edit</NavLink>
-                    <NavLink href="#" @onclick="() => DeleteUser(user.Email)" class="material-icons nav-item text-danger me-2">delete</NavLink>
-                </td>
-            </RowTemplate>
-        </TableTemplate>
     </Authorized>
     <NotAuthorized>
         <UnauthorizedAccess />
