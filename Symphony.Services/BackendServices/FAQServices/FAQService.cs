@@ -26,24 +26,30 @@ namespace Symphony.Services.BackendServices.FAQServices
             
             if (faq is null) return null;
 
-            return faq.FsVM();
+            return faq.AsVM();
         }
         public async Task<IEnumerable<FAQVM>> GetFAQVMsAsync()
         {
-            var faqs = await symphonyDBContext.FAQs.Select(f=>f.FsVM()).ToListAsync();
+            var faqs = await symphonyDBContext.FAQs.Select(f=>f.AsVM()).ToListAsync();
             return faqs;
         }
         public async Task<FAQVM> CreateFAQAsync(CreateFAQVM faqVM)
         {
-            var faq = new FAQ { Question = faqVM.Question, Answer = faqVM.Answer, IsShown = faqVM.IsShown };
+            var faq = new FAQ {
+                Question = faqVM.Question,
+                Answer = faqVM.Answer,
+                IsShown = faqVM.IsShown
+            };
+
             await symphonyDBContext.FAQs.AddAsync(faq);
             await symphonyDBContext.SaveChangesAsync();
 
-            return faq.FsVM();
+            return faq.AsVM();
         }
         public async Task<FAQVM> UpdateFAQAsync(UpdateFAQVM faqVM)
         {
             var faq = await symphonyDBContext.FAQs.FirstOrDefaultAsync(f => f.Id == faqVM.Id);
+
             if (faq is null) return null;
 
             faq.Question = faqVM.Question;
@@ -51,7 +57,7 @@ namespace Symphony.Services.BackendServices.FAQServices
             faq.IsShown = faqVM.IsShown;
 
             await symphonyDBContext.SaveChangesAsync();
-            return faq.FsVM();
+            return faq.AsVM();
         }
 
         public async Task DeleteFAQAsync(int id)
@@ -59,12 +65,8 @@ namespace Symphony.Services.BackendServices.FAQServices
             var faq = await symphonyDBContext.FAQs.FirstOrDefaultAsync(f => f.Id == id);
 
             symphonyDBContext.FAQs.Remove(faq);
+
             await symphonyDBContext.SaveChangesAsync();
-
         }
-
-        
-
-       
     }
 }

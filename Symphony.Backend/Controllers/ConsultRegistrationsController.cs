@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Symphony.Services.BackendServices;
+using Symphony.Services.BackendServices.ConsultServices;
 using Symphony.ViewModels.Consult;
 using System;
 using System.Collections.Generic;

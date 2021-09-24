@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Symphony.Services.BackendServices
+namespace Symphony.Services.BackendServices.SubjectServices
 {
     public interface ISubjectService
     {

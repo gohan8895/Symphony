@@ -10,16 +10,14 @@ namespace Symphony.ViewModels.Extensions
 {
     public static class EventExtension
     {
-        public static EventVM EvsVM(this Event ev) => new EventVM 
-            {
-                Id = ev.Id,
-                Title=ev.Title,
-                Description=ev.Description,
-                CreatedAt=ev.CreatedAt,
-                UpdatedAt=ev.UpdatedAt,
-                IsShown=ev.IsShown,
-
-            };
-
+        public static EventVM EvsVM(this Event ev) => new EventVM
+        {
+            Id = ev.Id,
+            Title = ev.Title,
+            Description = ev.Description,
+            CreatedAt = ev.CreatedAt,
+            UpdatedAt = ev.UpdatedAt,
+            IsShown = ev.IsShown,
+        };
     }
 }
