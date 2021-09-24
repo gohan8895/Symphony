@@ -17,6 +17,7 @@ namespace Symphony.ViewModels.Consult
         public string Description { get; set; }
         [Required]
         public int BatchId { get; set; }
+        [Required]
         public int SubjectId { get; set; }
         public DateTime ExamDate { get; set; }
         public DateTime CreatedAt { get; set; }
