@@ -14,7 +14,5 @@ namespace Symphony.ViewModels.Consult
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public DateTime CreatedAt { get; set; }
-        public List<AppUser> AppUsers { get; set; }
-        public List<ExamVM> Exams { get; set; }
     }
 }
