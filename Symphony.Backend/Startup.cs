@@ -10,6 +10,8 @@ using Microsoft.OpenApi.Models;
 using Symphony.Data.EF;
 using Symphony.Services.BackendServices;
 using Symphony.Services.BackendServices.AboutServices;
+using Symphony.Services.BackendServices.NewsServices;
+using Symphony.Services.BackendServices.TeacherServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +38,10 @@ namespace Symphony.Backend
             /*
              * Data Injection
              */
+
+
+            services.AddTransient<ITeacherService, TeacherService>();
+            services.AddTransient<INewsService, NewsService>();
             services.AddTransient<IConsultService, ConsultService>();
             services.AddTransient<IAboutService, AboutService>();
 
