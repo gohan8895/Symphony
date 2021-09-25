@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Symphony.ViewModels.Consult;
 using System;
 using System.Collections.Generic;

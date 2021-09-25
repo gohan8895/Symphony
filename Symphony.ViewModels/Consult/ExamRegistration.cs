@@ -15,4 +15,4 @@ namespace Symphony.ViewModels.Consult
         public Guid AppUser { get; set; }
         public ExamVM Exam { get; set; }
     }
-}
+}   

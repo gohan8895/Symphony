@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace Symphony.ViewModels.Extensions
 {
-    
    public static class NewsExtension
     {
         public static NewsVM AsVM(this News news) => new NewsVM

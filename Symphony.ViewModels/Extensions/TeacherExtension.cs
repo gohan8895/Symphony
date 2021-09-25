@@ -8,9 +8,7 @@ using System.Threading.Tasks;
 
 namespace Symphony.ViewModels.Extensions
 {
-    
-  
-    public static  class TeacherExtension
+    public static class TeacherExtension
     {
         public static TeacherVM AsVM(this Teacher teacher) => new TeacherVM
         {
