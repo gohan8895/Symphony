@@ -8,9 +8,6 @@ namespace Symphony.ViewModels.Consult
 {
     public class ImageVM
     {
-        public int Id { get; set; }
         public string Path { get; set; }
-        public int SubjectId { get; set; }
-        public SubjectVM Subject { get; set; }
     }
 }
