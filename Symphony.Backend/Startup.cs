@@ -13,6 +13,7 @@ using Symphony.Services.BackendServices.ConsultServices;
 using Symphony.Services.BackendServices.EventServices;
 using Symphony.Services.BackendServices.FAQServices;
 using Symphony.Services.BackendServices.NewsServices;
+using Symphony.Services.BackendServices.SubjectServices;
 using Symphony.Services.BackendServices.TeacherServices;
 using System;
 using System.Collections.Generic;
@@ -46,6 +47,7 @@ namespace Symphony.Backend
             services.AddTransient<IAboutService, AboutService>();
             services.AddTransient<IFAQService, FAQService>();
             services.AddTransient<IEventService, EventService>();
+            services.AddTransient<ISubjectService, SubjectService>();
 
             services.AddSwaggerGen(c =>
             {
