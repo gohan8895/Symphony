@@ -30,10 +30,15 @@
                         <NavLink class="nav-link expand-menu" href="admin/userManagement/adminManager"><span class="material-icons me-2">badge</span>Admin</NavLink>
                     </li>
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link expand-menu" href="admin/userManagement/createTeacher">Teacher</NavLink>
+                        <NavLink class="nav-link expand-menu" href="admin/userManagement/createTeacher">
+                            <span class="material-icons me-2">supervisor_account</span>
+                            Teacher
+                        </NavLink>
                     </li>
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link expand-menu" href="admin/userManagement/userManager">User</NavLink>
+                        <NavLink class="nav-link expand-menu" href="admin/userManagement/userManager">
+                        <span class="material-icons me-2">group</span> 
+                        User</NavLink>
                     </li>
                 </ul>
             }
@@ -52,10 +57,10 @@
             {
                 <ul class="nav flex-column">
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link expand-menu" href="admin/courseManagement"><span class="material-icons me-2">people</span>Course Management</NavLink>
+                        <NavLink class="nav-link expand-menu" href="admin/courseManagement"><span class="material-icons me-2">people</span>Course</NavLink>
                     </li>
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link expand-menu" href="admin/subjectManagement">Subject Management</NavLink>
+                        <NavLink class="nav-link expand-menu" href="admin/subjectManagement"><span class="material-icons me-2">subject</span> Subject</NavLink>
                     </li>
                 </ul>
             }
@@ -71,8 +76,14 @@
             </NavLink>
             @if (expandSubMenuExam)
             {
-                <NavLink class="nav-link expand-menu" href="admin/examManagement"><span class="material-icons me-2">people</span>Exam Management</NavLink>
-                <NavLink class="nav-link expand-menu" href="admin/resultManagement">Result Management</NavLink>
+                <ul class="nav flex-column">
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="admin/examManagement"><span class="material-icons me-2">quiz</span>Exam</NavLink>
+                    </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="admin/resultManagement"><span class="material-icons me-2">task</span> Result</NavLink>
+                    </li>
+                </ul>
             }
         </li>
         <li class="nav-item px-3 fw-bold btn">
@@ -88,17 +99,22 @@
             @if (expandSubMenuRegistration)
             {
                 <ul class="nav flex-column">
-                    <li class="nav-item px-3"><NavLink class="nav-link expand-menu" href="admin/registrationManagement"><span class="material-icons me-2">school</span>Registration Management</NavLink></li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="admin/registrationManagement">
+                            <span class="material-icons me-2">school</span>
+                            Registration
+                        </NavLink>
+                    </li>
                     <li class="nav-item px-3">
                         <NavLink class="nav-link expand-menu" href="admin/consultsManager">
-                            <span class="material-icons">
+                            <span class="material-icons me-2">
                                 forum
                             </span>Consults
                         </NavLink>
                     </li>
                     <li class="nav-item px-3">
                         <NavLink class="nav-link expand-menu" href="admin/batchManagement">
-                            <span class="material-icons">
+                            <span class="material-icons me-2">
                                 class
                             </span>Batch Management
                         </NavLink>
