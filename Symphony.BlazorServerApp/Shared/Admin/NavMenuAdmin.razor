@@ -7,66 +7,104 @@
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <ul class="nav flex-column">
-        <li class="nav-item px-3 fw-bold">
+        <li class="nav-item px-3 fw-bold ">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="material-icons me-2">
                     dashboard
                 </span> Dashboard
             </NavLink>
         </li>
-        <li class="nav-item px-3 fw-bold dropdown">
-            <NavLink class="nav-link dropdown-toggle @*@(userManagementActive ? " active" : "" )*@" href="#"
-                     id="navbarDarkDropdownMenuLink" role="button"
-                     data-bs-toggle="dropdown" aria-expanded="false"
-                     @onclick="ChangeUserManagentStatus">
+        <li class="nav-item px-3 fw-bold btn">
+            <NavLink class="nav-link" @onclick="() => expandSubMenuUser = !expandSubMenuUser">
                 <span class="material-icons me-2">
                     people
                 </span> User Management
+                <span class="material-icons me-2">
+                    @(expandSubMenuUser ? "expand_less" : "expand_more")
+                </span>
             </NavLink>
-            <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
-                <li><NavLink class="dropdown-item" href="admin/userManagement/adminManager">Admin Management</NavLink></li>
-                <li><NavLink class="dropdown-item" href="admin/userManagement/createTeacher">Teacher Management</NavLink></li>
-                <li><NavLink class="dropdown-item" href="admin/userManagement/userManager">User Management</NavLink></li>
-            </ul>
+            @if (expandSubMenuUser)
+            {
+                <ul class="nav flex-column">
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="admin/userManagement/adminManager"><span class="material-icons me-2">badge</span>Admin</NavLink>
+                    </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="admin/userManagement/createTeacher">Teacher</NavLink>
+                    </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="admin/userManagement/userManager">User</NavLink>
+                    </li>
+                </ul>
+            }
         </li>
-        <li class="nav-item px-3 fw-bold">
-            <NavLink class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
-                     data-bs-toggle="dropdown" aria-expanded="false">
+        <li class="nav-item px-3 fw-bold btn">
+            <NavLink class="nav-link" @onclick="() => expandSubMenuCourse = !expandSubMenuCourse">
                 <span class="material-icons me-2">
                     menu_book
-                </span> Course Management
+                </span>
+                Course Management
+                <span class="material-icons me-2">
+                    @(expandSubMenuCourse ? "expand_less" : "expand_more")
+                </span>
             </NavLink>
-            <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
-                <li><NavLink class="dropdown-item" href="#">Action</NavLink></li>
-                <li><NavLink class="dropdown-item" href="#">Another action</NavLink></li>
-                <li><NavLink class="dropdown-item" href="#">Something else here</NavLink></li>
-            </ul>
+            @if (expandSubMenuCourse)
+            {
+                <ul class="nav flex-column">
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="admin/courseManagement"><span class="material-icons me-2">people</span>Course Management</NavLink>
+                    </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="admin/subjectManagement">Subject Management</NavLink>
+                    </li>
+                </ul>
+            }
         </li>
-        <li class="nav-item px-3 fw-bold">
-            <NavLink class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
-                     data-bs-toggle="dropdown" aria-expanded="false">
+        <li class="nav-item px-3 fw-bold btn">
+            <NavLink class="nav-link" @onclick="() => expandSubMenuExam = !expandSubMenuExam">
                 <span class="material-icons me-2">
                     quiz
                 </span> Exam Management
+                <span class="material-icons me-2">
+                    @(expandSubMenuExam ? "expand_less" : "expand_more")
+                </span>
             </NavLink>
-            <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
-                <li><NavLink class="dropdown-item" href="#">Action</NavLink></li>
-                <li><NavLink class="dropdown-item" href="#">Another action</NavLink></li>
-                <li><NavLink class="dropdown-item" href="#">Something else here</NavLink></li>
-            </ul>
+            @if (expandSubMenuExam)
+            {
+                <NavLink class="nav-link expand-menu" href="admin/examManagement"><span class="material-icons me-2">people</span>Exam Management</NavLink>
+                <NavLink class="nav-link expand-menu" href="admin/resultManagement">Result Management</NavLink>
+            }
         </li>
-        <li class="nav-item px-3 fw-bold">
-            <NavLink class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
-                     data-bs-toggle="dropdown" aria-expanded="false">
+        <li class="nav-item px-3 fw-bold btn">
+            <NavLink class="nav-link" @onclick="() => expandSubMenuRegistration = !expandSubMenuRegistration">
                 <span class="material-icons me-2">
                     feed
-                </span> Registration
+                </span>
+                Registration
+                <span class="material-icons me-2">
+                    @(expandSubMenuRegistration ? "expand_less" : "expand_more")
+                </span>
             </NavLink>
-            <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
-                <li><NavLink class="dropdown-item" href="#">Action</NavLink></li>
-                <li><NavLink class="dropdown-item" href="#">Another action</NavLink></li>
-                <li><NavLink class="dropdown-item" href="#">Something else here</NavLink></li>
-            </ul>
+            @if (expandSubMenuRegistration)
+            {
+                <ul class="nav flex-column">
+                    <li class="nav-item px-3"><NavLink class="nav-link expand-menu" href="admin/registrationManagement"><span class="material-icons me-2">school</span>Registration Management</NavLink></li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="admin/consultsManager">
+                            <span class="material-icons">
+                                forum
+                            </span>Consults
+                        </NavLink>
+                    </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="admin/batchManagement">
+                            <span class="material-icons">
+                                class
+                            </span>Batch Management
+                        </NavLink>
+                    </li>
+                </ul>
+            }
         </li>
         <li class="nav-item px-3 ">
             <NavLink class="nav-link" href="/courses">
@@ -88,11 +126,14 @@
 @code {
     private bool collapseNavMenu = true;
 
-    #region active status
+    #region expand Sub menu
 
-    private bool userManagementActive = false;
+    private bool expandSubMenuUser = false;
+    private bool expandSubMenuCourse = false;
+    private bool expandSubMenuExam = false;
+    private bool expandSubMenuRegistration = false;
 
-    private void ChangeUserManagentStatus() => userManagementActive = !userManagementActive;
+
 
     #endregion
 
