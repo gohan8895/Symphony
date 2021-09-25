@@ -23,6 +23,16 @@ namespace Symphony.ViewModels.Consult
         public List<ExamVM> Exams { get; set; }
     }
 
+    public class SimpleSubjectVM
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public int Duration { get; set; }
+        public double Price { get; set; }
+        public bool IsShown { get; set; }
+    }
+
     public class SubjectCreateRequest
     {
         public string Name { get; set; }
@@ -35,10 +45,12 @@ namespace Symphony.ViewModels.Consult
 
     public class SubjectUpdateRequest
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public int Duration { get; set; }
         public double Price { get; set; }
-        public bool IsShown { get; set; }
+        public List<IFormFile> images { get; set; }
+        public List<IFormFile> attachments { get; set; }
     }
 }

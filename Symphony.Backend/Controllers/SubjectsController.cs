@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Symphony.Services.BackendServices.AboutServices;
 using Symphony.Services.BackendServices.SubjectServices;
 using Symphony.ViewModels.Consult;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -23,17 +25,21 @@ namespace Symphony.Backend.Controllers
         }
 
         // GET: api/<SubjectsController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        [HttpGet("get-all-subjects")]
+        public async Task<ActionResult<IEnumerable<SubjectVM>>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return Ok(await _service.GetSubjectVMsAsync());
         }
 
         // GET api/<SubjectsController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<SubjectVM>> Get(int id)
         {
-            return "value";
+            var _subject = await _service.GetSubjectVMAsync(id);
+
+            if (_subject is null) return NotFound();
+
+            return Ok(_subject);
         }
 
         // POST api/<SubjectsController>
@@ -45,25 +51,42 @@ namespace Symphony.Backend.Controllers
                 return BadRequest();
             }
 
-            var subjectVM = new SubjectVM();
+            var _subject = new SubjectVM();
+
             if (ModelState.IsValid)
             {
-                var _subjectVM = await _service.CreateSubjectVMAsync(createRequest);
+                _subject = await _service.CreateSubjectVMAsync(createRequest);
             }
 
-            return Ok(subjectVM);
+            return CreatedAtAction(nameof(Get), new { id = _subject.Id }, _subject);
         }
 
         // PUT api/<SubjectsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("update-subject-details")]
+        public async Task<ActionResult> Put([FromForm] SubjectUpdateRequest updateRequest)
         {
+            if (updateRequest is null) return BadRequest();
+
+            var _subjectVM = new SimpleSubjectVM();
+
+            if (ModelState.IsValid)
+            {
+                _subjectVM = await _service.UpdateSubjectVMAsync(updateRequest);
+            }
+
+            if (_subjectVM is null) return NotFound();
+
+            return NoContent();
         }
 
         // DELETE api/<SubjectsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpPut("update-book-state/{id}")]
+        public async Task<ActionResult> SoftDelete(int id)
         {
+            var _subject = await _service.GetSubjectVMAsync(id);
+            if (_subject is null) return NotFound();
+            await _service.ChangeSubjectState(id);
+            return NoContent();
         }
     }
 }

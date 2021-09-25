@@ -16,8 +16,8 @@ namespace Symphony.Services.BackendServices.SubjectServices
 
         Task<SubjectVM> CreateSubjectVMAsync(SubjectCreateRequest createRequest);
 
-        Task<SubjectVM> UpdateSubjectVMAsync(SubjectVM subjectVM);
+        Task<SimpleSubjectVM> UpdateSubjectVMAsync(SubjectUpdateRequest subjectVM);
 
-        Task DeleteSubjectVMAsync(int id);
+        Task ChangeSubjectState(int id);
     }
 }
