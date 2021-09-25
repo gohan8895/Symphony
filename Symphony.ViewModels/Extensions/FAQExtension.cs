@@ -10,8 +10,7 @@ namespace Symphony.ViewModels.Extensions
 {
     public static class FAQExtension
     {
-        
-        public static FAQVM FsVM(this FAQ faq) => new FAQVM
+        public static FAQVM AsVM(this FAQ faq) => new FAQVM
         {
             Id = faq.Id,
             Question = faq.Question,

@@ -8,8 +8,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Symphony.Data.EF;
-using Symphony.Services.BackendServices;
 using Symphony.Services.BackendServices.AboutServices;
+using Symphony.Services.BackendServices.ConsultServices;
 using Symphony.Services.BackendServices.EventServices;
 using Symphony.Services.BackendServices.FAQServices;
 using Symphony.Services.BackendServices.NewsServices;
@@ -40,8 +40,6 @@ namespace Symphony.Backend
             /*
              * Data Injection
              */
-
-
             services.AddTransient<ITeacherService, TeacherService>();
             services.AddTransient<INewsService, NewsService>();
             services.AddTransient<IConsultService, ConsultService>();
