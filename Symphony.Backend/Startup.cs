@@ -10,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using Symphony.Data.EF;
 using Symphony.Services.BackendServices.AboutServices;
 using Symphony.Services.BackendServices.ConsultServices;
+using Symphony.Services.BackendServices.CourseServices;
 using Symphony.Services.BackendServices.EventServices;
 using Symphony.Services.BackendServices.FAQServices;
 using Symphony.Services.BackendServices.NewsServices;
@@ -48,6 +49,7 @@ namespace Symphony.Backend
             services.AddTransient<IFAQService, FAQService>();
             services.AddTransient<IEventService, EventService>();
             services.AddTransient<ISubjectService, SubjectService>();
+            services.AddTransient<ICourseService, CourseService>();
 
             services.AddSwaggerGen(c =>
             {
