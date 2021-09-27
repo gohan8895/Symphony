@@ -30,6 +30,7 @@ namespace Symphony.Data.Entities
         public Batch Batch { get; set; }
         public List<Student_Course> Student_Courses { get; set; }
         public List<Student_In_Exam> Student_In_Exams { get; set; }
+        public List<Student_Answer> Student_Answers { get; set; }
         public List<Exam_Result> Exam_Results { get; set; }
         public List<Enrollment> Enrollments { get; set; }
         public List<CourseRegistration> CourseRegistrations { get; set; }
