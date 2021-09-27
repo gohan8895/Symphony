@@ -1,4 +1,5 @@
-﻿using Symphony.Data.Entities;
+﻿using Microsoft.AspNetCore.Http;
+using Symphony.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,19 +12,15 @@ namespace Symphony.ViewModels.Consult
     public class ExamVM
     {
         public int Id { get; set; }
-        [Required]
         public string Name { get; set; }
-        [Required]
         public string Description { get; set; }
-        [Required]
         public int BatchId { get; set; }
-        [Required]
         public int SubjectId { get; set; }
         public DateTime ExamDate { get; set; }
-        public DateTime CreatedAt { get; set; }
         public bool IsEntranceExam { get; set; }
         public int CourseId { get; set; }
         public int Duration { get; set; }
+        public List<QuestionVM> Questions { get; set; }
     }
 
     public class ExamExtendVM
@@ -36,5 +33,57 @@ namespace Symphony.ViewModels.Consult
         public BatchVM Batch { get; set; }
         public SubjectVM Subject { get; set; }
         public CourseVM Course { get; set; }
+    }
+
+    public class ExamCreateRequest
+    {
+        [Required]
+        public string Name { get; set; }
+
+        [Required]
+        public string Description { get; set; }
+
+        [Required]
+        public int BatchId { get; set; }
+
+        [Required]
+        public int SubjectId { get; set; }
+
+        [Required]
+        public DateTime ExamDate { get; set; }
+
+        [Required]
+        public bool IsEntranceExam { get; set; }
+
+        [Required]
+        public int CourseId { get; set; }
+
+        [Required]
+        public int Duration { get; set; }
+
+        [Required]
+        public IFormFile excelsheet { get; set; }
+    }
+
+    public class ExamUpdateRequest
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public string Name { get; set; }
+
+        [Required]
+        public string Description { get; set; }
+
+        [Required]
+        public DateTime ExamDate { get; set; }
+
+        [Required]
+        public bool IsEntranceExam { get; set; }
+
+        [Required]
+        public int Duration { get; set; }
+
+        public IFormFile excelsheet { get; set; }
     }
 }

@@ -9,10 +9,14 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Symphony.Data.EF;
 using Symphony.Services.BackendServices.AboutServices;
+using Symphony.Services.BackendServices.BatchServices;
 using Symphony.Services.BackendServices.ConsultServices;
+using Symphony.Services.BackendServices.CourseServices;
 using Symphony.Services.BackendServices.EventServices;
+using Symphony.Services.BackendServices.ExamServices;
 using Symphony.Services.BackendServices.FAQServices;
 using Symphony.Services.BackendServices.NewsServices;
+using Symphony.Services.BackendServices.QuestionServices;
 using Symphony.Services.BackendServices.SubjectServices;
 using Symphony.Services.BackendServices.TeacherServices;
 using System;
@@ -48,6 +52,10 @@ namespace Symphony.Backend
             services.AddTransient<IFAQService, FAQService>();
             services.AddTransient<IEventService, EventService>();
             services.AddTransient<ISubjectService, SubjectService>();
+            services.AddTransient<ICourseService, CourseService>();
+            services.AddTransient<IQuestionService, QuestionService>();
+            services.AddTransient<IBatchService, BatchService>();
+            services.AddTransient<IExamService, ExamService>();
 
             services.AddSwaggerGen(c =>
             {

@@ -47,13 +47,15 @@ namespace Symphony.Services.BackendServices.SubjectServices
 
         public async Task<SubjectVM> CreateSubjectVMAsync(SubjectCreateRequest createRequest)
         {
+            var timeNow = DateTime.Now;
             var _subject = new Subject()
             {
                 Name = createRequest.Name,
                 Description = createRequest.Description,
                 Duration = createRequest.Duration,
                 Price = createRequest.Price,
-                CreatedAt = DateTime.Now,
+                CreatedAt = timeNow,
+                UpdatedAt = timeNow,
                 IsShown = true
             };
 
@@ -62,49 +64,11 @@ namespace Symphony.Services.BackendServices.SubjectServices
 
             if (createRequest.images is not null)
             {
-                foreach (var image in createRequest.images)
-                {
-                    string curTime = DateTime.Now.ToString("MMddyyyyHHmmss");
-                    var imgName = curTime + "_" + Path.GetFileName(image.FileName);
-                    var imgPath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", imgName);
-                    await using (var fileStream = new FileStream(imgPath, FileMode.Create))
-                    {
-                        await image.CopyToAsync(fileStream);
-                    }
-
-                    var _image = new Image
-                    {
-                        Path = imgPath,
-                        SubjectId = _subject.Id
-                    };
-                    await _context.Images.AddAsync(_image);
-                }
-                await _context.SaveChangesAsync();
-                //await AddImages(createRequest.images, _subject.Id);
+                await AddImages(createRequest.images, _subject.Id);
             }
             if (createRequest.attachments is not null)
             {
-                foreach (var attachment in createRequest.attachments)
-                {
-                    string curTime = DateTime.Now.ToString("MMddyyyyHHmmss");
-                    var orgFileNam = Path.GetFileName(attachment.FileName);
-                    var fileName = curTime + "_" + orgFileNam;
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\files", fileName);
-                    await using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await attachment.CopyToAsync(fileStream);
-                    }
-
-                    var _file = new Symphony.Data.Entities.File
-                    {
-                        Path = filePath,
-                        FileName = orgFileNam,
-                        SubjectId = _subject.Id
-                    };
-                    await _context.Files.AddAsync(_file);
-                }
-                await _context.SaveChangesAsync();
-                //await AddAttachments(createRequest.attachments, _subject.Id);
+                await AddAttachments(createRequest.attachments, _subject.Id);
             }
 
             return _subject.AsVM();
@@ -137,6 +101,7 @@ namespace Symphony.Services.BackendServices.SubjectServices
             _subject.Description = subjectVM.Description;
             _subject.Duration = subjectVM.Duration;
             _subject.Price = subjectVM.Price;
+            _subject.UpdatedAt = DateTime.Now;
 
             await _context.SaveChangesAsync();
 
@@ -146,24 +111,7 @@ namespace Symphony.Services.BackendServices.SubjectServices
                 {
                     _context.Images.RemoveRange(_subject.Images);
                 }
-                foreach (var image in subjectVM.images)
-                {
-                    string curTime = DateTime.Now.ToString("MMddyyyyHHmmss");
-                    var imgName = curTime + "_" + Path.GetFileName(image.FileName);
-                    var imgPath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", imgName);
-                    await using (var fileStream = new FileStream(imgPath, FileMode.Create))
-                    {
-                        await image.CopyToAsync(fileStream);
-                    }
-
-                    var _image = new Image
-                    {
-                        Path = imgPath,
-                        SubjectId = _subject.Id
-                    };
-                    await _context.Images.AddAsync(_image);
-                }
-                await _context.SaveChangesAsync();
+                await AddImages(subjectVM.images, _subject.Id);
             }
 
             if (subjectVM.attachments is not null)
@@ -173,26 +121,7 @@ namespace Symphony.Services.BackendServices.SubjectServices
                     _context.Files.RemoveRange(_subject.Files);
                 }
 
-                foreach (var attachment in subjectVM.attachments)
-                {
-                    string curTime = DateTime.Now.ToString("MMddyyyyHHmmss");
-                    var orgFileNam = Path.GetFileName(attachment.FileName);
-                    var fileName = curTime + "_" + orgFileNam;
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\files", fileName);
-                    await using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await attachment.CopyToAsync(fileStream);
-                    }
-
-                    var _file = new Symphony.Data.Entities.File
-                    {
-                        Path = filePath,
-                        FileName = orgFileNam,
-                        SubjectId = _subject.Id
-                    };
-                    await _context.Files.AddAsync(_file);
-                }
-                await _context.SaveChangesAsync();
+                await AddAttachments(subjectVM.attachments, _subject.Id);
             }
 
             return _subject.AsSimpleVM();
