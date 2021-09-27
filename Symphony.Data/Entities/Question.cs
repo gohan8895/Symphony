@@ -21,6 +21,7 @@ namespace Symphony.Data.Entities
         public int Valid_Opt_key { get; set; }
         public int Score { get; set; }
         public int SubjectId { get; set; }
+        public bool? IsDelete { get; set; }
         public Subject Subject { get; set; }
         public List<QuestionExam> QuestionExams { get; set; }
         public List<Student_Answer> Student_Answers { get; set; }

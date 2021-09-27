@@ -18,6 +18,7 @@ namespace Symphony.Data.Configurations
             builder.Property(x => x.TotalScore).IsRequired().HasDefaultValue(0);
             builder.Property(x => x.IsShown).IsRequired().HasDefaultValue(true);
             builder.Property(x => x.HasPassed).IsRequired().HasDefaultValue(false);
+            builder.HasOne(x => x.AppUser).WithMany(x => x.Exam_Results).HasForeignKey(x => x.UserId);
         }
     }
 }

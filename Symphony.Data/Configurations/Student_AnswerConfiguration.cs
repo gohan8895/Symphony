@@ -17,6 +17,7 @@ namespace Symphony.Data.Configurations
             builder.Property(x => x.Answer_value).IsRequired();
             builder.Property(x => x.CreatedAt);
             builder.HasOne(x => x.Question).WithMany(x => x.Student_Answers).HasForeignKey(x => x.QuestionId).OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(x => x.AppUser).WithMany(x => x.Student_Answers).HasForeignKey(x => x.UserId);
         }
     }
 }

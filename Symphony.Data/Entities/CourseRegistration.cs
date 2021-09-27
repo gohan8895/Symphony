@@ -14,6 +14,7 @@ namespace Symphony.Data.Entities
         public bool IsApproved { get; set; }
         public DateTime CreatedAt { get; set; }
         public bool ExamRequired { get; set; }
+        public bool? IsDelete { get; set; }
         public AppUser AppUser { get; set; }
         public Course Course { get; set; }
     }

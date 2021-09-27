@@ -186,7 +186,7 @@ namespace Symphony.Data.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "3436425e-44b7-44f9-b974-df50ae877fbf",
+                            ConcurrencyStamp = "ee3def32-5da4-438e-86b0-770dec4dffc5",
                             Description = "Administrator Role",
                             Name = "trung.nguyen@gmail.com",
                             NormalizedName = "trung.nguyen@gmail.com"
@@ -294,7 +294,7 @@ namespace Symphony.Data.Migrations
                         {
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "09fb914a-bae9-4559-99ba-e96a2f52d237",
+                            ConcurrencyStamp = "649b7f0f-0299-4fd6-9665-735701114cbf",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DOB = new DateTime(1995, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "trung.nguyen@gmail.com",
@@ -305,7 +305,7 @@ namespace Symphony.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "trung.nguyen@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOsS2jkjm8XmCtAI8Jk8/BnARzvxm4R2/IlZXTh2s1aou/umpj9H87ByPKKXd+HC0A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHzD3DeqkcwFmkjwwuJumVzlAOSDdsOQNAL5/vW4kjXbOuChWGoEu403KuA7/8Y6dQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -453,9 +453,6 @@ namespace Symphony.Data.Migrations
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<Guid?>("AppUserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
@@ -472,14 +469,17 @@ namespace Symphony.Data.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
+                    b.Property<bool?>("IsDelete")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
-
                     b.HasIndex("CourseId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("CourseRegistrations");
                 });
@@ -493,20 +493,20 @@ namespace Symphony.Data.Migrations
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<Guid?>("AppUserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
+
+                    b.Property<bool?>("IsDelete")
+                        .HasColumnType("bit");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
-
                     b.HasIndex("CourseId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Enrollments");
                 });
@@ -575,6 +575,9 @@ namespace Symphony.Data.Migrations
                     b.Property<DateTime>("ExamDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool?>("IsDelete")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsEntranceExam")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
@@ -618,6 +621,9 @@ namespace Symphony.Data.Migrations
                     b.Property<int>("ExamId")
                         .HasColumnType("int");
 
+                    b.Property<bool?>("IsDelete")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
@@ -638,9 +644,6 @@ namespace Symphony.Data.Migrations
                         .HasAnnotation("SqlServer:IdentityIncrement", 1)
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<Guid?>("AppUserId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -668,9 +671,9 @@ namespace Symphony.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
-
                     b.HasIndex("ExamId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Exam_Results");
                 });
@@ -837,6 +840,9 @@ namespace Symphony.Data.Migrations
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool?>("IsDelete")
+                        .HasColumnType("bit");
+
                     b.Property<int>("Opt1_key")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
@@ -927,9 +933,6 @@ namespace Symphony.Data.Migrations
                     b.Property<int>("Answer_value")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("AppUserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -944,11 +947,11 @@ namespace Symphony.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
-
                     b.HasIndex("ExamId");
 
                     b.HasIndex("QuestionId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Student_Answer");
                 });
@@ -1144,13 +1147,15 @@ namespace Symphony.Data.Migrations
 
             modelBuilder.Entity("Symphony.Data.Entities.CourseRegistration", b =>
                 {
-                    b.HasOne("Symphony.Data.Entities.AppUser", "AppUser")
-                        .WithMany("CourseRegistrations")
-                        .HasForeignKey("AppUserId");
-
                     b.HasOne("Symphony.Data.Entities.Course", "Course")
                         .WithMany("CourseRegistrations")
                         .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Symphony.Data.Entities.AppUser", "AppUser")
+                        .WithMany("CourseRegistrations")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1161,13 +1166,15 @@ namespace Symphony.Data.Migrations
 
             modelBuilder.Entity("Symphony.Data.Entities.Enrollment", b =>
                 {
-                    b.HasOne("Symphony.Data.Entities.AppUser", "AppUser")
-                        .WithMany("Enrollments")
-                        .HasForeignKey("AppUserId");
-
                     b.HasOne("Symphony.Data.Entities.Course", "Course")
                         .WithMany("Enrollments")
                         .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Symphony.Data.Entities.AppUser", "AppUser")
+                        .WithMany("Enrollments")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1220,13 +1227,15 @@ namespace Symphony.Data.Migrations
 
             modelBuilder.Entity("Symphony.Data.Entities.Exam_Result", b =>
                 {
-                    b.HasOne("Symphony.Data.Entities.AppUser", "AppUser")
-                        .WithMany("Exam_Results")
-                        .HasForeignKey("AppUserId");
-
                     b.HasOne("Symphony.Data.Entities.Exam", "Exam")
                         .WithMany("Exam_Results")
                         .HasForeignKey("ExamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Symphony.Data.Entities.AppUser", "AppUser")
+                        .WithMany("Exam_Results")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1300,10 +1309,6 @@ namespace Symphony.Data.Migrations
 
             modelBuilder.Entity("Symphony.Data.Entities.Student_Answer", b =>
                 {
-                    b.HasOne("Symphony.Data.Entities.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId");
-
                     b.HasOne("Symphony.Data.Entities.Exam", "Exam")
                         .WithMany("Student_Answers")
                         .HasForeignKey("ExamId")
@@ -1314,6 +1319,12 @@ namespace Symphony.Data.Migrations
                         .WithMany("Student_Answers")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Symphony.Data.Entities.AppUser", "AppUser")
+                        .WithMany("Student_Answers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AppUser");
@@ -1391,6 +1402,8 @@ namespace Symphony.Data.Migrations
                     b.Navigation("Exam_Results");
 
                     b.Navigation("ExamRegistrations");
+
+                    b.Navigation("Student_Answers");
 
                     b.Navigation("Student_Courses");
 
