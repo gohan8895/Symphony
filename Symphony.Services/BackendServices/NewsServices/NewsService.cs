@@ -20,7 +20,7 @@ namespace Symphony.Services.BackendServices.NewsServices
             this.symphonyDBContext = symphonyDBContext;
         }
 
-      
+
         public async Task<NewsVM> GetNewsVMAsync(int id)
         {
             var news = await symphonyDBContext.News.FirstOrDefaultAsync(a => a.Id == id);
@@ -30,21 +30,12 @@ namespace Symphony.Services.BackendServices.NewsServices
             return news.AsVM();
         }
 
-      
-        public async Task<IEnumerable<NewsVM>> GetNewssVMsAsync()
-        {
 
-            var news = await symphonyDBContext.News.Select(a => a.AsVM()).ToListAsync();
+        public async Task<IEnumerable<NewsVM>> GetNewsVMsAsync() => await symphonyDBContext.News.Select(a => a.AsVM()).ToListAsync();
 
-            return news;
-        }
 
-        
-          
         public async Task<NewsVM> CreateNewsAsync(CreateNewsVM NewsVM)
         {
-
-
             var news = new News { Title = NewsVM.Title, Description = NewsVM.Description, IsShown = NewsVM.IsShown };
 
             await symphonyDBContext.News.AddAsync(news);

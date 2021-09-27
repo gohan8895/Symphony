@@ -38,7 +38,9 @@ namespace Symphony.Services.BackendServices.FAQServices
             var faq = new FAQ {
                 Question = faqVM.Question,
                 Answer = faqVM.Answer,
-                IsShown = faqVM.IsShown
+                IsShown = faqVM.IsShown,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             };
 
             await symphonyDBContext.FAQs.AddAsync(faq);
@@ -55,6 +57,7 @@ namespace Symphony.Services.BackendServices.FAQServices
             faq.Question = faqVM.Question;
             faq.Answer = faqVM.Answer;
             faq.IsShown = faqVM.IsShown;
+            faq.UpdatedAt = DateTime.Now;
 
             await symphonyDBContext.SaveChangesAsync();
             return faq.AsVM();

@@ -37,7 +37,12 @@ namespace Symphony.Services.BackendServices.TeacherServices
 
         public async Task<TeacherVM> CreateTeacherAsync(CreateTeacherVM teacherVM)
         {
-            var teacher = new Teacher { FirstName = teacherVM.FirstName, LastName = teacherVM.LastName };
+            var teacher = new Teacher {
+                FirstName = teacherVM.FirstName,
+                LastName = teacherVM.LastName,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
+            };
 
             await symphonyDBContext.Teachers.AddAsync(teacher);
             await symphonyDBContext.SaveChangesAsync();
@@ -52,6 +57,7 @@ namespace Symphony.Services.BackendServices.TeacherServices
             if (teacher is null) return null;
             teacher.FirstName = teacherVM.FirstName;
             teacher.LastName = teacher.LastName;
+            teacher.UpdatedAt = DateTime.Now;
 
             await symphonyDBContext.SaveChangesAsync();
             return teacher.AsVM();
