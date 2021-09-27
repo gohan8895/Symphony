@@ -30,14 +30,18 @@ namespace Symphony.Services.BackendServices.EventServices
 
         public async Task<IEnumerable<EventVM>> GetEventVMsAsync()
         {
-            var evs = await symphonyDBContext.Events.Select(e=>e.EvsVM()).ToListAsync();
+            var evs = await symphonyDBContext.Events.Select(e => e.EvsVM()).ToListAsync();
             return evs;
         }
         public async Task<EventVM> CreateEventAsync(CreateEventVM eventVM)
         {
             var ev = new Event
-            { 
-                Title = eventVM.Title, Description = eventVM.Description, IsShown = eventVM.IsShown
+            {
+                Title = eventVM.Title,
+                Description = eventVM.Description,
+                IsShown = eventVM.IsShown,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             };
             await symphonyDBContext.Events.AddAsync(ev);
             await symphonyDBContext.SaveChangesAsync();
@@ -52,6 +56,7 @@ namespace Symphony.Services.BackendServices.EventServices
             ev.Title = eventVM.Title;
             ev.Description = eventVM.Description;
             ev.IsShown = eventVM.IsShown;
+            ev.UpdatedAt = DateTime.Now;
 
             await symphonyDBContext.SaveChangesAsync();
             return ev.EvsVM();
@@ -64,7 +69,5 @@ namespace Symphony.Services.BackendServices.EventServices
             symphonyDBContext.Events.Remove(ev);
             await symphonyDBContext.SaveChangesAsync();
         }
-
-      
     }
 }
