@@ -13,6 +13,7 @@ using Symphony.Services.BackendServices.BatchServices;
 using Symphony.Services.BackendServices.ConsultServices;
 using Symphony.Services.BackendServices.CourseServices;
 using Symphony.Services.BackendServices.EventServices;
+using Symphony.Services.BackendServices.ExamServices;
 using Symphony.Services.BackendServices.FAQServices;
 using Symphony.Services.BackendServices.NewsServices;
 using Symphony.Services.BackendServices.QuestionServices;
@@ -54,6 +55,7 @@ namespace Symphony.Backend
             services.AddTransient<ICourseService, CourseService>();
             services.AddTransient<IQuestionService, QuestionService>();
             services.AddTransient<IBatchService, BatchService>();
+            services.AddTransient<IExamService, ExamService>();
 
             services.AddSwaggerGen(c =>
             {
