@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Symphony.Services.BackendServices.PaymentStatusServices
 {
-    class PaymentStatusService : IPaymentStatusService
+  public  class PaymentStatusService : IPaymentStatusService
     {
         private readonly SymphonyDBContext symphonyDBContext;
 
@@ -24,7 +24,7 @@ namespace Symphony.Services.BackendServices.PaymentStatusServices
         {
             var paymentStatus = new PaymentStatus()
             {
-                CourseRegistrationId = createPaymentStatusVM.CourseRegistrationId,
+               CourseRegistrationId = createPaymentStatusVM.CourseRegistrationId , 
                 Amount = createPaymentStatusVM.Amount,
                 HasPaid = createPaymentStatusVM.HasPaid,
                 CreatedAt = DateTime.Now,

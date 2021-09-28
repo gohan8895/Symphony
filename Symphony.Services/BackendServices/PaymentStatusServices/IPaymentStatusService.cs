@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Symphony.Services.BackendServices.PaymentStatusServices
 {
 
-    interface IPaymentStatusService
+   public interface IPaymentStatusService
     {
          Task<IEnumerable<PaymentStatusVM>> GetAllPaymentStatusAsync();
         Task<PaymentStatusVM> GetPaymentStatusAsync(int paymentStatusId);
