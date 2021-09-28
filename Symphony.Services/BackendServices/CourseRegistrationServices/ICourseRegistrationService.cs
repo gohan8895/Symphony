@@ -13,12 +13,12 @@ namespace Symphony.Services.BackendServices.CourseRegistrationServices
 
 
       
-         Task<IEnumerable<CourseRegistrationVM>> GetAllCourseRegistrations();
-         Task<CourseRegistrationVM> GetCourseRegistrationVM(int courseRegisId);
-        Task<IEnumerable<CourseRegistrationWithData>> GetCourseRegistrationWithDatasVM();
-        Task<CourseRegistrationVM> CreateCourseRegistration(CreateCourseRegistrationVM courseRegistration);  
-        Task<CourseRegistrationVM> UpdateCourseRegistration(UpdateCourseRegistrationVM courseRegistration);
-        Task<CourseRegistrationVM> DeleteCourseRegistration(int courseRegistrationId); 
+         Task<IEnumerable<CourseRegistrationVM>> GetAllCourseRegistrationsAsync();
+         Task<CourseRegistrationVM> GetCourseRegistrationVMAsync(int courseRegisId);
+        Task<IEnumerable<CourseRegistrationWithData>> GetCourseRegistrationWithDatasVMAsync();
+        Task<CourseRegistrationVM> CreateCourseRegistrationAsync(CreateCourseRegistrationVM courseRegistration);  
+        Task<CourseRegistrationVM> UpdateCourseRegistrationAsync(UpdateCourseRegistrationVM courseRegistration);
+        Task<CourseRegistrationVM> DeleteCourseRegistrationAsync(int courseRegistrationId); 
     }
 }
         

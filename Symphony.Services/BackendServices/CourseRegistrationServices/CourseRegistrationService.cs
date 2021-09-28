@@ -20,7 +20,7 @@ namespace Symphony.Services.BackendServices.CourseRegistrationServices
             this.symphonyDBContext = symphonyDBContext;
         }
 
-        public async Task<CourseRegistrationVM> CreateCourseRegistration(CreateCourseRegistrationVM courseRegistration)
+        public async Task<CourseRegistrationVM> CreateCourseRegistrationAsync(CreateCourseRegistrationVM courseRegistration)
         {
             var courseRegis = new CourseRegistration()
             {
@@ -36,7 +36,7 @@ namespace Symphony.Services.BackendServices.CourseRegistrationServices
             return courseRegis.AsVM();
         }
 
-        public async Task<CourseRegistrationVM> DeleteCourseRegistration(int courseRegistrationId)
+        public async Task<CourseRegistrationVM> DeleteCourseRegistrationAsync(int courseRegistrationId)
         {
             var courseRegis = await symphonyDBContext.CourseRegistrations.FirstOrDefaultAsync(a => a.Id == courseRegistrationId);
             if (courseRegis == null)
@@ -47,8 +47,8 @@ namespace Symphony.Services.BackendServices.CourseRegistrationServices
             await symphonyDBContext.SaveChangesAsync();
             return courseRegis.AsVM();
         }
-
-        public async Task<CourseRegistrationVM> GetCourseRegistrationVM(int courseRegisId)
+        
+        public async Task<CourseRegistrationVM> GetCourseRegistrationVMAsync(int courseRegisId)
         {
             var result = await symphonyDBContext.CourseRegistrations.FirstOrDefaultAsync(a => a.Id == courseRegisId);
             if (result == null)
@@ -58,14 +58,14 @@ namespace Symphony.Services.BackendServices.CourseRegistrationServices
             return result.AsVM();
         }
 
-        public async Task<IEnumerable<CourseRegistrationVM>> GetAllCourseRegistrations()
+        public async Task<IEnumerable<CourseRegistrationVM>> GetAllCourseRegistrationsAsync()
         {
             var results = await symphonyDBContext.CourseRegistrations.Select(a => a.AsVM()).ToListAsync();
             return results;
         }
 
 
-        public async Task<CourseRegistrationVM> UpdateCourseRegistration(UpdateCourseRegistrationVM courseRegistration)
+        public async Task<CourseRegistrationVM> UpdateCourseRegistrationAsync(UpdateCourseRegistrationVM courseRegistration)
         {
             var _courseResig = await symphonyDBContext.CourseRegistrations.FirstOrDefaultAsync(a => a.Id == courseRegistration.Id);
             if (_courseResig == null)
@@ -84,7 +84,7 @@ namespace Symphony.Services.BackendServices.CourseRegistrationServices
             return _courseResig.AsVM();
         }
 
-        public async Task<IEnumerable<CourseRegistrationWithData>> GetCourseRegistrationWithDatasVM()
+        public async Task<IEnumerable<CourseRegistrationWithData>> GetCourseRegistrationWithDatasVMAsync()
         {
 
             var results = await symphonyDBContext.CourseRegistrations.Select(a => new CourseRegistrationWithData()
@@ -100,6 +100,8 @@ namespace Symphony.Services.BackendServices.CourseRegistrationServices
             }).ToListAsync();
             return results;
         }
+
+  
     }
 }
 

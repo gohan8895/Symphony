@@ -29,14 +29,14 @@ namespace Symphony.Backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CourseRegistrationVM>>> GetAllCourseRegistration()
         {
-            var result = await courseRegistrationService.GetAllCourseRegistrations();
+            var result = await courseRegistrationService.GetAllCourseRegistrationsAsync();
             return Ok(result);
         }
 
         [HttpGet("courseregistrations/get-course-registration-with-data")]
         public async Task<ActionResult<IEnumerable<CourseRegistrationWithData>>> GetAllCourseRegistrationWithDatas()
         {
-            var result = await courseRegistrationService.GetCourseRegistrationWithDatasVM();
+            var result = await courseRegistrationService.GetCourseRegistrationWithDatasVMAsync();
             return Ok(result);
         }
 
@@ -46,7 +46,7 @@ namespace Symphony.Backend.Controllers
         public async Task<ActionResult<CourseRegistrationVM>> GetCourseRegistration(int id)
         {
 
-            var result = await courseRegistrationService.GetCourseRegistrationVM(id);
+            var result = await courseRegistrationService.GetCourseRegistrationVMAsync(id);
             if (result is null)
             {
                 return NotFound();
@@ -65,7 +65,7 @@ namespace Symphony.Backend.Controllers
             var courseRegisVM = new CourseRegistrationVM();
             if (ModelState.IsValid)
             {
-                courseRegisVM = await courseRegistrationService.CreateCourseRegistration(createCourseRegistrationVM);
+                courseRegisVM = await courseRegistrationService.CreateCourseRegistrationAsync(createCourseRegistrationVM);
             }
 
 
@@ -77,7 +77,7 @@ namespace Symphony.Backend.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateCourseRegistration([FromBody] UpdateCourseRegistrationVM courseRegistrationVM)
         {
-            var result = await courseRegistrationService.UpdateCourseRegistration(courseRegistrationVM);
+            var result = await courseRegistrationService.UpdateCourseRegistrationAsync(courseRegistrationVM);
             if (result is null )
             {
                 return NotFound();
@@ -90,7 +90,7 @@ namespace Symphony.Backend.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCourseRegistration(int id)
         {
-            var result = await courseRegistrationService.DeleteCourseRegistration(id);
+            var result = await courseRegistrationService.DeleteCourseRegistrationAsync(id);
             if (result is null)
             {
                 return NotFound();
