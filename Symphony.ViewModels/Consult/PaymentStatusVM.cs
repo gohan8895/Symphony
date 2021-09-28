@@ -14,6 +14,6 @@ namespace Symphony.ViewModels.Consult
         public bool HasPaid { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        public CourseRegistration CourseRegistration { get; set; }
+        public CourseRegistrationVM CourseRegistrationVM { get; set; }
     }
 }

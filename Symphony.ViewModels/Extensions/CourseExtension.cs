@@ -10,6 +10,26 @@ namespace Symphony.ViewModels.Extensions
 {
     public static class CourseExtension
     {
+        public static CourseVM AsVM(this Course course)
+        {
+            return new CourseVM
+            {
+
+                Id = course.Id,
+                Name = course.Name,
+                Description = course.Description,
+                StartDate = course.StartDate,
+                EndDate = course.EndDate,
+                Price = course.Price,
+                DiscountedPrice = course.DiscountedPrice,
+                IsExtra = course.IsExtra,
+                IsBasic = course.IsBasic,
+                CreatedAt = course.CreatedAt,
+                UpdatedAt = course.UpdatedAt,
+                IsShown = course.IsShown
+            };
+        }
+
         public static CourseWithSubjects AsCourseWithSubjects(this Course course)
         {
             return new CourseWithSubjects
