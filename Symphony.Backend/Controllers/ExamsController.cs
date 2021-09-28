@@ -58,15 +58,22 @@ namespace Symphony.Backend.Controllers
         }
 
         // PUT api/<ExamsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("update-exam-details")]
+        public async Task<ActionResult> Put([FromForm] ExamUpdateRequest request)
         {
+            if (request is null) return BadRequest();
+            int result = await _service.UpdateExamDetails(request);
+            return NoContent();
         }
 
         // DELETE api/<ExamsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpPut("mark-exam-as-finihsed/{id}")]
+        public async Task<ActionResult> UpdateExamStatus(int id)
         {
+            var _exam = await _service.GetExamAsync(id);
+            if (_exam is null) return NotFound();
+            await _service.MarkExamAsFinished(id);
+            return NoContent();
         }
     }
 }

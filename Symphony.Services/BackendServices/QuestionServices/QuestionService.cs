@@ -34,14 +34,15 @@ namespace Symphony.Services.BackendServices.QuestionServices
                 Opt4_key = 4,
                 Opt4_value = request.Opt4_value,
                 Valid_Opt_key = request.Valid_Opt_key,
-                SubjectId = request.SubjectId
+                SubjectId = request.SubjectId,
+                IsDelete = false
             };
 
             if (request.Score != 0)
             {
                 _question.Score = request.Score;
             }
-            else _question.Score = 20;
+            else _question.Score = 10;
 
             await _context.Questions.AddAsync(_question);
             await _context.SaveChangesAsync();

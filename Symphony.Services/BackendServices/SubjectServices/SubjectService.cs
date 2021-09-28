@@ -71,7 +71,12 @@ namespace Symphony.Services.BackendServices.SubjectServices
                 await AddAttachments(createRequest.attachments, _subject.Id);
             }
 
-            return _subject.AsVM();
+            var _created_subject = await _context.Subjects
+                                    .Include(x => x.Images)
+                                    .Include(x => x.Files)
+                                    .SingleOrDefaultAsync(x => x.Id == _subject.Id);
+
+            return _created_subject.AsVM();
         }
 
         public async Task ChangeSubjectState(int id)
