@@ -27,26 +27,27 @@ namespace Symphony.Backend.Controllers
 
 
         [HttpGet]
-        public IActionResult GetAllCourseRegistration()
+        public async Task<ActionResult<IEnumerable<CourseRegistrationVM>>> GetAllCourseRegistration()
         {
-            var result = courseRegistrationService.GetAllCourseRegistrations();
+            var result = await courseRegistrationService.GetAllCourseRegistrations();
             return Ok(result);
         }
 
         [HttpGet("courseregistrations/get-course-registration-with-data")]
-        public IActionResult GetAllCourseRegistrationWithDatas()
+        public async Task<ActionResult<IEnumerable<CourseRegistrationWithData>>> GetAllCourseRegistrationWithDatas()
         {
-            return Ok(courseRegistrationService.GetCourseRegistrationWithDatasVM());
+            var result = await courseRegistrationService.GetCourseRegistrationWithDatasVM();
+            return Ok(result);
         }
 
 
         // GET api/<CourseRegistrationsController>/5
-        [HttpGet("{courseRegisId}")]
-        public ActionResult<CourseRegistrationVM> GetCourseRegistration(int courseRegisId)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<CourseRegistrationVM>> GetCourseRegistration(int id)
         {
 
-            var result = courseRegistrationService.GetCourseRegistrationVM(courseRegisId);
-            if (result == null)
+            var result = await courseRegistrationService.GetCourseRegistrationVM(id);
+            if (result is null)
             {
                 return NotFound();
             }
@@ -77,7 +78,7 @@ namespace Symphony.Backend.Controllers
         public async Task<IActionResult> UpdateCourseRegistration([FromBody] UpdateCourseRegistrationVM courseRegistrationVM)
         {
             var result = await courseRegistrationService.UpdateCourseRegistration(courseRegistrationVM);
-            if (result == null)
+            if (result is null )
             {
                 return NotFound();
             }
@@ -87,10 +88,10 @@ namespace Symphony.Backend.Controllers
 
         // DELETE api/<CourseRegistrationsController>/5
         [HttpDelete("{id}")]
-        public IActionResult DeleteCourseRegistration(int id)
+        public async Task<IActionResult> DeleteCourseRegistration(int id)
         {
-            var result = courseRegistrationService.DeleteCourseRegistration(id);
-            if (result == null)
+            var result = await courseRegistrationService.DeleteCourseRegistration(id);
+            if (result is null)
             {
                 return NotFound();
             }
