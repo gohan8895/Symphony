@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Symphony.Services.BackendServices.AboutServices;
-using Symphony.ViewModels.Consult;
+using Symphony.ViewModels.AboutViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,11 +84,8 @@ namespace Symphony.Backend.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAsync(int id)
         {
-            var about = await aboutService.GetAboutVMAsync(id);
-
+            var about = await aboutService.DeleteAboutAsync(id);
             if (about is null) return NotFound();
-
-            await aboutService.DeleteAboutAsync(id);
 
             return NoContent();
         }

@@ -20,24 +20,19 @@ namespace Symphony.Backend.Controllers
 
         private readonly ICourseRegistrationService courseRegistrationService;
 
-        public CourseRegistrationsController(ICourseRegistrationService courseRegistrationService)
-        {
-            this.courseRegistrationService = courseRegistrationService;
-        }
-
+        public CourseRegistrationsController(ICourseRegistrationService courseRegistrationService) => this.courseRegistrationService = courseRegistrationService;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CourseRegistrationVM>>> GetAllCourseRegistration()
+        public async Task<ActionResult<CourseRegistrationVM>> GetAllCourseRegistration()
         {
-            var result = await courseRegistrationService.GetAllCourseRegistrationsAsync();
+            var result = await courseRegistrationService.GetAllCourseRegistrationVMsAsync();
             return Ok(result);
         }
 
         [HttpGet("courseregistrations/get-course-registration-with-data")]
-        public async Task<ActionResult<IEnumerable<CourseRegistrationWithData>>> GetAllCourseRegistrationWithDatas()
+        public async Task<ActionResult<CourseRegistrationWithDataVM>> GetAllCourseRegistrationWithDatas()
         {
-            var result = await courseRegistrationService.GetCourseRegistrationWithDatasVMAsync();
-            return Ok(result);
+            return Ok(await courseRegistrationService.GetCourseRegistrationWithDataVMsAsync());
         }
 
 
@@ -47,7 +42,7 @@ namespace Symphony.Backend.Controllers
         {
 
             var result = await courseRegistrationService.GetCourseRegistrationVMAsync(id);
-            if (result is null)
+            if (result == null)
             {
                 return NotFound();
             }
@@ -69,13 +64,13 @@ namespace Symphony.Backend.Controllers
             }
 
 
-            return CreatedAtAction(nameof(GetCourseRegistration), new { Id = courseRegisVM.Id }, courseRegisVM);
+            return CreatedAtAction(nameof(GetCourseRegistration), new { id = courseRegisVM.Id }, courseRegisVM);
 
         }
 
         // PUT api/<CourseRegistrationsController>/5
         [HttpPut]
-        public async Task<IActionResult> UpdateCourseRegistration([FromBody] UpdateCourseRegistrationVM courseRegistrationVM)
+        public async Task<ActionResult> UpdateCourseRegistration([FromBody] UpdateCourseRegistrationVM courseRegistrationVM)
         {
             var result = await courseRegistrationService.UpdateCourseRegistrationAsync(courseRegistrationVM);
             if (result is null )
@@ -88,16 +83,14 @@ namespace Symphony.Backend.Controllers
 
         // DELETE api/<CourseRegistrationsController>/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCourseRegistration(int id)
+        public async Task<ActionResult> DeleteCourseRegistrationAsync(int id)
         {
             var result = await courseRegistrationService.DeleteCourseRegistrationAsync(id);
-            if (result is null)
+            if (result == null)
             {
                 return NotFound();
             }
             return NoContent();
-
         }
-
     }
 }

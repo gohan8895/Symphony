@@ -2,13 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Symphony.Data.EF;
 using Symphony.Data.Entities;
-using Symphony.ViewModels.Consult;
 using Symphony.ViewModels.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Symphony.ViewModels.AboutViewModel;
 
 namespace Symphony.Services.BackendServices.AboutServices
 {
@@ -61,12 +61,16 @@ namespace Symphony.Services.BackendServices.AboutServices
             return about.AsVM();
         }
 
-        public async Task DeleteAboutAsync(int id)
+        public async Task<AboutVM> DeleteAboutAsync(int id)
         {
             var about = await symphonyDBContext.Abouts.FirstOrDefaultAsync(a => a.Id == id);
 
+            if (about is null) return null;
+
             symphonyDBContext.Abouts.Remove(about);
             await symphonyDBContext.SaveChangesAsync();
+
+            return about.AsVM();
         }
     }
 }

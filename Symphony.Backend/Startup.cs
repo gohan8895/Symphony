@@ -23,6 +23,7 @@ using Symphony.Services.BackendServices.TeacherServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Symphony.Backend
@@ -39,7 +40,8 @@ namespace Symphony.Backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(options =>
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
             services.AddDbContext<SymphonyDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("SymphonyDb")));
 

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Symphony.ViewModels.Consult
+namespace Symphony.ViewModels.AboutViewModel
 {
     public class AboutVM
     {
@@ -18,7 +18,7 @@ namespace Symphony.ViewModels.Consult
         [Required]
         public bool IsShown { get; set; }
     }
-    
+
     public class UpdateAboutVM
     {
         public int Id { get; set; }
