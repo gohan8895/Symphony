@@ -8,7 +8,6 @@ using System.Text;
 namespace Symphony.Data.Configurations
 {
     public class CourseRegistrationConfiguration : IEntityTypeConfiguration<CourseRegistration>
-
     {
         public void Configure(EntityTypeBuilder<CourseRegistration> builder)
         {

@@ -1,0 +1,78 @@
+﻿@page "/aboutus"
+
+@inject IAboutService aboutService
+@using Symphony.ViewModels.AboutViewModel
+@using Symphony.BlazorServerApp.Services.AboutServices
+
+<main class="main">
+    <h1 class="fw-bold text-center">About Symphony Institute</h1>
+    <div class="container lh-lg">
+        <div class="my-5">
+            <div class="mx-auto">
+                <img src="images/uni2-crop.jpg" style="width: 90%;" class="d-block mx-auto " alt="Symphony Institute" />
+            </div>
+            <div class="mt-5">
+                <p>
+                    @Openning
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8 mb-5">
+                <img src="images/disuknow.jpg" alt="Did you know?" />
+            </div>
+            <div class="col-4 mb-5 text-center">
+                <h2>
+                    @FirstQuestion
+                </h2>
+                <p>
+                    @FirstAnswer
+                </p>
+            </div>
+            <div class="col-6 mb-5">
+                <div class="text-center pb-5 ">
+                    <h2>
+                        @SecondQuestion
+                    </h2>
+                    <p>
+                        @SecondAnswer
+                    </p>
+                </div>
+                <div class="text-center">
+                    <h2>
+                        @ThirdQuestion
+                    </h2>
+                    <p>
+                        @ThirdAnswer
+                    </p>
+                </div>
+            </div>
+            <div class="col-6 mb-5">
+                <img src="images/coding-langs.png" alt="Symphony Institute" class="d-block ms-auto" />
+            </div>
+        </div>
+    </div>
+</main>
+@code {
+    public IEnumerable<AboutVM> AboutVMs { get; set; } = Array.Empty<AboutVM>();
+    public string Openning { get; set; }
+    public string FirstQuestion { get; set; }
+    public string FirstAnswer { get; set; }
+    public string SecondQuestion { get; set; }
+    public string SecondAnswer { get; set; }
+    public string ThirdQuestion { get; set; }
+    public string ThirdAnswer { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        AboutVMs = await aboutService.GetAboutsAsync();
+        Openning = AboutVMs.SingleOrDefault(a => a.Title.Contains("Opening")).Content;
+        FirstQuestion = AboutVMs.FirstOrDefault(a => a.Title.Contains("First Question")).Content;
+        FirstAnswer = AboutVMs.FirstOrDefault(a => a.Title.Contains("First Answer")).Content;
+        SecondQuestion = AboutVMs.FirstOrDefault(a => a.Title.Contains("Second Question")).Content;
+        SecondAnswer = AboutVMs.FirstOrDefault(a => a.Title.Contains("Second Answer")).Content;
+        ThirdQuestion = AboutVMs.FirstOrDefault(a => a.Title.Contains("Third Question")).Content;
+        ThirdAnswer = AboutVMs.FirstOrDefault(a => a.Title.Contains("Third Answer")).Content;
+    }
+
+}

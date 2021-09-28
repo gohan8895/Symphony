@@ -17,7 +17,6 @@ namespace Symphony.ViewModels.Consult
         public bool IsApproved { get; set; }
         public DateTime CreatedAt { get; set; }
         public bool ExamRequired { get; set; }
-
     }
     public class CreateCourseRegistrationVM
     {
@@ -62,7 +61,7 @@ namespace Symphony.ViewModels.Consult
 
 
 
-    public class CourseRegistrationWithData
+    public class CourseRegistrationWithDataVM
     {
         public int Id { get; set; }
         public Guid UserId { get; set; }
@@ -70,7 +69,6 @@ namespace Symphony.ViewModels.Consult
         public bool IsApproved { get; set; }
         public DateTime CreatedAt { get; set; }
         public bool ExamRequired { get; set; }
-
         public AppUserVM AppUserVM { get; set; }
         public CourseVM CourseVM { get; set; }
     }

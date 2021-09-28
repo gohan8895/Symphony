@@ -14,6 +14,7 @@ namespace Symphony.Data.Configurations
             builder.ToTable("Abouts");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
+            builder.Property(x => x.Title).IsRequired();
             builder.Property(x => x.Content).IsRequired();
             builder.Property(x => x.IsShown).HasDefaultValue(true);
         }
