@@ -9,26 +9,7 @@ using System.Threading.Tasks;
 
 namespace Symphony.ViewModels.Consult
 {
-    //public class CourseVM
-    //{
-    //    public int Id { get; set; }
-    //    public string Name { get; set; }
-    //    public string Description { get; set; }
-    //    public DateTime StartDate { get; set; }
-    //    public DateTime EndDate { get; set; }
-    //    public double Price { get; set; }
-    //    public double DiscountedPrice { get; set; }
-    //    public bool IsExtra { get; set; }
-    //    public bool IsBasic { get; set; }
-    //    public DateTime CreatedAt { get; set; }
-    //    public DateTime UpdatedAt { get; set; }
-    //    public bool IsShown { get; set; }
-    //    public List<ExamVM> Exams { get; set; }
-    //    public List<SimpleSubjectVM> SimpleSubjectVMs { get; set; }
-    //    public List<Student_Course> Student_Courses { get; set; }
-    //    public List<EnrollmentVM> Enrollments { get; set; }
-    //    public List<CourseRegistration> CourseRegistrations { get; set; }
-    //}
+
     public class CourseVM
     {
         public int Id { get; set; }
