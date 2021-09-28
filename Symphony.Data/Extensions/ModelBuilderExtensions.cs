@@ -16,8 +16,8 @@ namespace Symphony.Data.Extensions
             modelBuilder.Entity<AppRole>().HasData(new AppRole
             {
                 Id = roleId,
-                Name = "trung.nguyen@gmail.com",
-                NormalizedName = "trung.nguyen@gmail.com",
+                Name = "admin",
+                NormalizedName = "ADMIN",
                 Description = "Administrator Role"
             });
 

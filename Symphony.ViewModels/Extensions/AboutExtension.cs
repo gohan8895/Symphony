@@ -13,6 +13,7 @@ namespace Symphony.ViewModels.Extensions
         public static AboutVM AsVM(this About about) => new AboutVM
         {
             Id = about.Id,
+            Title = about.Title,
             Content = about.Content,
             IsShown = about.IsShown
         };

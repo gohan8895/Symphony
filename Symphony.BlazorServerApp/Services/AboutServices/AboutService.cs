@@ -14,10 +14,10 @@ namespace Symphony.BlazorServerApp.Services.AboutServices
         private readonly IHttpClientFactory clientFactory;
         private readonly JsonSerializerOptions options;
 
-        public AboutService(IHttpClientFactory clientFactory, JsonSerializerOptions options)
+        public AboutService(IHttpClientFactory clientFactory)
         {
             this.clientFactory = clientFactory;
-            this.options = options;
+            options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         }
 
         public async Task<AboutVM> GetAboutAsync(int id)
@@ -39,7 +39,7 @@ namespace Symphony.BlazorServerApp.Services.AboutServices
 
         public async Task<IEnumerable<AboutVM>> GetAboutsAsync()
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, "abouts/");
+            var request = new HttpRequestMessage(HttpMethod.Get, "Abouts/");
             var client = clientFactory.CreateClient("symphony");
             var response = await client.SendAsync(request);
 
