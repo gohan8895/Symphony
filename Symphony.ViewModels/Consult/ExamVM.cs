@@ -20,6 +20,10 @@ namespace Symphony.ViewModels.Consult
         public bool IsEntranceExam { get; set; }
         public int CourseId { get; set; }
         public int Duration { get; set; }
+        public int MaxScore { get; set; }
+        public int RequiredScore { get; set; }
+        public bool? IsDelete { get; set; }
+
         public List<QuestionVM> Questions { get; set; }
     }
 
