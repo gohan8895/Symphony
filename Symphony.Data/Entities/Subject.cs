@@ -16,10 +16,15 @@ namespace Symphony.Data.Entities
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public bool IsShown { get; set; }
+      
         public List<Subject_Course> Subject_Courses { get; set; }
+     
         public List<Image> Images { get; set; }
+       
         public List<Question> Questions { get; set; }
+        
         public List<File> Files { get; set; }
         public List<Exam> Exams { get; set; }
+
     }
 }
