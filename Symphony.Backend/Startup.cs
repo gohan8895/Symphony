@@ -18,6 +18,7 @@ using Symphony.Services.BackendServices.EventServices;
 using Symphony.Services.BackendServices.ExamServices;
 using Symphony.Services.BackendServices.FAQServices;
 using Symphony.Services.BackendServices.NewsServices;
+using Symphony.Services.BackendServices.PaymentStatusServices;
 using Symphony.Services.BackendServices.QuestionServices;
 using Symphony.Services.BackendServices.SubjectServices;
 using Symphony.Services.BackendServices.TeacherServices;
@@ -47,8 +48,13 @@ namespace Symphony.Backend
             /*
              * Data Injection
              */
+
+        
+            
+            services.AddTransient<IPaymentStatusService, PaymentStatusService>();
             services.AddTransient<ICourseRegistrationService, CourseRegistrationService>();
             services.AddTransient<IEnrollmentService, EnrollmentService>();
+
             services.AddTransient<ITeacherService, TeacherService>();
             services.AddTransient<INewsService, NewsService>();
             services.AddTransient<IConsultService, ConsultService>();
