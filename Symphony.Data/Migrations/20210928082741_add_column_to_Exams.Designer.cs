@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Symphony.Data.EF;
 
 namespace Symphony.Data.Migrations
 {
     [DbContext(typeof(SymphonyDBContext))]
-    partial class SymphonyDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210928082741_add_column_to_Exams")]
+    partial class add_column_to_Exams
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
