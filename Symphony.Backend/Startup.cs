@@ -15,6 +15,7 @@ using Symphony.Services.BackendServices.CourseRegistrationServices;
 using Symphony.Services.BackendServices.CourseServices;
 using Symphony.Services.BackendServices.EnrollmentServices;
 using Symphony.Services.BackendServices.EventServices;
+using Symphony.Services.BackendServices.ExamRegistrationServices;
 using Symphony.Services.BackendServices.ExamServices;
 using Symphony.Services.BackendServices.FAQServices;
 using Symphony.Services.BackendServices.NewsServices;
@@ -49,8 +50,6 @@ namespace Symphony.Backend
              * Data Injection
              */
 
-        
-            
             services.AddTransient<IPaymentStatusService, PaymentStatusService>();
             services.AddTransient<ICourseRegistrationService, CourseRegistrationService>();
             services.AddTransient<IEnrollmentService, EnrollmentService>();
@@ -66,6 +65,7 @@ namespace Symphony.Backend
             services.AddTransient<IQuestionService, QuestionService>();
             services.AddTransient<IBatchService, BatchService>();
             services.AddTransient<IExamService, ExamService>();
+            services.AddTransient<IExamRegistrationService, ExamRegistrationService>();
 
             services.AddSwaggerGen(c =>
             {
