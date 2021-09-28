@@ -52,5 +52,4 @@ namespace Symphony.ViewModels.Consult
         [DisplayName("Delete")]
         [DefaultValue(false)]
         public bool? IsDelete { get; set; }
-    }
 }

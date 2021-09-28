@@ -27,7 +27,7 @@ namespace Symphony.Services.BackendServices.CourseServices
                         .SingleOrDefaultAsync(x => x.Id == id);
             if (_course is null)
             {
-                throw new Exception(@"Course id: {id} is not found");
+                return null;
             }
             return _course.AsCourseWithSubjects();
         }

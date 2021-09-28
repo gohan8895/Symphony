@@ -21,6 +21,9 @@ namespace Symphony.ViewModels.Extensions
             IsEntranceExam = exam.IsEntranceExam,
             CourseId = exam.CourseId,
             Duration = exam.Duration,
+            MaxScore = exam.MaxScore,
+            RequiredScore = exam.RequiredScore,
+            IsDelete = exam.IsDelete,
             Questions = exam.QuestionExams.Select(x => x.Question.AsVM()).ToList()
         };
     }
