@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using Symphony.Data.EF;
 using Symphony.Data.Entities;
@@ -35,7 +36,7 @@ namespace Symphony.Services.BackendServices.ExamServices
 
             if (_exam is null)
             {
-                throw new Exception(@"Exam id: {id} is not found");
+                return null;
             }
             return _exam.AsVM();
         }
@@ -63,7 +64,10 @@ namespace Symphony.Services.BackendServices.ExamServices
                 CreatedAt = timeNow,
                 IsEntranceExam = request.IsEntranceExam,
                 CourseId = request.CourseId,
-                Duration = request.Duration
+                Duration = request.Duration,
+                MaxScore = 100,
+                RequiredScore = 50,
+                IsDelete = false
             };
 
             await _context.AddAsync(_exam);
@@ -72,7 +76,57 @@ namespace Symphony.Services.BackendServices.ExamServices
             var createdQuestions = new List<QuestionVM>();
             if (request.excelsheet is not null)
             {
-                var file = request.excelsheet;
+                await AddQuestionFromExcelSheet(request.excelsheet, request.SubjectId, createdQuestions, _exam.Id);
+            }
+            var _createdExam = await _context.Exams
+                           .Include(x => x.QuestionExams).ThenInclude(x => x.Question)
+                           .FirstOrDefaultAsync(x => x.Id == _exam.Id);
+
+            return _createdExam.AsVM();
+        }
+
+        public async Task<int> MarkExamAsFinished(int examId)
+        {
+            var _exam = await _context.Exams.FirstOrDefaultAsync(x => x.Id == examId);
+
+            if (_exam.IsDelete == false)
+            {
+                _exam.IsDelete = true;
+            }
+            else _exam.IsDelete = false;
+
+            return await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> UpdateExamDetails(ExamUpdateRequest request)
+        {
+            var _exam = await _context.Exams
+                .Include(x => x.QuestionExams)
+                .FirstOrDefaultAsync(x => x.Id == request.Id);
+
+            _exam.Name = request.Name;
+            _exam.Description = request.Description;
+            _exam.ExamDate = request.ExamDate;
+            _exam.IsEntranceExam = request.IsEntranceExam;
+            _exam.Duration = request.Duration;
+
+            _context.QuestionExams.RemoveRange(_exam.QuestionExams);
+
+            var createdQuestions = new List<QuestionVM>();
+
+            if (request.excelsheet is not null)
+            {
+                await AddQuestionFromExcelSheet(request.excelsheet, _exam.SubjectId, createdQuestions, _exam.Id);
+            };
+
+            return await _context.SaveChangesAsync();
+        }
+
+        private async Task AddQuestionFromExcelSheet(IFormFile excelsheet, int subjectId, List<QuestionVM> createdQuestions, int examId)
+        {
+            if (excelsheet is not null)
+            {
+                var file = excelsheet;
                 var questionList = new List<QuestionCreateRequest>();
                 using (var stream = new MemoryStream())
                 {
@@ -93,7 +147,7 @@ namespace Symphony.Services.BackendServices.ExamServices
                                 Opt4_value = worksheet.Cells[row, 5].Value.ToString().Trim(),
                                 Valid_Opt_key = int.Parse(worksheet.Cells[row, 6].Value.ToString().Trim()),
                                 Score = int.Parse(worksheet.Cells[row, 7].Value.ToString().Trim()),
-                                SubjectId = request.SubjectId
+                                SubjectId = subjectId
                             });
                         }
                     }
@@ -109,28 +163,13 @@ namespace Symphony.Services.BackendServices.ExamServices
                         var _questionExam = new QuestionExam()
                         {
                             QuestionId = createdQuestion.Id,
-                            ExamId = _exam.Id
+                            ExamId = examId
                         };
                         await _context.QuestionExams.AddAsync(_questionExam);
                     }
                     await _context.SaveChangesAsync();
                 }
             }
-            var _createdExam = await _context.Exams
-                           .Include(x => x.QuestionExams).ThenInclude(x => x.Question)
-                           .FirstOrDefaultAsync(x => x.Id == _exam.Id);
-
-            return _createdExam.AsVM();
-        }
-
-        public Task<int> MarkExamAsFinished(int examId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> UpdateExamDetails(ExamUpdateRequest request)
-        {
-            throw new NotImplementedException();
         }
     }
 }
