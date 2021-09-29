@@ -40,6 +40,16 @@ namespace Symphony.BlazorServerApp
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<AppUser>>();
             services.AddDatabaseDeveloperPageExceptionFilter();
 
+            //Add Cor
+            services.AddCors(o => {
+                o.AddPolicy(name: _policyName,
+                            builder =>
+                            {
+                                builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                            }
+                );
+            });
+
             /*
              * Config HttpClient to consumes a web api name symphony with specify uri.
              */
@@ -74,6 +84,7 @@ namespace Symphony.BlazorServerApp
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseCors(_policyName);
 
             app.UseAuthentication();
             app.UseAuthorization();
