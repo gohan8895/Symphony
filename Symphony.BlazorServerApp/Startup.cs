@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Symphony.BlazorServerApp.Areas.Identity;
 using Symphony.BlazorServerApp.Services.AboutServices;
+using Symphony.BlazorServerApp.Services.CourseServices;
 using Symphony.Data.EF;
 using Symphony.Data.Entities;
 using Symphony.Services.BackendServices.EmailSenderService;
@@ -52,6 +53,7 @@ namespace Symphony.BlazorServerApp
              * DI services
              */
             services.AddTransient<IAboutService, AboutService>();
+            services.AddTransient<ICourseService, CourseService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

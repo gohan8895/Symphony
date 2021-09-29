@@ -1,4 +1,5 @@
 ﻿using Symphony.Data.Entities;
+using Symphony.ViewModels.CourseViewModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

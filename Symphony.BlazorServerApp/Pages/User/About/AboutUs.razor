@@ -4,7 +4,7 @@
 @using Symphony.ViewModels.AboutViewModel
 @using Symphony.BlazorServerApp.Services.AboutServices
 
-<main class="main">
+<div class="main">
     <h1 class="fw-bold text-center">About Symphony Institute</h1>
     <div class="container lh-lg">
         <div class="my-5">
@@ -52,7 +52,7 @@
             </div>
         </div>
     </div>
-</main>
+</div>
 @code {
     public IEnumerable<AboutVM> AboutVMs { get; set; } = Array.Empty<AboutVM>();
     public string Openning { get; set; }

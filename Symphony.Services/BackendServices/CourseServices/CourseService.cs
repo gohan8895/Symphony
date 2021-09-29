@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Symphony.Data.EF;
 using Symphony.Data.Entities;
-using Symphony.ViewModels.Consult;
+using Symphony.ViewModels.CourseViewModel;
 using Symphony.ViewModels.Extensions;
 using System;
 using System.Collections.Generic;

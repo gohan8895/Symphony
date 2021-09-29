@@ -1,0 +1,35 @@
+﻿/* Buttons */
+.filter-button {
+    background-color: #ffc029;
+}
+
+.sort-button {
+    background-color: #30c3fc;
+}
+
+.enroll-button {
+    background-color: #f53322;
+}
+
+/* Others */
+.filter-item {
+    border-bottom: 1px solid rgb(171 171 171);
+    padding: 0.5em 0;
+    margin: 0.5em 0;
+}
+
+.filter-sidebar .filter-item:first-child {
+    border-top: 1px solid rgb(171 171 171);
+    margin-top: 0;
+}
+
+.course-row {
+    border-bottom: 1px solid rgb(171 171 171);
+    padding: 0.5em 0;
+    margin: 0.5em 0;
+}
+
+.all-course .course-row:first-child {
+    border-top: 1px solid rgb(171 171 171);
+    margin-top: 0;
+}

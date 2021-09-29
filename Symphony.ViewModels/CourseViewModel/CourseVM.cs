@@ -1,4 +1,5 @@
 ﻿using Symphony.Data.Entities;
+using Symphony.ViewModels.Consult;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,9 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Symphony.ViewModels.Consult
+namespace Symphony.ViewModels.CourseViewModel
 {
-
     public class CourseVM
     {
         public int Id { get; set; }
