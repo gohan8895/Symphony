@@ -5,7 +5,7 @@ using SendGrid;
 using System;
 using SendGrid.Helpers.Mail;
 
-namespace Symphony.Services.ClientSideServices.Services.EmailSenderService
+namespace Symphony.Services.BackendServices.EmailSenderService
 {
     public class EmailSender : IEmailSender
     {
