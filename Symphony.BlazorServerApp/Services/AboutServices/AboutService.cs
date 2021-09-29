@@ -39,7 +39,7 @@ namespace Symphony.BlazorServerApp.Services.AboutServices
 
         public async Task<IEnumerable<AboutVM>> GetAboutsAsync()
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, "Abouts/");
+            var request = new HttpRequestMessage(HttpMethod.Get, "abouts/");
             var client = clientFactory.CreateClient("symphony");
             var response = await client.SendAsync(request);
 
