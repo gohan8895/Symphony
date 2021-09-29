@@ -38,7 +38,7 @@ namespace Symphony.Backend
         }
 
         public IConfiguration Configuration { get; }
-
+        private readonly string _policyName = "MyWebApiPolicy";
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -46,16 +46,22 @@ namespace Symphony.Backend
             services.AddDbContext<SymphonyDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("SymphonyDb")));
 
+            //Add Cor
+            services.AddCors(o => {
+                o.AddPolicy(name: _policyName,
+                            builder =>
+                            {
+                                builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                            }
+                );
+            });
+
             /*
              * Data Injection
              */
-
-        
-            
             services.AddTransient<IPaymentStatusService, PaymentStatusService>();
             services.AddTransient<ICourseRegistrationService, CourseRegistrationService>();
             services.AddTransient<IEnrollmentService, EnrollmentService>();
-
             services.AddTransient<ITeacherService, TeacherService>();
             services.AddTransient<INewsService, NewsService>();
             services.AddTransient<IConsultService, ConsultService>();
