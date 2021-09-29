@@ -25,10 +25,10 @@ namespace Symphony.Data.Extensions
             modelBuilder.Entity<AppUser>().HasData(new AppUser
             {
                 Id = adminId,
-                UserName = "admin",
-                NormalizedUserName = "admin",
+                UserName = "trung.nguyen@gmail.com",
+                NormalizedUserName = "TRUNG.NGUYEN@GMAIL.COM",
                 Email = "trung.nguyen@gmail.com",
-                NormalizedEmail = "trung.nguyen@gmail.com",
+                NormalizedEmail = "TRUNG.NGUYEN@GMAIL.COM",
                 EmailConfirmed = true,
                 PasswordHash = hasher.HashPassword(null, "Abcd1234$"),
                 SecurityStamp = string.Empty,

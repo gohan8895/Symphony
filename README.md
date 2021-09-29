@@ -1,7 +1,7 @@
 # Symphony
 
 --------------------------------------------------------------------
-## Mọi người nên xóa db rồi update-database lại.
+## Ai làm xong nhánh nào thì nhớ xóa nha.
 --------------------------------------------------------------------
 ## Cách thêm email để kích hoạt tài khoản:
   Mở cmd hay terminal lên, cd vào Symphony\Symphony.BlazorServerApp và paste:
