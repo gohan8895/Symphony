@@ -30,7 +30,6 @@ namespace Symphony.BlazorServerApp
         }
 
         public IConfiguration Configuration { get; }
-        private readonly string _policyName = "MyWebApiPolicy";
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -39,16 +38,6 @@ namespace Symphony.BlazorServerApp
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<AppUser>>();
             services.AddDatabaseDeveloperPageExceptionFilter();
-
-            //Add Cor
-            services.AddCors(o => {
-                o.AddPolicy(name: _policyName,
-                            builder =>
-                            {
-                                builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-                            }
-                );
-            });
 
             /*
              * Config HttpClient to consumes a web api name symphony with specify uri.
@@ -84,7 +73,6 @@ namespace Symphony.BlazorServerApp
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseCors(_policyName);
 
             app.UseAuthentication();
             app.UseAuthorization();
