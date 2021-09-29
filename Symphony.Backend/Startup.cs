@@ -26,6 +26,7 @@ using Symphony.Services.BackendServices.TeacherServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Symphony.Backend
@@ -38,7 +39,6 @@ namespace Symphony.Backend
         }
 
         public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -49,11 +49,9 @@ namespace Symphony.Backend
             /*
              * Data Injection
              */
-
             services.AddTransient<IPaymentStatusService, PaymentStatusService>();
             services.AddTransient<ICourseRegistrationService, CourseRegistrationService>();
             services.AddTransient<IEnrollmentService, EnrollmentService>();
-
             services.AddTransient<ITeacherService, TeacherService>();
             services.AddTransient<INewsService, NewsService>();
             services.AddTransient<IConsultService, ConsultService>();

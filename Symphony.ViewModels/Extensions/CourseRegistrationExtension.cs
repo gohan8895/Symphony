@@ -10,20 +10,14 @@ namespace Symphony.ViewModels.Extensions
 {
     public static class CourseRegistrationExtension
     {
-        public static CourseRegistrationVM AsVM(this CourseRegistration courseRegistration) => new CourseRegistrationVM
+        public static CourseRegistrationVM AsVM(this CourseRegistration courseRegistration) => new ()
         {
-            Id = courseRegistration.Id ,
-            UserId = courseRegistration.UserId ,
-            CourseId = courseRegistration.CourseId ,
+            Id = courseRegistration.Id,
+            UserId = courseRegistration.UserId,
+            CourseId = courseRegistration.CourseId,
             IsApproved = courseRegistration.IsApproved,
-            CreatedAt = DateTime.Now ,
-            ExamRequired = courseRegistration.ExamRequired 
+            CreatedAt = DateTime.Now,
+            ExamRequired = courseRegistration.ExamRequired
         };
     }
-
-
-
-
-
 }
-

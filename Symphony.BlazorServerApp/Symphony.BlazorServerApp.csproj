@@ -7,13 +7,17 @@
 
   <ItemGroup>
     <Compile Remove="Data\**" />
-    <Compile Remove="Services\**" />
     <Content Remove="Data\**" />
-    <Content Remove="Services\**" />
     <EmbeddedResource Remove="Data\**" />
-    <EmbeddedResource Remove="Services\**" />
     <None Remove="Data\**" />
-    <None Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Pages\User\About\AboutUs.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Pages\User\About\AboutUs.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,10 +30,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Pages\User\" />
   </ItemGroup>
 
   <ItemGroup>

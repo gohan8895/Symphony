@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Symphony.BlazorServerApp.Areas.Identity;
+using Symphony.BlazorServerApp.Services.AboutServices;
 using Symphony.Data.EF;
 using Symphony.Data.Entities;
 using Symphony.Services.ClientSideServices.Services.EmailSenderService;
@@ -29,7 +30,6 @@ namespace Symphony.BlazorServerApp
         }
 
         public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -38,15 +38,20 @@ namespace Symphony.BlazorServerApp
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<AppUser>>();
             services.AddDatabaseDeveloperPageExceptionFilter();
-            
+
             /*
              * Config HttpClient to consumes a web api name symphony with specify uri.
              */
-            services.AddHttpClient("symphony", c => { c.BaseAddress = new Uri("http://localhost:39699/api/"); });
+            services.AddHttpClient("symphony", c => { c.BaseAddress = new Uri("http://localhost:5050/api/"); });
 
             // Add Email Sending Service
             services.AddScoped<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
+
+            /*
+             * DI services
+             */
+            services.AddTransient<IAboutService, AboutService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

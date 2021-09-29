@@ -12,6 +12,10 @@
     background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
 }
 
+.sidebar-user {
+    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+}
+
 .top-row {
     background-color: #f7f7f7;
     border-bottom: 1px solid #d6d5d5;
@@ -51,7 +55,14 @@
     }
 
     .sidebar {
-        width: 270px;
+        width: 278px;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+    }
+    
+    .sidebar-user {
+        width: 200px;
         height: 100vh;
         position: sticky;
         top: 0;

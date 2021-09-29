@@ -1,8 +1,5 @@
-﻿using Symphony.ViewModels.Consult;
-using System;
+﻿using Symphony.ViewModels.AboutViewModel;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Symphony.Services.BackendServices.AboutServices
@@ -13,6 +10,6 @@ namespace Symphony.Services.BackendServices.AboutServices
         Task<IEnumerable<AboutVM>> GetAboutVMsAsync();
         Task<AboutVM> CreateAboutAsync(CreateAboutVM aboutVM);
         Task<AboutVM> UpdateAboutAsync(UpdateAboutVM aboutVM);
-        Task DeleteAboutAsync(int id);
+        Task<AboutVM> DeleteAboutAsync(int id);
     }
 }

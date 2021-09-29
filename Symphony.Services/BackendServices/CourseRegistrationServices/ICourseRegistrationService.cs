@@ -8,29 +8,13 @@ using System.Threading.Tasks;
 
 namespace Symphony.Services.BackendServices.CourseRegistrationServices
 {
-   public  interface ICourseRegistrationService
+    public interface ICourseRegistrationService
     {
-
-
-      
-         Task<IEnumerable<CourseRegistrationVM>> GetAllCourseRegistrationsAsync();
-         Task<CourseRegistrationVM> GetCourseRegistrationVMAsync(int courseRegisId);
-        Task<IEnumerable<CourseRegistrationWithData>> GetCourseRegistrationWithDatasVMAsync();
-        Task<CourseRegistrationVM> CreateCourseRegistrationAsync(CreateCourseRegistrationVM courseRegistration);  
+        Task<IEnumerable<CourseRegistrationVM>> GetAllCourseRegistrationVMsAsync();
+        Task<IEnumerable<CourseRegistrationWithDataVM>> GetCourseRegistrationWithDataVMsAsync();
+        Task<CourseRegistrationVM> GetCourseRegistrationVMAsync(int id);
+        Task<CourseRegistrationVM> CreateCourseRegistrationAsync(CreateCourseRegistrationVM courseRegistration);
         Task<CourseRegistrationVM> UpdateCourseRegistrationAsync(UpdateCourseRegistrationVM courseRegistration);
-        Task<CourseRegistrationVM> DeleteCourseRegistrationAsync(int courseRegistrationId); 
+        Task<CourseRegistrationVM> DeleteCourseRegistrationAsync(int id);
     }
 }
-        
-      
-
-
-        
-        
-        
-
-            
-    
-
-
-

@@ -1,0 +1,24 @@
+﻿.main {
+    font-size: 20px;
+}
+
+.main img {
+    border-radius: 1em;
+    width: 100%;
+    height: auto;
+}
+
+/*
+.grid-container {
+    margin-top: 2em;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-auto-rows: max(auto);
+    row-gap: 3em;
+    column-gap: 3em;
+}
+
+
+.grid-item {
+    margin: auto;
+} */
