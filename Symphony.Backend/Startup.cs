@@ -91,6 +91,7 @@ namespace Symphony.Backend
             }
 
             app.UseRouting();
+            app.UseCors(_policyName);
 
             app.UseAuthorization();
 
