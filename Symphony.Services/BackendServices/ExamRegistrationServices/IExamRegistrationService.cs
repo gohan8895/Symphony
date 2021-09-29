@@ -10,12 +10,14 @@ namespace Symphony.Services.BackendServices.ExamRegistrationServices
 {
     public interface IExamRegistrationService
     {
-        Task<ExamRegistrationVM> GetExamRegistrationbyExamIdAsync(int id);
+        Task<IEnumerable<ExamRegistrationVM>> GetExamRegistrationbyExamIdAsync(int examId);
 
         Task<IEnumerable<ExamRegistrationVM>> GetExamRegistrationsAsync();
 
-        Task<ExamRegistrationVM> CreateExamRegistrationAsync(ExamRegistrationCreateRequest request);
+        Task<IEnumerable<ExamRegistrationVM>> CreateExamRegistrationAsync(ExamRegistrationCreateRequest request);
 
         Task<int> UpdateExamRegistraion(ExamRegistrationUpdateRequest request);
+
+        Task<int> DeleteExamRegistraionAsync(int examId);
     }
 }

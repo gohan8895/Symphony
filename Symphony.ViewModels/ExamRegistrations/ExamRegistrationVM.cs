@@ -14,6 +14,7 @@ namespace Symphony.ViewModels.ExamRegistrations
         public int ExamId { get; set; }
         public DateTime CreateAt { get; set; }
         public Guid UserId { get; set; }
+        public string StudentFullName { get; set; }
     }
 
     public class ExamRegistrationCreateRequest
@@ -24,7 +25,6 @@ namespace Symphony.ViewModels.ExamRegistrations
 
     public class ExamRegistrationUpdateRequest
     {
-        public int Id { get; set; }
         public int ExamId { get; set; }
         public IFormFile excelsheet { get; set; }
     }

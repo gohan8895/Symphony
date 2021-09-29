@@ -11,14 +11,15 @@ namespace Symphony.ViewModels.Extensions
 {
     public static class ExamRegistrationExtension
     {
-        public static ExamRegistrationVM AsConsultVM(this ExamRegistration regis)
+        public static ExamRegistrationVM AsVM(this ExamRegistration regis)
         {
             return new ExamRegistrationVM
             {
                 Id = regis.Id,
                 ExamId = regis.ExamId,
                 CreateAt = regis.CreateAt,
-                UserId = regis.UserId
+                UserId = regis.UserId,
+                StudentFullName = regis.AppUser.FirstName + " " + regis.AppUser.LastName
             };
         }
     }
