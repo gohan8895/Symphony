@@ -1,4 +1,4 @@
-﻿namespace Symphony.Services.ClientSideServices.Services.EmailSenderService
+﻿namespace Symphony.Services.BackendServices.EmailSenderService
 {
     public class AuthMessageSenderOptions
     {

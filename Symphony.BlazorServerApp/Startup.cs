@@ -14,7 +14,7 @@ using Symphony.BlazorServerApp.Areas.Identity;
 using Symphony.BlazorServerApp.Services.AboutServices;
 using Symphony.Data.EF;
 using Symphony.Data.Entities;
-using Symphony.Services.ClientSideServices.Services.EmailSenderService;
+using Symphony.Services.BackendServices.EmailSenderService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
