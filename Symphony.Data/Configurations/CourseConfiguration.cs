@@ -18,6 +18,7 @@ namespace Symphony.Data.Configurations
 
             builder.Property(x => x.Name).HasMaxLength(512).IsRequired();
             builder.Property(x => x.Description).IsRequired();
+            builder.Property(x => x.DetailDescription).IsRequired(false);
             builder.Property(x => x.StartDate).IsRequired();
             builder.Property(x => x.EndDate).IsRequired();
             builder.Property(x => x.Price).IsRequired();

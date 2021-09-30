@@ -17,7 +17,7 @@
             {
 
                 <div class="accordion-item">
-                    <h2 class="accordion-header fw-bolder"  id="heading-@item.Id">
+                    <h2 class="accordion-header fw-bolder" id="heading-@item.Id">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@item.Id" aria-expanded="false" aria-controls="collapse-@item.Id">
                             @item.Question
                         </button>
@@ -29,11 +29,8 @@
                     </div>
                 </div>
             }
-
-
         </div>
     }
-
 </main>
 @code {
     private IEnumerable<FAQVM> Data = null;
@@ -41,9 +38,6 @@
 
     protected async override Task OnInitializedAsync()
     {
-
-
         Data = await faqService.GetFaqsAsync();
-
     }
 }

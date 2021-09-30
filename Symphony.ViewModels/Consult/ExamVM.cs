@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Symphony.Data.Entities;
+using Symphony.ViewModels.CourseViewModel;
 using Symphony.ViewModels.ExamRegistrations;
 using System;
 using System.Collections.Generic;
