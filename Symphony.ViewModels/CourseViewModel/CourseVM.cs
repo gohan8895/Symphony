@@ -1,4 +1,6 @@
-﻿using Symphony.Data.Entities;
+﻿using Microsoft.AspNetCore.Http;
+using Symphony.Data.Entities;
+using Symphony.ViewModels.Consult;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,14 +9,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Symphony.ViewModels.Consult
+namespace Symphony.ViewModels.CourseViewModel
 {
-
     public class CourseVM
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        #nullable enable
+        public string? DetailDescription { get; set; }
+        #nullable disable
 
         [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; }
@@ -32,6 +36,7 @@ namespace Symphony.ViewModels.Consult
 
         [DisplayName("Basic Course")]
         public bool IsBasic { get; set; }
+        public string ImagePath { get; set; }
 
         [DisplayName("Create Date")]
         public DateTime CreatedAt { get; set; }
@@ -49,13 +54,14 @@ namespace Symphony.ViewModels.Consult
 
     public class CourseCreateRequest
     {
-        public int Id { get; set; }
-
         [Required]
         public string Name { get; set; }
 
         [Required]
         public string Description { get; set; }
+        #nullable enable
+        public string? DetailDescription { get; set; }
+        #nullable disable
 
         [Required]
         [DataType(DataType.Date)]
@@ -65,6 +71,9 @@ namespace Symphony.ViewModels.Consult
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
 
+#nullable enable
+        public IFormFile? Image { get; set; }
+#nullable disable
         [Required]
         public bool IsExtra { get; set; }
 
@@ -83,6 +92,10 @@ namespace Symphony.ViewModels.Consult
         [Required]
         public string Description { get; set; }
 
+        #nullable enable
+        public string? DetailDescription { get; set; }
+        #nullable disable
+
         [Required]
         [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }
@@ -90,6 +103,10 @@ namespace Symphony.ViewModels.Consult
         [Required]
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
+
+        #nullable enable
+        public IFormFile? Image { get; set; }
+        #nullable disable
 
         [Required]
         public double DiscountedPrice { get; set; }

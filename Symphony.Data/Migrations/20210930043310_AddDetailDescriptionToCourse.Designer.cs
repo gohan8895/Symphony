@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Symphony.Data.EF;
 
 namespace Symphony.Data.Migrations
 {
     [DbContext(typeof(SymphonyDBContext))]
-    partial class SymphonyDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210930043310_AddDetailDescriptionToCourse")]
+    partial class AddDetailDescriptionToCourse
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -241,7 +243,7 @@ namespace Symphony.Data.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "812de486-8704-4b8c-bcf2-ccd552910807",
+                            ConcurrencyStamp = "7dfb8ec5-350f-4345-8fcc-3f5ed6e75926",
                             Description = "Administrator Role",
                             Name = "admin",
                             NormalizedName = "ADMIN"
@@ -349,7 +351,7 @@ namespace Symphony.Data.Migrations
                         {
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0591a69c-814e-46ee-9df5-7edeb77c0406",
+                            ConcurrencyStamp = "d2b0672d-22d2-49bd-81a7-44602bce944f",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DOB = new DateTime(1995, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "trung.nguyen@gmail.com",
@@ -360,7 +362,7 @@ namespace Symphony.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "TRUNG.NGUYEN@GMAIL.COM",
                             NormalizedUserName = "TRUNG.NGUYEN@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFrAz9s92VM0N1akGJBAfmkV0TDJTxE5nwDKzqM0fYjn3P1HLgMlam/bj1Q0wyFhCA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEtsSZL39bHB2+gu5zVtwgKNMBsc2tv1524+RptJshadiAH8PAMzV4pxMoWqaO7EgQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -676,6 +678,12 @@ namespace Symphony.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<Guid>("AppUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AppUserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
 
@@ -690,9 +698,9 @@ namespace Symphony.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ExamId");
+                    b.HasIndex("AppUserId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("ExamId");
 
                     b.ToTable("ExamRegistrations");
                 });
@@ -1273,19 +1281,15 @@ namespace Symphony.Data.Migrations
 
             modelBuilder.Entity("Symphony.Data.Entities.ExamRegistration", b =>
                 {
+                    b.HasOne("Symphony.Data.Entities.AppUser", null)
+                        .WithMany("ExamRegistrations")
+                        .HasForeignKey("AppUserId");
+
                     b.HasOne("Symphony.Data.Entities.Exam", "Exam")
                         .WithMany("ExamRegistrations")
                         .HasForeignKey("ExamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Symphony.Data.Entities.AppUser", "AppUser")
-                        .WithMany("ExamRegistrations")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
 
                     b.Navigation("Exam");
                 });

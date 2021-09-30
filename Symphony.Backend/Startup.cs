@@ -82,6 +82,8 @@ namespace Symphony.Backend
             }
 
             app.UseRouting();
+            // to access https:/localhost:5050/images/...
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 

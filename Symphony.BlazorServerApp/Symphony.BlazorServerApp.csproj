@@ -13,18 +13,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Controls\CourseComponents\AllCourses.razor.css" />
     <None Remove="Pages\User\About\AboutUs.razor.css" />
     <None Remove="Pages\User\Faq\Faq.razor.css" />
     <None Remove="Shared\User\Footer.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Controls\CourseComponents\AllCourses.razor.css" />
     <Content Include="Pages\User\About\AboutUs.razor.css" />
     <Content Include="Pages\User\Faq\Faq.razor.css" />
     <Content Include="Shared\User\Footer.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Humanizer" Version="2.11.10" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.10" />
@@ -37,8 +40,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Symphony.Backend\Symphony.Backend.csproj" />
     <ProjectReference Include="..\Symphony.Data\Symphony.Data.csproj" />
     <ProjectReference Include="..\Symphony.Services\Symphony.Services.csproj" />
+    <ProjectReference Include="..\Symphony.Utilities\Symphony.Utilities.csproj" />
   </ItemGroup>
 
 </Project>

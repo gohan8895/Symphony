@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Symphony.Data.EF;
 using Symphony.Data.Entities;
-using Symphony.ViewModels.Consult;
+using Symphony.ViewModels.CourseViewModel;
 using Symphony.ViewModels.Extensions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,6 +54,7 @@ namespace Symphony.Services.BackendServices.CourseServices
             {
                 Name = request.Name,
                 Description = request.Description,
+                DetailDescription = request.DetailDescription,
                 StartDate = request.StartDate,
                 EndDate = request.EndDate,
                 Price = coursePrice,
@@ -64,6 +66,24 @@ namespace Symphony.Services.BackendServices.CourseServices
                 IsShown = true
             };
 
+            if (request.Image is not null)
+            {
+                string uploadTime = DateTime.Now.ToString("MMddyyyHHmmss");
+                var imgName = uploadTime + "_" + Path.GetFileName(request.Image.FileName);
+                var imgPath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwwroot\images", imgName);
+
+                await using (var fileStream = new FileStream(imgPath, FileMode.Create))
+                {
+                    await request.Image.CopyToAsync(fileStream);
+                }
+
+                _course.ImagePath = $"images/{imgName}";
+            }
+            else
+            {
+                _course.ImagePath = @"wwwroot/images/defaultCourse.png";
+            }
+
             await _context.Courses.AddAsync(_course);
             await _context.SaveChangesAsync();
 
@@ -73,6 +93,7 @@ namespace Symphony.Services.BackendServices.CourseServices
             var _createdCourse = await _context.Courses
                                 .Include(x => x.Subject_Courses).ThenInclude(x => x.Subject)
                                 .FirstOrDefaultAsync(x => x.Id == _course.Id);
+
             return _createdCourse.AsCourseWithSubjects();
         }
 
@@ -80,14 +101,37 @@ namespace Symphony.Services.BackendServices.CourseServices
         {
             var _course = await _context.Courses
                         .FirstOrDefaultAsync(x => x.Id == request.Id);
+
+            if (_course is null) return 0;
+
             _course.Name = request.Name;
             _course.Description = request.Description;
+            _course.DetailDescription = request.DetailDescription;
             _course.StartDate = request.StartDate;
             _course.EndDate = request.EndDate;
             _course.DiscountedPrice = request.DiscountedPrice;
             _course.IsBasic = request.IsBasic;
             _course.IsExtra = request.IsExtra;
             _course.UpdatedAt = DateTime.Now;
+
+            if (request.Image is not null)
+            {
+                string uploadTime = DateTime.Now.ToString("MMddyyyHHmmss");
+                var imgName = uploadTime + "_" + Path.GetFileName(request.Image.FileName);
+                var imgPath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwwroot\images", imgName);
+
+                await using (var fileStream = new FileStream(imgPath, FileMode.Create))
+                {
+                    await request.Image.CopyToAsync(fileStream);
+                }
+
+                _course.ImagePath = imgPath;
+            }
+            else
+            {
+                _course.ImagePath = _course.ImagePath;
+            }
+
             return await _context.SaveChangesAsync();
         }
 
@@ -95,6 +139,9 @@ namespace Symphony.Services.BackendServices.CourseServices
         {
             var _course = await _context.Courses
                         .FirstOrDefaultAsync(x => x.Id == courseId);
+
+            if (_course is null) return 0;
+
             var status = _course.IsShown;
             if (status == true)
             {
@@ -109,6 +156,8 @@ namespace Symphony.Services.BackendServices.CourseServices
         {
             var _course = await _context.Courses
                         .FirstOrDefaultAsync(x => x.Id == courseId);
+
+            if (_course is null) return 0;
 
             _context.Subject_Courses.RemoveRange(_course.Subject_Courses);
             await AddSubjectsToCourse(courseId, request);
