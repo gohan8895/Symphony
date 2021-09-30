@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Symphony.Data.EF;
 
 namespace Symphony.Data.Migrations
 {
     [DbContext(typeof(SymphonyDBContext))]
-    partial class SymphonyDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210929144617_AddImageToCourse")]
+    partial class AddImageToCourse
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -241,7 +243,7 @@ namespace Symphony.Data.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "7dfb8ec5-350f-4345-8fcc-3f5ed6e75926",
+                            ConcurrencyStamp = "dcebd616-2030-463e-a60b-511660c2426d",
                             Description = "Administrator Role",
                             Name = "admin",
                             NormalizedName = "ADMIN"
@@ -349,7 +351,7 @@ namespace Symphony.Data.Migrations
                         {
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d2b0672d-22d2-49bd-81a7-44602bce944f",
+                            ConcurrencyStamp = "cd32d97c-cb0a-4307-9652-48c22666b222",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DOB = new DateTime(1995, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "trung.nguyen@gmail.com",
@@ -360,7 +362,7 @@ namespace Symphony.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "TRUNG.NGUYEN@GMAIL.COM",
                             NormalizedUserName = "TRUNG.NGUYEN@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEtsSZL39bHB2+gu5zVtwgKNMBsc2tv1524+RptJshadiAH8PAMzV4pxMoWqaO7EgQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDm71Sij5H1pZy4owbTDMSRZ3aqOHlw+z9BaIP4FclwQQurPeezZ0KdCYZYa5GcGig==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -457,9 +459,6 @@ namespace Symphony.Data.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DetailDescription")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("DiscountedPrice")

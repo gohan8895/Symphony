@@ -1,0 +1,73 @@
+﻿/* Buttons */
+.filter-button {
+    background-color: #ffc029;
+}
+
+.sort-button {
+    background-color: #30c3fc;
+}
+
+.enroll-button {
+    background-color: #f53322;
+}
+
+/* Others */
+.filter-item {
+    border-bottom: 1px solid #ABABAB;
+    padding: 1em 0;
+    font-weight: bold;
+}
+
+    .filter-item > .form-check {
+        margin: .5em 0;
+    }
+    
+    .filter-item > .form-check > input {
+        border: 3px solid black;
+    }
+
+.filter-sidebar .filter-item:first-child {
+    border-top: 1px solid #ABABAB;
+    margin-top: 0;
+}
+
+/*All Course*/
+.all-course .course-row:first-child {
+    border-top: 1px solid #ABABAB;
+    margin-top: 0;
+}
+
+.sort-button-item {
+    display: flex;
+    align-items: center;
+}
+
+/*Each course row*/
+
+.course-row {
+    border-bottom: 1px solid #ABABAB;
+    padding: 0.5em 0;
+    margin: 0.5em 0;
+}
+
+.course-row > .row {
+    min-height: 10em;
+}
+
+.course-row > .row > .col-3, .col-7, col-2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+    .course-row > .row > .col-3 > img {
+        width: auto;
+        height: 100%;
+    }
+
+    .col-2-row {
+        height: 100%;
+        align-content: space-evenly;
+    }
+
+

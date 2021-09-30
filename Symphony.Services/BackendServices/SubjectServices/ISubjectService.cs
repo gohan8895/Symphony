@@ -10,20 +10,8 @@ namespace Symphony.Services.BackendServices.SubjectServices
 {
     public interface ISubjectService
     {
-
         Task<SubjectVM> GetSubjectVMAsync(int id);
 
- 
-  
-         
-     
-       
-       
-
-
-
-
-        
         Task<IEnumerable<SubjectVM>> GetSubjectVMsAsync();
 
         Task<SubjectVM> CreateSubjectVMAsync(SubjectCreateRequest createRequest);

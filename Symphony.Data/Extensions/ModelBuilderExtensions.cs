@@ -42,6 +42,56 @@ namespace Symphony.Data.Extensions
                 RoleId = roleId,
                 UserId = adminId
             });
+
+            modelBuilder.Entity<About>().HasData(new About
+            {
+                Id = 1,
+                Title = "Opening",
+                Content = "Founded in 2000 in the heart of London, <b>Symphony Ltd.</b> is London's leading private institute, with more than 1000 staffs and 2000 students from different countries. We are a diverse community with the freedom and courage to challenge, to question and to think differently.",
+                IsShown = true
+            },
+            new About
+            {
+                Id = 2,
+                Title = "First Question",
+                Content = "Who we are",
+                IsShown = true
+            },
+            new About
+            {
+                Id = 3,
+                Title = "First Answer",
+                Content = "Symphony Institute is a diverse global community of world-class academics, students, industry links, external partners, and alumni. Our powerful collective of individuals and institutes work together to explore new possibilities.",
+                IsShown = true
+            },
+            new About
+            {
+                Id = 4,
+                Title = "Second Question",
+                Content = "Symphony's vision and impact",
+                IsShown = true
+            },
+            new About
+            {
+                Id = 5,
+                Title = "Second Answer",
+                Content = "Symphony Institute is a diverse global community of world-class academics, students, industry links, external partners, and alumni. Our powerful collective of individuals and institutes work together to explore new possibilities.",
+                IsShown = true
+            },
+            new About
+            {
+                Id = 6,
+                Title = "Third Question",
+                Content = "What we has to offer",
+                IsShown = true
+            },
+            new About
+            {
+                Id = 7,
+                Title = "Third Answer",
+                Content = "Symphony Institute provides many courses on subject about programming languages like C Sharp, Java, C++, Javascript, Php, Python, Ruby and more... ",
+                IsShown = true
+            });
         }
     }
 }

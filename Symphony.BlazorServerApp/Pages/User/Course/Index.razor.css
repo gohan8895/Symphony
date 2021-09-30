@@ -1,35 +1,31 @@
-﻿/* Buttons */
-.filter-button {
-    background-color: #ffc029;
+﻿.starter-courses h4:first-child {
+    border-top: 1px solid #ABABAB;
+    padding: 1em 0;
 }
 
-.sort-button {
-    background-color: #30c3fc;
+.card-item {
+    width: 85%;
 }
 
-.enroll-button {
-    background-color: #f53322;
+.card-item h5 {
+    font-weight: bold;
 }
 
-/* Others */
-.filter-item {
-    border-bottom: 1px solid rgb(171 171 171);
-    padding: 0.5em 0;
-    margin: 0.5em 0;
+.card {
+    min-height: 28em;
 }
 
-.filter-sidebar .filter-item:first-child {
-    border-top: 1px solid rgb(171 171 171);
-    margin-top: 0;
+.card-body {
+    display:flex;
+    flex-direction: column;
+    align-content: space-evenly;
+    justify-content: space-evenly;
 }
 
-.course-row {
-    border-bottom: 1px solid rgb(171 171 171);
-    padding: 0.5em 0;
-    margin: 0.5em 0;
-}
-
-.all-course .course-row:first-child {
-    border-top: 1px solid rgb(171 171 171);
-    margin-top: 0;
+.detail-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFE855;
 }

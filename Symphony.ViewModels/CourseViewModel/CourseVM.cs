@@ -1,4 +1,5 @@
-﻿using Symphony.Data.Entities;
+﻿using Microsoft.AspNetCore.Http;
+using Symphony.Data.Entities;
 using Symphony.ViewModels.Consult;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,9 @@ namespace Symphony.ViewModels.CourseViewModel
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        #nullable enable
+        public string? DetailDescription { get; set; }
+        #nullable disable
 
         [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; }
@@ -32,6 +36,7 @@ namespace Symphony.ViewModels.CourseViewModel
 
         [DisplayName("Basic Course")]
         public bool IsBasic { get; set; }
+        public string ImagePath { get; set; }
 
         [DisplayName("Create Date")]
         public DateTime CreatedAt { get; set; }
@@ -49,13 +54,14 @@ namespace Symphony.ViewModels.CourseViewModel
 
     public class CourseCreateRequest
     {
-        public int Id { get; set; }
-
         [Required]
         public string Name { get; set; }
 
         [Required]
         public string Description { get; set; }
+        #nullable enable
+        public string? DetailDescription { get; set; }
+        #nullable disable
 
         [Required]
         [DataType(DataType.Date)]
@@ -65,6 +71,9 @@ namespace Symphony.ViewModels.CourseViewModel
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
 
+#nullable enable
+        public IFormFile? Image { get; set; }
+#nullable disable
         [Required]
         public bool IsExtra { get; set; }
 
@@ -83,6 +92,10 @@ namespace Symphony.ViewModels.CourseViewModel
         [Required]
         public string Description { get; set; }
 
+        #nullable enable
+        public string? DetailDescription { get; set; }
+        #nullable disable
+
         [Required]
         [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }
@@ -90,6 +103,10 @@ namespace Symphony.ViewModels.CourseViewModel
         [Required]
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
+
+        #nullable enable
+        public IFormFile? Image { get; set; }
+        #nullable disable
 
         [Required]
         public double DiscountedPrice { get; set; }

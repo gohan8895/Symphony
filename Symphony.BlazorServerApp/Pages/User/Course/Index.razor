@@ -4,28 +4,32 @@
 @using Symphony.ViewModels.CourseViewModel
 @using Symphony.BlazorServerApp.Services.CourseServices
 @using Symphony.Utilities.UtitlityClasses
+@using Symphony.BlazorServerApp.Controls.CourseComponents
 
 <div class="container">
     <h2 class="fw-bold mb-5">Courses</h2>
     <div class="starter-courses mb-5 border-bottom pb-5">
-        <h4 class="fw-bold mb-2">Courses to get you started</h4>
+        <h4 class="fw-bold">Courses to get you started</h4>
         <div id="carouselExampleCaptions" class="carousel carousel-dark slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 @foreach (var carouselCourse in CarouselCourses)
                 {
                     <div class="carousel-item @(carouselCount == 0 ? "active" : "")">
-                        <div class="row w-75 mx-auto">
+                        <div class="row mx-auto card-item">
                             @foreach (var basicCourse in carouselCourse)
                             {
                                 <div class="col-4">
-                                    <div class="card border-0" style="width: 15em;">
-                                        <img src="images/bookshelf.jpg" class="btn d-block w-100" alt="...">
+                                    <div class="card border-0 w-100" style="width: 15em;">
+                                        <img src="http:/localhost:5050/@basicCourse.ImagePath" class="btn d-block w-100" alt="...">
                                         <div class="card-body fw-bold">
                                             <h5 class="card-title">@basicCourse.Name</h5>
                                             <p class="card-text">
                                                 @basicCourse.Description
                                             </p>
-                                            <a href="course/@basicCourse.Id" class="btn btn-primary">View Detail</a>
+                                            <a href="course/@basicCourse.Id" class="btn detail-button">
+                                                View Detail
+                                                <span class="material-icons ms-2">visibility</span>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -47,163 +51,7 @@
             </button>
         </div>
     </div>
-    <div class="all-courses">
-        <h2 class="fw-bold mb-5">All Courses</h2>
-        <div class="row">
-            <!-- Fiter, sort buttons and number of results -->
-            <div class="col-12 mb-5 d-flex flex-row align-items-center justify-content-between">
-                <div class="d-flex flex-row align-items-center">
-                    <button class="btn filter-button border-2 me-2">Hide Filter</button>
-                    <div class="dropdown">
-                        <button class="btn sort-button dropdown-toggle" type="button" id="dropdownMenuButton1"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                            Sort By
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="#">Course Name</a></li>
-                            <li><a class="dropdown-item" href="#">Price</a></li>
-                            <li><a class="dropdown-item" href="#">Duration</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="">100 results</div>
-            </div>
-            <!-- Fiter sidebar -->
-            <aside class="col-lg-2 border-end filter-sidebar">
-                <div class="filter-item">
-                    <h4>Course Duration</h4>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            0 - 10 Hours
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            10 - 20 Hours
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            20 - 30 Hours
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            Over 30 Hours
-                        </label>
-                    </div>
-                </div>
-                <div class="filter-item">
-                    <h4>Level</h4>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            Beginner
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            Advanced
-                        </label>
-                    </div>
-                </div>
-                <div class="filter-item">
-                    <h4>Subject</h4>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            Java
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            C Sharp
-                        </label>
-                    </div>
-                </div>
-                <div class="filter-item">
-                    <h4>Price</h4>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            0 - 400
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            400 - 1000
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            Over 1000
-                        </label>
-                    </div>
-                </div>
-            </aside>
-            <!-- Courses -->
-            <div class="col-lg-10 all-course">
-                <div class="course-row">
-                    <div class="row">
-                        <div class="col-3">
-                            <img class="w-100" src="images/bookshelf.jpg">
-                        </div>
-                        <div class="col-7">
-                            <h3>Lorem ipsum dolor sit amet.</h3>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt suscipit distinctio eveniet
-                                magni numquam, libero ducimus iste quis. Illo, magni!
-                            </p>
-                            <p class="text-sm">Teacher</p>
-                        </div>
-                        <div class="col-2">
-                            <div class="row mx-auto h-100 align-items-center">
-                                <div class="col">
-                                    <h3 class="w-100 text-center">20$</h3>
-                                </div>
-                                <div class="col">
-                                    <button class="btn enroll-button mt-auto fw-bold text-white w-100">Enroll</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="course-row">
-                    <div class="row">
-                        <div class="col-3">
-                            <img class="w-100" src="images/bookshelf.jpg">
-                        </div>
-                        <div class="col-7">
-                            <h3>Lorem ipsum dolor sit amet.</h3>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt suscipit distinctio eveniet
-                                magni numquam, libero ducimus iste quis. Illo, magni!
-                            </p>
-                            <p class="text-sm">Teacher</p>
-                        </div>
-                        <div class="col-2">
-                            <div class="row mx-auto h-100 align-items-center">
-                                <div class="col">
-                                    <h3 class="w-100 text-center">20$</h3>
-                                </div>
-                                <div class="col">
-                                    <button class="btn enroll-button mt-auto fw-bold text-white w-100">Enroll</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <AllCourses Courses="@Courses" />
 </div>
 
 @code {
@@ -213,6 +61,7 @@
     private bool ShouldRender;
     private int carouselCount = 0;
     #endregion
+
 
     protected async override Task OnInitializedAsync()
     {

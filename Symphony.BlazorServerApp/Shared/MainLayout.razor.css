@@ -2,6 +2,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    color: #2e2e2e;
 }
 
 .main {
@@ -14,6 +15,7 @@
 
 .sidebar-user {
     background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    box-shadow: 5px 5px 10px grey;
 }
 
 .top-row {
