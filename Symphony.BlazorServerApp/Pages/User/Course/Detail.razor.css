@@ -1,0 +1,45 @@
+.presentCourse > img {
+    width: 50%;
+}
+
+.presentCourse > h3 {
+    font-weight: 500;
+}
+
+.item-info {
+    display: flex;
+    justify-content: normal;
+    align-items: center;
+    color: #3f8fff;
+    padding: 1em 1em 1em 0;
+    font-weight: bold;
+}
+
+.item-info > p {
+    margin: 0;
+}
+
+.desc {
+    word-wrap: normal;
+    line-height: 2em;
+    font-weight: 400;
+    max-height: 20em;
+}
+
+.enroll-tab {
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    padding: 1em;
+}
+
+.enroll-tab > .btn {
+    background-color: #ff4b4b;
+    color: white;
+    font-size: 1.5em;
+}
+
+.enroll-tab li {
+text-decoration: none;
+list-style-type:none;
+}

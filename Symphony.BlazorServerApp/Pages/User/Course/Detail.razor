@@ -1,19 +1,73 @@
 @page "/courses/{id:int}"
+@inject ICourseService courseService
+@using Symphony.BlazorServerApp.Services.CourseServices
+@using Symphony.ViewModels.CourseViewModel
 
 <div class="container">
-    <div class="presentCourse">
-        <img
-        <h1 class="fw-bold text-center">Title here</h1>
-        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquam, earum.</p>
+    <div class="presentCourse mt-3">
+        <div class="row">
+            <div class="col-lg-9 p-3">
+                <h1 class="fw-bold mb-2">@Course.Name</h1>
+                <h3>@Course.Description</h3>
+                <div class="item-info">
+                    <span class="material-icons pe-2">update</span>
+                    <p class="pe-5">Last Updated @Course.UpdatedAt.ToShortDateString()</p>
+                    <span class="material-icons pe-2">language</span>
+                    <p class="pe-5">English</p>
+                    <span class="material-icons pe-2">access_time</span>
+                    <p class="pe-5">Duration: @duration <small>Hours</small></p>
+                </div>
+                <h3 class="fw-bold mb-5">Description</h3>
+                <div class="desc">
+                    <p>@Course.DetailDescription</p>
+                </div>
+            </div>
+            <div class="col-lg-3 shadow-lg enroll-tab">
+                <img src="http:/localhost:5050/@Course.ImagePath" class="w-100"/>
+                <h2 class="fw-bolder text-center">$ @Course.Price</h2>
+                <AuthorizeView>
+                    <Authorized>
+                        <a class="btn" href="course/register/@Course.Id">Enroll</a>
+                    </Authorized>
+                    <NotAuthorized>
+                        <a class="btn" href="Identity/Account/Login?returnUrl=/courses/@Course.Id">Login or Register</a>
+                    </NotAuthorized>
+                </AuthorizeView>
+                <div class="fs-6">
+                    <h4 class="fw-bold">This course includes:</h4>
+                    <ul>
+                        @foreach (var sub in Subjects)
+                        {
+                            <li class="d-flex align-items-center"><span class="material-icons pe-2">book</span>@sub.Name</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="additional-info">
+        <h2 class="fw-bold mb-3">Who is this course for?</h2>
+        <h4>
+            @(Course.IsBasic ? "This course is designed for the absolute beginner, meaning no previous programming experience is required." : "<a href=\"#\">Advanced. You need to take an entrance exam to enroll.</a>")
+        </h4>
     </div>
 </div>
 
 @code {
-[Parameter]
-public int id { get; set; }
+    [Parameter]
+    public int id { get; set; }
+    private CourseWithSubjects Course { get; set; } = new();
+    private IEnumerable<SimpleSubjectVM> Subjects { get; set; } = Array.Empty<SimpleSubjectVM>();
+    private int duration;
 
-protected async override Task OnInitializedAsync()
-{
+    protected async override Task OnInitializedAsync()
+    {
+        Course = await courseService.GetCourseVMAsync(id);
+        Subjects = Course.SimpleSubjectVMs;
 
-}
+        foreach (var sub in Subjects)
+        {
+            duration += sub.Duration;
+        }
+    }
 }

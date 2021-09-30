@@ -169,7 +169,14 @@
                                     <h3 class="w-100 text-center">@course.Price $</h3>
                                 </div>
                                 <div class="col-12">
-                                    <button class="btn enroll-button mt-auto fw-bold text-white w-100">Enroll</button>
+                                    <AuthorizeView>
+                                        <Authorized>
+                                            <a class="btn enroll-button mt-auto fw-bold text-white w-100" href="course/register/@course.Id">Enroll</a>
+                                        </Authorized>
+                                        <NotAuthorized>
+                                            <a class="btn enroll-button mt-auto fw-bold text-white w-100" href="Identity/Account/Login?returnUrl=/courses">Login or Register</a>
+                                        </NotAuthorized>
+                                    </AuthorizeView>
                                 </div>
                             </div>
                         </div>
