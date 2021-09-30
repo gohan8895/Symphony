@@ -190,10 +190,10 @@ namespace Symphony.Data.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "ed4acdc5-4cc7-4488-89ba-712067db2425",
+                            ConcurrencyStamp = "812de486-8704-4b8c-bcf2-ccd552910807",
                             Description = "Administrator Role",
-                            Name = "trung.nguyen@gmail.com",
-                            NormalizedName = "trung.nguyen@gmail.com"
+                            Name = "admin",
+                            NormalizedName = "ADMIN"
                         });
                 });
 
@@ -298,7 +298,7 @@ namespace Symphony.Data.Migrations
                         {
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "43930390-4c0a-4e14-b392-6d8c17f6a90e",
+                            ConcurrencyStamp = "0591a69c-814e-46ee-9df5-7edeb77c0406",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DOB = new DateTime(1995, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "trung.nguyen@gmail.com",
@@ -307,14 +307,14 @@ namespace Symphony.Data.Migrations
                             Gender = " ",
                             LastName = "Nguyen",
                             LockoutEnabled = false,
-                            NormalizedEmail = "trung.nguyen@gmail.com",
-                            NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAENMpdsnQ9PVfc18c2IEoDaBXtMxDr1/jPCYr+ddAGV0L2wUE6L5R7HCoVtn436pUmQ==",
+                            NormalizedEmail = "TRUNG.NGUYEN@GMAIL.COM",
+                            NormalizedUserName = "TRUNG.NGUYEN@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFrAz9s92VM0N1akGJBAfmkV0TDJTxE5nwDKzqM0fYjn3P1HLgMlam/bj1Q0wyFhCA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserName = "admin"
+                            UserName = "trung.nguyen@gmail.com"
                         });
                 });
 
@@ -619,12 +619,6 @@ namespace Symphony.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<Guid>("AppUser")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AppUserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
 
@@ -639,9 +633,9 @@ namespace Symphony.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
-
                     b.HasIndex("ExamId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("ExamRegistrations");
                 });
@@ -1222,15 +1216,19 @@ namespace Symphony.Data.Migrations
 
             modelBuilder.Entity("Symphony.Data.Entities.ExamRegistration", b =>
                 {
-                    b.HasOne("Symphony.Data.Entities.AppUser", null)
-                        .WithMany("ExamRegistrations")
-                        .HasForeignKey("AppUserId");
-
                     b.HasOne("Symphony.Data.Entities.Exam", "Exam")
                         .WithMany("ExamRegistrations")
                         .HasForeignKey("ExamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Symphony.Data.Entities.AppUser", "AppUser")
+                        .WithMany("ExamRegistrations")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
 
                     b.Navigation("Exam");
                 });
