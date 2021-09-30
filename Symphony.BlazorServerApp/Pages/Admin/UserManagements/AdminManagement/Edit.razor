@@ -7,7 +7,7 @@
     <AuthorizeView Roles="admin">
         <Authorized Context="User">
             <h2 class="fw-bolder text-center fs">Update an Admin</h2>
-            <UpdateUserComponent InputUser="@InputUser" Id="Id" IsAdminUpdate="true"/>
+            <UpdateUserComponent Id="Id" WhoToUpdate="admin"/>
         </Authorized>
         <NotAuthorized>
             <UnauthorizedAccess />
@@ -17,9 +17,7 @@
 
 
 @code {
-    #region Parameter & VM
-    private UpdateAppUserVM InputUser { get; set; } = new();
-
+    #region Parameter
     [Parameter]
     public Guid Id { get; set; }
     #endregion

@@ -7,17 +7,10 @@
     <AuthorizeView Roles="admin">
         <Authorized Context="User">
             <h2 class="fw-bolder text-center fs">Create an Admin</h2>
-            <CreateUserComponent InputUser="@InputUser" IsCreateAdmin="true"/>
+            <CreateUserComponent CreateWho="admin"/>
         </Authorized>
         <NotAuthorized>
             <UnauthorizedAccess />
         </NotAuthorized>
     </AuthorizeView>
 </div>
-
-
-@code {
-        #region DTO
-    private CreateAppUserVM InputUser { get; set; } = new();
-    #endregion
-}

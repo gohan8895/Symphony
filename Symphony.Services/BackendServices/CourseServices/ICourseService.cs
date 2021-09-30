@@ -1,4 +1,4 @@
-﻿using Symphony.ViewModels.Consult;
+﻿using Symphony.ViewModels.CourseViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;

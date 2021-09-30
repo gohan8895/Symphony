@@ -105,6 +105,11 @@ namespace Symphony.Data.Migrations
                         {
                             UserId = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             RoleId = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc")
+                        },
+                        new
+                        {
+                            UserId = new Guid("13b5bfee-08c4-425c-b3b3-569fed96dfef"),
+                            RoleId = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc")
                         });
                 });
 
@@ -152,6 +157,57 @@ namespace Symphony.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Abouts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Content = "Founded in 2000 in the heart of London, <b>Symphony Ltd.</b> is London's leading private institute, with more than 1000 staffs and 2000 students from different countries. We are a diverse community with the freedom and courage to challenge, to question and to think differently.",
+                            IsShown = true,
+                            Title = "Opening"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Content = "Who we are",
+                            IsShown = true,
+                            Title = "First Question"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Content = "Symphony Institute is a diverse global community of world-class academics, students, industry links, external partners, and alumni. Our powerful collective of individuals and institutes work together to explore new possibilities.",
+                            IsShown = true,
+                            Title = "First Answer"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Content = "Symphony's vision and impact",
+                            IsShown = true,
+                            Title = "Second Question"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Content = "Symphony Institute is a diverse global community of world-class academics, students, industry links, external partners, and alumni. Our powerful collective of individuals and institutes work together to explore new possibilities.",
+                            IsShown = true,
+                            Title = "Second Answer"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Content = "What we has to offer",
+                            IsShown = true,
+                            Title = "Third Question"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Content = "Symphony Institute provides many courses on subject about programming languages like C Sharp, Java, C++, Javascript, Php, Python, Ruby and more... ",
+                            IsShown = true,
+                            Title = "Third Answer"
+                        });
                 });
 
             modelBuilder.Entity("Symphony.Data.Entities.AppRole", b =>
@@ -190,10 +246,26 @@ namespace Symphony.Data.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "812de486-8704-4b8c-bcf2-ccd552910807",
+                            ConcurrencyStamp = "71f42542-ff6b-4d13-8796-ae5bce852dd7",
                             Description = "Administrator Role",
                             Name = "admin",
                             NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = new Guid("92ece64c-416a-4acb-a27e-52922849c5a8"),
+                            ConcurrencyStamp = "2bf6865d-b644-4b36-a271-f655d313a404",
+                            Description = "Student Role",
+                            Name = "student",
+                            NormalizedName = "STUDENT"
+                        },
+                        new
+                        {
+                            Id = new Guid("0e1af6f8-e38c-49ca-9ede-7816c1015eb2"),
+                            ConcurrencyStamp = "a73a8149-e296-4a80-909c-590a6cc549df",
+                            Description = "Teacher Role",
+                            Name = "teacher",
+                            NormalizedName = "TEACHER"
                         });
                 });
 
@@ -298,7 +370,7 @@ namespace Symphony.Data.Migrations
                         {
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0591a69c-814e-46ee-9df5-7edeb77c0406",
+                            ConcurrencyStamp = "3d199570-7a97-4598-b417-b444b43693bb",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DOB = new DateTime(1995, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "trung.nguyen@gmail.com",
@@ -309,12 +381,34 @@ namespace Symphony.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "TRUNG.NGUYEN@GMAIL.COM",
                             NormalizedUserName = "TRUNG.NGUYEN@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFrAz9s92VM0N1akGJBAfmkV0TDJTxE5nwDKzqM0fYjn3P1HLgMlam/bj1Q0wyFhCA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGTWz+0/FQO8PJSiNiUCw/uvmuywdVuUJwhLpnjt/JEAWjH56ngUqoK6IdnHOzAE1A==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserName = "trung.nguyen@gmail.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("13b5bfee-08c4-425c-b3b3-569fed96dfef"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "8b6251b7-9618-42d3-8c5c-3839ff099555",
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DOB = new DateTime(2021, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "admin@symphony.com",
+                            EmailConfirmed = true,
+                            FirstName = "Symphony",
+                            Gender = " ",
+                            LastName = "Admin",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@SYMPHONY.COM",
+                            NormalizedUserName = "ADMIN@SYMPHONY.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMfbPJo0eRoLlzPnFekrrXW8Nty0TOGm6yaU277xe8OqLxp7P7t8U1ha/T5FuZ6fTQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserName = "admin@symphony.com"
                         });
                 });
 
@@ -408,11 +502,17 @@ namespace Symphony.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DetailDescription")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("DiscountedPrice")
                         .HasColumnType("float");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsBasic")
                         .ValueGeneratedOnAdd()

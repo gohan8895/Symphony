@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Symphony.Services.BackendServices.ExamServices;
 using Symphony.ViewModels.Consult;
+using Symphony.ViewModels.CourseViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;

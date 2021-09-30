@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Symphony.Services.BackendServices.CourseServices;
 using Symphony.Services.BackendServices.SubjectServices;
-using Symphony.ViewModels.Consult;
+using Symphony.ViewModels.CourseViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +40,7 @@ namespace Symphony.Backend.Controllers
 
         // POST api/<CoursesController>
         [HttpPost("create-course-with-subjects")]
-        public async Task<ActionResult<CourseWithSubjects>> Post(CourseCreateRequest request)
+        public async Task<ActionResult<CourseWithSubjects>> Post([FromForm]CourseCreateRequest request)
         {
             if (request is null)
             {
@@ -58,10 +58,14 @@ namespace Symphony.Backend.Controllers
 
         // PUT api/<CoursesController>/5
         [HttpPut("update-course-details")]
-        public async Task<ActionResult> Put(CourseUpdateRequest request)
+        public async Task<ActionResult> Put([FromForm]CourseUpdateRequest request)
         {
             if (request is null) return BadRequest();
+
             int result = await _service.UpdateCourseDetails(request);
+
+            if (result == 0) return NotFound();
+
             return NoContent();
         }
 
@@ -69,18 +73,18 @@ namespace Symphony.Backend.Controllers
         [HttpPut("update-course-status/{id}")]
         public async Task<ActionResult> UpdateCourseState(int id)
         {
-            var _course = await _service.GetCourseWithSubjectsAsync(id);
-            if (_course is null) return NotFound();
-            await _service.UpdateCourseStatus(id);
+            var result = await _service.UpdateCourseStatus(id);
+
+            if (result == 0) return NotFound();
+
             return NoContent();
         }
 
         [HttpPut("update-subjects-in-course/{id}")]
         public async Task<ActionResult> UpdateSubjectInCourse(int id, List<int> subjectIds)
         {
-            var _course = await _service.GetCourseWithSubjectsAsync(id);
-            if (_course is null) return NotFound();
-            await _service.UpdateSubjectInCourse(id, subjectIds);
+            var result = await _service.UpdateSubjectInCourse(id, subjectIds);
+            if (result == 0) return NotFound();
             return NoContent();
         }
     }

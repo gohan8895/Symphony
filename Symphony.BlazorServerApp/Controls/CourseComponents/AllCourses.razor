@@ -1,0 +1,269 @@
+﻿@using Symphony.ViewModels.CourseViewModel
+@inject ICourseService courseService
+@using Symphony.BlazorServerApp.Services.CourseServices
+
+<div class="all-courses">
+    <h2 class="fw-bold mb-5">All Courses</h2>
+    <div class="row">
+        <!-- Filter, sort buttons and number of results -->
+        <div class="col-12 mb-5 d-flex flex-row align-items-center justify-content-between">
+            <div class="d-flex flex-row align-items-center">
+                <button class="btn filter-button border-2 me-2 d-flex align-items-center" @onclick="HideFilter">
+                    @(Filter is true ? "Show Filter" : "Hide Filter")
+                    <span class="material-icons ps-1">filter_list</span>
+                </button>
+                <div class="dropdown">
+                    <button class="btn sort-button d-flex align-items-center" type="button" id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        Sort By <span class="material-icons ps-1">sort</span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li>
+                            <a class="dropdown-item sort-button-item btn" @onclick="@(() => Sort(sortByName, sortByNameClick))">
+                                Name
+                                <span class="material-icons ms-2">@(sortByNameClick ? "arrow_upward" : "arrow_downward")</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item sort-button-item btn" @onclick="@(() => Sort(sortByPrice, sortByPriceClick))">
+                                Price
+                                <span class="material-icons ms-2">@(sortByPriceClick ? "arrow_upward" : "arrow_downward")</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item sort-button-item btn">
+                                Duration
+                                <span class="material-icons ms-2">arrow_upward</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="">@Courses.Count() results</div>
+        </div>
+        <!-- Filter sidebar -->
+        <aside class="col-lg-2 border-end filter-sidebar @(Filter is true ? "d-none" : "")">
+            <div class="filter-item">
+                <h4>Course Duration</h4>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        0 - 10 Hours
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        10 - 20 Hours
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        20 - 30 Hours
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Over 30 Hours
+                    </label>
+                </div>
+            </div>
+            <div class="filter-item">
+                <h4>Level</h4>
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           @bind-value:event="oninput"
+                           @onchange="ActivateFilter"
+                           @bind-value="beginner"
+                           id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Beginner
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           @bind-value:event="oninput"
+                           @onchange="ActivateFilter"
+                           @bind-value="advanced"
+                           id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Advanced
+                    </label>
+                </div>
+            </div>
+            <div class="filter-item">
+                <h4>Subject</h4>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Java
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        C Sharp
+                    </label>
+                </div>
+            </div>
+            <div class="filter-item">
+                <h4>Price</h4>
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           @bind-value:event="oninput"
+                           @onchange="ActivateFilter"
+                           @bind-value="priceLow"
+                           id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        0 - 400
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           @bind-value:event="oninput"
+                           @onchange="ActivateFilter"
+                           @bind-value="priceMed"
+                           id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        400 - 1000
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           @bind-value:event="oninput"
+                           @onchange="ActivateFilter"
+                           @bind-value="priceHi"
+                           id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Over 1000
+                    </label>
+                </div>
+            </div>
+        </aside>
+        <!-- Courses -->
+        <div class="all-course @(Filter is true ? "col-lg-12" : "col-lg-10")">
+            @foreach (var course in Courses)
+            {
+                <div class="course-row">
+                    <div class="row">
+                        <div class="col-3">
+                            <img src="http:/localhost:5050/@course.ImagePath">
+                        </div>
+                        <div class="col-7">
+                            <h3 class="fw-bold">@course.Name</h3>
+                            <p>
+                                @course.Description
+                            </p>
+                            <p class="text-sm">Teacher</p>
+                        </div>
+                        <div class="col-2">
+                            <div class="row col-2-row">
+                                <div class="col-12">
+                                    <h3 class="w-100 text-center">@course.Price $</h3>
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn enroll-button mt-auto fw-bold text-white w-100">Enroll</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    #region Props
+    [Parameter]
+    public IEnumerable<CourseVM> Courses { get; set; } = Array.Empty<CourseVM>();
+    private bool Filter = false;
+    #endregion
+    #region filter props
+    private const string sortByName = "name";
+    private bool sortByNameClick = false;
+    private const string sortByPrice = "price";
+    private bool sortByPriceClick = false;
+    private bool beginner = false;
+    private bool advanced = false;
+    private bool priceLow = false;
+    private bool priceMed = false;
+    private bool priceHi = false;
+    #endregion
+
+    private async Task ActivateFilter()
+    {
+        Courses = (await courseService.GetCourseVMsAsync()).ToList();
+        if (beginner && !advanced)
+        {
+            Courses = Courses.Where(c => c.IsBasic is true);
+        }
+
+        if (advanced && !beginner)
+        {
+            Courses = Courses.Where(c => c.IsBasic is false);
+        }
+
+        if (priceLow && !priceMed && !priceHi)
+        {
+            Courses = Courses.Where(c => c.Price <= 400);
+        }
+
+        if (priceLow && priceMed && !priceHi)
+        {
+            Courses = Courses.Where(c => c.Price <= 1000);
+        }
+
+        if (priceLow && !priceMed && priceHi)
+        {
+            Courses = Courses.Where(c => c.Price <= 400 || c.Price >= 1000);
+        }
+
+        if (priceMed && !priceLow && !priceHi)
+        {
+            Courses = Courses.Where(c => c.Price >= 400 && c.Price <= 1000);
+        }
+
+        if (priceMed && !priceLow && priceHi)
+        {
+            Courses = Courses.Where(c => c.Price >= 400);
+        }
+
+        if (priceHi && !priceLow && !priceMed)
+        {
+            Courses = Courses.Where(c => c.Price >= 1000);
+        }
+    }
+
+    private void Sort(string creteria, bool again)
+    {
+        switch (creteria, again)
+        {
+            case (sortByName, false):
+                Courses = Courses.OrderBy(c => c.Name);
+                sortByNameClick = !sortByNameClick;
+                break;
+            case (sortByName, true):
+                Courses = Courses.OrderByDescending(c => c.Name);
+                sortByNameClick = !sortByNameClick;
+                break;
+            case (sortByPrice, false):
+                Courses = Courses.OrderBy(c => c.Price);
+                sortByPriceClick = !sortByPriceClick;
+                break;
+            case (sortByPrice, true):
+                Courses = Courses.OrderByDescending(c => c.Price);
+                sortByPriceClick = !sortByPriceClick;
+                break;
+        }
+    }
+
+    private void HideFilter() => Filter = !Filter;
+}

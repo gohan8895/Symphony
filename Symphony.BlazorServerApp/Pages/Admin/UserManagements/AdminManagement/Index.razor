@@ -34,7 +34,7 @@
                     <td><p>@user.CreatedAt</p></td>
                     <td class="text-center">
                         <NavLink href=@($"/admin/userManagement/editAdmin/{user.Id}") class="material-icons nav-item text-warning me-4">edit</NavLink>
-                        <NavLink href="#" @onclick="() => DeleteAdmin(user.Email)" class="material-icons nav-item text-danger me-2">delete</NavLink>
+                        <a @onclick="() => DeleteAdmin(user.Email)" class="btn material-icons nav-item text-danger me-2">delete</a>
                     </td>
                 </RowTemplate>
             </TableTemplate>

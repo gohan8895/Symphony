@@ -1,0 +1,76 @@
+﻿@page "/courses"
+
+@inject ICourseService courseService
+@using Symphony.ViewModels.CourseViewModel
+@using Symphony.BlazorServerApp.Services.CourseServices
+@using Symphony.Utilities.UtitlityClasses
+@using Symphony.BlazorServerApp.Controls.CourseComponents
+
+<div class="container mb-5">
+    <h2 class="fw-bold mb-5">Courses</h2>
+    @*Starter courses*@
+    <div class="starter-courses mb-5 border-bottom pb-5">
+        <h4 class="fw-bold">Courses to get you started</h4>
+        <div id="carouselExampleCaptions" class="carousel carousel-dark slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                @foreach (var carouselCourse in CarouselCourses)
+                {
+                    <div class="carousel-item @(carouselCount == 0 ? "active" : "")">
+                        <div class="row mx-auto card-item">
+                            @foreach (var basicCourse in carouselCourse)
+                            {
+                                <div class="col-4">
+                                    <div class="card border-0 w-100" style="width: 15em;">
+                                        <img src="http:/localhost:5050/@basicCourse.ImagePath" class="btn d-block w-100"
+                                    alt="...">
+                                        <div class="card-body fw-bold">
+                                            <h5 class="card-title">@basicCourse.Name</h5>
+                                            <p class="card-text">
+                                                @basicCourse.Description
+                                            </p>
+                                            <a href="courses/@basicCourse.Id" class="btn detail-button">
+                                                View Detail
+                                                <span class="material-icons ms-2">visibility</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="d-none">@(carouselCount++)</div>
+                }
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+    <AllCourses Courses="@Courses" />
+</div>
+
+@code {
+    #region Props
+    private IEnumerable<CourseVM> Courses = Array.Empty<CourseVM>();
+    private List<List<CourseVM>> CarouselCourses = new();
+    private bool ShouldRender;
+    private int carouselCount = 0;
+    #endregion
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        Courses = (await courseService.GetCourseVMsAsync()).ToList();
+
+        var basicCourses = Courses.Where(c => c.IsBasic is true).ToList();
+
+        CarouselCourses = ListExtension.ChunkBy<CourseVM>(basicCourses, 3).Take(3).ToList();
+    }
+}
