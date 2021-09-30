@@ -11,23 +11,23 @@ namespace Symphony.BlazorServerApp.Services.CourseServices
     {
         private readonly IHttpClientFactory clientFactory;
         private readonly JsonSerializerOptions options;
-
+        
         public CourseService(IHttpClientFactory clientFactory)
         {
             this.clientFactory = clientFactory;
             options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         }
 
-        public async Task<CourseVM> GetCourseVMAsync(int id)
+        public async Task<CourseWithSubjects> GetCourseVMAsync(int id)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, $"courses/{id}");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"courses/get-course-by-id/{id}");
             var client = clientFactory.CreateClient("symphony");
             var response = await client.SendAsync(request);
 
             if (response.IsSuccessStatusCode)
             {
                 using var reponseStream = await response.Content.ReadAsStreamAsync();
-                return await JsonSerializer.DeserializeAsync<CourseVM>(reponseStream, options);
+                return await JsonSerializer.DeserializeAsync<CourseWithSubjects>(reponseStream, options);
             }
             else
             {
@@ -63,7 +63,7 @@ namespace Symphony.BlazorServerApp.Services.CourseServices
                     "application/json"
                     );
 
-                using var httpResponse = await client.PostAsync("courses/", courseJson);
+                using var httpResponse = await client.PostAsync("courses/create-course-with-subjects", courseJson);
 
                 httpResponse.EnsureSuccessStatusCode();
             }
