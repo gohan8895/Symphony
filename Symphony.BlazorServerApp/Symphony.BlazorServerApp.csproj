@@ -14,10 +14,12 @@
 
   <ItemGroup>
     <None Remove="Pages\User\About\AboutUs.razor.css" />
+    <None Remove="Pages\User\Faq\Faq.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Pages\User\About\AboutUs.razor.css" />
+    <Content Include="Pages\User\Faq\Faq.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
