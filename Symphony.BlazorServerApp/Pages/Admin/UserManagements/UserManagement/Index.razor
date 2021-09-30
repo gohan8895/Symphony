@@ -3,12 +3,13 @@
 @inject UserManager<AppUser> userManager
 @inject RoleManager<AppRole> roleManager
 @using Symphony.BlazorServerApp.Controls.TableComponents
+@inject NavigationManager nav
 
 
 <AuthorizeView Roles="admin">
     <Authorized>
         <div class="container-fluid">
-            <h1 class="text-center fw-bolder">Admin Manager</h1>
+            <h1 class="text-center fw-bolder">User Manager</h1>
             <CreateButton Url="admin/userManagement/createUser" Who="a New User" />
             <TableTemplate Caption="Users" Items="Users" Context="user">
                 <TableHeader>
@@ -35,7 +36,7 @@
                     <td><p>@user.CreatedAt</p></td>
                     <td class="text-center">
                         <NavLink href=@($"/admin/userManagement/editUser/{user.Id}") class="material-icons nav-item text-warning me-4">edit</NavLink>
-                        <NavLink href="#" @onclick="() => DeleteUser(user.Email)" class="material-icons nav-item text-danger me-2">delete</NavLink>
+                        <a @onclick="() => DeleteUser(user.Email)" class="btn material-icons nav-item text-danger me-2">delete</a>
                     </td>
                 </RowTemplate>
             </TableTemplate>
@@ -52,11 +53,12 @@
     #region DTO
     private List<AppUserVM> Users { get; set; } = new();
     private AppUserVM User { get; set; }
+    private bool render = false;
     #endregion
 
     protected async override Task OnInitializedAsync()
     {
-        var users =  userManager.Users;
+        var users =  await userManager.GetUsersInRoleAsync("student");
 
         Users = users.Select(u => u.AsVM()).ToList();
     }
@@ -66,7 +68,6 @@
         var user = await userManager.FindByEmailAsync(email);
 
         if (user is not null) await userManager.DeleteAsync(user);
-
-        StateHasChanged();
+        render = !render;
     }
 }

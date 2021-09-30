@@ -60,12 +60,10 @@
 
 @code {
     #region Parameter
-
-    [Parameter]
     public CreateAppUserVM InputUser { get; set; } = new();
 
     [Parameter]
-    public bool IsCreateAdmin { get; set; }
+    public string CreateWho { get; set; }
 
     #endregion
 
@@ -77,6 +75,7 @@
             {
                 FirstName = InputUser.FirstName,
                 LastName = InputUser.LastName,
+                PhoneNumber = InputUser.PhoneNumber,
                 DOB = InputUser.DOB,
                 Email = InputUser.Email,
                 UserName = InputUser.Email,
@@ -89,7 +88,7 @@
 
             if (result.Succeeded)
             {
-                if (IsCreateAdmin)
+                if (CreateWho == "admin")
                 {
                     var role = await roleManager.FindByNameAsync("admin");
 
@@ -97,8 +96,22 @@
 
                     Nav.NavigateTo("/admin/userManagement/adminManager");
                 }
+                else if (CreateWho == "teacher")
+                {
+                    var role = await roleManager.FindByNameAsync("teacher");
 
-                Nav.NavigateTo("/admin/userManagement/userManager");
+                    await userManager.AddToRoleAsync(user, role.Name);
+
+                    Nav.NavigateTo("/admin/userManagement/teacherManager");
+                }
+                else
+                {
+                    var role = await roleManager.FindByNameAsync("student");
+
+                    await userManager.AddToRoleAsync(user, role.Name);
+
+                    Nav.NavigateTo("/admin/userManagement/userManager");
+                }
             }
         }
     }

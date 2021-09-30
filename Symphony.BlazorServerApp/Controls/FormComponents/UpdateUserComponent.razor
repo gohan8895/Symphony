@@ -15,7 +15,7 @@
         <InputText @bind-Value="InputUser.LastName" class="form-control" />
         <ValidationMessage For="@(() => InputUser.LastName)" />
     </div>
-    <div class="@(IsAdminUpdate ? "col-md-4" : "col-md-6") col-sm-12">
+    <div class="col-md-4 col-sm-12">
         <label class="form-label fw-bold">@nameof(InputUser.PhoneNumber)</label>
         <InputText @bind-Value="InputUser.PhoneNumber" class="form-control" />
         <ValidationMessage For="@(() => InputUser.PhoneNumber)" />
@@ -37,13 +37,10 @@
             </div>
         </div>
     </div>
-    @if (IsAdminUpdate)
-    {
-        <div class="form-check col-md-2 col-sm-6 form-switch mt-5">
-            <label class="form-check-label fw-bold" for="flexSwitchCheckDefault">Remove Permission</label>
-            <input class="form-check-input" type="checkbox" @onclick="() => RemovePermission = !RemovePermission" id="flexSwitchCheckDefault">
-        </div>
-    }
+    <div class="form-check col-md-2 col-sm-6 form-switch mt-5">
+        <label class="form-check-label fw-bold" for="flexSwitchCheckDefault">Remove Permission</label>
+        <input class="form-check-input" type="checkbox" @onclick="() => RemovePermission = !RemovePermission" id="flexSwitchCheckDefault">
+    </div>
     <div class="col-md-4 col-sm-12">
         <label class="form-label fw-bold">@nameof(InputUser.DOB)</label>
         <InputDate @bind-Value="InputUser.DOB" class="form-control" />
@@ -82,11 +79,10 @@
     [Parameter]
     public Guid Id { get; set; }
 
-    [Parameter]
     public UpdateAppUserVM InputUser { get; set; } = new();
 
     [Parameter]
-    public bool IsAdminUpdate { get; set; }
+    public string WhoToUpdate { get; set; }
 
     private AppUser User { get; set; } = new AppUser();
 
@@ -157,7 +153,7 @@
 
             if (result.Succeeded)
             {
-                if (IsAdminUpdate)
+                if (WhoToUpdate == "admin")
                 {
                     if (RemovePermission)
                     {
@@ -166,8 +162,23 @@
 
                     Nav.NavigateTo("/admin/userManagement/adminManager");
                 }
-                else
+                else if (WhoToUpdate == "teacher")
+                {
+                    if (RemovePermission)
+                    {
+                        await userManager.RemoveFromRoleAsync(User, "teacher");
+                    }
+                    Nav.NavigateTo("/admin/userManagement/teacherManager");
+
+                }
+                else if (WhoToUpdate == "student")
+                {
+                    if (RemovePermission)
+                    {
+                        await userManager.RemoveFromRoleAsync(User, "student");
+                    }
                     Nav.NavigateTo("/admin/userManagement/userManager");
+                }
             }
         }
     }

@@ -6,8 +6,8 @@
 <div class="container">
     <AuthorizeView Roles="admin">
         <Authorized Context="User">
-            <h2 class="fw-bolder text-center fs">Update an Admin</h2>
-            <UpdateUserComponent InputUser="@InputUser" Id="Id" IsAdminUpdate="false" />
+            <h2 class="fw-bolder text-center fs">Update a User</h2>
+            <UpdateUserComponent Id="Id" WhoToUpdate="student" />
         </Authorized>
         <NotAuthorized>
             <UnauthorizedAccess />
@@ -18,8 +18,6 @@
 
 @code {
     #region Parameter & VM
-    private UpdateAppUserVM InputUser { get; set; } = new();
-
     [Parameter]
     public Guid Id { get; set; }
     #endregion
