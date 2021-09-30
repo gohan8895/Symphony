@@ -29,9 +29,21 @@ namespace Symphony.BlazorServerApp.Services.NewService
             throw new NotImplementedException();
         }
 
-        public Task<NewsVM> GetNewAsync(int id)
+        public async Task<NewsVM> GetNewAsync(int id)
         {
-            throw new NotImplementedException();
+            var request = new HttpRequestMessage(HttpMethod.Get, $"news/{id}");
+            var client = clientFactory.CreateClient("symphony");
+            var response = await client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                using var reponseStream = await response.Content.ReadAsStreamAsync();
+                return await JsonSerializer.DeserializeAsync<NewsVM>(reponseStream, options);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<IEnumerable<NewsVM>> GetNewsAsync()
