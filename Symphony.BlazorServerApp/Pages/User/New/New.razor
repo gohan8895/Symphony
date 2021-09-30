@@ -1,0 +1,105 @@
+﻿@page "/new" 
+
+@inject INewService newService 
+@using Symphony.ViewModels.Consult 
+@using Symphony.BlazorServerApp.Services.NewService
+
+<main class="main">
+    @if(Data == null)
+            {
+
+
+<div class="container">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+            }
+            else
+            {
+<main>
+    @* header *@
+    <div id="intro" class="p-5 text-center bg-light">
+        <h1 class="mb-3 h2">Learn Bootstrap 5 with MDB</h1>
+    </div>
+   
+    <div class="container">
+        <!--Section: Content-->
+        <section>
+            <div class="row gx-lg-5">
+                @foreach (var item in Data)
+                {
+                    <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+                        <!-- News block -->
+                        <div>
+                            <!-- Featured image -->
+                            <div class="bg-image hover-overlay shadow-1-strong ripple rounded-5 mb-4"
+                                 data-mdb-ripple-color="light">
+                              @* thay hinh o day  *@
+                                <img src="https://picsum.photos/200/30@(item.Id)" class="img-fluid" />
+                                <a href="#!">
+                                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                                </a>
+                            </div>
+
+                            <!-- Article data -->
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                  
+                                </div>
+
+                                <div class="col-6 text-end">
+                                    <u> @item.CreatedAt</u>
+                                </div>
+                            </div>
+
+                            <!-- Article title and description -->
+                            @* day link o day *@
+                            <a href="new/@item.Id" class="text-dark">
+                                <h5>@item.Title</h5>
+                                <div class="description-new">
+                                    @item.Description
+                                </div>
+                              
+                                  
+                                
+                            </a>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </section>
+        <!--Section: Content-->
+      
+        <!-- Pagination -->
+        <nav class="my-4" aria-label="...">
+            <ul class="pagination pagination-circle justify-content-center">
+                <li class="page-item">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item active" aria-current="page">
+                    <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+
+</main>
+            }
+</main>
+
+
+@code {
+    private IEnumerable<NewsVM> Data = null;
+    protected async override Task OnInitializedAsync()
+        {
+        Data = await newService.GetNewsAsync();
+        }
+}
