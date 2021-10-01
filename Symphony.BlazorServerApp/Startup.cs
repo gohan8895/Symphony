@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Symphony.BlazorServerApp.Areas.Identity;
 using Symphony.BlazorServerApp.Services.AboutServices;
+using Symphony.BlazorServerApp.Services.CourseRegistrationService;
 using Symphony.BlazorServerApp.Services.CourseServices;
 using Symphony.BlazorServerApp.Services.FaqServices;
 using Symphony.BlazorServerApp.Services.NewService;
@@ -57,6 +58,7 @@ namespace Symphony.BlazorServerApp
             services.AddTransient<INewService, NewService>();
             services.AddTransient<IAboutService, AboutService>();
             services.AddTransient<ICourseService, CourseService>();
+            services.AddTransient<ICourseRegistrationService, CourseRegistrationService>();
             services.AddTransient<IFaqService, FaqService>();
         }
 

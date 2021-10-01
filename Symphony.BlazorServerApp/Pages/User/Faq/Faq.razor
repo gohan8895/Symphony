@@ -1,6 +1,5 @@
 ﻿@page "/faq"
 
-
 @inject IFaqService faqService
 @using Symphony.ViewModels.Consult
 @using Symphony.BlazorServerApp.Services.FaqServices
@@ -8,36 +7,38 @@
 <main class="main">
     @if (Data == null)
     {
-        <h3>Loading ...</h3>
+    <h3>Loading ...</h3>
     }
     else
     {
-        <div class="accordion" id="accordionExample">
-            @foreach (var item in Data)
-            {
-
-                <div class="accordion-item">
-                    <h2 class="accordion-header fw-bolder" id="heading-@item.Id">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@item.Id" aria-expanded="false" aria-controls="collapse-@item.Id">
-                            @item.Question
-                        </button>
-                    </h2>
-                    <div id="collapse-@item.Id" class="accordion-collapse collapse show" aria-labelledby="heading-@item.Id" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            @item.Answer
-                        </div>
-                    </div>
+    <div class="accordion" id="accordionExample">
+        @foreach (var item in Data)
+        {
+        <div class="accordion-item">
+            <h2 class="accordion-header fw-bolder" id="heading-@item.Id">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapse-@item.Id" aria-expanded="false" aria-controls="collapse-@item.Id">
+                    @item.Question
+                </button>
+            </h2>
+            <div id="collapse-@item.Id" class="accordion-collapse collapse show" aria-labelledby="heading-@item.Id"
+                data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    @item.Answer
                 </div>
-            }
+            </div>
         </div>
+        }
+    </div>
     }
-</main>
-@code {
-    private IEnumerable<FAQVM> Data = null;
 
+</main>
+
+@code {
+private IEnumerable<FAQVM> Data = null;
 
     protected async override Task OnInitializedAsync()
     {
-        Data = await faqService.GetFaqsAsync();
+    Data = await faqService.GetFaqsAsync();
     }
-}
+    }

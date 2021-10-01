@@ -157,7 +157,9 @@
                             <img src="http:/localhost:5050/@course.ImagePath">
                         </div>
                         <div class="col-7">
-                            <h3 class="fw-bold">@course.Name</h3>
+                            <h3 class="fw-bold">@course.Name<small class="ps-2 fs-6 text-danger">Level: @(course.IsBasic ? "Beginner" : "Advanced")</small></h3>
+                            
+                            @if (!course.IsBasic) { <small class="fw-bold text-primary">This course require paying for and passing an entrance examination. For more info please visit FAQ page.</small> }
                             <p>
                                 @course.Description
                             </p>
@@ -171,7 +173,7 @@
                                 <div class="col-12">
                                     <AuthorizeView>
                                         <Authorized>
-                                            <a class="btn enroll-button mt-auto fw-bold text-white w-100" href="course/register/@course.Id">Enroll</a>
+                                            <a class="btn enroll-button mt-auto fw-bold text-white w-100" href="course/registration/@course.Id">Enroll</a>
                                         </Authorized>
                                         <NotAuthorized>
                                             <a class="btn enroll-button mt-auto fw-bold text-white w-100" href="Identity/Account/Login?returnUrl=/courses">Login or Register</a>
