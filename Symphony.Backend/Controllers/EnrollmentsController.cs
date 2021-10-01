@@ -31,9 +31,9 @@ namespace Symphony.Backend.Controllers
 
         // GET api/<EnrollmentsController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<EnrollmentVM>> Get(int id)
+        public async Task<ActionResult<EnrollmentVM>> Get(Guid id)
         {
-            var enrollment = await enrollmentService.GetEnrollmentVMAsync(id);
+            var enrollment = await enrollmentService.GetEnrollmentVMAsync(id, 2);
             if(enrollment is null)
             {
                 return NotFound();
@@ -81,9 +81,9 @@ namespace Symphony.Backend.Controllers
 
         // UPDATE Enrollemnt Status
         [HttpPut("update-enrollment-state/{id}")]
-        public async Task<ActionResult> ChangeStatus(int id)
+        public async Task<ActionResult> ChangeStatus(int id, Guid studentId, int courseId)
         {
-            var enrollment = await enrollmentService.GetEnrollmentVMAsync(id);
+            var enrollment = await enrollmentService.GetEnrollmentVMAsync(studentId, courseId);
             if(enrollment is null)
             {
                 return NotFound();

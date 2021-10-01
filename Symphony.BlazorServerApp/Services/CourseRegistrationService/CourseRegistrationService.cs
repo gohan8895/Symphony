@@ -88,13 +88,13 @@ namespace Symphony.BlazorServerApp.Services.CourseRegistrationService
             }
         }
 
-        public async Task UpdateCourseRegistrationAsync(UpdateCourseRegistrationVM courseRegistration)
+        public async Task UpdateCourseRegistrationAsync(int id)
         {
-            if (courseRegistration is not null)
+            if (id != 0)
             {
                 var client = clientFactory.CreateClient("symphony");
                 var courseRegistrationJson = new StringContent(
-                    JsonSerializer.Serialize(courseRegistration, options),
+                    JsonSerializer.Serialize(id, options),
                     encoding: Encoding.UTF8,
                     "application/json"
                     );

@@ -1,19 +1,86 @@
 ﻿@page "/course/registration/{id:int}"
 @using Symphony.BlazorServerApp.Services.CourseRegistrationService
+@using Symphony.BlazorServerApp.Services.CourseServices
+@using Symphony.ViewModels.CourseViewModel
 @inject ICourseRegistrationService registrationService
+@inject ICourseService courseService
+@inject NavigationManager nav
 
-<h3>Registration</h3>
+<div class="container">
+    <h1 class="fw-bold text-center">Registration</h1>
+    <div class="row">
+        <div class="col-lg-8">
+            <h2>Course you will enroll in:</h2>
+            <ul>
+                <li>Name: @Course.Name</li>
+                <li>Description: @Course.Description</li>
+                <li>Start Date: @Course.StartDate</li>
+                <li>End Date@Course.EndDate</li>
+                <li>Price: @Course.Price</li>
+                <li>Duration: @duration Hours</li>
+            </ul>
+            <h3>Subjects that this course has:</h3>
+            <ul>
+                @foreach (var subject in Subjects)
+                {
+                    <li>Name: @subject.Name</li>
+                    <li>@nameof(subject.Duration): @subject.Duration</li>
+                }
+            </ul>
+        </div>
+        <div class="col-lg-4">
+            <h2>Are you ready to join us at Symphony Institution?</h2>
+            <button class="btn btn-primary" @onclick="AgreeToEnrollAsync">Yes</button>
+            <button class="btn btn-danger" @onclick="() => nav.NavigateTo(url)">No</button>
+        </div>
+    </div>
+</div>
+
+
 
 @code {
+    #region
     [Parameter]
     public int Id { get; set; }
-    private CreateCourseRegistrationVM CreateCourseRegVM { get; set; }
 
-    private void AgreeToEnroll()
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    private CreateCourseRegistrationVM CreateCourseRegVM { get; set; } = new();
+
+    private CourseWithSubjects Course { get; set; } = new();
+
+    private IEnumerable<SimpleSubjectVM> Subjects { get; set; } = Array.Empty<SimpleSubjectVM>();
+
+    private int duration;
+
+    private const string url = "/courses";
+    #endregion
+
+    protected async override Task OnInitializedAsync()
     {
+        Course = await courseService.GetCourseVMAsync(Id);
+        Subjects = Course.SimpleSubjectVMs;
+
+        foreach (var sub in Subjects)
+        {
+            duration += sub.Duration;
+        }
+    }
+    private async Task AgreeToEnrollAsync()
+    {
+        var authState = await authenticationStateTask;
+        var userId = Guid.Parse(authState.User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value);
         CreateCourseRegVM = new CreateCourseRegistrationVM
         {
-            CourseId = Id
+            CourseId = Id,
+            UserId = userId
         };
+
+        await registrationService.CreateCourseRegistrationAsync(CreateCourseRegVM);
+
+        var newRegister = (await registrationService.GetCourseRegistrationWithDataVMsAsync()).FirstOrDefault(r => r.CourseId == Id && r.UserId == userId);
+
+        nav.NavigateTo($"/course/registered/{@newRegister.Id}");
     }
 }

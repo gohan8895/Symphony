@@ -12,7 +12,7 @@ namespace Symphony.BlazorServerApp.Services.CourseRegistrationService
         Task<IEnumerable<CourseRegistrationWithDataVM>> GetCourseRegistrationWithDataVMsAsync();
         Task<CourseRegistrationVM> GetCourseRegistrationVMAsync(int id);
         Task CreateCourseRegistrationAsync(CreateCourseRegistrationVM courseRegistration);
-        Task UpdateCourseRegistrationAsync(UpdateCourseRegistrationVM courseRegistration);
+        Task UpdateCourseRegistrationAsync(int id);
         Task DeleteCourseRegistrationAsync(int id);
     }
 }
