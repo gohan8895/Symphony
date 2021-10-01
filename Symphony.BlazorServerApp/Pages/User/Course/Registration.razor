@@ -8,8 +8,8 @@
 
 <div class="container">
     <h1 class="fw-bold text-center">Registration</h1>
-    <div class="row">
-        <div class="col-lg-8">
+    <div class="main-content">
+        <div class="">
             <h2>Course you will enroll in:</h2>
             <ul>
                 <li>Name: @Course.Name</li>
@@ -36,7 +36,7 @@
                 }
             </ul>
         </div>
-        <div class="col-lg-4">
+        <div class="">
             @if (Course.IsBasic)
             {
                 <h2>Are you ready to join us at Symphony Institution?</h2>
@@ -45,7 +45,8 @@
             }
             else
             {
-                <h2>This is an advanced course which require passing an entrance examination in order to enroll. Would you like to continue?</h2>
+                <h2>This is an advanced course which require passing an entrance examination in order to enroll. Would you
+                    like to continue?</h2>
                 <button class="btn btn-primary" @onclick="AgreeToEnrollAsync">Yes</button>
                 <button class="btn btn-danger" @onclick="() => nav.NavigateTo(url)">No</button>
             }
@@ -96,7 +97,8 @@
 
         await registrationService.CreateCourseRegistrationAsync(CreateCourseRegVM);
 
-        var newRegister = (await registrationService.GetCourseRegistrationWithDataVMsAsync()).FirstOrDefault(r => r.CourseId == Id && r.UserId == userId);
+        var newRegister = (await registrationService.GetCourseRegistrationWithDataVMsAsync()).FirstOrDefault(r => r.CourseId ==
+        Id && r.UserId == userId);
 
         nav.NavigateTo($"/course/registered/{@newRegister.Id}");
     }
