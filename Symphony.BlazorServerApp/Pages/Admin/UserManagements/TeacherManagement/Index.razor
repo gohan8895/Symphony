@@ -1,4 +1,4 @@
-﻿@page "/admin/userManagement/adminManager"
+﻿@page "/admin/userManagement/teacherManager"
 
 @inject UserManager<AppUser> userManager
 @inject RoleManager<AppRole> roleManager
@@ -7,9 +7,9 @@
 <AuthorizeView Roles="admin">
     <Authorized>
         <div class="container-fluid">
-            <h1 class="text-center fw-bolder">Admin Manager</h1>
-            <CreateButton Url="admin/usermanagement/createAdmin" Who="a New Admin" />
-            <TableTemplate Caption="Admins" Items="Users" Context="user">
+            <h1 class="text-center fw-bolder">Teacher Manager</h1>
+            <CreateButton Url="admin/usermanagement/createTeacher" Who="a New Teacher" />
+            <TableTemplate Caption="Teachers" Items="Users" Context="user">
                 <TableHeader>
                     <td><p>@nameof(User.FirstName)</p></td>
                     <td><p>@nameof(User.LastName)</p></td>
@@ -33,8 +33,8 @@
                     <td><p>@(user.EmailConfirmed ? "Confirmed" : "Unconfirmed")</p></td>
                     <td><p>@user.CreatedAt</p></td>
                     <td class="text-center">
-                        <NavLink href=@($"/admin/userManagement/editAdmin/{user.Id}") class="material-icons nav-item text-warning me-4">edit</NavLink>
-                        <a @onclick="() => DeleteAdmin(user.Email)" class="btn material-icons nav-item text-danger me-2">delete</a>
+                        <NavLink href=@($"/admin/userManagement/editTeacher/{user.Id}") class="material-icons nav-item text-warning me-4">edit</NavLink>
+                        <a @onclick="() => DeleteTeacher(user.Email)" class="btn material-icons nav-item text-danger me-2">delete</a>
                     </td>
                 </RowTemplate>
             </TableTemplate>
@@ -55,12 +55,12 @@
 
     protected async override Task OnInitializedAsync()
     {
-        var users = await userManager.GetUsersInRoleAsync("admin");
+        var users = await userManager.GetUsersInRoleAsync("teacher");
 
         Users = users.Select(u => u.AsVM()).ToList();
     }
 
-    private async Task DeleteAdmin(string email)
+    private async Task DeleteTeacher(string email)
     {
         var user = await userManager.FindByEmailAsync(email);
 

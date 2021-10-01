@@ -1,4 +1,4 @@
-﻿@page "/admin/userManagement/createAdmin"
+﻿@page "/admin/userManagement/createTeacher"
 
 @using Symphony.BlazorServerApp.Controls.FormComponents
 @using Symphony.BlazorServerApp.Controls.Utilities
@@ -6,8 +6,8 @@
 <div class="container-fluid">
     <AuthorizeView Roles="admin">
         <Authorized Context="User">
-            <h2 class="fw-bolder text-center fs">Create an Admin</h2>
-            <CreateUserComponent CreateWho="admin"/>
+            <h2 class="fw-bolder text-center fs">Create a Teacher</h2>
+            <CreateUserComponent CreateWho="teacher" />
         </Authorized>
         <NotAuthorized>
             <UnauthorizedAccess />

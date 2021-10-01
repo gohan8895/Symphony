@@ -26,15 +26,16 @@
     align-items: center;
 }
 
-    .top-row ::deep a, .top-row .btn-link {
-        white-space: nowrap;
-        margin-left: 1.5rem;
-    }
+.top-row ::deep a,
+.top-row .btn-link {
+    white-space: nowrap;
+    margin-left: 1.5rem;
+}
 
-    .top-row a:first-child {
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+.top-row a:first-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 @media (max-width: 640.98px) {
     .top-row:not(.auth) {
@@ -45,7 +46,8 @@
         justify-content: space-between;
     }
 
-    .top-row a, .top-row .btn-link {
+    .top-row a,
+    .top-row .btn-link {
         margin-left: 0;
     }
 }
@@ -61,9 +63,9 @@
         position: sticky;
         top: 0;
     }
-    
+
     .sidebar-user {
-        width: 200px;
+        width: 13em;
         height: 100vh;
         position: sticky;
         top: 0;

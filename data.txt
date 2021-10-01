@@ -1,0 +1,49 @@
+Subjects:
+
+1	Java	Java subject	10	200	2021-09-28 11:33:50.5120375	2021-09-28 11:33:50.5120375	True
+2	Html	Hyper Text Markup Language	20	100	2021-09-28 11:35:02.2012018	2021-09-28 11:35:02.2012018	True
+3	Css	Cascading Style Sheet	30	150	2021-09-28 11:35:19.7788717	2021-09-28 11:35:19.7788717	True
+4	Javascript	Scripting Language	40	200	2021-09-28 12:05:59.7818412	2021-09-28 12:05:59.7818412	True
+11	Python	Python is a programming language that lets you work quickly and integrate systems more effectively.	60	300	2021-09-30 00:00:00.0000000	2021-09-30 00:00:00.0000000	True
+12	PHP	PHP is a popular general-purpose scripting language that is especially suited to web development. Fast, flexible and pragmatic, PHP powers everything from your blog to the most popular websites in the world.	50	250	2021-09-30 00:00:00.0000000	2021-09-30 00:00:00.0000000	True
+13	C++	General-purpose programming language created by Bjarne Stroustrup as an extension of the C programming language	60	300	2021-09-30 00:00:00.0000000	2021-09-30 00:00:00.0000000	True
+14	C	 General-purpose, procedural computer programming language supporting structured programming, lexical variable scope, and recursion, with a static type system.	60	280	2021-09-30 00:00:00.0000000	2021-09-30 00:00:00.0000000	True
+15	C#	C# (pronounced "See Sharp") is a modern, object-oriented, and type-safe programming language. 	60	350	2021-09-30 00:00:00.0000000	2021-09-30 00:00:00.0000000	True
+NULL	NULL	NULL	NULL	NULL	NULL	NULL	NULL
+
+Subject_Course
+
+1	1
+2	1
+3	1
+4	1
+
+Course
+
+1	The Design and Analysis of Algorithm Masterclass	Algorithm & Data Structures will help you to Crack Coding Interviews (C/C++Java/Python) Learn Algorithm Data Structures	2021-09-28 00:00:00.0000000	2021-09-28 00:00:00.0000000	600	0	True	True	2021-09-28 11:38:42.5105050	2021-09-28 12:09:15.5960401	True	images/design-analysis-of-algorithm-beginner.jpg	NULL
+2	Learn Advanced PHP Programming	Are you ready to take your web dev skills to the next level? Includes 6 hours of training with exercise files.	2021-09-28 00:00:00.0000000	2021-09-28 00:00:00.0000000	1400	0	True	False	2021-09-28 11:38:42.5105050	2021-09-28 12:09:15.5960401	True	images/php-advanced.jpg	NULL
+3	PHP for Beginners - Become a PHP Master - CMS Project	PHP for Beginners: learn everything you need to become a professional PHP developer with practical exercises & projects.	2021-09-28 00:00:00.0000000	2021-09-28 00:00:00.0000000	300	0	True	True	2021-09-28 11:38:42.5105050	2021-09-28 12:09:15.5960401	True	images/php-beginner.jpg	NULL
+4	Css Zero to Hero	The most advanced and modern CSS course on the internet: master flexbox, CSS Grid, responsive design, and so much more.	2021-09-28 00:00:00.0000000	2021-09-28 00:00:00.0000000	300	0	True	True	2021-09-28 11:38:42.5105050	2021-09-28 12:09:15.5960401	True	images/CSS3.png	NULL
+5	Web Design	The only course you need to learn web development - HTML, CSS, JS	2021-09-28 00:00:00.0000000	2021-09-28 00:00:00.0000000	450	0	True	True	2021-09-28 11:38:42.5105050	2021-09-28 12:09:15.5960401	True	images/web-design-course.jpg	NULL
+6	Learning Data Structures and Algorithms	Implementation and Analysis for Increased Software Performance	2021-09-28 00:00:00.0000000	2021-09-28 00:00:00.0000000	500	0	True	True	2021-09-28 11:38:42.5105050	2021-09-28 12:09:15.5960401	True	images/learning-data-structure.jpg	NULL
+7	Docker Swarm: BEGINNER	Learn How To Use Docker Swarm To Manage Docker At Scale	2021-09-28 00:00:00.0000000	2021-09-28 00:00:00.0000000	300	0	True	True	2021-09-28 11:38:42.5105050	2021-09-28 12:09:15.5960401	True	images/docker-swarm-beginner.jpg	NULL
+8	The Web Developer Bootcamp	COMPLETELY REDONE - The only course you need to learn web development - HTML, CSS, JS, Node, and More!	2021-09-28 00:00:00.0000000	2021-09-28 00:00:00.0000000	700	0	True	True	2021-09-28 11:38:42.5105050	2021-09-28 12:09:15.5960401	True	images/web-dev-beginner.jpg	NULL
+9	C Programming For Beginners - Master the C Language	C Programming will increase career options. Become a better dev in other languages by learning C. Pointers explained	2021-09-28 00:00:00.0000000	2021-09-28 00:00:00.0000000	400	0	True	True	2021-09-28 11:38:42.5105050	2021-09-28 12:09:15.5960401	True	images/c-beginner.jpg	NULL
+10	Advanced C Programming Course	Become a True Master of the C Programming Language - Confidently Apply for Real Time or Embedded C Jobs or contracts!	2021-09-28 00:00:00.0000000	2021-09-28 00:00:00.0000000	1000	0	True	False	2021-09-28 11:38:42.5105050	2021-09-28 12:09:15.5960401	True	images/c-advanced.jpg	NULL
+11	The Complete Java Certification Course	Become a confident industry ready core Java developer and get certified as a Java professional!	2021-09-28 00:00:00.0000000	2021-09-28 00:00:00.0000000	1050	0	True	False	2021-09-28 11:38:42.5105050	2021-09-28 12:09:15.5960401	True	images/java-advanced.jpg	NULL
+12	Python for Beginner	Learn Python Programming the Easy Way, Complete with Examples, Quizzes, Exercises and more. Learn Python 2 and Python 3.	2021-09-28 00:00:00.0000000	2021-09-28 00:00:00.0000000	300	0	True	True	2021-09-28 11:38:42.5105050	2021-09-28 12:09:15.5960401	True	images/python-beginner.jpg	NULL
+13	Modern React with Redux	Master React and Redux with React Router, Webpack, and Create-React-App. Includes Hooks!	2021-09-28 00:00:00.0000000	2021-09-28 00:00:00.0000000	1200	0	True	False	2021-09-28 11:38:42.5105050	2021-09-28 12:09:15.5960401	True	images/modern-react-with-redux.jpg	NULL
+
+
+13	Modern React with Redux	Master React and Redux with React Router, Webpack, and Create-React-App. Includes Hooks!	2021-09-28 00:00:00.0000000	2021-09-28 00:00:00.0000000	1200	0	True	False	2021-09-28 11:38:42.5105050	2021-09-28 12:09:15.5960401	True	images/modern-react-with-redux.jpg	NULL
+
+FAQs
+
+2	How to join the course?	On this the admin should be able to enter or update the procedures for joining the course that the institute offers	True	2021-09-30 17:31:41.7047229	2021-09-30 17:31:41.7063533
+3	Why to join the institute? 	The various benefits that the student can gain by joining the institution is to be provided. For example, members can receive early access to research and content generated by the Institute, discounts on events and the annual Conference, weekly blog updates, and more.	True	2021-09-30 17:32:28.5585710	2021-09-30 17:32:28.5585799
+4	When will be Entrance Examinations Conducted?	Once in 6 months, and one need to check the website for knowing when is the entrance exam entitled, the fees for the entrance exam (admin will decide and displayed on the application form), etc. are to be listed	True	2021-09-30 17:32:54.3894853	2021-09-30 17:32:54.3894934
+5	Can I use the Lab facilities after my class hours? Will there be any extra hidden charges? 	Yes, you can use the lab sessions even after your class hours. There will be no charges during the course days (i.e., during the course period if you want to use the lab sessions after the class hours we do provide the lab session and the labs will be kept opened till 9 PM in the evening. But yes if you want to use the lab session after your course completion, then it will be charged based on the scenario (like 1000$ if opted at the time of registering and 1500$ if opted after the completion of the course	True	2021-09-30 17:33:17.0374203	2021-09-30 17:33:17.0374292
+6	How can I apply for the entrance exam? 	Once the entrance exams are entitled, one need to visit the centre for applying it through paper and fill all the necessary details through online. On the application form one should chose which course you wanted to pursue	True	2021-09-30 17:33:36.8735911	2021-09-30 17:33:36.8738685
+7	Will there be any fees for the entrance exam?	Yes there will be and it will be available on the application form	True	2021-09-30 17:34:00.9897430	2021-09-30 17:34:00.9897525
+10	How to make the payment?	Payment can be done through draft, or through cheque or through cash.	True	2021-09-30 17:36:32.3631862	2021-09-30 17:36:32.3631956
+

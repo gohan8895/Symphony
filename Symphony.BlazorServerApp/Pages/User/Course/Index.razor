@@ -21,13 +21,14 @@
                             {
                                 <div class="col-4">
                                     <div class="card border-0 w-100" style="width: 15em;">
-                                        <img src="http:/localhost:5050/@basicCourse.ImagePath" class="btn d-block w-100" alt="...">
+                                        <img src="http:/localhost:5050/@basicCourse.ImagePath" class="btn d-block w-100"
+                                    alt="...">
                                         <div class="card-body fw-bold">
                                             <h5 class="card-title">@basicCourse.Name</h5>
                                             <p class="card-text">
                                                 @basicCourse.Description
                                             </p>
-                                            <a href="course/@basicCourse.Id" class="btn detail-button">
+                                            <a href="courses/@basicCourse.Id" class="btn detail-button fw-bolder">
                                                 View Detail
                                                 <span class="material-icons ms-2">visibility</span>
                                             </a>
@@ -41,12 +42,12 @@
                 }
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
-                    data-bs-slide="prev">
+                data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
             <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
-                    data-bs-slide="next">
+                data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
@@ -56,9 +57,9 @@
 </div>
 
 @code {
-    #region Props
-    private IEnumerable<CourseVM> Courses = Array.Empty<CourseVM>();
-    private List<List<CourseVM>> CarouselCourses = new();
+        #region Props
+    private IEnumerable<CourseVM> Courses { get; set; } = Array.Empty<CourseVM>();
+    private List<List<CourseVM>> CarouselCourses { get; set; } = new();
     private bool ShouldRender;
     private int carouselCount = 0;
     #endregion

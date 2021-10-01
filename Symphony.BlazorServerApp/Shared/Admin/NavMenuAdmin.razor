@@ -30,7 +30,7 @@
                         <NavLink class="nav-link expand-menu" href="admin/userManagement/adminManager"><span class="material-icons me-2">badge</span>Admin</NavLink>
                     </li>
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link expand-menu" href="admin/userManagement/createTeacher">
+                        <NavLink class="nav-link expand-menu" href="admin/userManagement/teacherManager">
                             <span class="material-icons me-2">supervisor_account</span>
                             Teacher
                         </NavLink>
@@ -144,12 +144,30 @@
                 </span> FAQ
             </NavLink>
         </li>
-        <li class="nav-item px-3 ">
-            <NavLink class="nav-link" href="/aboutus">
+        <li class="nav-item px-3 fw-bold btn">
+            <NavLink class="nav-link" @onclick="() => expandAbout = !expandAbout">
                 <span class="material-icons me-2">
                     help
-                </span> About
+                </span> About Management
+                <span class="material-icons me-2">
+                    @(expandAbout ? "expand_less" : "expand_more")
+                </span>
             </NavLink>
+            @if (expandAbout)
+            {
+                <ul class="nav flex-column">
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="about/aboutManagement"><span class="material-icons me-2">badge</span>Manage Content</NavLink>
+                    </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="/aboutus">
+                            <span class="material-icons me-2">
+                                help
+                            </span> About
+                        </NavLink>
+                    </li>
+                </ul>
+            }
         </li>
     </ul>
 </div>
@@ -163,6 +181,7 @@
     private bool expandSubMenuCourse = false;
     private bool expandSubMenuExam = false;
     private bool expandSubMenuRegistration = false;
+    private bool expandAbout = false;
 
 
 
