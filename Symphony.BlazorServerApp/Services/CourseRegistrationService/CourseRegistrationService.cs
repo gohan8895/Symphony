@@ -1,4 +1,5 @@
-﻿using Symphony.ViewModels.Consult;
+﻿using Microsoft.AspNetCore.Mvc;
+using Symphony.ViewModels.Consult;
 using System;
 using System.Collections.Generic;
 using System.Linq;

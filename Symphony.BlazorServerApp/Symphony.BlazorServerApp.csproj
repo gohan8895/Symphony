@@ -15,6 +15,7 @@
   <ItemGroup>
     <None Remove="Controls\CourseComponents\AllCourses.razor.css" />
     <None Remove="Pages\User\About\AboutUs.razor.css" />
+    <None Remove="Pages\User\Course\Registered.razor.css" />
     <None Remove="Pages\User\Faq\Faq.razor.css" />
 
     <None Remove="Shared\Admin\LoginDisplayAdmin.razor.css" />
@@ -26,6 +27,7 @@
   <ItemGroup>
     <Content Include="Controls\CourseComponents\AllCourses.razor.css" />
     <Content Include="Pages\User\About\AboutUs.razor.css" />
+    <Content Include="Pages\User\Course\Registered.razor.css" />
     <Content Include="Pages\User\Faq\Faq.razor.css" />
 
     <Content Include="Shared\Admin\LoginDisplayAdmin.razor.css" />
