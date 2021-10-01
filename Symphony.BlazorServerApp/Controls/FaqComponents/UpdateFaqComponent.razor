@@ -29,16 +29,17 @@
     public UpdateFAQVM InputFaq { get; set; } = new();
 
     [Parameter]
-    public int Id { get; set; }
+    public int faqId { get; set; }
 
     #endregion
 
     protected async override Task OnInitializedAsync()
     {
-        var Faq = await faqService.GetFaqAsync(Id);
+        var Faq = await faqService.GetFaqAsync(faqId);
 
         InputFaq = new UpdateFAQVM
         {
+            Id = Faq.Id ,
             Question = Faq.Question,
             Answer = Faq.Answer,
             IsShown = Faq.IsShown
@@ -47,10 +48,10 @@
 
     private async Task UpdateFaq()
     {
-        if(InputFaq is not null)
-            {
-         
-            }
+        
+        await faqService.UpdateFaqAsync(InputFaq);
+        
+        Nav.NavigateTo("/admin/faq/");
 
     }
 }

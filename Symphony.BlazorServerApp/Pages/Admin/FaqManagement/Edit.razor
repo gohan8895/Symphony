@@ -1,4 +1,4 @@
-﻿@page "/admin/faqManagement/editfaq/{Id}"
+﻿@page "/admin/faqManagement/editfaq/{Id:int}"
 @using Symphony.BlazorServerApp.Controls.FaqComponents
 @using Symphony.BlazorServerApp.Controls.Utilities
 
@@ -6,10 +6,11 @@
 
 
 <div class="container">
+    <h2>@Id</h2>
     <AuthorizeView Roles="admin">
         <Authorized Context="User">
             <h2 class="fw-bolder text-center fs">Update a Faq</h2>
-            <UpdateFaqComponent />
+            <UpdateFaqComponent faqId="Id"/>
         </Authorized>
         <NotAuthorized>
             <UnauthorizedAccess />

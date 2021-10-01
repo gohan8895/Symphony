@@ -16,7 +16,7 @@
                     <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
-            
+
         }
         else
         {
@@ -34,14 +34,14 @@
                         <td><p>@faq.Answer</p></td>
                         <td><p>@faq.IsShown</p></td>
                         <td class="text-center">
-                            <NavLink href=@($"/admin/faq/editfaq/{faq.Id}") class="material-icons nav-item text-warning me-4">edit</NavLink>
+                            <NavLink href=@($"/admin/faqManagement/editfaq/{faq.Id}") class="material-icons nav-item text-warning me-4">edit</NavLink>
                             <a @onclick="() => DeleteFaq(faq.Id)" class="btn material-icons nav-item text-danger me-2">delete</a>
                         </td>
                     </RowTemplate>
                 </TableTemplate>
             </div>
         }
-
+       
     </Authorized>
 </AuthorizeView>
 

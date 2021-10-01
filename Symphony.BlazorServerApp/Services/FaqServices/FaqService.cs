@@ -88,9 +88,21 @@ namespace Symphony.BlazorServerApp.Services.FaqServices
 
         }
 
-        public Task UpdateFaqAsync(UpdateFAQVM faq)
+        public async Task UpdateFaqAsync(UpdateFAQVM faq)
         {
-            throw new NotImplementedException();
+            if (faq is not null)
+            {
+                var client = clientFactory.CreateClient("symphony");
+                var faqJson = new StringContent(
+                    JsonSerializer.Serialize(faq, options),
+                    encoding: Encoding.UTF8,
+                    "application/json"
+                    );
+
+                using var httpResponse = await client.PutAsync("faqs/", faqJson);
+
+                httpResponse.EnsureSuccessStatusCode();
+            }
         }
     }
 }
