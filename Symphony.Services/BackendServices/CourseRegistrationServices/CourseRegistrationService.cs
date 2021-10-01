@@ -35,17 +35,10 @@ namespace Symphony.Services.BackendServices.CourseRegistrationServices
 
         public async Task<IEnumerable<CourseRegistrationWithDataVM>> GetCourseRegistrationWithDataVMsAsync()
         {
-            var courseRegistrationWithDataVM = await symphonyDBContext.CourseRegistrations.Select(a => new CourseRegistrationWithDataVM()
-            {
-                Id = a.Id,
-                UserId = a.UserId,
-                CourseId = a.CourseId,
-                IsApproved = a.IsApproved,
-                CreatedAt = a.CreatedAt,
-                ExamRequired = a.ExamRequired,
-                AppUserVM = a.AppUser.AsVM(),
-                CourseVM = a.Course.AsVM()
-            }).ToListAsync();
+            var courseRegistrationWithDataVM = await symphonyDBContext.CourseRegistrations
+                .Include(x => x.Course)
+                .Include(x => x.AppUser)
+                .Select(a => a.AsVMWithData()).ToListAsync();
 
             return courseRegistrationWithDataVM;
         }
@@ -59,7 +52,7 @@ namespace Symphony.Services.BackendServices.CourseRegistrationServices
             return result.AsVM();
         }
 
-        public async Task<CourseRegistrationVM> CreateCourseRegistrationAsync(CreateCourseRegistrationVM courseRegistration)
+        public async Task<CourseRegistrationWithDataVM> CreateCourseRegistrationAsync(CreateCourseRegistrationVM courseRegistration)
         {
             var courseRegis = new CourseRegistration()
             {
@@ -80,11 +73,14 @@ namespace Symphony.Services.BackendServices.CourseRegistrationServices
             double finalPrice = _course.Price;
             double priceEntranceExam = 50;
             if (courseRegis.ExamRequired) finalPrice += priceEntranceExam;
-            var _paymentStatus = _paymnetService.CreatePaymentStatusAsync(courseRegistration.CourseId, priceEntranceExam);
+            var _paymentStatus = await _paymnetService.CreatePaymentStatusAsync(courseRegis.Id, finalPrice);
 
             //If
-
-            return courseRegis.AsVM();
+            var _createdCourseRegis = await symphonyDBContext.CourseRegistrations
+                                        .Include(x => x.AppUser)
+                                        .Include(x => x.Course)
+                                        .SingleOrDefaultAsync(x => x.Id == courseRegis.Id);
+            return _createdCourseRegis.AsVMWithData();
         }
 
         public async Task<CourseRegistrationVM> UpdateCourseRegistrationAsync(int courseRegistrationId)

@@ -16,7 +16,7 @@ namespace Symphony.Services.BackendServices.CourseRegistrationServices
 
         Task<CourseRegistrationVM> GetCourseRegistrationVMAsync(int id);
 
-        Task<CourseRegistrationVM> CreateCourseRegistrationAsync(CreateCourseRegistrationVM courseRegistration);
+        Task<CourseRegistrationWithDataVM> CreateCourseRegistrationAsync(CreateCourseRegistrationVM courseRegistration);
 
         Task<CourseRegistrationVM> UpdateCourseRegistrationAsync(int courseRegistration);
 
