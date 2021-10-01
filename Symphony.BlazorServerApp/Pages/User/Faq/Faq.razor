@@ -12,24 +12,27 @@
     }
     else
     {
-        <div class="accordion" id="accordionExample">
-            @foreach (var item in Data)
-            {
-
-                <div class="accordion-item">
-                    <h2 class="accordion-header fw-bolder" id="heading-@item.Id">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@item.Id" aria-expanded="false" aria-controls="collapse-@item.Id">
-                            @item.Question
-                        </button>
-                    </h2>
-                    <div id="collapse-@item.Id" class="accordion-collapse collapse show" aria-labelledby="heading-@item.Id" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            @item.Answer
-                        </div>
+<div class="accordion" id="accordionExample">
+    @foreach (var item in Data)
+    {
+        if (item.IsShown)
+        {
+            <div class="accordion-item">
+                <h2 class="accordion-header fw-bolder" id="heading-@item.Id">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@item.Id" aria-expanded="false" aria-controls="collapse-@item.Id">
+                        @item.Question
+                    </button>
+                </h2>
+                <div id="collapse-@item.Id" class="accordion-collapse collapse show" aria-labelledby="heading-@item.Id" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        @item.Answer
                     </div>
                 </div>
-            }
-        </div>
+            </div>
+        }
+
+    }
+</div>
     }
 </main>
 @code {

@@ -11,14 +11,18 @@
         @if (Faqs == null)
         {
 
-
-            <h3>Loading ...</h3>
+            <div class="container">
+                <div class="spinner-border " role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            
         }
         else
         {
             <div class="container-fluid">
                 <h1 class="text-center fw-bolder">User Manager</h1>
-                <CreateButton Url="admin/userManagement/createUser" Who="a New User" />
+                <CreateButton Url="admin/faqManagement/createFaq" Who="a New FAQ" />
                 <TableTemplate Caption="Users" Items="Faqs" Context="faq">
                     <TableHeader>
                         <td><p>@nameof(FAQ.Question)</p></td>
