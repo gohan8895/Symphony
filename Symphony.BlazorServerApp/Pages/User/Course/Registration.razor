@@ -1,0 +1,19 @@
+﻿@page "/course/registration/{id:int}"
+@using Symphony.BlazorServerApp.Services.CourseRegistrationService
+@inject ICourseRegistrationService registrationService
+
+<h3>Registration</h3>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private CreateCourseRegistrationVM CreateCourseRegVM { get; set; }
+
+    private void AgreeToEnroll()
+    {
+        CreateCourseRegVM = new CreateCourseRegistrationVM
+        {
+            CourseId = Id
+        };
+    }
+}

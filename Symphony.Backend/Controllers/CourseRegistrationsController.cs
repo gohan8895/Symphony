@@ -29,7 +29,7 @@ namespace Symphony.Backend.Controllers
             return Ok(result);
         }
 
-        [HttpGet("courseregistrations/get-course-registration-with-data")]
+        [HttpGet("get-course-registration-with-data")]
         public async Task<ActionResult<CourseRegistrationWithDataVM>> GetAllCourseRegistrationWithDatas()
         {
             return Ok(await courseRegistrationService.GetCourseRegistrationWithDataVMsAsync());
@@ -68,7 +68,7 @@ namespace Symphony.Backend.Controllers
 
         }
 
-        // PUT api/<CourseRegistrationsController>/5
+        // PUT api/<CourseRegistrationsController>
         [HttpPut]
         public async Task<ActionResult> UpdateCourseRegistration([FromBody] UpdateCourseRegistrationVM courseRegistrationVM)
         {

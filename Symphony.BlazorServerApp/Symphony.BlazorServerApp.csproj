@@ -48,9 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Symphony.Backend\Symphony.Backend.csproj" />
     <ProjectReference Include="..\Symphony.Data\Symphony.Data.csproj" />
-    <ProjectReference Include="..\Symphony.Services\Symphony.Services.csproj" />
     <ProjectReference Include="..\Symphony.Utilities\Symphony.Utilities.csproj" />
   </ItemGroup>
 
