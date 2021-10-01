@@ -11,10 +11,15 @@ namespace Symphony.Services.BackendServices.CourseRegistrationServices
     public interface ICourseRegistrationService
     {
         Task<IEnumerable<CourseRegistrationVM>> GetAllCourseRegistrationVMsAsync();
+
         Task<IEnumerable<CourseRegistrationWithDataVM>> GetCourseRegistrationWithDataVMsAsync();
+
         Task<CourseRegistrationVM> GetCourseRegistrationVMAsync(int id);
+
         Task<CourseRegistrationVM> CreateCourseRegistrationAsync(CreateCourseRegistrationVM courseRegistration);
-        Task<CourseRegistrationVM> UpdateCourseRegistrationAsync(UpdateCourseRegistrationVM courseRegistration);
+
+        Task<CourseRegistrationVM> UpdateCourseRegistrationAsync(int courseRegistration);
+
         Task<CourseRegistrationVM> DeleteCourseRegistrationAsync(int id);
     }
 }

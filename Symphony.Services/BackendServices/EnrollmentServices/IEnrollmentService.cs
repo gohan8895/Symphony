@@ -9,11 +9,16 @@ namespace Symphony.Services.BackendServices.EnrollmentServices
 {
     public interface IEnrollmentService
     {
-        Task<EnrollmentVM> GetEnrollmentVMAsync(int id);
+        Task<EnrollmentVM> GetEnrollmentVMAsync(Guid studentId, int courseId);
+
         Task<IEnumerable<EnrollmentVM>> GetEnrollmentVMsAsync();
+
         Task<EnrollmentVM> CreateEnrollment(CreateEnrollmentVM enrollmentVM);
+
         Task<EnrollmentVM> UpdateEnrollment(UpdateEnrollmentVM enrollmentVM);
+
         Task ChangeEnrollmentStatus(int id);
+
         Task<IEnumerable<EnrollmentWithData>> GetEnrollmentWithDataVM();
     }
 }

@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Symphony.Data.EF;
 using Symphony.Data.Entities;
+using Symphony.Services.BackendServices.EnrollmentServices;
+using Symphony.Services.BackendServices.PaymentStatusServices;
 using Symphony.ViewModels.Consult;
+using Symphony.ViewModels.CourseViewModel;
 using Symphony.ViewModels.Extensions;
 using System;
 using System.Collections.Generic;
@@ -14,10 +17,14 @@ namespace Symphony.Services.BackendServices.CourseRegistrationServices
     public class CourseRegistrationService : ICourseRegistrationService
     {
         private readonly SymphonyDBContext symphonyDBContext;
+        private readonly IPaymentStatusService _paymnetService;
+        private readonly IEnrollmentService _enrollmentService;
 
-        public CourseRegistrationService(SymphonyDBContext symphonyDBContext)
+        public CourseRegistrationService(SymphonyDBContext symphonyDBContext, IPaymentStatusService service, IEnrollmentService enrollmentService)
         {
             this.symphonyDBContext = symphonyDBContext;
+            _paymnetService = service;
+            _enrollmentService = enrollmentService;
         }
 
         public async Task<IEnumerable<CourseRegistrationVM>> GetAllCourseRegistrationVMsAsync()
@@ -58,31 +65,56 @@ namespace Symphony.Services.BackendServices.CourseRegistrationServices
             {
                 UserId = courseRegistration.UserId,
                 CourseId = courseRegistration.CourseId,
-                IsApproved = courseRegistration.IsApproved,
-                CreatedAt = DateTime.Now,
-                ExamRequired = courseRegistration.ExamRequired,
-
+                IsApproved = false,
+                CreatedAt = DateTime.Now
             };
+
+            var _course = await symphonyDBContext.Courses.SingleOrDefaultAsync(x => x.Id == courseRegistration.CourseId);
+            if ((_course.IsBasic is not true)) courseRegis.ExamRequired = true;
+            else courseRegis.ExamRequired = false;
 
             await symphonyDBContext.CourseRegistrations.AddAsync(courseRegis);
             await symphonyDBContext.SaveChangesAsync();
 
+            //Insert data into payment
+            double finalPrice = _course.Price;
+            double priceEntranceExam = 50;
+            if (courseRegis.ExamRequired) finalPrice += priceEntranceExam;
+            var _paymentStatus = _paymnetService.CreatePaymentStatusAsync(courseRegistration.CourseId, priceEntranceExam);
+
+            //If
+
             return courseRegis.AsVM();
         }
-        
-        public async Task<CourseRegistrationVM> UpdateCourseRegistrationAsync(UpdateCourseRegistrationVM courseRegistration)
+
+        public async Task<CourseRegistrationVM> UpdateCourseRegistrationAsync(int courseRegistrationId)
         {
-            var _courseResig = await symphonyDBContext.CourseRegistrations.FirstOrDefaultAsync(a => a.Id == courseRegistration.Id);
+            var _courseResig = await symphonyDBContext.CourseRegistrations
+                .Include(x => x.AppUser)
+                .FirstOrDefaultAsync(a => a.Id == courseRegistrationId);
 
             if (_courseResig == null)
             {
                 return null;
             }
 
-            _courseResig.UserId = courseRegistration.UserId;
-            _courseResig.CourseId = courseRegistration.CourseId;
-            _courseResig.IsApproved = courseRegistration.IsApproved;
-            _courseResig.ExamRequired = courseRegistration.ExamRequired;
+            if (_courseResig.IsApproved is true) _courseResig.IsApproved = false;
+            else _courseResig.IsApproved = true;
+
+            //If the course registration is approved/not approved, it means student has paid the tuition fee
+            //So we need to update the payment status as paid/unpaid
+            var _paymentSttUpdateResult = await _paymnetService.UpdatePaymentStatusAsync(courseRegistrationId, _courseResig.IsApproved);
+
+            var _studentEnrollment = await _enrollmentService.GetEnrollmentVMAsync(_courseResig.AppUser.Id, _courseResig.CourseId);
+            if (_courseResig.IsApproved is true)
+            {
+                //check if the student has enroll in a course, if not, we insert an enrollment record to database
+                if (_studentEnrollment is null)
+                {
+                    await _enrollmentService.CreateEnrollment(new CreateEnrollmentVM { UserId = _courseResig.AppUser.Id, CourseId = _courseResig.CourseId });
+                }
+            }
+            else _studentEnrollment.IsDelete = true;
 
             await symphonyDBContext.SaveChangesAsync();
 

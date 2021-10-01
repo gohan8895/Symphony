@@ -2,6 +2,7 @@
 using Symphony.Data.EF;
 using Symphony.Data.Entities;
 using Symphony.ViewModels.Consult;
+using Symphony.ViewModels.CourseViewModel;
 using Symphony.ViewModels.Extensions;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Symphony.Services.BackendServices.PaymentStatusServices
 {
-  public  class PaymentStatusService : IPaymentStatusService
+    public class PaymentStatusService : IPaymentStatusService
     {
         private readonly SymphonyDBContext symphonyDBContext;
 
@@ -20,13 +21,13 @@ namespace Symphony.Services.BackendServices.PaymentStatusServices
             this.symphonyDBContext = symphonyDBContext;
         }
 
-        public async Task<PaymentStatusVM> CreatePaymentStatusAsync(CreatePaymentStatusVM createPaymentStatusVM)
+        public async Task<PaymentStatusVM> CreatePaymentStatusAsync(int courseRegistrationId, double amount)
         {
             var paymentStatus = new PaymentStatus()
             {
-               CourseRegistrationId = createPaymentStatusVM.CourseRegistrationId , 
-                Amount = createPaymentStatusVM.Amount,
-                HasPaid = createPaymentStatusVM.HasPaid,
+                CourseRegistrationId = courseRegistrationId,
+                Amount = amount,
+                HasPaid = false,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
             };
@@ -35,19 +36,17 @@ namespace Symphony.Services.BackendServices.PaymentStatusServices
             return paymentStatus.AsVM();
         }
 
-
         public async Task<PaymentStatusVM> DeletePaymentStatusAsync(int id)
         {
             var result = await symphonyDBContext.PaymentStatuses.FirstOrDefaultAsync(a => a.Id == id);
-            if(result is null)
+            if (result is null)
             {
                 return null;
             }
-             symphonyDBContext.PaymentStatuses.Remove(result);
+            symphonyDBContext.PaymentStatuses.Remove(result);
             await symphonyDBContext.SaveChangesAsync();
             return result.AsVM();
         }
-
 
         public async Task<IEnumerable<PaymentStatusVM>> GetAllPaymentStatusAsync()
         {
@@ -59,31 +58,30 @@ namespace Symphony.Services.BackendServices.PaymentStatusServices
             return result;
         }
 
-        public async Task<PaymentStatusVM> GetPaymentStatusAsync(int paymentStatusId)
+        public async Task<PaymentStatusVM> GetPaymentStatusAsync(int courseID)
         {
-            var result = await symphonyDBContext.PaymentStatuses.FirstOrDefaultAsync(a => a.Id == paymentStatusId);
-            if(result is null)
+            var result = await symphonyDBContext.PaymentStatuses.FirstOrDefaultAsync(a => a.CourseRegistrationId == courseID);
+            if (result is null)
             {
                 return null;
             }
             return result.AsVM();
         }
 
-        public async Task<PaymentStatusVM> UpdatePaymentStatusAsync(UpdatePaymentStatusVM updatePaymentStatusVM)
+        public async Task<PaymentStatusVM> UpdatePaymentStatusAsync(int courseRegistrationId, bool courseRegisIsApproved)
         {
-            var paymentStatus = await symphonyDBContext.PaymentStatuses.FirstOrDefaultAsync(a => a.Id == updatePaymentStatusVM.Id);
+            var paymentStatus = await symphonyDBContext.PaymentStatuses.FirstOrDefaultAsync(a => a.CourseRegistrationId == courseRegistrationId);
             if (paymentStatus is null)
             {
                 return null;
             }
-            paymentStatus.CourseRegistrationId = updatePaymentStatusVM.CourseRegistrationId;
-            paymentStatus.Amount = updatePaymentStatusVM.Amount;
-            paymentStatus.HasPaid = updatePaymentStatusVM.HasPaid;
+
+            if (courseRegisIsApproved is true) paymentStatus.HasPaid = true;
+            else paymentStatus.HasPaid = false;
+
             paymentStatus.UpdatedAt = DateTime.Now;
             await symphonyDBContext.SaveChangesAsync();
             return paymentStatus.AsVM();
-
         }
-
     }
 }
