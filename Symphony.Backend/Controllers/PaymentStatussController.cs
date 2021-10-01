@@ -21,16 +21,13 @@ namespace Symphony.Backend.Controllers
             this.paymentStatusService = paymentStatusService;
         }
 
-
-
         //AboutsController
         // GET: api/<PaymentStatussController>
-
 
         [HttpGet("get-all-paymentstatus")]
         public async Task<ActionResult<IEnumerable<PaymentStatusVM>>> GetAllPaymentStatus()
         {
-           var result = await paymentStatusService.GetAllPaymentStatusAsync();
+            var result = await paymentStatusService.GetAllPaymentStatusAsync();
             return Ok(result);
         }
 
@@ -41,34 +38,31 @@ namespace Symphony.Backend.Controllers
             return Ok(result);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<PaymentStatusVM>> CreatePaymentStatus([FromBody] CreatePaymentStatusVM createPaymentStatusVM)
-        { 
-            if(createPaymentStatusVM is null)
-            {
-                return BadRequest();
-            }
-            var paymentStatusVM = new PaymentStatusVM();
-            if (ModelState.IsValid)
-            {
-                paymentStatusVM = await paymentStatusService.CreatePaymentStatusAsync(createPaymentStatusVM);
-            }
+        //[HttpPost]
+        //public async Task<ActionResult<PaymentStatusVM>> CreatePaymentStatus([FromBody] CreatePaymentStatusVM createPaymentStatusVM)
+        //{
+        //    if(createPaymentStatusVM is null)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    var paymentStatusVM = new PaymentStatusVM();
+        //    if (ModelState.IsValid)
+        //    {
+        //        paymentStatusVM = await paymentStatusService.CreatePaymentStatusAsync(createPaymentStatusVM);
+        //    }
 
-            return CreatedAtAction(nameof(GetPaymentStatus), new { id = paymentStatusVM.Id }, paymentStatusVM);
-        }
-        
+        //    return CreatedAtAction(nameof(GetPaymentStatus), new { id = paymentStatusVM.Id }, paymentStatusVM);
+        //}
+
         [HttpPut]
-        public async Task<ActionResult<PaymentStatusVM>> UpdatePaymentStatus([FromBody] UpdatePaymentStatusVM updatePaymentStatusVM)
-        {  if(updatePaymentStatusVM is null)
-            {
-                return BadRequest();
-            }
-           var PaymentStatusVM = new PaymentStatusVM();
+        public async Task<ActionResult<PaymentStatusVM>> UpdatePaymentStatus([FromBody] int courseRegistrationId, bool courseRegisIsApproved)
+        {
+            var PaymentStatusVM = new PaymentStatusVM();
             if (ModelState.IsValid)
             {
-                PaymentStatusVM = await paymentStatusService.UpdatePaymentStatusAsync(updatePaymentStatusVM);
+                PaymentStatusVM = await paymentStatusService.UpdatePaymentStatusAsync(courseRegistrationId, courseRegisIsApproved);
             }
-            if(PaymentStatusVM is null)
+            if (PaymentStatusVM is null)
             {
                 return NotFound();
             }
@@ -79,15 +73,12 @@ namespace Symphony.Backend.Controllers
         public async Task<IActionResult> DeletePaymentStatus(int id)
         {
             var result = await paymentStatusService.GetPaymentStatusAsync(id);
-            if(result is null)
+            if (result is null)
             {
                 return NotFound();
             }
             await paymentStatusService.DeletePaymentStatusAsync(id);
             return NoContent();
         }
-
-
-
     }
 }

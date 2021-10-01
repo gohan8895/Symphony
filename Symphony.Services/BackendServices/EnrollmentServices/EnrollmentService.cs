@@ -20,15 +20,18 @@ namespace Symphony.Services.BackendServices.EnrollmentServices
             this.symphonyDBContext = symphonyDBContext;
         }
 
-        public async Task<EnrollmentVM> GetEnrollmentVMAsync(int id)
+        public async Task<EnrollmentVM> GetEnrollmentVMAsync(Guid studentId, int courseId)
         {
-            var enrollment = await symphonyDBContext.Enrollments.FirstOrDefaultAsync(e => e.Id == id);
+            var enrollment = await symphonyDBContext.Enrollments.FirstOrDefaultAsync(e
+                => e.UserId == studentId
+                & e.CourseId == courseId);
             if (enrollment is null)
             {
                 return null;
             }
             return enrollment.EnsVM();
         }
+
         public async Task<IEnumerable<EnrollmentVM>> GetEnrollmentVMsAsync()
         {
             var enrollments = await symphonyDBContext.Enrollments.Select(e => e.EnsVM()).ToListAsync();
@@ -41,7 +44,7 @@ namespace Symphony.Services.BackendServices.EnrollmentServices
             {
                 UserId = enrollmentVM.UserId,
                 CourseId = enrollmentVM.CourseId,
-                IsDelete = enrollmentVM.IsDelete
+                IsDelete = false
             };
 
             await symphonyDBContext.Enrollments.AddAsync(enrollment);
@@ -49,14 +52,15 @@ namespace Symphony.Services.BackendServices.EnrollmentServices
 
             return enrollment.EnsVM();
         }
+
         public async Task<EnrollmentVM> UpdateEnrollment(UpdateEnrollmentVM enrollmentVM)
         {
             var enrollment = await symphonyDBContext.Enrollments.FirstOrDefaultAsync(e => e.Id == enrollmentVM.Id);
-            if(enrollment is null)
+            if (enrollment is null)
             {
                 return null;
             }
-            
+
             enrollment.UserId = enrollmentVM.UserId;
             enrollment.CourseId = enrollmentVM.CourseId;
             enrollment.IsDelete = enrollmentVM.IsDelete;
@@ -64,6 +68,7 @@ namespace Symphony.Services.BackendServices.EnrollmentServices
             await symphonyDBContext.SaveChangesAsync();
             return enrollment.EnsVM();
         }
+
         public async Task ChangeEnrollmentStatus(int id)
         {
             var enrollment = await symphonyDBContext.Enrollments.FirstOrDefaultAsync(e => e.Id == id);
@@ -75,6 +80,7 @@ namespace Symphony.Services.BackendServices.EnrollmentServices
             else enrollment.IsDelete = false;
             await symphonyDBContext.SaveChangesAsync();
         }
+
         public async Task<IEnumerable<EnrollmentWithData>> GetEnrollmentWithDataVM()
         {
             var enrollments = await symphonyDBContext.Enrollments.Select(e => new EnrollmentWithData()
@@ -88,7 +94,6 @@ namespace Symphony.Services.BackendServices.EnrollmentServices
             }).ToListAsync();
 
             return enrollments;
-            
         }
     }
 }

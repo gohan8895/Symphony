@@ -19,6 +19,7 @@ namespace Symphony.ViewModels.Consult
         public DateTime CreatedAt { get; set; }
         public bool ExamRequired { get; set; }
     }
+
     public class CreateCourseRegistrationVM
     {
         [Required]
@@ -28,39 +29,40 @@ namespace Symphony.ViewModels.Consult
         [Required]
         [DisplayName("Course Id ")]
         public int CourseId { get; set; }
-        [Required]
-        [DisplayName("Approved ")]
-        [DefaultValue(false)]
-        public bool IsApproved { get; set; }
-        [Required]
-        [DisplayName("Exam Require ")]
-        [DefaultValue(false)]
-        public bool ExamRequired { get; set; }
+
+        //[Required]
+        //[DisplayName("Approved ")]
+        //[DefaultValue(false)]
+        //public bool IsApproved { get; set; }
+        //[Required]
+        //[DisplayName("Exam Require ")]
+        //[DefaultValue(false)]
+        //public bool ExamRequired { get; set; }
     }
 
-    public class UpdateCourseRegistrationVM
-    {
-        [Required]
-        public int Id { get; set; }
-        [Required]
-        [DisplayName("User Id")]
-        public Guid UserId { get; set; }
+    //public class UpdateCourseRegistrationVM
+    //{
+    //    [Required]
+    //    public int Id { get; set; }
 
-        [Required]
-        [DisplayName("Course Id ")]
-        public int CourseId { get; set; }
-        [Required]
-        [DisplayName("Approved ")]
-        [DefaultValue(false)]
-        public bool IsApproved { get; set; }
+    //    [Required]
+    //    [DisplayName("User Id")]
+    //    public Guid UserId { get; set; }
 
-        [Required]
-        [DisplayName("Exam Require ")]
-        [DefaultValue(false)]
-        public bool ExamRequired { get; set; }
-    }
+    //    [Required]
+    //    [DisplayName("Course Id ")]
+    //    public int CourseId { get; set; }
 
+    //    [Required]
+    //    [DisplayName("Approved ")]
+    //    [DefaultValue(false)]
+    //    public bool IsApproved { get; set; }
 
+    //    [Required]
+    //    [DisplayName("Exam Require ")]
+    //    [DefaultValue(false)]
+    //    public bool ExamRequired { get; set; }
+    //}
 
     public class CourseRegistrationWithDataVM
     {
@@ -74,12 +76,3 @@ namespace Symphony.ViewModels.Consult
         public CourseVM CourseVM { get; set; }
     }
 }
-
-
-
-
-
-
-
-
-
