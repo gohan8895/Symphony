@@ -37,9 +37,15 @@ namespace Symphony.BlazorServerApp.Services.NewService
             }
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            if (id != 0)
+            {
+                var client = clientFactory.CreateClient("symphony");
+                using var httpResponse = await client.DeleteAsync("news/" + $"{id}");
+
+                httpResponse.EnsureSuccessStatusCode();
+            }
         }
 
         public async Task<NewsVM> GetNewAsync(int id)

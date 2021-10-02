@@ -13,7 +13,10 @@
     </div>
     <div class="col-md-12">
         <label class="form-label fw-bold">@nameof(InputNew.Description) <span class="text-danger fw-bold">*</span></label>
-        <InputText @bind-Value="InputNew.Description" class="form-control" />
+        <div class="form-outline mb-4">
+            <textarea class="form-control" @bind="InputNew.Description" id="textAreaExample6" rows="20"></textarea>
+            <label class="form-label" for="textAreaExample6">100% width of the parent</label>
+        </div>
         <ValidationMessage For="@(() => InputNew.Description)" />
     </div>
     <div class="col-md-6">
