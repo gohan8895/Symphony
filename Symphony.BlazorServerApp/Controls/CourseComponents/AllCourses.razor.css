@@ -13,27 +13,27 @@
 
 /* Others */
 .filter-item {
-    border-bottom: 1px solid #ABABAB;
+    border-bottom: 1px solid #ababab;
     padding: 1em 0;
     font-weight: bold;
 }
 
-    .filter-item > .form-check {
-        margin: .5em 0;
-    }
-    
-    .filter-item > .form-check > input {
-        border: 3px solid black;
-    }
+.filter-item > .form-check {
+    margin: 0.5em 0;
+}
+
+.filter-item > .form-check > input {
+    border: 3px solid black;
+}
 
 .filter-sidebar .filter-item:first-child {
-    border-top: 1px solid #ABABAB;
+    border-top: 1px solid #ababab;
     margin-top: 0;
 }
 
 /*All Course*/
 .all-course .course-row:first-child {
-    border-top: 1px solid #ABABAB;
+    border-top: 1px solid #ababab;
     margin-top: 0;
 }
 
@@ -45,7 +45,7 @@
 /*Each course row*/
 
 .course-row {
-    border-bottom: 1px solid #ABABAB;
+    border-bottom: 1px solid #ababab;
     padding: 0.5em 0;
     margin: 0.5em 0;
 }
@@ -54,20 +54,53 @@
     min-height: 10em;
 }
 
-.course-row > .row > .col-3, .col-7, col-2 {
+.course-row > .row > .col-3,
+.col-7,
+.col-md-2 {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
 }
 
-    .course-row > .row > .col-3 > img {
-        width: auto;
+.course-info-img {
+    max-width: 16em;
+    height: auto;
+}
+
+.col-2-row {
+    height: 100%;
+    align-content: space-evenly;
+}
+
+@media only screen and (max-width: 990px) {
+    .course-info-img {
+        max-width: 11em;
+        height: auto;
+    }
+}
+
+@media only screen and (max-width: 770px) {
+    .course-info {
+        text-align: right;
+    }
+
+    .course-info-img {
+        max-width: 11em;
+        height: 100%;
+    }
+}
+
+@media only screen and (max-width: 635px) {
+    .course-info {
+        text-align: right;
+    }
+
+    .course-info-img {
+        max-width: 11em;
         height: 100%;
     }
 
-    .col-2-row {
-        height: 100%;
-        align-content: space-evenly;
+    .all-course {
+        margin-bottom: 2em;
     }
-
-
+}

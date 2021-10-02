@@ -1,5 +1,5 @@
 ﻿.starter-courses h4:first-child {
-    border-top: 1px solid #ABABAB;
+    border-top: 1px solid #ababab;
     padding: 1em 0;
 }
 
@@ -12,11 +12,11 @@
 }
 
 .card {
-    min-height: 28em;
+    min-height: 22em;
 }
 
 .card-body {
-    display:flex;
+    display: flex;
     flex-direction: column;
     align-content: space-evenly;
     justify-content: space-between;
@@ -27,5 +27,5 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    background-color: #FFE855;
+    background-color: #ffe855;
 }

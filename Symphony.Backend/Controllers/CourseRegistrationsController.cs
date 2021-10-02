@@ -79,7 +79,7 @@ namespace Symphony.Backend.Controllers
         }
 
         // DELETE api/<CourseRegistrationsController>/5
-        [HttpDelete("delte-course-registration/{id}")]
+        [HttpDelete("delete-course-registration/{id}")]
         public async Task<ActionResult> DeleteCourseRegistrationAsync(int id)
         {
             var result = await courseRegistrationService.DeleteCourseRegistrationAsync(id);

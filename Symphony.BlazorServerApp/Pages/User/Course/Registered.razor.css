@@ -1,1 +1,25 @@
-﻿
+﻿.header-info {
+    text-align: center;
+    color: #00ce0a;
+    font-weight: 900;
+}
+
+.information {
+    padding: 2em;
+    margin: 1em 0;
+    font-size: 2em;
+    font-weight: 700;
+    line-height: 2em;
+    background-image: url('./images/background/papyrus.png');
+}
+
+.information span {
+    text-decoration: underline;
+    color: #3a6de9;
+}
+
+.information p:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}

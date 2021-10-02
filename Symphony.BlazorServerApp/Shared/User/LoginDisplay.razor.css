@@ -1,8 +1,43 @@
 ﻿.nav-link {
-    display:flex;
+    display: flex;
     align-items: center;
 }
 
 .nav-link > span {
-    margin-right: .5em;
+    margin-right: 0.5em;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+}
+
+/* @media only screen and (max-width: 489px) {
+    .logged-in {
+        align-items: center;
+        justify-content: space-evenly;
+        margin-right: -1em;
+    }
+
+    ul {
+        width: 90%;
+        align-items: center;
+        justify-content: space-evenly;
+        margin-right: -1em;
+    }
+} */
+
+@media only screen and (max-width: 640px) {
+    .logged-in {
+        align-items: center;
+        justify-content: space-evenly;
+        margin: auto;
+    }
+
+    .anonymous {
+        width: 90%;
+        align-items: center;
+        justify-content: space-evenly;
+        margin: auto;
+    }
 }
