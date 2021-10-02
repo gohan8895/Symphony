@@ -14,20 +14,24 @@
                 </button>
                 <div class="dropdown">
                     <button class="btn sort-button d-flex align-items-center" type="button" id="dropdownMenuButton1"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                        data-bs-toggle="dropdown" aria-expanded="false">
                         Sort By <span class="material-icons ps-1">sort</span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                         <li>
-                            <a class="dropdown-item sort-button-item btn" @onclick="@(() => Sort(sortByName, sortByNameClick))">
+                            <a class="dropdown-item sort-button-item btn"
+                                @onclick="@(() => Sort(sortByName, sortByNameClick))">
                                 Name
-                                <span class="material-icons ms-2">@(sortByNameClick ? "arrow_upward" : "arrow_downward")</span>
+                                <span class="material-icons ms-2">@(sortByNameClick ? "arrow_upward" :
+                                    "arrow_downward")</span>
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item sort-button-item btn" @onclick="@(() => Sort(sortByPrice, sortByPriceClick))">
+                            <a class="dropdown-item sort-button-item btn"
+                                @onclick="@(() => Sort(sortByPrice, sortByPriceClick))">
                                 Price
-                                <span class="material-icons ms-2">@(sortByPriceClick ? "arrow_upward" : "arrow_downward")</span>
+                                <span class="material-icons ms-2">@(sortByPriceClick ? "arrow_upward" :
+                                    "arrow_downward")</span>
                             </a>
                         </li>
                         <li>
@@ -42,7 +46,7 @@
             <div class="">@Courses.Count() results</div>
         </div>
         <!-- Filter sidebar -->
-        <aside class="col-lg-2 border-end filter-sidebar @(Filter is true ? "d-none" : "")">
+        <aside class="col-lg-2 col-md-12 col-sm-12 border-end filter-sidebar @(Filter is true ? "d-none" : "")">
             <div class="filter-item">
                 <h4>Course Duration</h4>
                 <div class="form-check">
@@ -73,23 +77,15 @@
             <div class="filter-item">
                 <h4>Level</h4>
                 <div class="form-check">
-                    <input class="form-check-input"
-                           type="checkbox"
-                           @bind-value:event="oninput"
-                           @onchange="ActivateFilter"
-                           @bind-value="beginner"
-                           id="flexCheckDefault">
+                    <input class="form-check-input" type="checkbox" @bind-value:event="oninput"
+                        @onchange="ActivateFilter" @bind-value="beginner" id="flexCheckDefault">
                     <label class="form-check-label" for="flexCheckDefault">
                         Beginner
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input"
-                           type="checkbox"
-                           @bind-value:event="oninput"
-                           @onchange="ActivateFilter"
-                           @bind-value="advanced"
-                           id="flexCheckDefault">
+                    <input class="form-check-input" type="checkbox" @bind-value:event="oninput"
+                        @onchange="ActivateFilter" @bind-value="advanced" id="flexCheckDefault">
                     <label class="form-check-label" for="flexCheckDefault">
                         Advanced
                     </label>
@@ -113,34 +109,22 @@
             <div class="filter-item">
                 <h4>Price</h4>
                 <div class="form-check">
-                    <input class="form-check-input"
-                           type="checkbox"
-                           @bind-value:event="oninput"
-                           @onchange="ActivateFilter"
-                           @bind-value="priceLow"
-                           id="flexCheckDefault">
+                    <input class="form-check-input" type="checkbox" @bind-value:event="oninput"
+                        @onchange="ActivateFilter" @bind-value="priceLow" id="flexCheckDefault">
                     <label class="form-check-label" for="flexCheckDefault">
                         0 - 400
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input"
-                           type="checkbox"
-                           @bind-value:event="oninput"
-                           @onchange="ActivateFilter"
-                           @bind-value="priceMed"
-                           id="flexCheckDefault">
+                    <input class="form-check-input" type="checkbox" @bind-value:event="oninput"
+                        @onchange="ActivateFilter" @bind-value="priceMed" id="flexCheckDefault">
                     <label class="form-check-label" for="flexCheckDefault">
                         400 - 1000
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input"
-                           type="checkbox"
-                           @bind-value:event="oninput"
-                           @onchange="ActivateFilter"
-                           @bind-value="priceHi"
-                           id="flexCheckDefault">
+                    <input class="form-check-input" type="checkbox" @bind-value:event="oninput"
+                        @onchange="ActivateFilter" @bind-value="priceHi" id="flexCheckDefault">
                     <label class="form-check-label" for="flexCheckDefault">
                         Over 1000
                     </label>
@@ -148,24 +132,29 @@
             </div>
         </aside>
         <!-- Courses -->
-        <div class="all-course @(Filter is true ? "col-lg-12" : "col-lg-10")">
+        <div class="col-lg-10 col-md-12 col-sm-12 all-course @(Filter is true ? "col-lg-12" : "col-lg-10")">
             @foreach (var course in Courses)
             {
                 <div class="course-row">
                     <div class="row">
-                        <div class="col-3">
-                            <img src="http:/localhost:5050/@course.ImagePath">
+                        <div class="col-md-3 col-sm-4 ">
+                            <img class="course-info-img" src="http:/localhost:5050/@course.ImagePath">
                         </div>
-                        <div class="col-7">
-                            <h3 class="fw-bold">@course.Name<small class="ps-2 fs-6 text-danger">Level: @(course.IsBasic ? "Beginner" : "Advanced")</small></h3>
-                            
-                            @if (!course.IsBasic) { <small class="fw-bold text-primary">This course require paying for and passing an entrance examination. For more info please visit FAQ page.</small> }
+                        <div class="col-md-7 col-sm-8 course-info">
+                            <h3 class="fw-bold">@course.Name<small class="ps-2 fs-6 text-danger">Level: @(course.IsBasic ?
+                                "Beginner" : "Advanced")</small></h3>
+
+                            @if (!course.IsBasic)
+                            {
+                                <small class="fw-bold text-primary">This course require paying for and
+                                    passing an entrance examination. For more info please visit FAQ page.</small>
+                            }
                             <p>
                                 @course.Description
                             </p>
                             <p class="text-sm">Teacher</p>
                         </div>
-                        <div class="col-2">
+                        <div class="col-md-2 col-sm-12">
                             <div class="row col-2-row">
                                 <div class="col-12">
                                     <h3 class="w-100 text-center">@course.Price $</h3>
@@ -173,10 +162,12 @@
                                 <div class="col-12">
                                     <AuthorizeView>
                                         <Authorized>
-                                            <a class="btn enroll-button mt-auto fw-bold text-white w-100" href="course/registration/@course.Id">Enroll</a>
+                                            <a class="btn enroll-button mt-auto fw-bold text-white w-100"
+                                            href="course/registration/@course.Id">Enroll</a>
                                         </Authorized>
                                         <NotAuthorized>
-                                            <a class="btn enroll-button mt-auto fw-bold text-white w-100" href="Identity/Account/Login?returnUrl=/courses">Login or Register</a>
+                                            <a class="btn enroll-button mt-auto fw-bold text-white w-100"
+                                            href="Identity/Account/Login?returnUrl=/courses">Login or Register</a>
                                         </NotAuthorized>
                                     </AuthorizeView>
                                 </div>
