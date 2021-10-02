@@ -21,10 +21,6 @@ namespace Symphony.BlazorServerApp.Services.FaqServices
             options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         }
 
-
-
-
-
         public async Task CreateFaqAsync(CreateFAQVM faq)
         {
             if (faq is not null)
