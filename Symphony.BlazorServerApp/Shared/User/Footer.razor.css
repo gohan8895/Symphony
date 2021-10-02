@@ -8,6 +8,10 @@
     font-size: 1em;
 }
 
+.first-sec a {
+    text-decoration: none;
+}
+
 .third-sec {
     display: flex;
     align-items: center;
@@ -20,6 +24,7 @@
 @media only screen and (max-width: 640px) {
     footer {
         bottom: 0;
+        position: absolute;
         width: 100%;
         padding-top: 1em;
     }

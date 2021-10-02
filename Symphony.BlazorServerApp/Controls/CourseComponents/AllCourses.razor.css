@@ -99,4 +99,8 @@
         max-width: 11em;
         height: 100%;
     }
+
+    .all-course {
+        margin-bottom: 2em;
+    }
 }

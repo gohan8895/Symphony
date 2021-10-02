@@ -9,97 +9,107 @@
 <div class="container">
     <h1 class="fw-bold text-center">Registration</h1>
     <div class="main-content">
-        <div class="">
-            <h2>Course you will enroll in:</h2>
+        <div class="content-item item-1 border-2 shadow-lg rounded-3 p-4 mt-2">
+            <h2 class="text-center fw-bold pb-2">Course you will enroll in:</h2>
+            <p>
+                <ul>
+                    <li>Name: @Course.Name</li>
+                    <li>Description: @Course.Description</li>
+                    <li>Start Date: @Course.StartDate</li>
+                    <li>End Date: @Course.EndDate</li>
+                    <li>Price: @Course.Price</li>
+                    <li>Duration: @duration Hours</li>
+                    @if (!Course.IsBasic)
+                    {
+                        <li class="text-danger">
+                            You need to pay for and pass an entrance exam to apply for this course. The entrance exam price is <b class="fs-4">$20</b>.
+                        </li>
+                    }
+                </ul>
+            </p>
+            <h2 class="text-center fw-bold my-1 py-1">Subjects that this course has:</h2>
             <ul>
-                <li>Name: @Course.Name</li>
-                <li>Description: @Course.Description</li>
-                <li>Start Date: @Course.StartDate</li>
-                <li>End Date: @Course.EndDate</li>
-                <li>Price: @Course.Price</li>
-                <li>Duration: @duration Hours</li>
-                @if (!Course.IsBasic)
-                {
-                    <li class="text-danger">
-                        You need to pay for and pass an entrance exam to apply for this course.
-                        <br />
-                        The entrance exam price is <b class="fs-4">$20</b>.
-                    </li>
-                }
-            </ul>
-            <h3>Subjects that this course has:</h3>
-            <ul>
-                @foreach (var subject in Subjects)
-                {
+                <p>
+                    @foreach (var subject in Subjects)
+                    {
                     <li>Name: @subject.Name</li>
-                    <li>@nameof(subject.Duration): @subject.Duration</li>
+                    <li class="pb-2">@nameof(subject.Duration): @subject.Duration Hours</li>
                 }
-            </ul>
-        </div>
-        <div class="">
-            @if (Course.IsBasic)
-            {
-                <h2>Are you ready to join us at Symphony Institution?</h2>
-                <button class="btn btn-primary" @onclick="AgreeToEnrollAsync">Yes</button>
-                <button class="btn btn-danger" @onclick="() => nav.NavigateTo(url)">No</button>
-            }
-            else
-            {
-                <h2>This is an advanced course which require passing an entrance examination in order to enroll. Would you
-                    like to continue?</h2>
-                <button class="btn btn-primary" @onclick="AgreeToEnrollAsync">Yes</button>
-                <button class="btn btn-danger" @onclick="() => nav.NavigateTo(url)">No</button>
-            }
+                    </p>
+                </ul>
+            </div>
+            <div class="content-item item-2 mt-2 p-4">
+                @if (Course.IsBasic)
+                {
+                    <h3 class="text-center fw-bold my-1 py-1">Are you ready to join us at Symphony Institution?</h3>
+                    <div class="register-button">
+                        <button class="btn btn-danger" @onclick="() => nav.NavigateTo(url)">No</button>
+                        <button class="btn btn-primary" @onclick="AgreeToEnrollAsync">
+                            Yes
+                        </button>
+                    </div>
+                }
+                else
+                {
+                    <h3 class="text-center fw-bold my-1 py-1">
+                        This is an advanced course which require passing an entrance examination in order to enroll. Would you
+                        like to continue?
+                    </h3>
+                    <div class="register-button">
+                        <button class="btn btn-danger" @onclick="() => nav.NavigateTo(url)">No</button>
+                        <button class="btn btn-primary" @onclick="AgreeToEnrollAsync">
+                            Yes
+                        </button>
+                    </div>
+                }
+            </div>
         </div>
     </div>
-</div>
 
+    @code {
+        #region
+        [Parameter]
+        public int Id { get; set; }
 
+        [CascadingParameter]
+        private Task<AuthenticationState> authenticationStateTask { get; set; }
 
-@code {
-    #region
-    [Parameter]
-    public int Id { get; set; }
+        private CreateCourseRegistrationVM CreateCourseRegVM { get; set; } = new();
 
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationStateTask { get; set; }
+        private CourseWithSubjects Course { get; set; } = new();
 
-    private CreateCourseRegistrationVM CreateCourseRegVM { get; set; } = new();
+        private IEnumerable<SimpleSubjectVM> Subjects { get; set; } = Array.Empty<SimpleSubjectVM>();
 
-    private CourseWithSubjects Course { get; set; } = new();
+        private int duration;
 
-    private IEnumerable<SimpleSubjectVM> Subjects { get; set; } = Array.Empty<SimpleSubjectVM>();
+        private const string url = "/courses";
+        #endregion
 
-    private int duration;
-
-    private const string url = "/courses";
-    #endregion
-
-    protected async override Task OnInitializedAsync()
-    {
-        Course = await courseService.GetCourseVMAsync(Id);
-        Subjects = Course.SimpleSubjectVMs;
-
-        foreach (var sub in Subjects)
+        protected async override Task OnInitializedAsync()
         {
-            duration += sub.Duration;
+            Course = await courseService.GetCourseVMAsync(Id);
+            Subjects = Course.SimpleSubjectVMs;
+
+            foreach (var sub in Subjects)
+            {
+                duration += sub.Duration;
+            }
+        }
+        private async Task AgreeToEnrollAsync()
+        {
+            var authState = await authenticationStateTask;
+            var userId = Guid.Parse(authState.User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value);
+            CreateCourseRegVM = new CreateCourseRegistrationVM
+            {
+                CourseId = Id,
+                UserId = userId
+            };
+
+            await registrationService.CreateCourseRegistrationAsync(CreateCourseRegVM);
+
+            var newRegister = (await registrationService.GetCourseRegistrationWithDataVMsAsync()).FirstOrDefault(r => r.CourseId ==
+            Id && r.UserId == userId);
+
+            nav.NavigateTo($"/course/registered/{@newRegister.Id}");
         }
     }
-    private async Task AgreeToEnrollAsync()
-    {
-        var authState = await authenticationStateTask;
-        var userId = Guid.Parse(authState.User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value);
-        CreateCourseRegVM = new CreateCourseRegistrationVM
-        {
-            CourseId = Id,
-            UserId = userId
-        };
-
-        await registrationService.CreateCourseRegistrationAsync(CreateCourseRegVM);
-
-        var newRegister = (await registrationService.GetCourseRegistrationWithDataVMsAsync()).FirstOrDefault(r => r.CourseId ==
-        Id && r.UserId == userId);
-
-        nav.NavigateTo($"/course/registered/{@newRegister.Id}");
-    }
-}
