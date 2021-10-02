@@ -1,0 +1,129 @@
+﻿@page "/admin/subject/create"
+
+@inject NavigationManager Nav
+@inject ISubjectService subjectService
+@using Symphony.BlazorServerApp.Services.SubjectServices
+@using Microsoft.AspNetCore.Http
+@using System.IO
+
+<div class="container-lg">
+    <h1 class="text-center fw-bold">Create a new Subject</h1>
+    <EditForm Model="@Input" OnValidSubmit="CreateSubject">
+        <DataAnnotationsValidator />
+        <div class="row">
+            <div class="col-lg-6">
+                <label class="form-label fw-bold">@nameof(Input.Name) <span class="text-danger fw-bold">*</span></label>
+                <InputText @bind-Value="Input.Name" class="form-control" />
+                <ValidationMessage For="@(() => Input.Name)" />
+            </div>
+            <div class="col-lg-6">
+                <label class="form-label fw-bold">@nameof(Input.Description) <span class="text-danger fw-bold">*</span></label>
+                <InputText @bind-Value="Input.Description" class="form-control" />
+                <ValidationMessage For="@(() => Input.Description)" />
+            </div>
+            <div class="col-lg-6">
+                <label class="form-label fw-bold">@nameof(Input.Duration) <span class="text-danger fw-bold">*</span></label>
+                <InputNumber @bind-Value="Input.Duration" class="form-control" />
+                <ValidationMessage For="@(() => Input.Duration)" />
+            </div>
+            <div class="col-lg-6">
+                <label class="form-label fw-bold">@nameof(Input.Price) <span class="text-danger fw-bold">*</span></label>
+                <InputNumber @bind-Value="Input.Price" class="form-control" />
+                <ValidationMessage For="@(() => Input.Price)" />
+            </div>
+            <div class="col-lg-6">
+                <label class="form-label fw-bold">@nameof(Input.images) <span class="text-danger fw-bold">*</span></label>
+                <InputFile OnChange="AddImages" class="form-control" accept=".jpg, .png" />
+                <ValidationMessage For="@(() => Input.images)" />
+            </div>
+            <div class="col-lg-6">
+                <img src="@imageDataUri" width="150" height="150" />
+            </div>
+            <div class="col-lg-12">
+                <label class="form-label fw-bold">@nameof(Input.attachments) <span class="text-danger fw-bold">*</span></label>
+                <InputFile OnChange="AddFiles" class="form-control" accept=".jpg, .png" />
+                <ValidationMessage For="@(() => Input.attachments)" />
+            </div>
+            <CreateButtonForForm />
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    public SubjectCreateRequest Input { get; set; } = new();
+    private int imageCount = 1;
+    private string imageDataUri;
+    private const long maxFileSize = 1024 * 1014 * 15;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Input.images = new();
+        Input.attachments = new();
+    }
+
+    private async Task CreateSubject()
+    {
+        if (Input is not null)
+        {
+            await subjectService.CreateSubjectVMAsync(Input);
+
+            Nav.NavigateTo("/admin/subject");
+        }
+    }
+
+    private void MoreImage() => imageCount++;
+    private async Task AddImages(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            var imageFile = await e.File.RequestImageFileAsync("image/jpeg", maxWith: 640, maxHeight: 480);
+            using Stream fileStream = imageFile.OpenReadStream(maxAllowedSize: maxFileSize);
+
+            using MemoryStream ms = new();
+            await fileStream.CopyToAsync(ms);
+
+            imageDataUri = $"data:image/jpeg;base64,{Convert.ToBase64String(ms.ToArray())}";
+
+            var content = new MultipartFormDataContent
+    {
+                {
+                    new ByteArrayContent(ms.ToArray()),
+                    "\"file\"",
+                    e.File.Name
+                }
+            };
+
+            Input.images.Add(content as IFormFile);
+        }
+        catch (Exception exeption)
+        {
+            Console.WriteLine(exeption.Message);
+        }
+    }
+
+    private async Task AddFiles(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            using Stream fileStream = e.File.OpenReadStream(maxAllowedSize: maxFileSize);
+
+            using MemoryStream ms = new();
+            await fileStream.CopyToAsync(ms);
+
+            var content = new MultipartFormDataContent
+    {
+                {
+                    new ByteArrayContent(ms.ToArray()),
+                    "\"file\"",
+                    e.File.Name
+                }
+            };
+
+            Input.attachments.Add(content as IFormFile);
+        }
+        catch (Exception exeption)
+        {
+            Console.WriteLine(exeption.Message);
+        }
+    }
+}

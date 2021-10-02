@@ -2,6 +2,7 @@
 using Symphony.Data.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -49,7 +50,9 @@ namespace Symphony.ViewModels.Consult
         [Required]
         public double Price { get; set; }
 
+        [DisplayName("Image")]
         public List<IFormFile> images { get; set; }
+        [DisplayName("File Attachments")]
         public List<IFormFile> attachments { get; set; }
     }
 
