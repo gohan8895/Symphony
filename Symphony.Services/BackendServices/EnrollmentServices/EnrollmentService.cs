@@ -24,7 +24,7 @@ namespace Symphony.Services.BackendServices.EnrollmentServices
         {
             var enrollment = await symphonyDBContext.Enrollments.FirstOrDefaultAsync(e
                 => e.UserId == studentId
-                & e.CourseId == courseId);
+                && e.CourseId == courseId);
             if (enrollment is null)
             {
                 return null;

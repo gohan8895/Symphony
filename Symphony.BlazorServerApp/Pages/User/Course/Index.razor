@@ -19,14 +19,14 @@
                         <div class="row mx-auto card-item">
                             @foreach (var basicCourse in carouselCourse)
                             {
-                                <div class="col-4">
+                                <div class="col-lg-4 col-md-6">
                                     <div class="card border-0 w-100" style="width: 15em;">
                                         <img src="http:/localhost:5050/@basicCourse.ImagePath" class="btn d-block w-100"
                                     alt="...">
                                         <div class="card-body fw-bold">
-                                            <h5 class="card-title">@basicCourse.Name</h5>
-                                            <p class="card-text">
-                                                @basicCourse.Description
+                                            <h5 class="card-title text-center">@basicCourse.Name</h5>
+                                            <p class="card-text fw-bolder text-center">
+                                                $ @basicCourse.Price
                                             </p>
                                             <a href="courses/@basicCourse.Id" class="btn detail-button fw-bolder">
                                                 View Detail
@@ -57,7 +57,7 @@
 </div>
 
 @code {
-        #region Props
+    #region Props
     private IEnumerable<CourseVM> Courses { get; set; } = Array.Empty<CourseVM>();
     private List<List<CourseVM>> CarouselCourses { get; set; } = new();
     private bool ShouldRender;
