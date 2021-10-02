@@ -17,7 +17,7 @@ namespace Symphony.Services.BackendServices.EnrollmentServices
 
         Task<EnrollmentVM> UpdateEnrollment(UpdateEnrollmentVM enrollmentVM);
 
-        Task ChangeEnrollmentStatus(int id);
+        Task ChangeEnrollmentStatus(Guid studentId, int courseId);
 
         Task<IEnumerable<EnrollmentWithData>> GetEnrollmentWithDataVM();
     }

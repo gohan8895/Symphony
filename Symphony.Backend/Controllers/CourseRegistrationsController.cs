@@ -22,21 +22,20 @@ namespace Symphony.Backend.Controllers
 
         public CourseRegistrationsController(ICourseRegistrationService courseRegistrationService) => this.courseRegistrationService = courseRegistrationService;
 
-        [HttpGet]
+        [HttpGet("get-all-course-registration")]
         public async Task<ActionResult<CourseRegistrationVM>> GetAllCourseRegistration()
         {
             var result = await courseRegistrationService.GetAllCourseRegistrationVMsAsync();
             return Ok(result);
         }
-
-        [HttpGet("get-course-registration-with-data")]
+        [HttpGet("get-all-course-registrations-with-data")]
         public async Task<ActionResult<CourseRegistrationWithDataVM>> GetAllCourseRegistrationWithDatas()
         {
             return Ok(await courseRegistrationService.GetCourseRegistrationWithDataVMsAsync());
         }
 
         // GET api/<CourseRegistrationsController>/5
-        [HttpGet("{id}")]
+        [HttpGet("get-course-registration-by-id/{id}")]
         public async Task<ActionResult<CourseRegistrationVM>> GetCourseRegistration(int id)
         {
             var result = await courseRegistrationService.GetCourseRegistrationVMAsync(id);
@@ -48,14 +47,14 @@ namespace Symphony.Backend.Controllers
         }
 
         // POST api/<CourseRegistrationsController>
-        [HttpPost]
-        public async Task<ActionResult<CourseRegistrationVM>> CreateCourseRegistration([FromBody] CreateCourseRegistrationVM createCourseRegistrationVM)
+        [HttpPost("create-course-registration")]
+        public async Task<ActionResult<CourseRegistrationWithDataVM>> CreateCourseRegistration([FromBody] CreateCourseRegistrationVM createCourseRegistrationVM)
         {
             if (createCourseRegistrationVM is null)
             {
                 return BadRequest();
             }
-            var courseRegisVM = new CourseRegistrationVM();
+            var courseRegisVM = new CourseRegistrationWithDataVM();
             if (ModelState.IsValid)
             {
                 courseRegisVM = await courseRegistrationService.CreateCourseRegistrationAsync(createCourseRegistrationVM);
@@ -64,9 +63,11 @@ namespace Symphony.Backend.Controllers
             return CreatedAtAction(nameof(GetCourseRegistration), new { id = courseRegisVM.Id }, courseRegisVM);
         }
 
-        // PUT api/<CourseRegistrationsController>
-        [HttpPut]
-        public async Task<ActionResult> UpdateCourseRegistration([FromBody] int courseRegistrationId)
+
+        // PUT api/<CourseRegistrationsController>/5
+        [HttpPut("approve-course-registration/{courseRegistrationId}")]
+        public async Task<ActionResult> UpdateCourseRegistration(int courseRegistrationId)
+
         {
             var result = await courseRegistrationService.UpdateCourseRegistrationAsync(courseRegistrationId);
             if (result is null)
@@ -78,7 +79,7 @@ namespace Symphony.Backend.Controllers
         }
 
         // DELETE api/<CourseRegistrationsController>/5
-        [HttpDelete("{id}")]
+        [HttpDelete("delte-course-registration/{id}")]
         public async Task<ActionResult> DeleteCourseRegistrationAsync(int id)
         {
             var result = await courseRegistrationService.DeleteCourseRegistrationAsync(id);

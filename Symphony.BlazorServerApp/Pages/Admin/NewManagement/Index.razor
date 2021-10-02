@@ -1,0 +1,67 @@
+﻿@page "/admin/new"
+
+@inject INewService newService
+@using Symphony.ViewModels.Consult
+@using Symphony.BlazorServerApp.Services.NewService
+@using Symphony.BlazorServerApp.Controls.TableComponents
+@inject NavigationManager nav
+@using Symphony.BlazorServerApp.Controls.Utilities
+
+<AuthorizeView Roles="admin">
+    <Authorized>
+        @if (news == null)
+        {
+
+            <div class="container">
+                <div class="spinner-border " role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+
+        }
+        else
+        {
+           
+            <div class="container-fluid">
+                <h1 class="text-center fw-bolder">News Manager</h1>
+                <CreateButton Url="admin/newManagement/createNew" Who="a New News" />
+                <TableTemplate Caption="News" Items="news" Context="item">
+                    <TableHeader>
+                        <td><p>@nameof(News.Title)</p></td>
+                        <td><p>@nameof(News.Description)</p></td>
+                        <td><p>@nameof(News.IsShown)</p></td>
+                    </TableHeader>
+                    <RowTemplate>
+                        <td><p>@item.Title</p></td>
+                        <td><p>@item.Description</p></td>
+                        <td><p>@item.IsShown</p></td>
+                        <td class="text-center">
+                            <NavLink href=@($"/admin/newManagement/editnew/{item.Id}") class="material-icons nav-item text-warning me-4">edit</NavLink>
+                            <a @onclick="() => DeleteNew(item.Id)" class="btn material-icons nav-item text-danger me-2">delete</a>
+                        </td>
+                    </RowTemplate>
+                </TableTemplate>
+            </div>
+        }
+
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    private List<NewsVM> news = null;
+    private NewsVM News { get; set; }
+    private bool render = false;
+    protected async override Task OnInitializedAsync()
+    {
+        var result = await newService.GetNewsAsync();
+        news = result.ToList();
+    }
+
+    private async Task DeleteNew(int id)
+    {
+        var faq = await newService.GetNewAsync(id);
+
+        if (faq is not null) await newService.DeleteAsync(id);
+        render = !render;
+    }
+}

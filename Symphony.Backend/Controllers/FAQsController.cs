@@ -59,7 +59,7 @@ namespace Symphony.Backend.Controllers
         }
 
         // PUT api/<FAQsController>/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<ActionResult> Put([FromBody] UpdateFAQVM updateFAQVM)
         {
             if (updateFAQVM is null) return BadRequest();

@@ -18,7 +18,7 @@ namespace Symphony.Data.Configurations
 
             builder.Property(x => x.Question).HasMaxLength(512).IsRequired();
             builder.Property(x => x.Answer).HasMaxLength(512).IsRequired();
-            builder.Property(x => x.IsShown).HasDefaultValue(true);
+            builder.Property(x => x.IsShown);
             builder.Property(x => x.CreatedAt);
             builder.Property(x => x.UpdatedAt);
         }
