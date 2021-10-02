@@ -20,7 +20,7 @@
 <main>
     @* header *@
     <div id="intro" class="p-5 text-center bg-light">
-        <h1 class="mb-3 h2">Learn Bootstrap 5 with MDB</h1>
+        <h1 class="mb-3 h2">New's Symphony Institute'</h1>
     </div>
    
     <div class="container">
@@ -29,43 +29,47 @@
             <div class="row gx-lg-5">
                 @foreach (var item in Data)
                 {
-                    <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
-                        <!-- News block -->
-                        <div>
-                            <!-- Featured image -->
-                            <div class="bg-image hover-overlay shadow-1-strong ripple rounded-5 mb-4"
-                                 data-mdb-ripple-color="light">
-                              @* thay hinh o day  *@
-                                <img src="https://picsum.photos/200/30@(item.Id)" class="img-fluid" />
-                                <a href="#!">
-                                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                    if (item.IsShown)
+                    {
+                        <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+                            <!-- News block -->
+                            <div>
+                                <!-- Featured image -->
+                                <div class="bg-image hover-overlay shadow-1-strong ripple rounded-5 mb-4"
+                                     data-mdb-ripple-color="light">
+                                    @* thay hinh o day  *@
+                                    <img src="https://picsum.photos/200/30@(item.Id)" class="img-fluid" />
+                                    <a href="#!">
+                                        <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                                    </a>
+                                </div>
+
+                                <!-- Article data -->
+                                <div class="row mb-3">
+                                    <div class="col-6">
+
+                                    </div>
+
+                                    <div class="col-6 text-end">
+                                        <u> @item.CreatedAt</u>
+                                    </div>
+                                </div>
+
+                                <!-- Article title and description -->
+                                @* day link o day *@
+                                <a href="new/@item.Id" class="text-dark">
+                                    <h5>@item.Title</h5>
+                                    <div class="description-new">
+                                        @item.Description
+                                    </div>
+
+
+
                                 </a>
                             </div>
-
-                            <!-- Article data -->
-                            <div class="row mb-3">
-                                <div class="col-6">
-                                  
-                                </div>
-
-                                <div class="col-6 text-end">
-                                    <u> @item.CreatedAt</u>
-                                </div>
-                            </div>
-
-                            <!-- Article title and description -->
-                            @* day link o day *@
-                            <a href="new/@item.Id" class="text-dark">
-                                <h5>@item.Title</h5>
-                                <div class="description-new">
-                                    @item.Description
-                                </div>
-                              
-                                  
-                                
-                            </a>
                         </div>
-                    </div>
+                    }
+
                 }
 
             </div>

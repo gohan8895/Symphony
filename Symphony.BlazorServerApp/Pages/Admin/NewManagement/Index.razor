@@ -5,6 +5,7 @@
 @using Symphony.BlazorServerApp.Services.NewService
 @using Symphony.BlazorServerApp.Controls.TableComponents
 @inject NavigationManager nav
+@using Symphony.BlazorServerApp.Controls.Utilities
 
 <AuthorizeView Roles="admin">
     <Authorized>
@@ -20,9 +21,10 @@
         }
         else
         {
+           
             <div class="container-fluid">
                 <h1 class="text-center fw-bolder">News Manager</h1>
-                <CreateButton Url="admin/faqManagement/createFaq" Who="a New News" />
+                <CreateButton Url="admin/newManagement/createNew" Who="a New News" />
                 <TableTemplate Caption="News" Items="news" Context="item">
                     <TableHeader>
                         <td><p>@nameof(News.Title)</p></td>
