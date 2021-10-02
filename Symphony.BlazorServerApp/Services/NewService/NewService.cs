@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Text;
 
 namespace Symphony.BlazorServerApp.Services.NewService
 {
@@ -19,14 +20,32 @@ namespace Symphony.BlazorServerApp.Services.NewService
             options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         }
 
-        public Task CreateAsync(CreateNewsVM news)
+        public async Task CreateAsync(CreateNewsVM news)
         {
-            throw new NotImplementedException();
+            if (news is not null)
+            {
+                var client = clientFactory.CreateClient("symphony");
+                var newJson = new StringContent(
+                    JsonSerializer.Serialize(news, options),
+                    encoding: Encoding.UTF8,
+                    "application/json"
+                    );
+
+                using var httpResponse = await client.PostAsync("news/", newJson);
+
+                httpResponse.EnsureSuccessStatusCode();
+            }
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            if (id != 0)
+            {
+                var client = clientFactory.CreateClient("symphony");
+                using var httpResponse = await client.DeleteAsync("news/" + $"{id}");
+
+                httpResponse.EnsureSuccessStatusCode();
+            }
         }
 
         public async Task<NewsVM> GetNewAsync(int id)
@@ -63,9 +82,21 @@ namespace Symphony.BlazorServerApp.Services.NewService
             }
         }
 
-        public Task UpdateAsync(UpdateNewsVM news)
+        public async Task UpdateAsync(UpdateNewsVM news)
         {
-            throw new NotImplementedException();
+            if (news is not null)
+            {
+                var client = clientFactory.CreateClient("symphony");
+                var newJson = new StringContent(
+                    JsonSerializer.Serialize(news, options),
+                    encoding: Encoding.UTF8,
+                    "application/json"
+                    );
+
+                using var httpResponse = await client.PutAsync("news/", newJson);
+
+                httpResponse.EnsureSuccessStatusCode();
+            }
         }
     }
 }

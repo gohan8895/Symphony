@@ -1,0 +1,48 @@
+﻿
+@inject IFaqService faqService
+@using Symphony.ViewModels.Consult
+@using Symphony.BlazorServerApp.Services.FaqServices
+@inject NavigationManager Nav
+
+<EditForm Model="@InputFaq" OnValidSubmit="CreateFaq" class="row g-3">
+    <DataAnnotationsValidator />
+    <div class="col-md-12">
+        <label class="form-label fw-bold">@nameof(InputFaq.Question) <span class="text-danger fw-bold">*</span></label>
+        <InputText @bind-Value="InputFaq.Question" class="form-control" />
+        <ValidationMessage For="@(() => InputFaq.Question)" />
+    </div>
+    <div class="col-md-12">
+        <label class="form-label fw-bold">@nameof(InputFaq.Answer) <span class="text-danger fw-bold">*</span></label>
+        <div class="form-outline mb-4">
+            <textarea class="form-control" @bind="InputFaq.Answer" id="textAreaExample6" rows="20"></textarea>
+            <label class="form-label" for="textAreaExample6">100% width of the parent</label>
+        </div>
+        <ValidationMessage For="@(() => InputFaq.Answer)" />
+    </div>
+    <div class="col-md-6">
+        <label class="form-label fw-bold">@nameof(InputFaq.IsShown) <span class="text-danger fw-bold">*</span></label>
+        <input type="checkbox"  @bind-value="InputFaq.IsShown" />
+        <ValidationMessage For="@(() => InputFaq.IsShown)" />
+    </div>
+  
+    <CreateButtonForForm/>
+</EditForm>
+@code {
+    #region Parameter
+    public CreateFAQVM InputFaq { get; set; } = new();
+
+    
+
+    #endregion
+    private async Task CreateFaq()
+    {
+        var faq = new CreateFAQVM
+        {
+            Question = InputFaq.Question,
+            Answer = InputFaq.Answer,
+            IsShown = InputFaq.IsShown
+        };
+        await faqService.CreateFaqAsync(faq);
+        Nav.NavigateTo("/admin/faq/");
+    }
+}
