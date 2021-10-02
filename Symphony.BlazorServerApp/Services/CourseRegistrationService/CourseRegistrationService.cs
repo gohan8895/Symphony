@@ -23,7 +23,7 @@ namespace Symphony.BlazorServerApp.Services.CourseRegistrationService
 
         public async Task<IEnumerable<CourseRegistrationVM>> GetAllCourseRegistrationVMsAsync()
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, "courseregistrations/");
+            var request = new HttpRequestMessage(HttpMethod.Get, "courseregistrations/get-all-course-registration");
             var client = clientFactory.CreateClient("symphony");
             var response = await client.SendAsync(request);
 
@@ -40,7 +40,7 @@ namespace Symphony.BlazorServerApp.Services.CourseRegistrationService
 
         public async Task<IEnumerable<CourseRegistrationWithDataVM>> GetCourseRegistrationWithDataVMsAsync()
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, "courseregistrations/get-course-registration-with-data");
+            var request = new HttpRequestMessage(HttpMethod.Get, "courseregistrations/get-all-course-registrations-with-data");
             var client = clientFactory.CreateClient("symphony");
             var response = await client.SendAsync(request);
 
@@ -57,7 +57,7 @@ namespace Symphony.BlazorServerApp.Services.CourseRegistrationService
 
         public async Task<CourseRegistrationVM> GetCourseRegistrationVMAsync(int id)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, $"courseregistrations/{id}");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"courseregistrations/get-course-registration-by-id/{id}");
             var client = clientFactory.CreateClient("symphony");
             var response = await client.SendAsync(request);
 
@@ -83,7 +83,7 @@ namespace Symphony.BlazorServerApp.Services.CourseRegistrationService
                     "application/json"
                     );
 
-                using var httpResponse = await client.PostAsync("courseregistrations", courseJson);
+                using var httpResponse = await client.PostAsync("courseregistrations/create-course-registration", courseJson);
 
                 httpResponse.EnsureSuccessStatusCode();
             }
@@ -100,7 +100,7 @@ namespace Symphony.BlazorServerApp.Services.CourseRegistrationService
                     "application/json"
                     );
 
-                using var httpResponse = await client.PutAsync("courseregistrations/", courseRegistrationJson);
+                using var httpResponse = await client.PutAsync($"courseregistrations/approve-course-registration/{id}", courseRegistrationJson);
 
                 httpResponse.EnsureSuccessStatusCode();
             }
@@ -111,7 +111,7 @@ namespace Symphony.BlazorServerApp.Services.CourseRegistrationService
             if (id != 0)
             {
                 var client = clientFactory.CreateClient("symphony");
-                using var httpResponse = await client.DeleteAsync("courseregistrations/" + $"{id}");
+                using var httpResponse = await client.DeleteAsync($"courseregistrations/delete-course-registration/{id}");
 
                 httpResponse.EnsureSuccessStatusCode();
             }
