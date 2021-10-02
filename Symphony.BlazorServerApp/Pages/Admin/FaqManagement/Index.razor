@@ -1,0 +1,65 @@
+﻿@page "/admin/faq"
+
+@inject IFaqService faqService
+@using Symphony.ViewModels.Consult
+@using Symphony.BlazorServerApp.Services.FaqServices
+@using Symphony.BlazorServerApp.Controls.TableComponents
+@inject NavigationManager nav
+
+<AuthorizeView Roles="admin">
+    <Authorized>
+        @if (Faqs == null)
+        {
+
+            <div class="container">
+                <div class="spinner-border " role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+
+        }
+        else
+        {
+            <div class="container-fluid">
+                <h1 class="text-center fw-bolder">User Manager</h1>
+                <CreateButton Url="admin/faqManagement/createFaq" Who="a New FAQ" />
+                <TableTemplate Caption="Users" Items="Faqs" Context="faq">
+                    <TableHeader>
+                        <td><p>@nameof(FAQ.Question)</p></td>
+                        <td><p>@nameof(FAQ.Answer)</p></td>
+                        <td><p>@nameof(FAQ.IsShown)</p></td>
+                    </TableHeader>
+                    <RowTemplate>
+                        <td><p>@faq.Question</p></td>
+                        <td><p>@faq.Answer</p></td>
+                        <td><p>@faq.IsShown</p></td>
+                        <td class="text-center">
+                            <NavLink href=@($"/admin/faqManagement/editfaq/{faq.Id}") class="material-icons nav-item text-warning me-4">edit</NavLink>
+                            <a @onclick="() => DeleteFaq(faq.Id)" class="btn material-icons nav-item text-danger me-2">delete</a>
+                        </td>
+                    </RowTemplate>
+                </TableTemplate>
+            </div>
+        }
+       
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    private List<FAQVM> Faqs = null;
+    private FAQVM FAQ { get; set; }
+    private bool render = false;
+    protected async override Task OnInitializedAsync()
+    {
+        var result = await faqService.GetFaqsAsync() ;
+        Faqs = result.ToList();
+    }
+
+    private async Task DeleteFaq(int id)
+    {
+        var faq = await faqService.GetFaqAsync(id);
+
+        if (faq is not null) await faqService.DeleteFaqAsync(id);
+        render = !render;
+    }
+}
