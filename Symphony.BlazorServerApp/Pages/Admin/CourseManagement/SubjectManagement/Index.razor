@@ -1,0 +1,50 @@
+﻿@page "/courses/subjectMamagement/Manager"
+
+@inject ISubjectService subjectService
+@using Symphony.BlazorServerApp.Services.SubjectServices
+@using Symphony.BlazorServerApp.Controls.TableComponents
+
+<AuthorizeView Roles="admin">
+    <Authorized>
+        <div class="container-lg">
+            <h1 class="text-center fw-bolder">Subjects Manager</h1>
+            <CreateButton Url="courses/management/createSubject" Who="a New Subject" />
+            <TableTemplate Caption="Subjects" Items="Subjects" Context="subject">
+                <TableHeader>
+                    <td><p>@nameof(Subject.Name)</p></td>
+                    <td><p>@nameof(Subject.Description)</p></td>
+                    <td><p>@nameof(Subject.Price)</p></td>
+                    <td><p>@nameof(Subject.Duration)</p></td>
+                    <td><p>@nameof(Subject.IsShown)</p></td>
+                    <td><p>@nameof(Subject.Cre)</p></td>
+                    <td></td>
+                </TableHeader>
+                <RowTemplate>
+                    <td><p>@subject.Name</p></td>
+                    <td><p>@subject.Description</p></td>
+                    <td><p>@subject.Price</p></td>
+                    <td><p>@subject.Duration</p></td>
+                    <td><p>@(subject.IsShown ? "Show" : "Hidden")</p></td>
+                    <td><p>@subject.CreatedAt</p></td>
+                    <td class="text-center">
+                        <NavLink href=@($"/courses/subjectMamagement/edit/{subject.Id}") class="material-icons nav-item text-warning me-4">edit</NavLink>
+                        <a @onclick="() => DeleteAdmin(user.Email)" class="btn material-icons nav-item text-danger me-2">delete</a>
+                    </td>
+                </RowTemplate>
+            </TableTemplate>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <UnauthorizedAccess />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    public IEnumerable<SubjectVM> Subjects { get; set; } = Array.Empty<SubjectVM>();
+    public SubjectVM Subject { get; set; } = new();
+
+    protected async override Task OnInitializedAsync()
+    {
+        Subjects = await subjectService.GetSubjectVMsAsync();
+    }
+}
