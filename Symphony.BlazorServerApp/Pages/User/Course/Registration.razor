@@ -15,9 +15,17 @@
                 <li>Name: @Course.Name</li>
                 <li>Description: @Course.Description</li>
                 <li>Start Date: @Course.StartDate</li>
-                <li>End Date@Course.EndDate</li>
+                <li>End Date: @Course.EndDate</li>
                 <li>Price: @Course.Price</li>
                 <li>Duration: @duration Hours</li>
+                @if (!Course.IsBasic)
+                {
+                    <li class="text-danger">
+                        You need to pay for and pass an entrance exam to apply for this course.
+                        <br />
+                        The entrance exam price is <b class="fs-4">$20</b>.
+                    </li>
+                }
             </ul>
             <h3>Subjects that this course has:</h3>
             <ul>
@@ -29,9 +37,18 @@
             </ul>
         </div>
         <div class="col-lg-4">
-            <h2>Are you ready to join us at Symphony Institution?</h2>
-            <button class="btn btn-primary" @onclick="AgreeToEnrollAsync">Yes</button>
-            <button class="btn btn-danger" @onclick="() => nav.NavigateTo(url)">No</button>
+            @if (Course.IsBasic)
+            {
+                <h2>Are you ready to join us at Symphony Institution?</h2>
+                <button class="btn btn-primary" @onclick="AgreeToEnrollAsync">Yes</button>
+                <button class="btn btn-danger" @onclick="() => nav.NavigateTo(url)">No</button>
+            }
+            else
+            {
+                <h2>This is an advanced course which require passing an entrance examination in order to enroll. Would you like to continue?</h2>
+                <button class="btn btn-primary" @onclick="AgreeToEnrollAsync">Yes</button>
+                <button class="btn btn-danger" @onclick="() => nav.NavigateTo(url)">No</button>
+            }
         </div>
     </div>
 </div>

@@ -11,9 +11,9 @@ namespace Symphony.Data.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        #nullable enable
+#nullable enable
         public string? DetailDescription { get; set; }
-        #nullable disable
+#nullable disable
         public double Price { get; set; }
         public double DiscountedPrice { get; set; }
         public bool IsExtra { get; set; }
@@ -27,6 +27,7 @@ namespace Symphony.Data.Entities
         public List<Exam> Exams { get; set; }
         public List<Subject_Course> Subject_Courses { get; set; }
         public List<Student_Course> Student_Courses { get; set; }
+
         public List<Enrollment> Enrollments { get; set; }
         public List<CourseRegistration> CourseRegistrations { get; set; }
     }

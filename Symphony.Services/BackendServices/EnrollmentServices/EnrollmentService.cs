@@ -69,9 +69,11 @@ namespace Symphony.Services.BackendServices.EnrollmentServices
             return enrollment.EnsVM();
         }
 
-        public async Task ChangeEnrollmentStatus(int id)
+        public async Task ChangeEnrollmentStatus(Guid studentId, int courseId)
         {
-            var enrollment = await symphonyDBContext.Enrollments.FirstOrDefaultAsync(e => e.Id == id);
+            var enrollment = await symphonyDBContext.Enrollments.FirstOrDefaultAsync(e => e.UserId == studentId
+                && e.CourseId == courseId
+            );
             var status = enrollment.IsDelete;
             if (enrollment.IsDelete == false)
             {

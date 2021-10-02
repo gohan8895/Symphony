@@ -16,7 +16,10 @@ namespace Symphony.ViewModels.Consult
         public Guid UserId { get; set; }
         public int CourseId { get; set; }
         public bool IsApproved { get; set; }
+
+        [DisplayName("Register Date")]
         public DateTime CreatedAt { get; set; }
+
         public bool ExamRequired { get; set; }
     }
 
@@ -74,5 +77,7 @@ namespace Symphony.ViewModels.Consult
         public bool ExamRequired { get; set; }
         public AppUserVM AppUserVM { get; set; }
         public CourseVM CourseVM { get; set; }
+        public double EntranceExamFee { get; set; }
+        public double FinalPrice { get; set; }
     }
 }
