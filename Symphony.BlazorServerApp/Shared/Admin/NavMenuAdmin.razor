@@ -137,12 +137,35 @@
                 </span> Student Corner
             </NavLink>
         </li>
-        <li class="nav-item px-3 ">
-            <NavLink class="nav-link" href="/admin/faq">
+        <li class="nav-item px-3 fw-bold btn">
+            <NavLink class="nav-link" @onclick="() => expandFAQ = !expandFAQ">
                 <span class="material-icons me-2">
-                    question_answer
-                </span> FAQ
+                    help
+                </span> FAQ Management
+                <span class="material-icons me-2">
+                    @(expandFAQ ? "expand_less" : "expand_more")
+                </span>
             </NavLink>
+            @if (expandFAQ)
+            {
+                <ul class="nav flex-column">
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="about/aboutManagement"><span class="material-icons me-2">badge</span>Manage Content</NavLink>
+                    </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="/admin/faq">
+                            <span class="material-icons me-2">
+                                question_answer
+                            </span> FAQ Manager
+                        </NavLink>
+                        <NavLink class="nav-link expand-menu" href="/faq">
+                            <span class="material-icons me-2">
+                                question_answer
+                            </span> FAQ Page
+                        </NavLink>
+                    </li>
+                </ul>
+            }
         </li>
         <li class="nav-item px-3 fw-bold btn">
             <NavLink class="nav-link" @onclick="() => expandAbout = !expandAbout">
@@ -182,8 +205,7 @@
     private bool expandSubMenuExam = false;
     private bool expandSubMenuRegistration = false;
     private bool expandAbout = false;
-
-
+    private bool expandFAQ = false;
 
     #endregion
 
