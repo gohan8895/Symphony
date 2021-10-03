@@ -108,6 +108,9 @@ namespace Symphony.Services.BackendServices.CourseRegistrationServices
                 if (_studentEnrollment is null)
                 {
                     await _enrollmentService.CreateEnrollment(new CreateEnrollmentVM { UserId = _courseResig.AppUser.Id, CourseId = _courseResig.CourseId });
+                    //update Batch information to User
+                    var _batch = await symphonyDBContext.Batches.FirstOrDefaultAsync(x => x.EndDate < DateTime.Now);
+                    //var _student = await symphonyDBContext.
                 }
             }
             else _studentEnrollment.IsDelete = true;
