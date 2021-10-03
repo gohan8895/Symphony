@@ -1,0 +1,49 @@
+﻿@page "/event"
+
+@inject IEventService eventService
+@using Symphony.ViewModels.Consult
+@using Symphony.BlazorServerApp.Services.EventServices
+
+
+@if (Data == null)
+{
+    <LoadingComponent />
+}
+else
+{
+    <div class="container">
+        <h1 class="display-1">Event Symphony Institute School</h1> <span>@Today</span>
+        <div class="row">
+            @foreach (var item in Data)
+            {
+                <div class="col-12">
+                    <div class="card border-dark mb-3" style="min-width: 25rem;">
+                        <div class="card-header">@item.Title</div>
+                        <div class="card-body text-dark">
+                            <h5 class="card-title">@item.CreatedAt</h5>
+                            <p class="card-text">@item.Description</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+
+@code {
+    private IEnumerable<NewsVM> Data = null;
+    protected async override Task OnInitializedAsync()
+    {
+        var Data = await eventService.GetEventsAsync();
+
+    }
+    public string Today = DateTime.Now.ToString("ddd, dd MMM yyy HH':'mm':'ss 'GMT'");
+}
+
+
+
+
+
+
+
