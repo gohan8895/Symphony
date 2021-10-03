@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Symphony.Data.EF;
+using Symphony.Data.Entities;
 using Symphony.Services.BackendServices.AboutServices;
 using Symphony.Services.BackendServices.BatchServices;
 using Symphony.Services.BackendServices.ConsultServices;
@@ -69,7 +71,10 @@ namespace Symphony.Backend
             services.AddTransient<IExamRegistrationService, ExamRegistrationService>();
             services.AddTransient<IStudent_AnswerService, Student_AnswerService>();
             services.AddTransient<IExam_ResultService, Exam_ResultService>();
-
+            services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = true)
+                               .AddRoles<AppRole>()
+                               .AddEntityFrameworkStores<SymphonyDBContext>()
+                               .AddDefaultTokenProviders();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Symphony.Backend", Version = "v1" });
