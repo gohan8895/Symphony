@@ -14,9 +14,12 @@ namespace Symphony.Services.BackendServices.SubjectServices
 
         Task<IEnumerable<SubjectVM>> GetSubjectVMsAsync();
 
-        Task<SubjectVM> CreateSubjectVMAsync(SubjectCreateRequest createRequest);
+        Task<SimpleSubjectVM> CreateSubjectVMAsync(SubjectCreateRequest request);
 
-        Task<SimpleSubjectVM> UpdateSubjectVMAsync(SubjectUpdateRequest subjectVM);
+        Task<SimpleSubjectVM> UpdateSubjectVMAsync(SubjectUpdateRequest request);
+
+        Task<SimpleSubjectVM> UpdateSubjectImageVMAsync(ImageUpdateRequest request);
+        Task<SimpleSubjectVM> UpdateSubjectFileVMAsync(FileUpdateRequest request);
 
         Task ChangeSubjectState(int id);
     }

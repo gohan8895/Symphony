@@ -45,15 +45,26 @@ namespace Symphony.ViewModels.Consult
         public string Description { get; set; }
 
         [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter valid integer number")]
         public int Duration { get; set; }
 
         [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter valid integer number")]
         public double Price { get; set; }
+    }
 
-        [DisplayName("Image")]
-        public List<IFormFile> images { get; set; }
-        [DisplayName("File Attachments")]
-        public List<IFormFile> attachments { get; set; }
+    public class ImageUpdateRequest
+    {
+        public int Id { get; set; }
+        [Display(Name = "Image")]
+        public List<IFormFile> Images { get; set; }
+    }
+    
+    public class FileUpdateRequest
+    {
+        public int Id { get; set; }
+        [Display(Name = "File")]
+        public List<IFormFile> Files { get; set; }
     }
 
     public class SubjectUpdateRequest
@@ -73,8 +84,5 @@ namespace Symphony.ViewModels.Consult
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = "Please enter valid integer number")]
         public double Price { get; set; }
-
-        public List<IFormFile> images { get; set; }
-        public List<IFormFile> attachments { get; set; }
     }
 }

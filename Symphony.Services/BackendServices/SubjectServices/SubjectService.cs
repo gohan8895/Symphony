@@ -45,7 +45,7 @@ namespace Symphony.Services.BackendServices.SubjectServices
             return subjects;
         }
 
-        public async Task<SubjectVM> CreateSubjectVMAsync(SubjectCreateRequest createRequest)
+        public async Task<SimpleSubjectVM> CreateSubjectVMAsync(SubjectCreateRequest createRequest)
         {
             var timeNow = DateTime.Now;
             var _subject = new Subject()
@@ -62,21 +62,10 @@ namespace Symphony.Services.BackendServices.SubjectServices
             await _context.Subjects.AddAsync(_subject);
             await _context.SaveChangesAsync();
 
-            if (createRequest.images is not null)
-            {
-                await AddImages(createRequest.images, _subject.Id);
-            }
-            if (createRequest.attachments is not null)
-            {
-                await AddAttachments(createRequest.attachments, _subject.Id);
-            }
-
             var _created_subject = await _context.Subjects
-                                    .Include(x => x.Images)
-                                    .Include(x => x.Files)
                                     .SingleOrDefaultAsync(x => x.Id == _subject.Id);
 
-            return _created_subject.AsVM();
+            return _created_subject.AsSimpleVM();
         }
 
         public async Task ChangeSubjectState(int id)
@@ -110,26 +99,48 @@ namespace Symphony.Services.BackendServices.SubjectServices
 
             await _context.SaveChangesAsync();
 
-            if (subjectVM.images is not null)
-            {
-                if (_subject.Images is not null)
-                {
-                    _context.Images.RemoveRange(_subject.Images);
-                }
-                await AddImages(subjectVM.images, _subject.Id);
-            }
-
-            if (subjectVM.attachments is not null)
-            {
-                if (_subject.Files is not null)
-                {
-                    _context.Files.RemoveRange(_subject.Files);
-                }
-
-                await AddAttachments(subjectVM.attachments, _subject.Id);
-            }
-
             return _subject.AsSimpleVM();
+        }
+
+        public async Task<SimpleSubjectVM> UpdateSubjectImageVMAsync(ImageUpdateRequest request)
+        {
+            var subject = await _context.Subjects
+                .Include(s => s.Images)
+                .FirstOrDefaultAsync(s => s.Id == request.Id);
+
+            if (subject is null) return null;
+
+            if (request.Images is not null)
+            {
+                if (subject.Images is not null)
+                {
+                    _context.Images.RemoveRange(subject.Images);
+                }
+                await AddImages(request.Images, subject.Id);
+            }
+
+            return subject.AsSimpleVM();
+        }
+        
+        public async Task<SimpleSubjectVM> UpdateSubjectFileVMAsync(FileUpdateRequest request)
+        {
+            var subject = await _context.Subjects
+                .Include(s => s.Files)
+                .FirstOrDefaultAsync(s => s.Id == request.Id);
+
+            if (subject is null) return null;
+
+            if (request.Files is not null)
+            {
+                if (subject.Files is not null)
+                {
+                    _context.Files.RemoveRange(subject.Files);
+                }
+
+                await AddAttachments(request.Files, subject.Id);
+            }
+
+            return subject.AsSimpleVM();
         }
 
         private async Task AddImages(List<IFormFile> images, int subjectId)
@@ -146,7 +157,7 @@ namespace Symphony.Services.BackendServices.SubjectServices
 
                 var _image = new Image
                 {
-                    Path = imgPath,
+                    Path = @$"wwwroot\images\{imgName}",
                     SubjectId = subjectId
                 };
                 await _context.Images.AddAsync(_image);
@@ -169,7 +180,7 @@ namespace Symphony.Services.BackendServices.SubjectServices
 
                 var _file = new Symphony.Data.Entities.File
                 {
-                    Path = filePath,
+                    Path = @$"wwwroot\files\{fileName}",
                     FileName = orgFileNam,
                     SubjectId = subjectId
                 };
