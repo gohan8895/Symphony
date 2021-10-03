@@ -7,15 +7,24 @@
 
 @if (Data == null)
 {
-    <LoadingComponent />
+   <h3>Loading ...</h3>
 }
 else
 {
+<main>
+
+
     <div class="container">
-        <h1 class="display-1">Event Symphony Institute School</h1> <span>@Today</span>
+        <h1 class="display-1">Event Symphony Institute School</h1>
+        <span>@Today</span>
+
         <div class="row">
+
             @foreach (var item in Data)
             {
+
+
+
                 <div class="col-12">
                     <div class="card border-dark mb-3" style="min-width: 25rem;">
                         <div class="card-header">@item.Title</div>
@@ -25,20 +34,24 @@ else
                         </div>
                     </div>
                 </div>
+
             }
         </div>
     </div>
+</main>
 }
 
 
 @code {
     private IEnumerable<NewsVM> Data = null;
+    public string Today { get; set; }
+
     protected async override Task OnInitializedAsync()
     {
         var Data = await eventService.GetEventsAsync();
+        Today =  DateTime.Now.ToString("ddd, dd MMM yyy HH':'mm':'ss 'GMT'");
 
     }
-    public string Today = DateTime.Now.ToString("ddd, dd MMM yyy HH':'mm':'ss 'GMT'");
 }
 
 
