@@ -64,7 +64,6 @@
     private int carouselCount = 0;
     #endregion
 
-
     protected async override Task OnInitializedAsync()
     {
         Courses = (await courseService.GetCourseVMsAsync()).ToList();
