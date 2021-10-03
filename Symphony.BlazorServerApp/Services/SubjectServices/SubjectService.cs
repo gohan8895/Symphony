@@ -2,9 +2,7 @@
 using Symphony.ViewModels.Consult;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -73,7 +71,7 @@ namespace Symphony.BlazorServerApp.Services.SubjectServices
                         "application/json"
                         );
 
-                    using var httpResponse = await client.PostAsync("subjects", createRequestJson);
+                    using var httpResponse = await client.PostAsync("subjects/", createRequestJson);
 
                     httpResponse.EnsureSuccessStatusCode();
                 }

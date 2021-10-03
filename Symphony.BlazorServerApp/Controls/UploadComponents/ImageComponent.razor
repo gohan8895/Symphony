@@ -1,0 +1,93 @@
+﻿@using Symphony.BlazorServerApp.Services.SubjectServices.Model
+@using Symphony.BlazorServerApp.Services.SubjectServices
+@using System
+@using System.IO
+@using Microsoft.AspNetCore.Hosting
+@using Microsoft.Extensions.Logging
+
+@inject ILogger<FileComponent> Logger
+@inject IWebHostEnvironment Environment
+@inject ISubjectService subjectService
+
+
+<div class="col-lg-6">
+    <label class="form-label fw-bold"> <span class="text-danger fw-bold">*</span></label>
+    <InputFile OnChange="AddImages" class="form-control" accept="jpg, png, .jpeg" multiple />
+    @*<ValidationMessage For="@(() => images)" />*@
+</div>
+<div class="col-lg-6">
+    @foreach (var uri in imageDataUris)
+    {
+        <img src="@uri" width="150" height="150" />
+    }
+</div>
+
+@code {
+    private MultipartFormDataContent Image { get; set; } = new();
+    private List<UploadResult> uploadResults = new();
+    private List<string> imageDataUris { get; set; } = new();
+    private bool shouldRender;
+
+    #region constant
+
+    private const long maxFileSize = 1024 * 15;
+    private const int maxAllowedFiles = 3;
+
+    #endregion
+    protected override bool ShouldRender() => shouldRender;
+
+    private async Task AddImages(InputFileChangeEventArgs e)
+    {
+        shouldRender = false;
+        var upload = false;
+
+        using var content = new MultipartFormDataContent();
+
+        foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
+        {
+            if (uploadResults.SingleOrDefault(f => f.FileName == file.Name) is null)
+            {
+                try
+                {
+                    var fileContent = new StreamContent(file.OpenReadStream(maxFileSize));
+
+                    fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
+
+                    content.Add(
+                        content: fileContent,
+                        name: "\"files\"",
+                        fileName: file.Name
+                        );
+
+                    upload = true;
+
+                    //Show images to browser
+                    var imageFile = await e.File.RequestImageFileAsync("image/jpeg", maxWith: 640, maxHeight: 480);
+                    using Stream fileStream = imageFile.OpenReadStream(maxAllowedSize: maxFileSize);
+
+                    using MemoryStream ms = new();
+                    await fileStream.CopyToAsync(ms);
+
+                    imageDataUris.Add($"data:image/jpeg;base64,{Convert.ToBase64String(ms.ToArray())}");
+                    //
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogInformation("File: {Filename} not uploaded (Err: 6): {Message}",
+                        file.Name, ex.Message);
+                    uploadResults.Add(new()
+                    {
+                        FileName = file.Name,
+                        ErrorCode = 6,
+                        Uploaded = false
+                    });
+                }
+            }
+        }
+
+        if (upload)
+        {
+
+        }
+    }
+}

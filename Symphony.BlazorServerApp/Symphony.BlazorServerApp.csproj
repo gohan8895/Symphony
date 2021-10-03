@@ -56,8 +56,4 @@
     <ProjectReference Include="..\Symphony.ViewModels\Symphony.ViewModels.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="NewFolder\" />
-  </ItemGroup>
-
 </Project>

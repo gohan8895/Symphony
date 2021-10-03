@@ -44,7 +44,7 @@ namespace Symphony.Backend.Controllers
 
         // POST api/<SubjectsController>
         [HttpPost]
-        public async Task<ActionResult<SubjectVM>> Post([FromForm] SubjectCreateRequest createRequest)
+        public async Task<ActionResult<SubjectVM>> Post( SubjectCreateRequest createRequest)
         {
             if (createRequest is null)
             {
@@ -80,7 +80,7 @@ namespace Symphony.Backend.Controllers
         }
 
         // DELETE api/<SubjectsController>/5
-        [HttpPut("update-book-state/{id}")]
+        [HttpPut("update-subject-state/{id}")]
         public async Task<ActionResult> SoftDelete(int id)
         {
             var _subject = await _service.GetSubjectVMAsync(id);
