@@ -1,6 +1,7 @@
 ﻿@typeparam TItem
 
 <div class="table-responsive">
+   
     <table class="table caption-top table-bordered shadow-sm table-striped table-hover">
         <caption>List of @Caption</caption>
         <thead class="text-white fw-bold" style="background-color: #3A0647; ">
@@ -17,17 +18,17 @@
     </table>
 </div>
 <div>
-    <button class="btn btn-secondary" @onclick="@(e=>NavigateTo("first"))">First</button>
+    <button class="btn btn-secondary m-2" @onclick="@(e=>NavigateTo("first"))">First</button>
 
-    <button class="btn btn-secondary" @onclick="@(e=>NavigateTo("prev"))">Prev</button>
+    <button class="btn btn-secondary m-2" @onclick="@(e=>NavigateTo("prev"))">Prev</button>
 
     @for (int i = 0; i < TotalPages; i++)
     {
         var pageNumber = i;
         <button class="btn @(CurrentPage==pageNumber?"btn-dark":"btn-info") m-2" @onclick="()=>UpdateList(pageNumber)">@(i+1)</button>
     }
-    <button class="btn btn-secondary" @onclick="@(e=>NavigateTo("next"))">Next</button>
-    <button class="btn btn-secondary" @onclick="@(e=>NavigateTo("last"))">Last</button>
+    <button class="btn btn-secondary m-2" @onclick="@(e=>NavigateTo("next"))">Next</button>
+    <button class="btn btn-secondary m-2" @onclick="@(e=>NavigateTo("last"))">Last</button>
 
 </div>
 
@@ -51,16 +52,19 @@
     public int CurrentPage { get; set; }
     protected override void OnInitialized()
     {
-        PageSize = 10;
+        PageSize = 100;
         ItemList = Items.Take(PageSize).ToList();
         TotalPages = (int)Math.Ceiling(Items.Count() / (decimal)PageSize);
-
+        if(TotalPages < 1)
+        {
+            TotalPages = 1;
+        }
         base.OnInitialized();
     }
 
     private void UpdateList(int pageNumber)
     {
-      
+
         ItemList = Items.Skip(pageNumber * PageSize).Take(PageSize).ToList();
         CurrentPage = pageNumber;
     }

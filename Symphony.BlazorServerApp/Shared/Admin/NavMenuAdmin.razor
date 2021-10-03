@@ -168,6 +168,33 @@
             }
         </li>
         <li class="nav-item px-3 fw-bold btn">
+            <NavLink class="nav-link" @onclick="() => expandNew = !expandNew">
+                <span class="material-icons me-2">
+                    help
+                </span> New Management
+                <span class="material-icons me-2">
+                    @(expandNew ? "expand_less" : "expand_more")
+                </span>
+            </NavLink>
+            @if (expandNew)
+            {
+                <ul class="nav flex-column">
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="/admin/new">
+                            <span class="material-icons me-2">
+                                question_answer
+                            </span> News Manager
+                        </NavLink>
+                        <NavLink class="nav-link expand-menu" href="/new">
+                            <span class="material-icons me-2">
+                                question_answer
+                            </span> FAQ Page
+                        </NavLink>
+                    </li>
+                </ul>
+            }
+        </li>
+        <li class="nav-item px-3 fw-bold btn">
             <NavLink class="nav-link" @onclick="() => expandAbout = !expandAbout">
                 <span class="material-icons me-2">
                     help
@@ -206,6 +233,7 @@
     private bool expandSubMenuRegistration = false;
     private bool expandAbout = false;
     private bool expandFAQ = false;
+    private bool expandNew = false;
 
     #endregion
 
@@ -216,3 +244,7 @@
         collapseNavMenu = !collapseNavMenu;
     }
 }
+    
+     
+
+
