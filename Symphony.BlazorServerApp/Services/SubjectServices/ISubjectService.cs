@@ -13,9 +13,13 @@ namespace Symphony.BlazorServerApp.Services.SubjectServices
 
         Task<IEnumerable<SubjectVM>> GetSubjectVMsAsync();
 
-        Task CreateSubjectVMAsync(SubjectCreateRequest createRequest);
+        Task CreateSubjectVMAsync(SubjectCreateRequest request);
 
-        Task UpdateSubjectVMAsync(SubjectUpdateRequest subjectVM);
+        Task UpdateSubjectVMAsync(SubjectUpdateRequest request);
+
+        Task<HttpResponseMessage> UpdateSubjectImagesVMAsync(int id, MultipartFormDataContent content);
+
+        Task<HttpResponseMessage> UpdateSubjectFilesVMAsync(int id, MultipartFormDataContent content);
 
         Task ChangeSubjectState(int id);
     }

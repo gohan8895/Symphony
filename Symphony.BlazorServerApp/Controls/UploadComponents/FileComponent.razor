@@ -1,57 +1,82 @@
-﻿@using Symphony.BlazorServerApp.Services.SubjectServices.Model
-@using Symphony.BlazorServerApp.Services.SubjectServices
+﻿@using Symphony.BlazorServerApp.Services.SubjectServices 
 @using System
-@using System.IO
+@using System.Net.Http.Headers
 @using Microsoft.AspNetCore.Hosting
-@using Microsoft.Extensions.Logging
 
-@inject ILogger<FileComponent> Logger
 @inject IWebHostEnvironment Environment
 @inject ISubjectService subjectService
+@inject IHttpClientFactory ClientFactory
 
-<div class="col-lg-12">
-    <label class="form-label fw-bold">@LabelName <span class="text-danger fw-bold">*</span></label>
-    <InputFile OnChange="AddFiles" class="form-control" accept=".docx, .doc, .xlsx, .pdf, .pptx" multiple />
-    @*<ValidationMessage For="@(() => Input.attachments)" />*@
+<div id="#fileUp" class="col-lg-6 my-2">
+    <label class="form-label fw-bold">@nameof(SubjectVM.Files) </label>
+    <InputFile OnChange="@AddFiles" class="form-control" accept=".docx, .doc, .xlsx, .pdf, .pptx" multiple />
 </div>
+
 
 @code {
     #region parameter
     [Parameter]
-    public string LabelName { get; set; }
+    public SubjectVM SubjectVM { get; set; }
     #endregion
+
+    private bool shouldRender;
+    private bool IsSuccess;
+    private bool upload;
 
     #region constant
 
-    private const long maxFileSize = 1024 * 15;
+    private const long maxFileSize = 1024 * 1024 * 15;
     private const int maxAllowedFiles = 3;
 
     #endregion
 
+    protected override bool ShouldRender() => shouldRender;
+
     private async Task AddFiles(InputFileChangeEventArgs e)
     {
-        try
+        shouldRender = false;
+        upload = false;
+
+        using var content = new MultipartFormDataContent();
+
+        foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
         {
-            using Stream fileStream = e.File.OpenReadStream(maxAllowedSize: maxFileSize);
+            try
+            {
+                var fileContent = new StreamContent(file.OpenReadStream(maxFileSize));
 
-            using MemoryStream ms = new();
-            await fileStream.CopyToAsync(ms);
+                fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
 
-            var content = new MultipartFormDataContent
-{
-                {
-                    new ByteArrayContent(ms.ToArray()),
-                    "\"file\"",
-                    e.File.Name
-                }
-            };
+                content.Add(
+                    content: fileContent,
+                    name: "\"files\"",
+                    fileName: file.Name
+                    );
 
-            File = content;
+                upload = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
-        catch (Exception exeption)
+
+        if (upload)
         {
-            Console.WriteLine(exeption.Message);
+            var client = ClientFactory.CreateClient("symphony");
+
+            var response = await client.PutAsync($"subjects/update-subject-files/{SubjectVM.Id}", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                IsSuccess = true;
+            }
+            else
+            {
+                IsSuccess = false;
+            }
         }
+        StateHasChanged();
+        shouldRender = true;
     }
-
 }

@@ -18,8 +18,8 @@ namespace Symphony.Services.BackendServices.SubjectServices
 
         Task<SimpleSubjectVM> UpdateSubjectVMAsync(SubjectUpdateRequest request);
 
-        Task<SimpleSubjectVM> UpdateSubjectImageVMAsync(ImageUpdateRequest request);
-        Task<SimpleSubjectVM> UpdateSubjectFileVMAsync(FileUpdateRequest request);
+        Task<SimpleSubjectVM> UpdateSubjectImageVMAsync(int id, List<IFormFile> images);
+        Task<SimpleSubjectVM> UpdateSubjectFileVMAsync(int id,  List<IFormFile> files);
 
         Task ChangeSubjectState(int id);
     }

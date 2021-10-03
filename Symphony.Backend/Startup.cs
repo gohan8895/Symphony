@@ -39,6 +39,7 @@ namespace Symphony.Backend
         }
 
         public IConfiguration Configuration { get; }
+        readonly string MyAllowSpecificOrigins = "symphonyBlazor";
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -46,6 +47,14 @@ namespace Symphony.Backend
             services.AddDbContext<SymphonyDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("SymphonyDb")));
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins().AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+                                  });
+            });
             /*
              * Data Injection
              */
@@ -81,9 +90,11 @@ namespace Symphony.Backend
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Symphony.Backend v1"));
             }
 
-            app.UseRouting();
             // to access https:/localhost:5050/images/...
             app.UseStaticFiles();
+            app.UseRouting();
+
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseAuthorization();
 

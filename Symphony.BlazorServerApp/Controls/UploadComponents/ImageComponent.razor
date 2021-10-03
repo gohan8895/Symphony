@@ -1,36 +1,42 @@
-﻿@using Symphony.BlazorServerApp.Services.SubjectServices.Model
-@using Symphony.BlazorServerApp.Services.SubjectServices
+﻿@using Symphony.BlazorServerApp.Services.SubjectServices
 @using System
-@using System.IO
+@using System.Net.Http.Headers
 @using Microsoft.AspNetCore.Hosting
-@using Microsoft.Extensions.Logging
 
-@inject ILogger<FileComponent> Logger
 @inject IWebHostEnvironment Environment
 @inject ISubjectService subjectService
+@inject IHttpClientFactory ClientFactory
 
 
-<div class="col-lg-6">
-    <label class="form-label fw-bold">Image</label>
-    <InputFile OnChange="AddImages" class="form-control" accept="jpg, png, .jpeg" multiple />
-    @*<ValidationMessage For="@(() => images)" />*@
+<div id="#imageUp" class="col-lg-6 my-2">
+    <label class="form-label fw-bold">@nameof(SubjectVM.Images)</label>
+    <InputFile OnChange="@AddImages" class="form-control" accept=".jpg , .png, .jpeg" multiple />
 </div>
-<div class="col-lg-6">
-    @foreach (var uri in imageDataUris)
-    {
-        <img src="@uri" width="150" height="150" />
-    }
+@*<div class="col-lg-6">
+        @foreach (var uri in imageDataUris)
+        {
+            <img src="@uri" width="150" height="150" />
+        }
+    </div>*@
+<div class="toast fw-bold align-items-center text-white @(IsSuccess ? "bg-success" : "bg-danger") border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+        <div class="toast-body">
+            @(IsSuccess ? "Images uploaded successfully!" : "Something went wrong, please try again!").
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
 </div>
 
 @code {
-    private MultipartFormDataContent Image { get; set; } = new();
-    private List<UploadResult> uploadResults = new();
-    private List<string> imageDataUris { get; set; } = new();
-    private bool shouldRender;
+    [Parameter]
+    public SubjectVM SubjectVM { get; set; }
 
     #region constant
 
-    private const long maxFileSize = 1024 * 15;
+    private bool shouldRender;
+    private bool IsSuccess;
+    private bool upload;
+    private const long maxFileSize = 1024 * 1024 * 15;
     private const int maxAllowedFiles = 3;
 
     #endregion
@@ -39,55 +45,58 @@
     private async Task AddImages(InputFileChangeEventArgs e)
     {
         shouldRender = false;
-        var upload = false;
+        upload = false;
 
         using var content = new MultipartFormDataContent();
 
         foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
         {
-            if (uploadResults.SingleOrDefault(f => f.FileName == file.Name) is null)
+            try
             {
-                try
-                {
-                    var fileContent = new StreamContent(file.OpenReadStream(maxFileSize));
+                var fileContent = new StreamContent(file.OpenReadStream(maxFileSize));
 
-                    fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
+                fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
 
-                    content.Add(
-                        content: fileContent,
-                        name: "\"files\"",
-                        fileName: file.Name
-                        );
+                content.Add(
+                    content: fileContent,
+                    name: "\"images\"",
+                    fileName: file.Name
+                    );
 
-                    upload = true;
-
-                    //Show images to browser
-                    var imageFile = await e.File.RequestImageFileAsync("image/jpeg", maxWith: 640, maxHeight: 480);
-                    using Stream fileStream = imageFile.OpenReadStream(maxAllowedSize: maxFileSize);
-
-                    using MemoryStream ms = new();
-                    await fileStream.CopyToAsync(ms);
-
-                    imageDataUris.Add($"data:image/jpeg;base64,{Convert.ToBase64String(ms.ToArray())}");
-                    //
-                }
-                catch (Exception ex)
-                {
-                    Logger.LogInformation("File: {Filename} not uploaded (Err: 6): {Message}",
-                        file.Name, ex.Message);
-                    uploadResults.Add(new()
-                    {
-                        FileName = file.Name,
-                        ErrorCode = 6,
-                        Uploaded = false
-                    });
-                }
+                upload = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
         if (upload)
         {
+            var client = ClientFactory.CreateClient("symphony");
 
+            var response = await client.PutAsync($"subjects/update-subject-images/{SubjectVM.Id}", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                IsSuccess = true;
+            }
+            else
+            {
+                IsSuccess = false;
+            }
         }
+        StateHasChanged();
+        shouldRender = true;
     }
 }
+@*public List<string> imageDataUris { get; set; } = new();*@
+@*    //Show images to browser
+    var imageFile = await file.RequestImageFileAsync("image", maxWith: 640, maxHeight: 480);
+    using Stream fileStream = imageFile.OpenReadStream(maxAllowedSize: maxFileSize);
+
+    using MemoryStream ms = new();
+    await fileStream.CopyToAsync(ms);
+
+    imageDataUris.Add($"data:image/jpeg;base64,{Convert.ToBase64String(ms.ToArray())}");
+    //*@

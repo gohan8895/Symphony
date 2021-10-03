@@ -2,6 +2,7 @@
 
 @inject ISubjectService subjectService
 @using Symphony.BlazorServerApp.Services.SubjectServices
+@using Symphony.BlazorServerApp.Controls.UploadComponents
 @using Symphony.BlazorServerApp.Controls.TableComponents
 
 <AuthorizeView Roles="admin">
@@ -22,16 +23,45 @@
                     <li>$ @Subject.Price</li>
                 </ul>
                 <aside>
-                    @if (Subject.Images is not null)
-                    {
-                        @foreach (var image in Subject.Images)
+                    <div class="subject-image">
+                        @if (Subject.Images is not null)
                         {
-                            <div class="images">
-                                <img class="w-50 h-auto" src="http:/localhost:39699/@image.Path" />
-                            </div>
+                            @foreach (var image in Subject.Images)
+                            {
+                                <div class="images">
+                                    <img class="w-50 h-auto" src="http:/localhost:39699/@image.Path" />
+                                </div>
+                            }
                         }
-                    }
+                        else
+                        {
+                            <p>There is no image upload for this Subject yet. <a href="#imageUp">Upload one?</a></p>
+                        }
+                    </div>
+                    <div class="subject-file">
+                        @if (Subject.Files is not null)
+                        {
+                            <ul>
+                                @foreach (var file in Subject.Files)
+                                {
+                                    <li>@file.FileName.Humanize() <span class="ps-5 material-icons btn">files</span></li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <p>There is no file upload for this Subject yet. <a href="#fileUp">Upload one?</a></p>
+                        }
+                    </div>
                 </aside>
+            </div>
+            <div class="upload">
+                <div class="images-upload">
+                    <ImageComponent SubjectVM="Subject" />
+                </div>
+                <div class="files-upload">
+                    <FileComponent SubjectVM="Subject" />
+                </div>
             </div>
         </div>
     </Authorized>

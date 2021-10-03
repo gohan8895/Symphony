@@ -114,6 +114,64 @@ namespace Symphony.BlazorServerApp.Services.SubjectServices
             }
         }
 
+        public async Task<HttpResponseMessage> UpdateSubjectImagesVMAsync(int id, MultipartFormDataContent content)
+        {
+            if (content is not null)
+            {
+                try
+                {
+                    var client = clientFactory.CreateClient("symphony");
+                    var contentJson = new StringContent(
+                        JsonSerializer.Serialize(content, options),
+                        encoding: Encoding.UTF8,
+                        "application/json"
+                        );
+
+                    using var httpResponse = await client.PutAsync($"subjects/update-subject-images/{id}", contentJson);
+
+                    httpResponse.EnsureSuccessStatusCode();
+
+                    return httpResponse;
+                }
+                catch (Exception ex)
+                {
+                    logger.LogInformation(ex.Message);
+                }
+            }
+
+            logger.LogInformation("Create request is null");
+            return null;
+        }
+
+        public async Task<HttpResponseMessage> UpdateSubjectFilesVMAsync(int id, MultipartFormDataContent content)
+        {
+            if (content is not null)
+            {
+                try
+                {
+                    var client = clientFactory.CreateClient("symphony");
+                    var contentJson = new StringContent(
+                        JsonSerializer.Serialize(content, options),
+                        encoding: Encoding.UTF8,
+                        "application/json"
+                        );
+
+                    using var httpResponse = await client.PutAsync($"subjects/update-subject-files/{id}", contentJson);
+
+                    httpResponse.EnsureSuccessStatusCode();
+
+                    return httpResponse;
+                }
+                catch (Exception ex)
+                {
+                    logger.LogInformation(ex.Message);
+                }
+            }
+
+            logger.LogInformation("Create request is null");
+            return null;
+        }
+
         public async Task ChangeSubjectState(int id)
         {
             if (id != 0)

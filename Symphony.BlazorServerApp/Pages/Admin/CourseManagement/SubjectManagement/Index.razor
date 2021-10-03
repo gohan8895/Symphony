@@ -11,13 +11,13 @@
             <CreateButton Url="/admin/subject/create" Who="a New Subject" />
             <TableTemplate Caption="Subjects" Items="Subjects" Context="sub">
                 <TableHeader>
-                    <td>@nameof(Subject.Id)</td>
-                    <td>@nameof(Subject.Name)</td>
-                    <td>@nameof(Subject.Description)</td>
-                    <td>@nameof(Subject.Price)</td>
-                    <td>@nameof(Subject.Duration)</td>
-                    <td>@nameof(Subject.IsShown)</td>
-                    <td></td>
+                    <th>@nameof(Subject.Id)</th>
+                    <th>@nameof(Subject.Name)</th>
+                    <th>@nameof(Subject.Description)</th>
+                    <th>@nameof(Subject.Price)</th>
+                    <th>@nameof(Subject.Duration)</th>
+                    <th>@nameof(Subject.IsShown)</th>
+                    <th></th>
                 </TableHeader>
                 <RowTemplate>
                     <td>@sub.Id</td>

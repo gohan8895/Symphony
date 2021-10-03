@@ -39,7 +39,6 @@ namespace Symphony.Services.BackendServices.SubjectServices
             var subjects = await _context.Subjects
                 .Include(x => x.Files)
                 .Include(x => x.Images)
-                .Where(s => s.IsShown == true)
                 .Select(s => s.AsVM())
                 .ToListAsync();
             return subjects;
@@ -102,42 +101,42 @@ namespace Symphony.Services.BackendServices.SubjectServices
             return _subject.AsSimpleVM();
         }
 
-        public async Task<SimpleSubjectVM> UpdateSubjectImageVMAsync(ImageUpdateRequest request)
+        public async Task<SimpleSubjectVM> UpdateSubjectImageVMAsync(int id, List<IFormFile> images)
         {
             var subject = await _context.Subjects
                 .Include(s => s.Images)
-                .FirstOrDefaultAsync(s => s.Id == request.Id);
+                .FirstOrDefaultAsync(s => s.Id == id);
 
             if (subject is null) return null;
 
-            if (request.Images is not null)
+            if (images is not null)
             {
                 if (subject.Images is not null)
                 {
                     _context.Images.RemoveRange(subject.Images);
                 }
-                await AddImages(request.Images, subject.Id);
+                await AddImages(images, subject.Id);
             }
 
             return subject.AsSimpleVM();
         }
         
-        public async Task<SimpleSubjectVM> UpdateSubjectFileVMAsync(FileUpdateRequest request)
+        public async Task<SimpleSubjectVM> UpdateSubjectFileVMAsync(int id, List<IFormFile> files)
         {
             var subject = await _context.Subjects
                 .Include(s => s.Files)
-                .FirstOrDefaultAsync(s => s.Id == request.Id);
+                .FirstOrDefaultAsync(s => s.Id == id);
 
             if (subject is null) return null;
 
-            if (request.Files is not null)
+            if (files is not null)
             {
                 if (subject.Files is not null)
                 {
                     _context.Files.RemoveRange(subject.Files);
                 }
 
-                await AddAttachments(request.Files, subject.Id);
+                await AddAttachments(files, subject.Id);
             }
 
             return subject.AsSimpleVM();
@@ -157,7 +156,7 @@ namespace Symphony.Services.BackendServices.SubjectServices
 
                 var _image = new Image
                 {
-                    Path = @$"wwwroot\images\{imgName}",
+                    Path = @$"images\{imgName}",
                     SubjectId = subjectId
                 };
                 await _context.Images.AddAsync(_image);
@@ -180,7 +179,7 @@ namespace Symphony.Services.BackendServices.SubjectServices
 
                 var _file = new Symphony.Data.Entities.File
                 {
-                    Path = @$"wwwroot\files\{fileName}",
+                    Path = @$"files\{fileName}",
                     FileName = orgFileNam,
                     SubjectId = subjectId
                 };
