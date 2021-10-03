@@ -1,6 +1,7 @@
 ﻿@typeparam TItem
 
 <div class="table-responsive">
+   
     <table class="table caption-top table-bordered shadow-sm table-striped table-hover">
         <caption>List of @Caption</caption>
         <thead class="text-white fw-bold" style="background-color: #3A0647; ">
@@ -9,12 +10,26 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Items)
+            @foreach (var item in ItemList)
             {
                 <tr>@RowTemplate(item)</tr>
             }
         </tbody>
     </table>
+</div>
+<div>
+    <button class="btn btn-secondary m-2" @onclick="@(e=>NavigateTo("first"))">First</button>
+
+    <button class="btn btn-secondary m-2" @onclick="@(e=>NavigateTo("prev"))">Prev</button>
+
+    @for (int i = 0; i < TotalPages; i++)
+    {
+        var pageNumber = i;
+        <button class="btn @(CurrentPage==pageNumber?"btn-dark":"btn-info") m-2" @onclick="()=>UpdateList(pageNumber)">@(i+1)</button>
+    }
+    <button class="btn btn-secondary m-2" @onclick="@(e=>NavigateTo("next"))">Next</button>
+    <button class="btn btn-secondary m-2" @onclick="@(e=>NavigateTo("last"))">Last</button>
+
 </div>
 
 @code {
@@ -29,4 +44,49 @@
 
     [Parameter]
     public IReadOnlyList<TItem> Items { get; set; }
+
+    public IReadOnlyList<TItem> ItemList { get; set; }
+    public int PageSize { get; set; }
+    public int TotalPages { get; set; }
+
+    public int CurrentPage { get; set; }
+    protected override void OnInitialized()
+    {
+        PageSize = 100;
+        ItemList = Items.Take(PageSize).ToList();
+        TotalPages = (int)Math.Ceiling(Items.Count() / (decimal)PageSize);
+        if(TotalPages < 1)
+        {
+            TotalPages = 1;
+        }
+        base.OnInitialized();
+    }
+
+    private void UpdateList(int pageNumber)
+    {
+
+        ItemList = Items.Skip(pageNumber * PageSize).Take(PageSize).ToList();
+        CurrentPage = pageNumber;
+    }
+    private void NavigateTo(string direction)
+    {
+        if (direction == "prev" && CurrentPage != 0)
+        {
+            CurrentPage -= 1;
+        }
+        if (direction == "next" && CurrentPage != TotalPages - 1)
+        {
+            CurrentPage += 1;
+        }
+        if (direction == "first")
+        {
+            CurrentPage = 0;
+        }
+        if (direction == "last")
+        {
+            CurrentPage = TotalPages - 1;
+        }
+        UpdateList(CurrentPage);
+    }
+
 }
