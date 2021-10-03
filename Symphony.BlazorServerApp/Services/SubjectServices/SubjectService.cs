@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -54,9 +55,9 @@ namespace Symphony.BlazorServerApp.Services.SubjectServices
             }
         }
 
-        public async Task CreateSubjectVMAsync(SubjectCreateRequest createRequest)
+        public async Task CreateSubjectVMAsync(SubjectCreateRequest createRequest, MultipartFormDataContent Image, MultipartFormDataContent File)
         {
-            if (createRequest is not null)
+            if (createRequest is not null && Image is not null && File is not null)
             {
                 var client = clientFactory.CreateClient("symphony");
                 var createRequestJson = new StringContent(
@@ -64,6 +65,18 @@ namespace Symphony.BlazorServerApp.Services.SubjectServices
                     encoding: Encoding.UTF8,
                     "application/json"
                     );
+
+                var imageJson = new StringContent(
+                JsonSerializer.Serialize(Image, options),
+                encoding: Encoding.UTF8,
+                "application/json"
+                );
+                
+                var fileJson = new StringContent(
+                JsonSerializer.Serialize(File, options),
+                encoding: Encoding.UTF8,
+                "application/json"
+                );
 
                 using var httpResponse = await client.PostAsync("subjects", createRequestJson);
 

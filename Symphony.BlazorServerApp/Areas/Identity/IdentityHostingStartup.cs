@@ -24,6 +24,7 @@ namespace Symphony.BlazorServerApp.Areas.Identity
                    .AddRoles<AppRole>()
                    .AddEntityFrameworkStores<SymphonyDBContext>()
                    .AddDefaultTokenProviders();
+                
 
 
                 services.Configure<IdentityOptions>(options =>

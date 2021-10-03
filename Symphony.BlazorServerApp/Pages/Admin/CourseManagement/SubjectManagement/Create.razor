@@ -51,6 +51,8 @@
 
 @code {
     public SubjectCreateRequest Input { get; set; } = new();
+    private MultipartFormDataContent Image { get; set; } = new();
+    private MultipartFormDataContent File { get; set; } = new();
     private int imageCount = 1;
     private string imageDataUri;
     private const long maxFileSize = 1024 * 1014 * 15;
@@ -65,7 +67,7 @@
     {
         if (Input is not null)
         {
-            await subjectService.CreateSubjectVMAsync(Input);
+            await subjectService.CreateSubjectVMAsync(Input, Image, File);
 
             Nav.NavigateTo("/admin/subject");
         }
@@ -85,7 +87,7 @@
             imageDataUri = $"data:image/jpeg;base64,{Convert.ToBase64String(ms.ToArray())}";
 
             var content = new MultipartFormDataContent
-    {
+{
                 {
                     new ByteArrayContent(ms.ToArray()),
                     "\"file\"",
@@ -93,7 +95,7 @@
                 }
             };
 
-            Input.images.Add(content as IFormFile);
+            Image = content;
         }
         catch (Exception exeption)
         {
@@ -111,7 +113,7 @@
             await fileStream.CopyToAsync(ms);
 
             var content = new MultipartFormDataContent
-    {
+{
                 {
                     new ByteArrayContent(ms.ToArray()),
                     "\"file\"",
@@ -119,7 +121,7 @@
                 }
             };
 
-            Input.attachments.Add(content as IFormFile);
+            File = content;
         }
         catch (Exception exeption)
         {

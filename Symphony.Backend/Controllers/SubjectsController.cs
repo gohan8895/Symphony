@@ -44,7 +44,7 @@ namespace Symphony.Backend.Controllers
 
         // POST api/<SubjectsController>
         [HttpPost]
-        public async Task<ActionResult<SubjectVM>> Post([FromForm] SubjectCreateRequest createRequest)
+        public async Task<ActionResult<SubjectVM>> Post([FromForm] SubjectCreateRequest createRequest, IFormFile Image, IFormFile File)
         {
             if (createRequest is null)
             {

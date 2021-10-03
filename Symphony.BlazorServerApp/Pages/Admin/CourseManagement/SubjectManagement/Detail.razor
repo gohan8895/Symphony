@@ -1,0 +1,52 @@
+﻿@page "/admin/subject/{id:int}"
+
+@inject ISubjectService subjectService
+@using Symphony.BlazorServerApp.Services.SubjectServices
+@using Symphony.BlazorServerApp.Controls.TableComponents
+
+<AuthorizeView Roles="admin">
+    <Authorized>
+        <div class="container-lg">
+            <h1 class="text-center fw-bolder">Subject Manager</h1>
+            <div class="main-content">
+                <ul>
+                    <li class="fw-bolder">@nameof(Subject.Id)</li>
+                    <li>@Subject.Id</li>
+                    <li class="fw-bolder">@nameof(Subject.Name)</li>
+                    <li>@Subject.Name</li>
+                    <li class="fw-bolder">@nameof(Subject.Description)</li>
+                    <li>@Subject.Description</li>
+                    <li class="fw-bolder">@nameof(Subject.Duration)</li>
+                    <li>@Subject.Duration Hours</li>
+                    <li class="fw-bolder">@nameof(Subject.Price)</li>
+                    <li>$ @Subject.Price</li>
+                </ul>
+                <aside>
+                    @if (Subject.Images is not null)
+                    {
+                        @foreach (var image in Subject.Images)
+                        {
+                            <div class="images">
+                                <img class="w-50 h-auto" src="http:/localhost:39699/@image.Path" />
+                            </div>
+                        }
+                    }
+                </aside>
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <UnauthorizedAccess />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private SubjectVM Subject { get; set; } = new();
+
+    protected async override Task OnInitializedAsync()
+    {
+        Subject = await subjectService.GetSubjectVMAsync(id: Id);
+    }
+}

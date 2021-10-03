@@ -11,23 +11,25 @@
             <CreateButton Url="/admin/subject/create" Who="a New Subject" />
             <TableTemplate Caption="Subjects" Items="Subjects" Context="sub">
                 <TableHeader>
-                    <td><p>@nameof(Subject.Id)</p></td>
-                    <td><p>@nameof(Subject.Name)</p></td>
-                    <td><p>@nameof(Subject.Description)</p></td>
-                    <td><p>@nameof(Subject.Price)</p></td>
-                    <td><p>@nameof(Subject.Duration)</p></td>
-                    <td><p>@nameof(Subject.IsShown)</p></td>
+                    <td>@nameof(Subject.Id)</td>
+                    <td>@nameof(Subject.Name)</td>
+                    <td>@nameof(Subject.Description)</td>
+                    <td>@nameof(Subject.Price)</td>
+                    <td>@nameof(Subject.Duration)</td>
+                    <td>@nameof(Subject.IsShown)</td>
                     <td></td>
                 </TableHeader>
                 <RowTemplate>
-                    <td><p>@sub.Id</p></td>
-                    <td><p>@sub.Name</p></td>
-                    <td><p>@sub.Description</p></td>
-                    <td><p>@sub.Price</p></td>
-                    <td><p>@sub.Duration</p></td>
-                    <td><p>@(sub.IsShown ? "Show" : "Hidden")</p></td>
+                    <td>@sub.Id</td>
+                    <td>
+                        <a href="/admin/subject/@sub.Id">@sub.Name</a>
+                    </td>
+                    <td>@sub.Description</td>
+                    <td>@sub.Price</td>
+                    <td>@sub.Duration</td>
+                    <td>@(sub.IsShown ? "Show" : "Hidden")</td>
                     <td class="text-center">
-                        <NavLink href=@($"/admin/subject/edit/{sub.Id}") class="material-icons nav-item text-warning me-4">edit</NavLink>
+                        <a href="/admin/subject/edit/@sub.Id" class="material-icons nav-item text-warning me-4">edit</a>
                         <button @onclick="() => DeleteSubject(sub.Id)" class="btn material-icons text-danger me-2">delete</button>
                     </td>
                 </RowTemplate>
