@@ -1,4 +1,5 @@
-﻿using Symphony.ViewModels.Consult;
+﻿using Microsoft.Extensions.Logging;
+using Symphony.ViewModels.Consult;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,12 @@ namespace Symphony.BlazorServerApp.Services.SubjectServices
     {
         private readonly IHttpClientFactory clientFactory;
         private readonly JsonSerializerOptions options;
+        private readonly ILogger logger;
 
-        public SubjectService(IHttpClientFactory clientFactory)
+        public SubjectService(IHttpClientFactory clientFactory, ILogger<SubjectService> logger)
         {
             this.clientFactory = clientFactory;
+            this.logger = logger;
             options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         }
 
@@ -34,6 +37,7 @@ namespace Symphony.BlazorServerApp.Services.SubjectServices
             }
             else
             {
+                logger.LogInformation(response.ReasonPhrase);
                 return null;
             }
         }
@@ -51,36 +55,36 @@ namespace Symphony.BlazorServerApp.Services.SubjectServices
             }
             else
             {
+                logger.LogInformation(response.ReasonPhrase);
                 return null;
             }
         }
 
-        public async Task CreateSubjectVMAsync(SubjectCreateRequest createRequest, MultipartFormDataContent Image, MultipartFormDataContent File)
+        public async Task CreateSubjectVMAsync(SubjectCreateRequest createRequest)
         {
-            if (createRequest is not null && Image is not null && File is not null)
+            if (createRequest is not null)
             {
-                var client = clientFactory.CreateClient("symphony");
-                var createRequestJson = new StringContent(
-                    JsonSerializer.Serialize(createRequest, options),
-                    encoding: Encoding.UTF8,
-                    "application/json"
-                    );
+                try
+                {
+                    var client = clientFactory.CreateClient("symphony");
+                    var createRequestJson = new StringContent(
+                        JsonSerializer.Serialize(createRequest, options),
+                        encoding: Encoding.UTF8,
+                        "application/json"
+                        );
 
-                var imageJson = new StringContent(
-                JsonSerializer.Serialize(Image, options),
-                encoding: Encoding.UTF8,
-                "application/json"
-                );
-                
-                var fileJson = new StringContent(
-                JsonSerializer.Serialize(File, options),
-                encoding: Encoding.UTF8,
-                "application/json"
-                );
+                    using var httpResponse = await client.PostAsync("subjects", createRequestJson);
 
-                using var httpResponse = await client.PostAsync("subjects", createRequestJson);
-
-                httpResponse.EnsureSuccessStatusCode();
+                    httpResponse.EnsureSuccessStatusCode();
+                }
+                catch (Exception ex)
+                {
+                    logger.LogInformation(ex.Message);
+                }
+            }
+            else
+            {
+                logger.LogInformation("Create request is null");
             }
         }
 
@@ -88,16 +92,27 @@ namespace Symphony.BlazorServerApp.Services.SubjectServices
         {
             if (updateRequest is not null)
             {
-                var client = clientFactory.CreateClient("symphony");
-                var updateRequestJson = new StringContent(
-                    JsonSerializer.Serialize(updateRequest, options),
-                    encoding: Encoding.UTF8,
-                    "application/json"
-                    );
+                try
+                {
+                    var client = clientFactory.CreateClient("symphony");
+                    var updateRequestJson = new StringContent(
+                        JsonSerializer.Serialize(updateRequest, options),
+                        encoding: Encoding.UTF8,
+                        "application/json"
+                        );
 
-                using var httpResponse = await client.PutAsync("subjects/update-subject-details", updateRequestJson);
+                    using var httpResponse = await client.PutAsync("subjects/update-subject-details", updateRequestJson);
 
-                httpResponse.EnsureSuccessStatusCode();
+                    httpResponse.EnsureSuccessStatusCode();
+                }
+                catch (Exception ex)
+                {
+                    logger.LogInformation(ex.Message);
+                }
+            }
+            else
+            {
+                logger.LogInformation("Create request is null");
             }
         }
 
@@ -105,16 +120,27 @@ namespace Symphony.BlazorServerApp.Services.SubjectServices
         {
             if (id != 0)
             {
-                var client = clientFactory.CreateClient("symphony");
-                var updateRequestJson = new StringContent(
-                    JsonSerializer.Serialize(id, options),
-                    encoding: Encoding.UTF8,
-                    "application/json"
-                    );
+                try
+                {
+                    var client = clientFactory.CreateClient("symphony");
+                    var updateRequestJson = new StringContent(
+                        JsonSerializer.Serialize(id, options),
+                        encoding: Encoding.UTF8,
+                        "application/json"
+                        );
 
-                using var httpResponse = await client.PutAsync($"subjects/update-subject-state/{id}", updateRequestJson);
+                    using var httpResponse = await client.PutAsync($"subjects/update-subject-state/{id}", updateRequestJson);
 
-                httpResponse.EnsureSuccessStatusCode();
+                    httpResponse.EnsureSuccessStatusCode();
+                }
+                catch (Exception ex)
+                {
+                    logger.LogInformation(ex.Message);
+                }
+            }
+            else
+            {
+                logger.LogInformation("The id is invalid!");
             }
         }
     }
