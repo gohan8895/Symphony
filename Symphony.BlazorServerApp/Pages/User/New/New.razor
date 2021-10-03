@@ -8,17 +8,31 @@
     @if (Data == null)
     {
         <LoadingComponent />
+
     }
     else
     {
-<div>
-    @foreach (var item in Data)
-    {
-        <p>@item.Title</p>
-        <p>@item.Description</p>
 
-    }
-</div>
+    <h1 class="text-center display-1 mb-2">News </h1>
+
+       <hr>
+        <div class="container">
+           
+            <div class="row">
+                @foreach (var item in Data)
+                {
+                    <div class="col-12">
+                        <div class="card border-dark mb-3" style="min-width: 25rem;">
+                            <div class="card-header display-3 fw-bold">@item.Title</div>
+                            <div class="card-body text-dark">
+                                <h5 class="card-title">@item.CreatedAt</h5>
+                                <p class="card-text">@item.Description</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
     }
 
 </main>
@@ -27,7 +41,7 @@
     private IEnumerable<NewsVM> Data = null;
     protected async override Task OnInitializedAsync()
     {
-        var Data = await newService.GetNewsAsync();
+         Data = await newService.GetNewsAsync();
 
     }
 }
