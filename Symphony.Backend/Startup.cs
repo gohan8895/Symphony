@@ -15,6 +15,7 @@ using Symphony.Services.BackendServices.CourseRegistrationServices;
 using Symphony.Services.BackendServices.CourseServices;
 using Symphony.Services.BackendServices.EnrollmentServices;
 using Symphony.Services.BackendServices.EventServices;
+using Symphony.Services.BackendServices.Exam_ResultServices;
 using Symphony.Services.BackendServices.ExamRegistrationServices;
 using Symphony.Services.BackendServices.ExamServices;
 using Symphony.Services.BackendServices.FAQServices;
@@ -67,6 +68,7 @@ namespace Symphony.Backend
             services.AddTransient<IExamService, ExamService>();
             services.AddTransient<IExamRegistrationService, ExamRegistrationService>();
             services.AddTransient<IStudent_AnswerService, Student_AnswerService>();
+            services.AddTransient<IExam_ResultService, Exam_ResultService>();
 
             services.AddSwaggerGen(c =>
             {

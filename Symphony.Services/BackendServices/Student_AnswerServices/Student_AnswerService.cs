@@ -37,7 +37,8 @@ namespace Symphony.Services.BackendServices.Student_AnswerServices
             //check if student has submited exam before
             if (await CheckExist(request.UserId, request.ExamId))
             {
-                return null;
+                //return null;
+                throw new Exception("Student has already taken the exam");
             }
 
             int totalScore = 0;
@@ -78,6 +79,7 @@ namespace Symphony.Services.BackendServices.Student_AnswerServices
 
             var createdStdAns = await _context.Student_Answers
                                 .Include(x => x.Exam)
+                                .Where(x => x.ExamId == request.ExamId && x.UserId == request.UserId)
                                 .Select(x => x.AsVM()).ToListAsync();
             //inserting ExamResult after student submit test
             var _examResult = new Exam_Result()
