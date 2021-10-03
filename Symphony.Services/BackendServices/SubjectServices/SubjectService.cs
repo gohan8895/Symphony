@@ -61,6 +61,15 @@ namespace Symphony.Services.BackendServices.SubjectServices
             await _context.Subjects.AddAsync(_subject);
             await _context.SaveChangesAsync();
 
+            var image = new Image()
+            {
+                Path = @"images\defaultSubject.jpg",
+                SubjectId = _subject.Id
+            };
+
+            await _context.Images.AddAsync(image);
+            await _context.SaveChangesAsync();
+
             var _created_subject = await _context.Subjects
                                     .SingleOrDefaultAsync(x => x.Id == _subject.Id);
 
