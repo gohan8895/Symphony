@@ -21,6 +21,7 @@ using Symphony.Services.BackendServices.FAQServices;
 using Symphony.Services.BackendServices.NewsServices;
 using Symphony.Services.BackendServices.PaymentStatusServices;
 using Symphony.Services.BackendServices.QuestionServices;
+using Symphony.Services.BackendServices.Student_AnswerServices;
 using Symphony.Services.BackendServices.SubjectServices;
 using Symphony.Services.BackendServices.TeacherServices;
 using System;
@@ -39,6 +40,7 @@ namespace Symphony.Backend
         }
 
         public IConfiguration Configuration { get; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -64,6 +66,7 @@ namespace Symphony.Backend
             services.AddTransient<IBatchService, BatchService>();
             services.AddTransient<IExamService, ExamService>();
             services.AddTransient<IExamRegistrationService, ExamRegistrationService>();
+            services.AddTransient<IStudent_AnswerService, Student_AnswerService>();
 
             services.AddSwaggerGen(c =>
             {
