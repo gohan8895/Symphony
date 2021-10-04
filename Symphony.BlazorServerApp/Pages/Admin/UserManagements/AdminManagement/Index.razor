@@ -6,39 +6,47 @@
 
 <AuthorizeView Roles="admin">
     <Authorized>
-        <div class="container-fluid">
-            <h1 class="text-center fw-bolder">Admin Manager</h1>
-            <CreateButton Url="admin/usermanagement/createAdmin" Who="a New Admin" />
-            <TableTemplate Caption="Admins" Items="Users" Context="user">
-                <TableHeader>
-                    <td><p>@nameof(User.FirstName)</p></td>
-                    <td><p>@nameof(User.LastName)</p></td>
-                    <td><p>@nameof(User.DOB)</p></td>
-                    <td><p>@nameof(User.Gender)</p></td>
-                    <td><p>@nameof(User.PhoneNumber)</p></td>
-                    <td><p>@nameof(User.Address)</p></td>
-                    <td><p>@nameof(User.Email)</p></td>
-                    <td><p>@nameof(User.EmailConfirmed)</p></td>
-                    <td><p>@nameof(User.CreatedAt)</p></td>
-                    <td></td>
-                </TableHeader>
-                <RowTemplate>
-                    <td><p>@user.FirstName</p></td>
-                    <td><p>@user.LastName</p></td>
-                    <td><p>@user.DOB</p></td>
-                    <td><p>@user.Gender</p></td>
-                    <td><p>@user.PhoneNumber</p></td>
-                    <td><p>@user.Address</p></td>
-                    <td><p>@user.Email</p></td>
-                    <td><p>@(user.EmailConfirmed ? "Confirmed" : "Unconfirmed")</p></td>
-                    <td><p>@user.CreatedAt</p></td>
-                    <td class="text-center">
-                        <NavLink href=@($"/admin/userManagement/editAdmin/{user.Id}") class="material-icons nav-item text-warning me-4">edit</NavLink>
-                        <a @onclick="() => DeleteAdmin(user.Email)" class="btn material-icons nav-item text-danger me-2">delete</a>
-                    </td>
-                </RowTemplate>
-            </TableTemplate>
-        </div>
+        @if (Users is null)
+        {
+            <LoadingComponent />
+        }
+        else
+        {
+            <div class="container-fluid">
+                <h1 class="text-center fw-bolder">Admin Manager</h1>
+                <CreateButton Url="admin/usermanagement/createAdmin" Who="a New Admin" />
+                <TableTemplate Caption="Admins" Items="Users" Context="user">
+                    <TableHeader>
+                        <td><p>@nameof(User.FirstName)</p></td>
+                        <td><p>@nameof(User.LastName)</p></td>
+                        <td><p>@nameof(User.DOB)</p></td>
+                        <td><p>@nameof(User.Gender)</p></td>
+                        <td><p>@nameof(User.PhoneNumber)</p></td>
+                        <td><p>@nameof(User.Address)</p></td>
+                        <td><p>@nameof(User.Email)</p></td>
+                        <td><p>@nameof(User.EmailConfirmed)</p></td>
+                        <td><p>@nameof(User.CreatedAt)</p></td>
+                        <td></td>
+                    </TableHeader>
+                    <RowTemplate>
+                        <td><p>@user.FirstName</p></td>
+                        <td><p>@user.LastName</p></td>
+                        <td><p>@user.DOB</p></td>
+                        <td><p>@user.Gender</p></td>
+                        <td><p>@user.PhoneNumber</p></td>
+                        <td><p>@user.Address</p></td>
+                        <td><p>@user.Email</p></td>
+                        <td><p>@(user.EmailConfirmed ? "Confirmed" : "Unconfirmed")</p></td>
+                        <td><p>@user.CreatedAt</p></td>
+                        <td class="text-center">
+                            <NavLink href=@($"/admin/userManagement/editAdmin/{user.Id}") class="material-icons nav-item text-warning me-4">edit</NavLink>
+                            <a @onclick="() => DeleteAdmin(user.Email)" class="btn material-icons nav-item text-danger me-2">delete</a>
+                        </td>
+                    </RowTemplate>
+                </TableTemplate>
+            </div>
+        }
+
     </Authorized>
     <NotAuthorized>
         <UnauthorizedAccess />
@@ -49,7 +57,7 @@
 @code {
 
     #region DTO
-    public List<AppUserVM> Users { get; set; } = new();
+    public List<AppUserVM> Users { get; set; } = null;
     public AppUserVM User { get; set; }
     #endregion
 

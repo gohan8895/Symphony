@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Symphony.Data.EF;
+using Symphony.Data.Entities;
 using Symphony.Services.BackendServices.AboutServices;
 using Symphony.Services.BackendServices.BatchServices;
 using Symphony.Services.BackendServices.ConsultServices;
@@ -15,12 +17,14 @@ using Symphony.Services.BackendServices.CourseRegistrationServices;
 using Symphony.Services.BackendServices.CourseServices;
 using Symphony.Services.BackendServices.EnrollmentServices;
 using Symphony.Services.BackendServices.EventServices;
+using Symphony.Services.BackendServices.Exam_ResultServices;
 using Symphony.Services.BackendServices.ExamRegistrationServices;
 using Symphony.Services.BackendServices.ExamServices;
 using Symphony.Services.BackendServices.FAQServices;
 using Symphony.Services.BackendServices.NewsServices;
 using Symphony.Services.BackendServices.PaymentStatusServices;
 using Symphony.Services.BackendServices.QuestionServices;
+using Symphony.Services.BackendServices.Student_AnswerServices;
 using Symphony.Services.BackendServices.SubjectServices;
 using Symphony.Services.BackendServices.TeacherServices;
 using System;
@@ -39,6 +43,7 @@ namespace Symphony.Backend
         }
 
         public IConfiguration Configuration { get; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -64,7 +69,12 @@ namespace Symphony.Backend
             services.AddTransient<IBatchService, BatchService>();
             services.AddTransient<IExamService, ExamService>();
             services.AddTransient<IExamRegistrationService, ExamRegistrationService>();
-
+            services.AddTransient<IStudent_AnswerService, Student_AnswerService>();
+            services.AddTransient<IExam_ResultService, Exam_ResultService>();
+            services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = true)
+                               .AddRoles<AppRole>()
+                               .AddEntityFrameworkStores<SymphonyDBContext>()
+                               .AddDefaultTokenProviders();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Symphony.Backend", Version = "v1" });
