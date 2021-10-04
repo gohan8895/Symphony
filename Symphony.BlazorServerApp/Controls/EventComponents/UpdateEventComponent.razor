@@ -1,10 +1,11 @@
 ﻿
-@inject INewService newService
+@inject IEventService newService
 @using Symphony.ViewModels.Consult
-@using Symphony.BlazorServerApp.Services.NewService
+@using Symphony.BlazorServerApp.Services.EventServices
 @inject NavigationManager Nav
+@using Symphony.BlazorServerApp.Controls.Utilities
 
-<EditForm Model="@InputNew" OnValidSubmit="CreateNew" class="row g-3">
+<EditForm Model="@InputNew" OnValidSubmit="UpdateNew" class="row g-3">
     <DataAnnotationsValidator />
     <div class="col-md-12">
         <label class="form-label fw-bold">@nameof(InputNew.Title) <span class="text-danger fw-bold">*</span></label>
@@ -21,7 +22,7 @@
     </div>
     <div class="col-md-6">
         <label class="form-label fw-bold">@nameof(InputNew.IsShown) <span class="text-danger fw-bold">*</span></label>
-        <input type="checkbox" checked @bind-value="InputNew.IsShown" />
+        <input type="checkbox" @bind-value="InputNew.IsShown" />
         <ValidationMessage For="@(() => InputNew.IsShown)" />
     </div>
 
@@ -29,20 +30,32 @@
 </EditForm>
 @code {
     #region Parameter
-    public CreateNewsVM InputNew { get; set; } = new();
+    public UpdateEventVM InputNew { get; set; } = new();
 
-
+    [Parameter]
+    public int newId { get; set; }
 
     #endregion
-    private async Task CreateNew()
+
+    protected async override Task OnInitializedAsync()
     {
-        var newitem = new CreateNewsVM
+        var newItem = await newService.GetEventAsync(newId);
+
+        InputNew = new UpdateEventVM
         {
-            Title = InputNew.Title,
-            Description = InputNew.Description,
-            IsShown = InputNew.IsShown
+            Id = newItem.Id,
+            Title = newItem.Title,
+            Description = newItem.Description,
+            IsShown = newItem.IsShown
         };
-        await newService.CreateAsync(newitem);
-        Nav.NavigateTo("/admin/new/");
+    }
+
+    private async Task UpdateNew()
+    {
+
+        await newService.UpdateEventAsync(InputNew);
+
+        Nav.NavigateTo("/admin/event/");
+
     }
 }

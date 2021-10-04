@@ -152,7 +152,7 @@
             {
                 <ul class="nav flex-column">
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link expand-menu" href="about/aboutManagement"><span class="material-icons me-2">badge</span>Manage Content</NavLink>
+                        <NavLink class="nav-link expand-menu" href="admin/faq"><span class="material-icons me-2">badge</span>Faq Content</NavLink>
                     </li>
                     <li class="nav-item px-3">
                         <NavLink class="nav-link expand-menu" href="/admin/faq">
@@ -190,7 +190,7 @@
                         <NavLink class="nav-link expand-menu" href="/new">
                             <span class="material-icons me-2">
                                 question_answer
-                            </span> FAQ Page
+                            </span> New Page
                         </NavLink>
                     </li>
                 </ul>
@@ -209,13 +209,39 @@
             {
                 <ul class="nav flex-column">
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link expand-menu" href="about/aboutManagement"><span class="material-icons me-2">badge</span>Manage Content</NavLink>
+                        <NavLink class="nav-link expand-menu" href="admin/aboutus"><span class="material-icons me-2">badge</span>Manage About</NavLink>
                     </li>
                     <li class="nav-item px-3">
                         <NavLink class="nav-link expand-menu" href="/aboutus">
                             <span class="material-icons me-2">
                                 help
                             </span> About
+                        </NavLink>
+                    </li>
+                </ul>
+            }
+        </li>
+
+        <li class="nav-item px-3 fw-bold btn">
+            <NavLink class="nav-link" @onclick="() => expandEvent = !expandEvent">
+                <span class="material-icons me-2">
+                    help
+                </span> Event Management
+                <span class="material-icons me-2">
+                    @(expandEvent ? "expand_less" : "expand_more")
+                </span>
+            </NavLink>
+            @if (expandEvent)
+            {
+                <ul class="nav flex-column">
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="admin/event"><span class="material-icons me-2">badge</span>Manage Event</NavLink>
+                    </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="/event">
+                            <span class="material-icons me-2">
+                                help
+                            </span> Event
                         </NavLink>
                     </li>
                 </ul>
@@ -236,6 +262,7 @@
     private bool expandAbout = false;
     private bool expandFAQ = false;
     private bool expandNew = false;
+    private bool expandEvent = false;
 
     #endregion
 

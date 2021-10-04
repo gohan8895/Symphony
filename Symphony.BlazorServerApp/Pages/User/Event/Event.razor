@@ -1,8 +1,9 @@
-@page "/new"
+﻿@page "/event"
 
-@inject INewService newService
+@inject IEventService eventService
 @using Symphony.ViewModels.Consult
-@using Symphony.BlazorServerApp.Services.NewService
+@using Symphony.BlazorServerApp.Services.EventServices
+
 
 <main class="main">
     @if (Data == null)
@@ -12,18 +13,18 @@
     }
     else
     {
-
-    <h1 class="text-center display-1 mb-2">News </h1>
-
-       <hr>
+        <div class="text-center">
+            <h1 class="display-1 ">Event</h1>
+        </div>
+        <hr>
         <div class="container">
-           
+         
             <div class="row">
                 @foreach (var item in Data)
                 {
                     <div class="col-12">
-                        <div class="card border-dark mb-3" style="min-width: 25rem;">
-                            <div class="card-header display-3 fw-bold">@item.Title</div>
+                        <div class="text-center fw-bold card border-dark mb-3" style="min-width: 25rem;">
+                            <div class="card-header display-3">@item.Title</div>
                             <div class="card-body text-dark">
                                 <h5 class="card-title">@item.CreatedAt</h5>
                                 <p class="card-text">@item.Description</p>
@@ -38,16 +39,13 @@
 </main>
 
 @code {
-    private IEnumerable<NewsVM> Data = null;
+    private IEnumerable<EventVM> Data = null;
+
     protected async override Task OnInitializedAsync()
     {
-         Data = await newService.GetNewsAsync();
-
+        Data = await eventService.GetEventsAsync();
     }
 }
-
-
-
 
 
 
