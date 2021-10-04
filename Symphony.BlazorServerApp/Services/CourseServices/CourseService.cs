@@ -1,4 +1,5 @@
 ﻿using Symphony.ViewModels.CourseViewModel;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
@@ -11,7 +12,7 @@ namespace Symphony.BlazorServerApp.Services.CourseServices
     {
         private readonly IHttpClientFactory clientFactory;
         private readonly JsonSerializerOptions options;
-        
+
         public CourseService(IHttpClientFactory clientFactory)
         {
             this.clientFactory = clientFactory;
@@ -35,7 +36,7 @@ namespace Symphony.BlazorServerApp.Services.CourseServices
             }
         }
 
-        public async Task<IEnumerable<CourseVM>> GetCourseVMsAsync()
+        public async Task<IEnumerable<CourseWithSubjects>> GetCourseVMsAsync()
         {
             var request = new HttpRequestMessage(HttpMethod.Get, "courses/get-all-courses-with-subjects/");
             var client = clientFactory.CreateClient("symphony");
@@ -44,7 +45,7 @@ namespace Symphony.BlazorServerApp.Services.CourseServices
             if (response.IsSuccessStatusCode)
             {
                 using var reponseStream = await response.Content.ReadAsStreamAsync();
-                return await JsonSerializer.DeserializeAsync<IEnumerable<CourseVM>>(reponseStream, options);
+                return await JsonSerializer.DeserializeAsync<IEnumerable<CourseWithSubjects>>(reponseStream, options);
             }
             else
             {
@@ -52,7 +53,27 @@ namespace Symphony.BlazorServerApp.Services.CourseServices
             }
         }
 
-        public async Task CreateAsync(CourseCreateRequest course)
+        public async Task<int> UpdateCourseStatusAsync(int id)
+        {
+            if (id != 0)
+            {
+                var request = new HttpRequestMessage(HttpMethod.Get, $"courses/update-course-status/{id}");
+                var client = clientFactory.CreateClient("symphony");
+                var response = await client.SendAsync(request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            return 0;
+        }
+
+        public async Task<int> CreateAsync(CourseCreateRequest course)
         {
             if (course is not null)
             {
@@ -66,35 +87,101 @@ namespace Symphony.BlazorServerApp.Services.CourseServices
                 using var httpResponse = await client.PostAsync("courses/create-course-with-subjects", courseJson);
 
                 httpResponse.EnsureSuccessStatusCode();
+
+                if (httpResponse.IsSuccessStatusCode)
+                    return 1;
+                else
+                    return 0;
             }
+            return 0;
         }
 
-        public async Task UpdateAsync(CourseUpdateRequest course)
+        public async Task<int> UpdateAsync(CourseUpdateRequest course)
         {
             if (course is not null)
             {
-                var client = clientFactory.CreateClient("symphony");
-                var courseJson = new StringContent(
-                    JsonSerializer.Serialize(course, options),
-                    encoding: Encoding.UTF8,
-                    "application/json"
-                    );
+                try
+                {
+                    var client = clientFactory.CreateClient("symphony");
+                    var courseJson = new StringContent(
+                        JsonSerializer.Serialize(course, options),
+                        encoding: Encoding.UTF8,
+                        "application/json"
+                        );
 
-                using var httpResponse = await client.PutAsync("courses/", courseJson);
+                    using var httpResponse = await client.PutAsync("courses/update-course-details", courseJson);
 
-                httpResponse.EnsureSuccessStatusCode();
+                    httpResponse.EnsureSuccessStatusCode();
+
+                    if (httpResponse.IsSuccessStatusCode)
+                        return 1;
+                    else
+                        return 0;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
+            return 0;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<int> UpdateImageAsync(int id, MultipartFormDataContent content)
         {
-            if (id != 0)
+            if (id != 0 && content is not null)
             {
-                var client = clientFactory.CreateClient("symphony");
-                using var httpResponse = await client.DeleteAsync("courses/" + $"{id}");
+                try
+                {
+                    var client = clientFactory.CreateClient("symphony");
 
-                httpResponse.EnsureSuccessStatusCode();
+                    using var httpResponse = await client.PutAsync($"courses/update-course-image/{id}", content);
+
+                    httpResponse.EnsureSuccessStatusCode();
+
+                    if (httpResponse.IsSuccessStatusCode)
+                        return 1;
+                    else
+                        return 0;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
             }
+
+            return 0;
+        }
+
+        public async Task<int> UpdateSubjectInCourseAsync(int id, List<int> request)
+        {
+            if (id != 0 && request is not null)
+            {
+                try
+                {
+                    var client = clientFactory.CreateClient("symphony");
+                    var requestJson = new StringContent(
+                        JsonSerializer.Serialize(id, options),
+                        encoding: Encoding.UTF8,
+                        "application/json"
+                        );
+
+                    using var httpResponse = await client.PutAsync($"courses/update-subjects-in-course/{id}", requestJson);
+
+                    httpResponse.EnsureSuccessStatusCode();
+
+                    if (httpResponse.IsSuccessStatusCode)
+                        return 1;
+                    else
+                        return 0;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+
+            return 0;
         }
     }
 }

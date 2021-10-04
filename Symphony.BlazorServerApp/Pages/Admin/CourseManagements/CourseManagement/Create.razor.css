@@ -1,0 +1,28 @@
+﻿.row > div {
+    margin-bottom: 1.5em;
+}
+
+.row label {
+    font-weight: 900;
+}
+
+.checkbox {
+    margin: auto;
+    width: 90%;
+    display: flex;
+    justify-items: center;
+    justify-content: space-evenly;
+}
+
+.subject-checkbox {
+    font-weight: bold;
+    
+}
+
+#isExtra {
+    margin: 1em auto auto auto;
+}
+
+#isBasic {
+    margin: 1em auto auto auto;
+}

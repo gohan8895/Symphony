@@ -1,4 +1,5 @@
-﻿using Symphony.ViewModels.CourseViewModel;
+﻿using Microsoft.AspNetCore.Http;
+using Symphony.ViewModels.CourseViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace Symphony.Services.BackendServices.CourseServices
         Task<CourseWithSubjects> CreateCourseAsync(CourseCreateRequest request);
 
         Task<int> UpdateCourseDetails(CourseUpdateRequest request);
+
+        Task<int> UpdateCourseImageAsync(int id, IFormFile image);
 
         Task<int> UpdateSubjectInCourse(int courseId, List<int> request);
 

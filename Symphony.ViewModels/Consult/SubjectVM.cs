@@ -53,18 +53,6 @@ namespace Symphony.ViewModels.Consult
         public double Price { get; set; }
     }
 
-    /*public class ImageUpdateRequest
-    {
-        [Display(Name = "Image")]
-        public List<IFormFile> Images { get; set; }
-    }
-    
-    public class FileUpdateRequest
-    {
-        [Display(Name = "File")]
-        public List<IFormFile> Files { get; set; }
-    }*/
-
     public class SubjectUpdateRequest
     {
         public int Id { get; set; }

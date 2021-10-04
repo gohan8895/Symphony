@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Symphony.Services.BackendServices.CourseServices;
 using Symphony.Services.BackendServices.SubjectServices;
 using Symphony.ViewModels.CourseViewModel;
@@ -38,9 +39,20 @@ namespace Symphony.Backend.Controllers
             return Ok(_course);
         }
 
+        // Get api/<CoursesController>/update-course-status/5
+        [HttpGet("update-course-status/{id}")]
+        public async Task<ActionResult> UpdateCourseState(int id)
+        {
+            var result = await _service.UpdateCourseStatus(id);
+
+            if (result == 0) return NotFound();
+
+            return NoContent();
+        }
+
         // POST api/<CoursesController>
         [HttpPost("create-course-with-subjects")]
-        public async Task<ActionResult<CourseWithSubjects>> Post([FromForm]CourseCreateRequest request)
+        public async Task<ActionResult<CourseWithSubjects>> Post(CourseCreateRequest request)
         {
             if (request is null)
             {
@@ -56,9 +68,9 @@ namespace Symphony.Backend.Controllers
             return CreatedAtAction(nameof(Get), new { id = _course.Id }, _course);
         }
 
-        // PUT api/<CoursesController>/5
+        // PUT api/<CoursesController>/update-course-details/5
         [HttpPut("update-course-details")]
-        public async Task<ActionResult> Put([FromForm]CourseUpdateRequest request)
+        public async Task<ActionResult> Put(CourseUpdateRequest request)
         {
             if (request is null) return BadRequest();
 
@@ -69,17 +81,20 @@ namespace Symphony.Backend.Controllers
             return NoContent();
         }
 
-        // DELETE api/<CoursesController>/5
-        [HttpPut("update-course-status/{id}")]
-        public async Task<ActionResult> UpdateCourseState(int id)
+        // PUT api/<CoursesController>/update-course-image/5
+        [HttpPut("update-course-image/{id}")]
+        public async Task<ActionResult> Put(int id, [FromForm] IFormFile image)
         {
-            var result = await _service.UpdateCourseStatus(id);
+            if (id == 0 || image is null) return BadRequest();
+
+            var result = await _service.UpdateCourseImageAsync(id, image);
 
             if (result == 0) return NotFound();
 
             return NoContent();
         }
 
+        // PUT api/<CoursesController>/update-subjects-in-course/5
         [HttpPut("update-subjects-in-course/{id}")]
         public async Task<ActionResult> UpdateSubjectInCourse(int id, List<int> subjectIds)
         {
