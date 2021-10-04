@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace Symphony.Services.BackendServices.CourseRegistrationServices
 {
@@ -19,12 +20,14 @@ namespace Symphony.Services.BackendServices.CourseRegistrationServices
         private readonly SymphonyDBContext symphonyDBContext;
         private readonly IPaymentStatusService _paymnetService;
         private readonly IEnrollmentService _enrollmentService;
+        private readonly UserManager<AppUser> _userManager;
 
-        public CourseRegistrationService(SymphonyDBContext symphonyDBContext, IPaymentStatusService service, IEnrollmentService enrollmentService)
+        public CourseRegistrationService(SymphonyDBContext symphonyDBContext, IPaymentStatusService service, IEnrollmentService enrollmentService, UserManager<AppUser> userManager)
         {
             this.symphonyDBContext = symphonyDBContext;
             _paymnetService = service;
             _enrollmentService = enrollmentService;
+            _userManager = userManager;
         }
 
         public async Task<IEnumerable<CourseRegistrationVM>> GetAllCourseRegistrationVMsAsync()
@@ -85,6 +88,7 @@ namespace Symphony.Services.BackendServices.CourseRegistrationServices
 
         public async Task<CourseRegistrationVM> UpdateCourseRegistrationAsync(int courseRegistrationId)
         {
+            var timeNow = DateTime.Now;
             var _courseResig = await symphonyDBContext.CourseRegistrations
                 .Include(x => x.AppUser)
                 .FirstOrDefaultAsync(a => a.Id == courseRegistrationId);
@@ -108,9 +112,22 @@ namespace Symphony.Services.BackendServices.CourseRegistrationServices
                 if (_studentEnrollment is null)
                 {
                     await _enrollmentService.CreateEnrollment(new CreateEnrollmentVM { UserId = _courseResig.AppUser.Id, CourseId = _courseResig.CourseId });
+                    //update Batch information to User
+                    var _batch = await symphonyDBContext.Batches
+                                        .SingleOrDefaultAsync(x => x.StartDate.Month <= timeNow.Month
+                                        && x.EndDate.Month >= timeNow.Month
+                                        && x.StartDate.Year == timeNow.Year);
+                    var student = new AppUser();
+                    student = await _userManager.FindByEmailAsync(_courseResig.AppUser.Email);
+                    //var _student = await symphonyDBContext.
+
+                    student.BatchId = _batch.Id;
                 }
             }
-            else _studentEnrollment.IsDelete = true;
+            else if (_studentEnrollment is not null)
+            {
+                _studentEnrollment.IsDelete = true;
+            }
 
             await symphonyDBContext.SaveChangesAsync();
 
