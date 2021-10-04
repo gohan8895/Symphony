@@ -71,9 +71,6 @@ namespace Symphony.ViewModels.CourseViewModel
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
 
-#nullable enable
-        public IFormFile? Image { get; set; }
-#nullable disable
         [Required]
         public bool IsExtra { get; set; }
 
@@ -103,10 +100,6 @@ namespace Symphony.ViewModels.CourseViewModel
         [Required]
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
-
-        #nullable enable
-        public IFormFile? Image { get; set; }
-        #nullable disable
 
         [Required]
         public double DiscountedPrice { get; set; }

@@ -67,7 +67,7 @@
                     <td>@(sub.IsShown ? "Show" : "Hidden")</td>
                     <td class="text-center">
                         <a href="/admin/subject/edit/@sub.Id" class="material-icons nav-item text-warning">edit</a>
-                        <button @onclick="() => DeleteSubject(sub.Id)" class="btn material-icons text-danger">delete</button>
+                        <button @onclick="() => DeleteSubject(sub.Id)" class="btn material-icons text-danger">update</button>
                     </td>
                 </RowTemplate>
             </TableTemplate>

@@ -58,18 +58,24 @@
 
 @code {
     #region Props
-    private IEnumerable<CourseVM> Courses { get; set; } = Array.Empty<CourseVM>();
-    private List<List<CourseVM>> CarouselCourses { get; set; } = new();
-    private bool ShouldRender;
+    private IEnumerable<CourseWithSubjects> Courses { get; set; } = Array.Empty<CourseWithSubjects>();
+    private List<List<CourseWithSubjects>> CarouselCourses { get; set; } = new();
+    private bool shouldRender;
     private int carouselCount = 0;
     #endregion
 
+    protected override bool ShouldRender() => shouldRender;
+
     protected async override Task OnInitializedAsync()
     {
+        shouldRender = false;
+
         Courses = (await courseService.GetCourseVMsAsync()).ToList();
 
         var basicCourses = Courses.Where(c => c.IsBasic is true).ToList();
 
-        CarouselCourses = ListExtension.ChunkBy<CourseVM>(basicCourses, 3).Take(3).ToList();
+        CarouselCourses = ListExtension.ChunkBy<CourseWithSubjects>(basicCourses, 3).Take(3).ToList();
+
+        if(Courses is not null && CarouselCourses is not null) shouldRender = true;
     }
 }

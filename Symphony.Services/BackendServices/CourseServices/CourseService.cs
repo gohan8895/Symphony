@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Symphony.Data.EF;
 using Symphony.Data.Entities;
 using Symphony.ViewModels.CourseViewModel;
@@ -61,28 +62,11 @@ namespace Symphony.Services.BackendServices.CourseServices
                 DiscountedPrice = coursePrice,
                 IsExtra = request.IsExtra,
                 IsBasic = request.IsBasic,
+                ImagePath = "images/defaultCourse.png",
                 CreatedAt = timeNow,
                 UpdatedAt = timeNow,
                 IsShown = true
             };
-
-            if (request.Image is not null)
-            {
-                string uploadTime = DateTime.Now.ToString("MMddyyyHHmmss");
-                var imgName = uploadTime + "_" + Path.GetFileName(request.Image.FileName);
-                var imgPath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwwroot\images", imgName);
-
-                await using (var fileStream = new FileStream(imgPath, FileMode.Create))
-                {
-                    await request.Image.CopyToAsync(fileStream);
-                }
-
-                _course.ImagePath = $"images/{imgName}";
-            }
-            else
-            {
-                _course.ImagePath = @"wwwroot/images/defaultCourse.png";
-            }
 
             await _context.Courses.AddAsync(_course);
             await _context.SaveChangesAsync();
@@ -114,25 +98,39 @@ namespace Symphony.Services.BackendServices.CourseServices
             _course.IsExtra = request.IsExtra;
             _course.UpdatedAt = DateTime.Now;
 
-            if (request.Image is not null)
-            {
-                string uploadTime = DateTime.Now.ToString("MMddyyyHHmmss");
-                var imgName = uploadTime + "_" + Path.GetFileName(request.Image.FileName);
-                var imgPath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwwroot\images", imgName);
-
-                await using (var fileStream = new FileStream(imgPath, FileMode.Create))
-                {
-                    await request.Image.CopyToAsync(fileStream);
-                }
-
-                _course.ImagePath = imgPath;
-            }
-            else
-            {
-                _course.ImagePath = _course.ImagePath;
-            }
-
             return await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> UpdateCourseImageAsync(int id, IFormFile image)
+        {
+            if (id != 0)
+            {
+                var course = await _context.Courses.FirstOrDefaultAsync(c => c.Id == id);
+
+                if (course is null) return 0;
+
+                if (image is not null)
+                {
+                    if (course.ImagePath is not null)
+                    {
+                        course.ImagePath = null;
+                    }
+
+                    string uploadTime = DateTime.Now.ToString("MMddyyyHHmmss");
+                    var imgName = uploadTime + "_" + Path.GetFileName(image.FileName);
+                    var imgPath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwwroot\images", imgName);
+
+                    await using (var fileStream = new FileStream(imgPath, FileMode.Create))
+                    {
+                        await image.CopyToAsync(fileStream);
+                    }
+
+                    course.ImagePath = $@"images/{imgName}";
+
+                    await _context.SaveChangesAsync();
+                }
+            }
+            return 0;
         }
 
         public async Task<int> UpdateCourseStatus(int courseId)
@@ -160,11 +158,15 @@ namespace Symphony.Services.BackendServices.CourseServices
             if (_course is null) return 0;
 
             _context.Subject_Courses.RemoveRange(_course.Subject_Courses);
+
             await AddSubjectsToCourse(courseId, request);
+
             var _newPrice = _context.Subjects
                             .Where(x => request.Contains(x.Id))
                             .Sum(x => x.Price);
+
             _course.Price = _newPrice;
+
             _course.DiscountedPrice = _newPrice;
             _course.UpdatedAt = DateTime.Now;
             return await _context.SaveChangesAsync();
