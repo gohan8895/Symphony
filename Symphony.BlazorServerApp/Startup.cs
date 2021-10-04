@@ -47,7 +47,7 @@ namespace Symphony.BlazorServerApp
             /*
              * Config HttpClient to consumes a web api name symphony with specify uri.
              */
-            services.AddHttpClient("symphony", c => { c.BaseAddress = new Uri("http://localhost:39699/api/"); });
+            services.AddHttpClient("symphony", c => { c.BaseAddress = new Uri("http://localhost:5050/api/"); });
 
             // Add Email Sending Service
             services.AddScoped<IEmailSender, EmailSender>();
