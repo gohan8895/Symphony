@@ -1,0 +1,54 @@
+﻿@page "/admin/aboutus"
+
+@inject IAboutService aboutService
+@using Symphony.ViewModels.AboutViewModel
+@using Symphony.BlazorServerApp.Services.AboutServices
+@using Symphony.BlazorServerApp.Controls.TableComponents
+@inject NavigationManager nav
+@using Symphony.BlazorServerApp.Controls.Utilities
+
+<AuthorizeView Roles="admin">
+    <Authorized>
+        @if (events == null)
+        {
+
+            <LoadingComponent />
+
+        }
+        else
+        {
+
+            <div class="container-fluid">
+                <h1 class="text-center fw-bolder">About Manager</h1>
+
+                <TableTemplate Caption="About" Items="events" Context="item">
+                    <TableHeader>
+                        <td><p>@nameof(AboutVM.Title)</p></td>
+                        <td><p>@nameof(AboutVM.Content)</p></td>
+                        <td><p>@nameof(AboutVM.IsShown)</p></td>
+                    </TableHeader>
+                    <RowTemplate>
+                        <td><p>@item.Title</p></td>
+                        <td><p>@item.Content</p></td>
+                        <td><p>@item.IsShown</p></td>
+
+                    </RowTemplate>
+                </TableTemplate>
+            </div>
+        }
+
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    private List<AboutVM> events = null;
+
+    private bool render = false;
+    protected async override Task OnInitializedAsync()
+    {
+        var result = await aboutService.GetAboutsAsync();
+        events = result.ToList();
+    }
+
+   
+}
