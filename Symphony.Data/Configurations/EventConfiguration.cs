@@ -20,7 +20,7 @@ namespace Symphony.Data.Configurations
             builder.Property(x => x.Description).IsRequired();
             builder.Property(x => x.CreatedAt);
             builder.Property(x => x.UpdatedAt);
-            builder.Property(x => x.IsShown).HasDefaultValue(true);
+            builder.Property(x => x.IsShown);
         }
     }
 }

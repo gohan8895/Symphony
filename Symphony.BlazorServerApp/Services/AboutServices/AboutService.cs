@@ -58,7 +58,7 @@ namespace Symphony.BlazorServerApp.Services.AboutServices
         {
             if (about is not null)
             {
-                var client = clientFactory.CreateClient("bookApi");
+                var client = clientFactory.CreateClient("symphony");
                 var aboutJson = new StringContent(
                     JsonSerializer.Serialize(about, options),
                     encoding: Encoding.UTF8,
@@ -75,7 +75,7 @@ namespace Symphony.BlazorServerApp.Services.AboutServices
         {
             if (about is not null)
             {
-                var client = clientFactory.CreateClient("bookApi");
+                var client = clientFactory.CreateClient("symphony");
                 var aboutJson = new StringContent(
                     JsonSerializer.Serialize(about, options),
                     encoding: Encoding.UTF8,
@@ -92,7 +92,7 @@ namespace Symphony.BlazorServerApp.Services.AboutServices
         {
             if (id != 0)
             {
-                var client = clientFactory.CreateClient("bookApi");
+                var client = clientFactory.CreateClient("symphony");
                 using var httpResponse = await client.DeleteAsync("abouts/" + $"{id}");
 
                 httpResponse.EnsureSuccessStatusCode();

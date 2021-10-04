@@ -1,10 +1,9 @@
-﻿
-@inject INewService newService
+﻿@inject IEventService eventService
 @using Symphony.ViewModels.Consult
-@using Symphony.BlazorServerApp.Services.NewService
+@using Symphony.BlazorServerApp.Services.EventServices
 @inject NavigationManager Nav
 
-<EditForm Model="@InputNew" OnValidSubmit="CreateNew" class="row g-3">
+<EditForm Model="@InputNew" OnValidSubmit="CreateEvent" class="row g-3">
     <DataAnnotationsValidator />
     <div class="col-md-12">
         <label class="form-label fw-bold">@nameof(InputNew.Title) <span class="text-danger fw-bold">*</span></label>
@@ -29,20 +28,20 @@
 </EditForm>
 @code {
     #region Parameter
-    public CreateNewsVM InputNew { get; set; } = new();
+    public CreateEventVM InputNew { get; set; } = new();
 
 
 
     #endregion
-    private async Task CreateNew()
+    private async Task CreateEvent()
     {
-        var newitem = new CreateNewsVM
+        var newitem = new CreateEventVM
         {
             Title = InputNew.Title,
             Description = InputNew.Description,
             IsShown = InputNew.IsShown
         };
-        await newService.CreateAsync(newitem);
-        Nav.NavigateTo("/admin/new/");
+        await eventService.CreateEventAsync(newitem);
+        Nav.NavigateTo("/admin/event/");
     }
 }

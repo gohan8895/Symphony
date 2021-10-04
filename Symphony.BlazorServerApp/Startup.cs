@@ -14,6 +14,7 @@ using Symphony.BlazorServerApp.Areas.Identity;
 using Symphony.BlazorServerApp.Services.AboutServices;
 using Symphony.BlazorServerApp.Services.CourseRegistrationService;
 using Symphony.BlazorServerApp.Services.CourseServices;
+using Symphony.BlazorServerApp.Services.EventServices;
 using Symphony.BlazorServerApp.Services.FaqServices;
 using Symphony.BlazorServerApp.Services.NewService;
 using Symphony.BlazorServerApp.Services.SubjectServices;
@@ -56,6 +57,7 @@ namespace Symphony.BlazorServerApp
             /*
              * DI services
              */
+            services.AddTransient<IEventService, EventService>();
             services.AddTransient<INewService, NewService>();
             services.AddTransient<IAboutService, AboutService>();
             services.AddTransient<ICourseService, CourseService>();
