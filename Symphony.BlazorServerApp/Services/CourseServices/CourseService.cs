@@ -57,7 +57,7 @@ namespace Symphony.BlazorServerApp.Services.CourseServices
         {
             if (id != 0)
             {
-                var request = new HttpRequestMessage(HttpMethod.Get, $"update-course-status/{id}");
+                var request = new HttpRequestMessage(HttpMethod.Get, $"courses/update-course-status/{id}");
                 var client = clientFactory.CreateClient("symphony");
                 var response = await client.SendAsync(request);
 

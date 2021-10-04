@@ -52,7 +52,7 @@ namespace Symphony.Backend.Controllers
 
         // POST api/<CoursesController>
         [HttpPost("create-course-with-subjects")]
-        public async Task<ActionResult<CourseWithSubjects>> Post([FromForm]CourseCreateRequest request)
+        public async Task<ActionResult<CourseWithSubjects>> Post(CourseCreateRequest request)
         {
             if (request is null)
             {
@@ -70,7 +70,7 @@ namespace Symphony.Backend.Controllers
 
         // PUT api/<CoursesController>/update-course-details/5
         [HttpPut("update-course-details")]
-        public async Task<ActionResult> Put([FromForm]CourseUpdateRequest request)
+        public async Task<ActionResult> Put(CourseUpdateRequest request)
         {
             if (request is null) return BadRequest();
 
@@ -83,7 +83,7 @@ namespace Symphony.Backend.Controllers
 
         // PUT api/<CoursesController>/update-course-image/5
         [HttpPut("update-course-image/{id}")]
-        public async Task<ActionResult> Put(int id, IFormFile image)
+        public async Task<ActionResult> Put(int id, [FromForm] IFormFile image)
         {
             if (id == 0 || image is null) return BadRequest();
 

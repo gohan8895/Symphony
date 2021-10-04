@@ -7,7 +7,18 @@
 
 .hover-me:hover {
     text-decoration: underline;
-    color: white;
+    color: #DAED0C;
     font-weight: bolder;
     cursor: pointer;
 }
+
+.course-name {
+    text-decoration: none;
+    color: #1d1d1d;
+}
+
+    .course-name:hover {
+        text-decoration: underline;
+        font-weight: bolder;
+        color: #102498;
+    }

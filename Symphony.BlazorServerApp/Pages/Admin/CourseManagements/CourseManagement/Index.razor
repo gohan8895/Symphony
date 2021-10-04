@@ -74,19 +74,28 @@
                             </span>
                         </div>
                     </th>
+                    <th>
+                        <div @onclick="SortUpdated" class="flex">
+                            @nameof(Course.UpdatedAt)
+                            <span class="ps-1 material-icons hover-me">
+                                @(sortUpdatedAt ? "arrow_downward" : "arrow_upward")
+                            </span>
+                        </div>
+                    </th>
                     <th></th>
                 </TableHeader>
                 <RowTemplate>
                     <td>@course.Id</td>
                     <td>
-                        <a class="nav-link fw-bold" href="/admin/course/@course.Id">@course.Name</a>
+                        <a class="fw-bold course-name" href="/admin/course/@course.Id">@course.Name</a>
                     </td>
                     <td>@course.Description</td>
-                    <td>@course.StartDate.ToShortTimeString()</td>
-                    <td>@course.EndDate.ToShortTimeString()</td>
+                    <td>@course.StartDate.ToShortDateString()</td>
+                    <td>@course.EndDate.ToShortDateString()</td>
                     <td>@course.Price</td>
                     <td>@(course.IsBasic ? "Beginner" : "Advanced")</td>
                     <td>@(course.IsShown ? "Show" : "Hidden")</td>
+                    <td>@course.UpdatedAt.ToShortDateString()</td>
                     <td class="text-center">
                         <a href="/admin/course/edit/@course.Id" class="btn material-icons  text-warning">edit</a>
                         <a @onclick="() => ChangeStatus(course.Id)" class="btn material-icons text-danger">update</a>
@@ -114,6 +123,7 @@
     private bool sortPrice = false;
     private bool sortIsBasic = true;
     private bool sortIsShown = true;
+    private bool sortUpdatedAt = false;
     #endregion
 
     protected async override Task OnInitializedAsync()
@@ -192,6 +202,19 @@
         {
             Courses = Courses.OrderByDescending(s => s.Price).ToList();
             sortPrice = !sortPrice;
+        }
+    }
+    private void SortUpdated()
+    {
+        if (sortUpdatedAt)
+        {
+            Courses = Courses.OrderBy(s => s.UpdatedAt).ToList();
+            sortUpdatedAt = !sortUpdatedAt;
+        }
+        else
+        {
+            Courses = Courses.OrderByDescending(s => s.UpdatedAt).ToList();
+            sortUpdatedAt = !sortUpdatedAt;
         }
     }
     private void SortIsBasic()

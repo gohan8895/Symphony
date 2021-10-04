@@ -16,9 +16,10 @@ namespace Symphony.ViewModels.CourseViewModel
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        #nullable enable
+#nullable enable
+        [Display(Name = "Description")]
         public string? DetailDescription { get; set; }
-        #nullable disable
+#nullable disable
 
         [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; }
@@ -31,19 +32,22 @@ namespace Symphony.ViewModels.CourseViewModel
         [Display(Name = "Discount Price")]
         public double DiscountedPrice { get; set; }
 
-        [DisplayName("Extra Course")]
+        [Display(Name = "Extra Course")]
         public bool IsExtra { get; set; }
 
-        [DisplayName("Basic Course")]
+        [Display(Name = "Basic Course")]
         public bool IsBasic { get; set; }
+
+        [Display(Name = "Image")]
         public string ImagePath { get; set; }
 
-        [DisplayName("Create Date")]
+        [Display(Name = "Create Date")]
         public DateTime CreatedAt { get; set; }
 
-        [DisplayName("Update Date")]
+        [Display(Name = "Update Date")]
         public DateTime UpdatedAt { get; set; }
 
+        [Display(Name = "Status")]
         public bool IsShown { get; set; }
     }
 
@@ -58,24 +62,33 @@ namespace Symphony.ViewModels.CourseViewModel
         public string Name { get; set; }
 
         [Required]
+        [Display(Name = "Short Description")]
         public string Description { get; set; }
+
         #nullable enable
+        [Display(Name = "Full Description")]
         public string? DetailDescription { get; set; }
         #nullable disable
 
         [Required]
         [DataType(DataType.Date)]
+        [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
+        [Display(Name = "Start Date")]
         public DateTime EndDate { get; set; }
 
         [Required]
+        [Display(Name = "Extra Lab")]
         public bool IsExtra { get; set; }
 
         [Required]
+        [DisplayName("Basic Course")]
         public bool IsBasic { get; set; }
+
+        [Display(Name = "Subject")]
         public List<int> SubjectIds { get; set; }
     }
 
@@ -87,27 +100,33 @@ namespace Symphony.ViewModels.CourseViewModel
         public string Name { get; set; }
 
         [Required]
+        [Display(Name = "Short Description")]
         public string Description { get; set; }
 
         #nullable enable
+        [Display(Name = "Full Description")]
         public string? DetailDescription { get; set; }
         #nullable disable
 
+        [Display(Name = "Discount Price")]
+        public double DiscountedPrice { get; set; }
+
         [Required]
         [DataType(DataType.Date)]
+        [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
+        [Display(Name = "Start Date")]
         public DateTime EndDate { get; set; }
 
         [Required]
-        public double DiscountedPrice { get; set; }
-
-        [Required]
+        [Display(Name = "Extra Lab")]
         public bool IsExtra { get; set; }
 
         [Required]
+        [Display(Name = "Course Level")]
         public bool IsBasic { get; set; }
     }
 }
