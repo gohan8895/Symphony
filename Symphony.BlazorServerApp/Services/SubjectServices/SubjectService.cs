@@ -145,9 +145,7 @@ namespace Symphony.BlazorServerApp.Services.SubjectServices
             {
                 var client = clientFactory.CreateClient("symphony");
 
-                var httpResponse = new HttpResponseMessage();
-
-                httpResponse = await client.PutAsync($"subjects/update-subject-files/{id}", content);
+                using var httpResponse = await client.PutAsync($"subjects/update-subject-files/{id}", content);
 
                 httpResponse.EnsureSuccessStatusCode();
 

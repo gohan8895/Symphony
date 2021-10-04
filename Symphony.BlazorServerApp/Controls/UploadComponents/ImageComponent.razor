@@ -7,17 +7,17 @@
 <EditForm Model="@SubjectVM" OnValidSubmit="@UpdateImages">
     <DataAnnotationsValidator />
     <ValidationSummary />
-    <div id="#imageUp" class="col-lg-6 my-2">
-        <label class="form-label fw-bold">@nameof(SubjectVM.Images)</label>
-        <InputFile OnChange="@OnInputChanged" class="form-control" accept=".jpg , .png, .jpeg" multiple />
-    </div>
-    <div class="col-lg-6">
-        @foreach (var uri in imageDataUris)
-        {
-            <img src="@uri" class="p-1 w-auto border-1 rounded-1" height="100" />
-        }
-    </div>
-    <CreateButtonForForm FirstBtn="Update Existing" />
+        <div id="#imageUp" class="mb-2">
+            <label class="form-label fw-bold">@nameof(SubjectVM.Images)</label>
+            <InputFile OnChange="@OnInputChanged" class="form-control" accept=".jpg , .png, .jpeg" multiple />
+        </div>
+        <div class="border-1 rounded-1">
+            @foreach (var uri in imageDataUris)
+            {
+                <img src="@uri" class="p-1 w-auto" height="100" />
+            }
+        </div>
+        <CreateButtonForForm FirstBtn="Update Existing" />
 </EditForm>
 
 <div class="toast fw-bold align-items-center text-white @(IsSuccess ? "bg-success" : "bg-danger") border-0" role="alert" aria-live="assertive" aria-atomic="true">

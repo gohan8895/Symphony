@@ -10,10 +10,10 @@
     Auto send input
 *@
 
-    <div id="#fileUp" class="col-lg-12 my-2">
-        <label class="form-label fw-bold">@nameof(SubjectVM.Files)</label>
-        <InputFile OnChange="@OnInputChanged" class="form-control" accept=".docx, .doc, .xlsx, .pdf, .pptx" multiple />
-    </div>
+<div id="#fileUp" class="my-2">
+    <label class="form-label fw-bold">@nameof(SubjectVM.Files)</label>
+    <InputFile OnChange="@OnInputChanged" class="form-control" accept=".docx, .doc, .xlsx, .pdf, .pptx" multiple />
+</div>
 
 <div class="toast fw-bold align-items-center text-white @(IsSuccess ? "bg-success" : "bg-danger") border-0" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="d-flex">

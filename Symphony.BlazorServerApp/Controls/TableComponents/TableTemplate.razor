@@ -50,16 +50,17 @@
     public int TotalPages { get; set; }
 
     public int CurrentPage { get; set; }
-    protected override void OnInitialized()
+
+
+    protected override void OnParametersSet()
     {
-        PageSize = 100;
+        PageSize = 10;
         ItemList = Items.Take(PageSize).ToList();
         TotalPages = (int)Math.Ceiling(Items.Count() / (decimal)PageSize);
         if(TotalPages < 1)
         {
             TotalPages = 1;
         }
-        base.OnInitialized();
     }
 
     private void UpdateList(int pageNumber)
@@ -68,6 +69,7 @@
         ItemList = Items.Skip(pageNumber * PageSize).Take(PageSize).ToList();
         CurrentPage = pageNumber;
     }
+
     private void NavigateTo(string direction)
     {
         if (direction == "prev" && CurrentPage != 0)
