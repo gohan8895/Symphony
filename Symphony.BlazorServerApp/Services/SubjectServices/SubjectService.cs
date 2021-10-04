@@ -114,62 +114,49 @@ namespace Symphony.BlazorServerApp.Services.SubjectServices
             }
         }
 
-        public async Task<HttpResponseMessage> UpdateSubjectImagesVMAsync(int id, MultipartFormDataContent content)
+        public async Task<int> UpdateSubjectImagesVMAsync(int id, MultipartFormDataContent content)
         {
             if (content is not null)
             {
                 try
                 {
                     var client = clientFactory.CreateClient("symphony");
-                    var contentJson = new StringContent(
-                        JsonSerializer.Serialize(content, options),
-                        encoding: Encoding.UTF8,
-                        "application/json"
-                        );
 
-                    using var httpResponse = await client.PutAsync($"subjects/update-subject-images/{id}", contentJson);
+                    using var httpResponse = await client.PutAsync($"subjects/update-subject-images/{id}", content);
 
                     httpResponse.EnsureSuccessStatusCode();
 
-                    return httpResponse;
+                    return 1;
                 }
                 catch (Exception ex)
                 {
                     logger.LogInformation(ex.Message);
+                    return 0;
                 }
             }
 
             logger.LogInformation("Create request is null");
-            return null;
+            return 0;
         }
 
-        public async Task<HttpResponseMessage> UpdateSubjectFilesVMAsync(int id, MultipartFormDataContent content)
+        public async Task<int> UpdateSubjectFilesVMAsync(int id, MultipartFormDataContent content)
         {
             if (content is not null)
             {
-                try
-                {
-                    var client = clientFactory.CreateClient("symphony");
-                    var contentJson = new StringContent(
-                        JsonSerializer.Serialize(content, options),
-                        encoding: Encoding.UTF8,
-                        "application/json"
-                        );
+                var client = clientFactory.CreateClient("symphony");
 
-                    using var httpResponse = await client.PutAsync($"subjects/update-subject-files/{id}", contentJson);
+                var httpResponse = new HttpResponseMessage();
 
-                    httpResponse.EnsureSuccessStatusCode();
+                httpResponse = await client.PutAsync($"subjects/update-subject-files/{id}", content);
 
-                    return httpResponse;
-                }
-                catch (Exception ex)
-                {
-                    logger.LogInformation(ex.Message);
-                }
+                httpResponse.EnsureSuccessStatusCode();
+
+                return 1;
+
             }
 
             logger.LogInformation("Create request is null");
-            return null;
+            return 0;
         }
 
         public async Task ChangeSubjectState(int id)

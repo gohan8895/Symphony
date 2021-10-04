@@ -79,10 +79,10 @@
     [Parameter]
     public Guid Id { get; set; }
 
-    public UpdateAppUserVM InputUser { get; set; } = new();
-
     [Parameter]
     public string WhoToUpdate { get; set; }
+    
+    public UpdateAppUserVM InputUser { get; set; } = new();
 
     private AppUser User { get; set; } = new AppUser();
 

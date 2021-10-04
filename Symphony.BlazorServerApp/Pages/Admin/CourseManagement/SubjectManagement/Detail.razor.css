@@ -1,0 +1,26 @@
+.main-content {
+    padding: 2em;
+    border-bottom: 1px solid #808080;
+}
+
+.main-content li {
+    list-style-type: none;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.subject-image {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: space-between;
+    
+    
+}
+.subject-image img {
+    max-width: 10em;
+    height: auto;
+}

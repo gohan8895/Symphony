@@ -1,4 +1,4 @@
-﻿@page "/admin/subject/create"
+﻿@page "/admin/subject/edit/{id:int}"
 
 @inject NavigationManager Nav
 @inject ISubjectService subjectService
@@ -7,7 +7,7 @@
 
 <div class="container-lg">
     <h1 class="text-center fw-bold">Create a new Subject</h1>
-    <EditForm Model="@Input" OnValidSubmit="@CreateSubject">
+    <EditForm Model="@Input" OnValidSubmit="@UpdateSubject">
         <DataAnnotationsValidator />
         <div class="row">
             <div class="col-lg-6">
@@ -30,22 +30,39 @@
                 <InputNumber @bind-Value="Input.Price" class="form-control" />
                 <ValidationMessage For="@(() => Input.Price)" />
             </div>
-            <CreateButtonForForm />
+            <CreateButtonForForm FirstBtn="Update"/>
         </div>
     </EditForm>
 </div>
 
 @code {
-    #region Objects
-    public SubjectCreateRequest Input { get; set; } = new();
+    #region Objects & param
+    [Parameter]
+    public int Id { get; set; }
+
+    private SubjectUpdateRequest Input { get; set; } = new();
 
     #endregion
 
-    private async Task CreateSubject()
+    protected async override Task OnInitializedAsync()
+    {
+        var subject = await subjectService.GetSubjectVMAsync(Id);
+
+        Input = new SubjectUpdateRequest
+        {
+            Id = subject.Id,
+            Description = subject.Description,
+            Duration = subject.Duration,
+            Price = subject.Price,
+            Name = subject.Name
+        };
+    }
+
+    private async Task UpdateSubject()
     {
         if (Input is not null)
         {
-            await subjectService.CreateSubjectVMAsync(Input);
+            await subjectService.UpdateSubjectVMAsync(Input);
 
             Nav.NavigateTo("/admin/subject");
         }

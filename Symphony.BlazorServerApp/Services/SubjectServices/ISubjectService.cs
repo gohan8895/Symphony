@@ -17,9 +17,9 @@ namespace Symphony.BlazorServerApp.Services.SubjectServices
 
         Task UpdateSubjectVMAsync(SubjectUpdateRequest request);
 
-        Task<HttpResponseMessage> UpdateSubjectImagesVMAsync(int id, MultipartFormDataContent content);
+        Task<int> UpdateSubjectImagesVMAsync(int id, MultipartFormDataContent content);
 
-        Task<HttpResponseMessage> UpdateSubjectFilesVMAsync(int id, MultipartFormDataContent content);
+        Task<int> UpdateSubjectFilesVMAsync(int id, MultipartFormDataContent content);
 
         Task ChangeSubjectState(int id);
     }

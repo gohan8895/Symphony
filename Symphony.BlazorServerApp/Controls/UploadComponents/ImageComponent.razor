@@ -1,23 +1,25 @@
 ﻿@using Symphony.BlazorServerApp.Services.SubjectServices
-@using System
 @using System.Net.Http.Headers
-@using Microsoft.AspNetCore.Hosting
 
-@inject IWebHostEnvironment Environment
 @inject ISubjectService subjectService
-@inject IHttpClientFactory ClientFactory
 
 
-<div id="#imageUp" class="col-lg-6 my-2">
-    <label class="form-label fw-bold">@nameof(SubjectVM.Images)</label>
-    <InputFile OnChange="@AddImages" class="form-control" accept=".jpg , .png, .jpeg" multiple />
-</div>
-@*<div class="col-lg-6">
+<EditForm Model="@SubjectVM" OnValidSubmit="@UpdateImages">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div id="#imageUp" class="col-lg-6 my-2">
+        <label class="form-label fw-bold">@nameof(SubjectVM.Images)</label>
+        <InputFile OnChange="@OnInputChanged" class="form-control" accept=".jpg , .png, .jpeg" multiple />
+    </div>
+    <div class="col-lg-6">
         @foreach (var uri in imageDataUris)
         {
-            <img src="@uri" width="150" height="150" />
+            <img src="@uri" class="p-1 w-auto border-1 rounded-1" height="100" />
         }
-    </div>*@
+    </div>
+    <CreateButtonForForm FirstBtn="Update Existing" />
+</EditForm>
+
 <div class="toast fw-bold align-items-center text-white @(IsSuccess ? "bg-success" : "bg-danger") border-0" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="d-flex">
         <div class="toast-body">
@@ -30,7 +32,8 @@
 @code {
     [Parameter]
     public SubjectVM SubjectVM { get; set; }
-
+    private List<string> imageDataUris { get; set; } = new();
+    private MultipartFormDataContent content = new();
     #region constant
 
     private bool shouldRender;
@@ -42,12 +45,10 @@
     #endregion
     protected override bool ShouldRender() => shouldRender;
 
-    private async Task AddImages(InputFileChangeEventArgs e)
+    private async Task OnInputChanged(InputFileChangeEventArgs e)
     {
         shouldRender = false;
         upload = false;
-
-        using var content = new MultipartFormDataContent();
 
         foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
         {
@@ -63,6 +64,16 @@
                     fileName: file.Name
                     );
 
+                //Show images to browser
+                var imageFile = await file.RequestImageFileAsync("image", maxWith: 640, maxHeight: 480);
+                using Stream fileStream = imageFile.OpenReadStream(maxAllowedSize: maxFileSize);
+
+                using MemoryStream ms = new();
+                await fileStream.CopyToAsync(ms);
+
+                imageDataUris.Add($"data:image/jpeg;base64,{Convert.ToBase64String(ms.ToArray())}");
+                //
+
                 upload = true;
             }
             catch (Exception ex)
@@ -70,14 +81,16 @@
                 throw ex;
             }
         }
+        shouldRender = true;
+    }
 
+    private async Task UpdateImages()
+    {
         if (upload)
         {
-            var client = ClientFactory.CreateClient("symphony");
+            var response = await subjectService.UpdateSubjectImagesVMAsync(SubjectVM.Id, content);
 
-            var response = await client.PutAsync($"subjects/update-subject-images/{SubjectVM.Id}", content);
-
-            if (response.IsSuccessStatusCode)
+            if (response == 1)
             {
                 IsSuccess = true;
             }
@@ -90,13 +103,3 @@
         shouldRender = true;
     }
 }
-@*public List<string> imageDataUris { get; set; } = new();*@
-@*    //Show images to browser
-    var imageFile = await file.RequestImageFileAsync("image", maxWith: 640, maxHeight: 480);
-    using Stream fileStream = imageFile.OpenReadStream(maxAllowedSize: maxFileSize);
-
-    using MemoryStream ms = new();
-    await fileStream.CopyToAsync(ms);
-
-    imageDataUris.Add($"data:image/jpeg;base64,{Convert.ToBase64String(ms.ToArray())}");
-    //*@

@@ -9,18 +9,23 @@
     <Authorized>
         <div class="container-lg">
             <h1 class="text-center fw-bolder">Subject Manager</h1>
-            <div class="main-content">
+            <div class="main-content flex">
                 <ul>
-                    <li class="fw-bolder">@nameof(Subject.Id)</li>
-                    <li>@Subject.Id</li>
-                    <li class="fw-bolder">@nameof(Subject.Name)</li>
-                    <li>@Subject.Name</li>
-                    <li class="fw-bolder">@nameof(Subject.Description)</li>
-                    <li>@Subject.Description</li>
-                    <li class="fw-bolder">@nameof(Subject.Duration)</li>
-                    <li>@Subject.Duration Hours</li>
-                    <li class="fw-bolder">@nameof(Subject.Price)</li>
-                    <li>$ @Subject.Price</li>
+                    <li>
+                        <span class="fw-bolder pe-2">@nameof(Subject.Id):</span>@Subject.Id
+                    </li>
+                    <li>
+                        <span class="fw-bolder pe-2">@nameof(Subject.Name):</span>@Subject.Name
+                    </li>
+                    <li>
+                        <span class="fw-bolder pe-2">@nameof(Subject.Description):</span>@Subject.Description
+                    </li>
+                    <li>
+                        <span class="fw-bolder pe-2">@nameof(Subject.Duration):</span>@Subject.Duration Hours
+                    </li>
+                    <li>
+                        <span class="fw-bolder pe-2">@nameof(Subject.Price):</span>$ @Subject.Price
+                    </li>
                 </ul>
                 <aside>
                     <div class="subject-image">
@@ -29,7 +34,7 @@
                             @foreach (var image in Subject.Images)
                             {
                                 <div class="images">
-                                    <img class="w-50 h-auto" src="http:/localhost:39699/@image.Path" />
+                                    <img class="rounded-1" src="http:/localhost:39699/@image.Path" />
                                 </div>
                             }
                         }
@@ -38,7 +43,8 @@
                             <p>There is no image upload for this Subject yet. <a href="#imageUp">Upload one?</a></p>
                         }
                     </div>
-                    <div class="subject-file">
+                    <div class="subject-file flex">
+                        <h3 class="fw-bold">Files:</h3>
                         @if (Subject.Files is not null)
                         {
                             <ul>
@@ -62,6 +68,10 @@
                 <div class="files-upload">
                     <FileComponent SubjectVM="Subject" />
                 </div>
+            </div>
+            <div class="navigator">
+                <a href="admin/subject">Go back to subject manager <span class="ps-2 material-icons">chevron_left</span></a>
+                <a href="admin/subject/edit/@Subject.Id">Edit this subject <span class="ps-2 material-icons">edit</span></a>
             </div>
         </div>
     </Authorized>
