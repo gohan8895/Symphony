@@ -152,7 +152,7 @@ namespace Symphony.Services.BackendServices.CourseServices
 
         public async Task<int> UpdateSubjectInCourse(int courseId, List<int> request)
         {
-            var _course = await _context.Courses
+            var _course = await _context.Courses.Include(c => c.Subject_Courses)
                         .FirstOrDefaultAsync(x => x.Id == courseId);
 
             if (_course is null) return 0;

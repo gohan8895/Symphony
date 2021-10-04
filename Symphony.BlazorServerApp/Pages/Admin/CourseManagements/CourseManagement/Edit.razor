@@ -41,7 +41,8 @@
                                    type="checkbox"
                                    @onclick="() => AddSubject(subject.Id)"
                                    id="@(subject.Id + "check")"
-                                   checked="@(SubjectIdsForUpdate.Contains(subject.Id) ? "true" : "false")">
+                                   checked="@(CurSubInCourseIds.Contains(subject.Id) ? "true" : "false")">
+                            @* If the current subject in this course contain id, then pre check the checkbox *@
                         </label>
                     }
                 </div>
@@ -86,7 +87,6 @@
     public CourseUpdateRequest Input { get; set; } = new();
     private List<SubjectVM> Subjects { get; set; } = new();
     private List<int> CurSubInCourseIds { get; set; } = new();
-    private List<int> SubjectIdsForUpdate { get; set; } = new();
     private bool isExtra { get; set; } = false;
     private bool isBasic { get; set; } = false;
     private bool updateSubject { get; set; } = false;
@@ -101,6 +101,8 @@
 
         if (course is not null) shouldRender = true;
 
+        @* Get all courseWithSubjects and create a new UpdateRequestVM base on that *@
+
         Input = new CourseUpdateRequest
         {
             Id = course.Id,
@@ -113,25 +115,28 @@
             IsExtra = course.IsExtra
         };
 
+        @* Get all current subjects in course *@
+
         foreach (var sub in course.SimpleSubjectVMs)
         {
             CurSubInCourseIds.Add(sub.Id);
         }
 
-        SubjectIdsForUpdate = CurSubInCourseIds;
+        @* Get all subject for display *@
 
         Subjects = (await subjectService.GetSubjectVMsAsync()).ToList();
     }
 
+    @* Checkbox logic for choosing subjects *@
     private void AddSubject(int id)
     {
-        if (SubjectIdsForUpdate.Contains(id))
+        if (CurSubInCourseIds.Contains(id))
         {
-            SubjectIdsForUpdate.Remove(id);
+            CurSubInCourseIds.Remove(id);
         }
         else
         {
-            SubjectIdsForUpdate.Add(id);
+            CurSubInCourseIds.Add(id);
         }
     }
 
@@ -142,7 +147,7 @@
             Input.IsExtra = isExtra;
             Input.IsBasic = isBasic;
 
-            @*await courseService.UpdateSubjectInCourseAsync(Input.Id, SubjectIdsForUpdate);*@
+            await courseService.UpdateSubjectInCourseAsync(Input.Id, CurSubInCourseIds);
             await courseService.UpdateAsync(Input);
 
             Nav.NavigateTo("/admin/course");

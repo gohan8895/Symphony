@@ -161,7 +161,7 @@ namespace Symphony.BlazorServerApp.Services.CourseServices
                 {
                     var client = clientFactory.CreateClient("symphony");
                     var requestJson = new StringContent(
-                        JsonSerializer.Serialize(id, options),
+                        JsonSerializer.Serialize(request, options),
                         encoding: Encoding.UTF8,
                         "application/json"
                         );
