@@ -61,7 +61,7 @@
                     </div>
                 </aside>
             </div>
-            <div class="upload">
+            <div class="upload flex">
                 <div class="images-upload">
                     <ImageComponent SubjectVM="Subject" />
                 </div>
@@ -69,9 +69,17 @@
                     <FileComponent SubjectVM="Subject" />
                 </div>
             </div>
-            <div class="navigator">
-                <a href="admin/subject">Go back to subject manager <span class="ps-2 material-icons">chevron_left</span></a>
-                <a href="admin/subject/edit/@Subject.Id">Edit this subject <span class="ps-2 material-icons">edit</span></a>
+            <div class="navigator flex">
+                <div>
+                    <a href="admin/subject" class="back">
+                        Go back to subject manager <span class="ps-3 material-icons">chevron_left</span>
+                    </a>
+                </div>
+                <div>
+                    <a href="admin/subject/edit/@Subject.Id" class="edit">
+                        Edit this subject <span class="ps-3 material-icons">edit</span>
+                    </a>
+                </div>
             </div>
         </div>
     </Authorized>
