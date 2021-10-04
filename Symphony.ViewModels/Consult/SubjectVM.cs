@@ -2,6 +2,7 @@
 using Symphony.Data.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -44,14 +45,25 @@ namespace Symphony.ViewModels.Consult
         public string Description { get; set; }
 
         [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter valid integer number")]
         public int Duration { get; set; }
 
         [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter valid integer number")]
         public double Price { get; set; }
-
-        public List<IFormFile> images { get; set; }
-        public List<IFormFile> attachments { get; set; }
     }
+
+    /*public class ImageUpdateRequest
+    {
+        [Display(Name = "Image")]
+        public List<IFormFile> Images { get; set; }
+    }
+    
+    public class FileUpdateRequest
+    {
+        [Display(Name = "File")]
+        public List<IFormFile> Files { get; set; }
+    }*/
 
     public class SubjectUpdateRequest
     {
@@ -70,8 +82,5 @@ namespace Symphony.ViewModels.Consult
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = "Please enter valid integer number")]
         public double Price { get; set; }
-
-        public List<IFormFile> images { get; set; }
-        public List<IFormFile> attachments { get; set; }
     }
 }

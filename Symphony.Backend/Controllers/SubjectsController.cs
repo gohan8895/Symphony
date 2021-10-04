@@ -44,14 +44,14 @@ namespace Symphony.Backend.Controllers
 
         // POST api/<SubjectsController>
         [HttpPost]
-        public async Task<ActionResult<SubjectVM>> Post([FromForm] SubjectCreateRequest createRequest)
+        public async Task<ActionResult<SimpleSubjectVM>> Post(SubjectCreateRequest createRequest)
         {
             if (createRequest is null)
             {
                 return BadRequest();
             }
 
-            var _subject = new SubjectVM();
+            var _subject = new SimpleSubjectVM();
 
             if (ModelState.IsValid)
             {
@@ -63,7 +63,7 @@ namespace Symphony.Backend.Controllers
 
         // PUT api/<SubjectsController>/5
         [HttpPut("update-subject-details")]
-        public async Task<ActionResult> Put([FromForm] SubjectUpdateRequest updateRequest)
+        public async Task<ActionResult> Put(SubjectUpdateRequest updateRequest)
         {
             if (updateRequest is null) return BadRequest();
 
@@ -79,8 +79,36 @@ namespace Symphony.Backend.Controllers
             return NoContent();
         }
 
+        [HttpPut("update-subject-images/{id}")]
+        public async Task<ActionResult> Put(int id, [FromForm] List<IFormFile> images)
+        {
+            if (images is null) return BadRequest();
+
+            var subjectVM = new SimpleSubjectVM();
+
+            if (ModelState.IsValid) subjectVM = await _service.UpdateSubjectImageVMAsync(id, images);
+
+            if (subjectVM is null) return NotFound();
+
+            return NoContent();
+        }
+        
+        [HttpPut("update-subject-files/{id}")]
+        public async Task<ActionResult> PutFiles(int id, [FromForm] List<IFormFile> files)
+        {
+            if (files is null) return BadRequest();
+
+            var subjectVM = new SimpleSubjectVM();
+
+            if (ModelState.IsValid) subjectVM = await _service.UpdateSubjectFileVMAsync(id, files);
+
+            if (subjectVM is null) return NotFound();
+
+            return NoContent();
+        }
+
         // DELETE api/<SubjectsController>/5
-        [HttpPut("update-book-state/{id}")]
+        [HttpPut("update-subject-state/{id}")]
         public async Task<ActionResult> SoftDelete(int id)
         {
             var _subject = await _service.GetSubjectVMAsync(id);

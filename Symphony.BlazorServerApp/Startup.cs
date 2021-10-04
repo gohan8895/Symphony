@@ -16,6 +16,7 @@ using Symphony.BlazorServerApp.Services.CourseRegistrationService;
 using Symphony.BlazorServerApp.Services.CourseServices;
 using Symphony.BlazorServerApp.Services.FaqServices;
 using Symphony.BlazorServerApp.Services.NewService;
+using Symphony.BlazorServerApp.Services.SubjectServices;
 using Symphony.Data.EF;
 using Symphony.Data.Entities;
 using Symphony.Services.BackendServices.EmailSenderService;
@@ -58,6 +59,7 @@ namespace Symphony.BlazorServerApp
             services.AddTransient<INewService, NewService>();
             services.AddTransient<IAboutService, AboutService>();
             services.AddTransient<ICourseService, CourseService>();
+            services.AddTransient<ISubjectService, SubjectService>();
             services.AddTransient<ICourseRegistrationService, CourseRegistrationService>();
             services.AddTransient<IFaqService, FaqService>();
         }

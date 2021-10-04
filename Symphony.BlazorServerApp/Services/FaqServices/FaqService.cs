@@ -64,7 +64,6 @@ namespace Symphony.BlazorServerApp.Services.FaqServices
             {
                 return null;
             }
-
         }
 
         public async Task<IEnumerable<FAQVM>> GetFaqsAsync()
@@ -81,7 +80,6 @@ namespace Symphony.BlazorServerApp.Services.FaqServices
             {
                 return null;
             }
-
         }
 
         public async Task UpdateFaqAsync(UpdateFAQVM faq)

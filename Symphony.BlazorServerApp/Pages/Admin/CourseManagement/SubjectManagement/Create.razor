@@ -1,0 +1,53 @@
+﻿@page "/admin/subject/create"
+
+@inject NavigationManager Nav
+@inject ISubjectService subjectService
+
+@using Symphony.BlazorServerApp.Services.SubjectServices
+
+<div class="container-lg">
+    <h1 class="text-center fw-bold">Create a new Subject</h1>
+    <EditForm Model="@Input" OnValidSubmit="@CreateSubject">
+        <DataAnnotationsValidator />
+        <div class="row">
+            <div class="col-lg-6">
+                <label class="form-label fw-bold">@nameof(Input.Name) <span class="text-danger fw-bold">*</span></label>
+                <InputText @bind-Value="Input.Name" class="form-control" />
+                <ValidationMessage For="@(() => Input.Name)" />
+            </div>
+            <div class="col-lg-6">
+                <label class="form-label fw-bold">@nameof(Input.Description) <span class="text-danger fw-bold">*</span></label>
+                <InputText @bind-Value="Input.Description" class="form-control" />
+                <ValidationMessage For="@(() => Input.Description)" />
+            </div>
+            <div class="col-lg-6">
+                <label class="form-label fw-bold">@nameof(Input.Duration) <span class="text-danger fw-bold">*</span></label>
+                <InputNumber @bind-Value="Input.Duration" class="form-control" />
+                <ValidationMessage For="@(() => Input.Duration)" />
+            </div>
+            <div class="col-lg-6">
+                <label class="form-label fw-bold">@nameof(Input.Price) <span class="text-danger fw-bold">*</span></label>
+                <InputNumber @bind-Value="Input.Price" class="form-control" />
+                <ValidationMessage For="@(() => Input.Price)" />
+            </div>
+            <CreateButtonForForm />
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    #region Objects
+    public SubjectCreateRequest Input { get; set; } = new();
+
+    #endregion
+
+    private async Task CreateSubject()
+    {
+        if (Input is not null)
+        {
+            await subjectService.CreateSubjectVMAsync(Input);
+
+            Nav.NavigateTo("/admin/subject");
+        }
+    }
+}

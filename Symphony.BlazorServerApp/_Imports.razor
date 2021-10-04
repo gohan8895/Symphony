@@ -1,4 +1,11 @@
 ﻿@using System.Net.Http
+@using System.ComponentModel.DataAnnotations;
+@using System.Linq;
+@using System.Threading.Tasks
+@using System.Text
+@using System
+@using System.IO
+
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.Forms
@@ -6,20 +13,18 @@
 @using Microsoft.AspNetCore.Components.Web
 @using Microsoft.AspNetCore.Components.Web.Virtualization
 @using Microsoft.JSInterop
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Identity.UI.Services
+
 @using Symphony.BlazorServerApp
 @using Symphony.BlazorServerApp.Shared
 @using Symphony.BlazorServerApp.Shared.User
 @using Symphony.BlazorServerApp.Shared.Admin
 @using Symphony.Data.Entities
-@using Microsoft.AspNetCore.Identity
-@using System.ComponentModel.DataAnnotations;
-@using System.Linq;
-@using Microsoft.AspNetCore.Identity.UI.Services
-@using System.Threading.Tasks
-@using System.Text
 @using Symphony.BlazorServerApp.Controls.Utilities
 @using Symphony.ViewModels.Extensions
 @using Symphony.ViewModels.Consult
 @using Symphony.BlazorServerApp.Controls.FormComponents
 @using Symphony.BlazorServerApp.Controls.Utilities 
+
 @using Humanizer

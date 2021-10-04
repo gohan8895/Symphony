@@ -1,0 +1,92 @@
+﻿@page "/admin/subject/{id:int}"
+
+@inject ISubjectService subjectService
+@using Symphony.BlazorServerApp.Services.SubjectServices
+@using Symphony.BlazorServerApp.Controls.UploadComponents
+@using Symphony.BlazorServerApp.Controls.TableComponents
+
+<AuthorizeView Roles="admin">
+    <Authorized>
+        <div class="container-lg">
+            <h1 class="text-center fw-bolder">Subject Manager</h1>
+            <div class="main-content flex">
+                <ul>
+                    <li>
+                        <span class="fw-bolder pe-2">@nameof(Subject.Id):</span>@Subject.Id
+                    </li>
+                    <li>
+                        <span class="fw-bolder pe-2">@nameof(Subject.Name):</span>@Subject.Name
+                    </li>
+                    <li>
+                        <span class="fw-bolder pe-2">@nameof(Subject.Description):</span>@Subject.Description
+                    </li>
+                    <li>
+                        <span class="fw-bolder pe-2">@nameof(Subject.Duration):</span>@Subject.Duration Hours
+                    </li>
+                    <li>
+                        <span class="fw-bolder pe-2">@nameof(Subject.Price):</span>$ @Subject.Price
+                    </li>
+                </ul>
+                <aside>
+                    <div class="subject-image">
+                        @if (Subject.Images is not null)
+                        {
+                            @foreach (var image in Subject.Images)
+                            {
+                                <div class="images">
+                                    <img class="rounded-1" src="http:/localhost:39699/@image.Path" />
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p>There is no image upload for this Subject yet. <a href="#imageUp">Upload one?</a></p>
+                        }
+                    </div>
+                    <div class="subject-file flex">
+                        <h3 class="fw-bold">Files:</h3>
+                        @if (Subject.Files is not null)
+                        {
+                            <ul>
+                                @foreach (var file in Subject.Files)
+                                {
+                                    <li>@file.FileName.Humanize() <span class="ps-5 material-icons btn">files</span></li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <p>There is no file upload for this Subject yet. <a href="#fileUp">Upload one?</a></p>
+                        }
+                    </div>
+                </aside>
+            </div>
+            <div class="upload">
+                <div class="images-upload">
+                    <ImageComponent SubjectVM="Subject" />
+                </div>
+                <div class="files-upload">
+                    <FileComponent SubjectVM="Subject" />
+                </div>
+            </div>
+            <div class="navigator">
+                <a href="admin/subject">Go back to subject manager <span class="ps-2 material-icons">chevron_left</span></a>
+                <a href="admin/subject/edit/@Subject.Id">Edit this subject <span class="ps-2 material-icons">edit</span></a>
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <UnauthorizedAccess />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private SubjectVM Subject { get; set; } = new();
+
+    protected async override Task OnInitializedAsync()
+    {
+        Subject = await subjectService.GetSubjectVMAsync(id: Id);
+    }
+}

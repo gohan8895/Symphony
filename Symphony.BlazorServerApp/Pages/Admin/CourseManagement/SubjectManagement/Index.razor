@@ -1,0 +1,174 @@
+﻿@page "/admin/subject"
+
+@inject ISubjectService subjectService
+@using Symphony.BlazorServerApp.Services.SubjectServices
+@using Symphony.BlazorServerApp.Controls.TableComponents
+
+<AuthorizeView Roles="admin">
+    <Authorized>
+        <div class="container-lg">
+            <h1 class="text-center fw-bolder">Subjects Manager</h1>
+            <CreateButton Url="/admin/subject/create" Who="a New Subject" />
+            <TableTemplate Caption="Subjects" Items="Subjects" Context="sub">
+                <TableHeader>
+                    <th>
+                        <span @onclick="SortId" class="flex">
+                            @nameof(Subject.Id)
+                            <span class="ps-1 material-icons hover-me">
+                                @(sortId ? "arrow_downward" : "arrow_upward")
+                            </span>
+                        </span>
+                    </th>
+                    <th>
+                        <span @onclick="SortName" class="flex">
+                            @nameof(Subject.Name)
+                            <span class="ps-1 material-icons hover-me">
+                                @(sortName ? "arrow_downward" : "arrow_upward")
+                            </span>
+                        </span>
+                    </th>
+                    <th>
+                        @nameof(Subject.Description)
+                    </th>
+                    <th>
+                        <span @onclick="SortPrice" class="flex">
+                            @nameof(Subject.Price)
+                            <span class="ps-1 material-icons hover-me">
+                                @(sortPrice ? "arrow_downward" : "arrow_upward")
+                            </span>
+                        </span>
+                    </th>
+                    <th>
+                        <span @onclick="SortDur" class="flex">
+                            @nameof(Subject.Duration)
+                            <span class="ps-1 material-icons hover-me">
+                                @(sortDur ? "arrow_downward" : "arrow_upward")
+                            </span>
+                        </span>
+                    </th>
+                    <th>
+                        <div @onclick="SortStatus" class="flex">
+                            Status
+                            <span class="ps-1 material-icons hover-me">
+                                @(sortStatus ? "arrow_downward" : "arrow_upward")
+                            </span>
+                        </div>
+                    </th>
+                    <th></th>
+                </TableHeader>
+                <RowTemplate>
+                    <td>@sub.Id</td>
+                    <td>
+                        <a class="nav-link fw-bold" href="/admin/subject/@sub.Id">@sub.Name</a>
+                    </td>
+                    <td>@sub.Description</td>
+                    <td>@sub.Price</td>
+                    <td>@sub.Duration</td>
+                    <td>@(sub.IsShown ? "Show" : "Hidden")</td>
+                    <td class="text-center">
+                        <a href="/admin/subject/edit/@sub.Id" class="material-icons nav-item text-warning">edit</a>
+                        <button @onclick="() => DeleteSubject(sub.Id)" class="btn material-icons text-danger">delete</button>
+                    </td>
+                </RowTemplate>
+            </TableTemplate>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <UnauthorizedAccess />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    #region param & prop
+    public List<SubjectVM> Subjects { get; set; } = new();
+    public SubjectVM Subject { get; set; }
+    #endregion
+
+    #region other
+    private bool sortId = false;
+    private bool sortName = false;
+    private bool sortPrice = false;
+    private bool sortDur = false;
+    private bool sortStatus = true;
+    #endregion
+
+    protected async override Task OnInitializedAsync()
+    {
+        Subjects = (await subjectService.GetSubjectVMsAsync()).ToList();
+    }
+
+    private async Task DeleteSubject(int id)
+    {
+        if (id != 0) await subjectService.ChangeSubjectState(id);
+
+        StateHasChanged();
+    }
+
+    #region fiter logic
+    private void SortId()
+    {
+        if (sortId)
+        {
+            Subjects = Subjects.OrderBy(s => s.Id).ToList();
+            sortId = !sortId;
+        }
+        else
+        {
+            Subjects = Subjects.OrderByDescending(s => s.Id).ToList();
+            sortId = !sortId;
+        }
+    }
+    private void SortName()
+    {
+        if (sortName)
+        {
+            Subjects = Subjects.OrderBy(s => s.Name).ToList();
+            sortName = !sortName;
+        }
+        else
+        {
+            Subjects = Subjects.OrderByDescending(s => s.Name).ToList();
+            sortName = !sortName;
+        }
+    }
+    private void SortPrice()
+    {
+        if (sortPrice)
+        {
+            Subjects = Subjects.OrderBy(s => s.Price).ToList();
+            sortPrice = !sortPrice;
+        }
+        else
+        {
+            Subjects = Subjects.OrderByDescending(s => s.Price).ToList();
+            sortPrice = !sortPrice;
+        }
+    }
+    private void SortDur()
+    {
+        if (sortDur)
+        {
+            Subjects = Subjects.OrderBy(s => s.Duration).ToList();
+            sortDur = !sortDur;
+        }
+        else
+        {
+            Subjects = Subjects.OrderByDescending(s => s.Duration).ToList();
+            sortDur = !sortDur;
+        }
+    }
+    private void SortStatus()
+    {
+        if (sortStatus)
+        {
+            Subjects = Subjects.OrderBy(s => s.IsShown).ToList();
+            sortStatus = !sortStatus;
+        }
+        else
+        {
+            Subjects = Subjects.OrderByDescending(s => s.IsShown).ToList();
+            sortStatus = !sortStatus;
+        }
+    }
+    #endregion
+}

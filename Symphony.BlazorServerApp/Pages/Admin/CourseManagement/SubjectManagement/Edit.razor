@@ -1,0 +1,70 @@
+﻿@page "/admin/subject/edit/{id:int}"
+
+@inject NavigationManager Nav
+@inject ISubjectService subjectService
+
+@using Symphony.BlazorServerApp.Services.SubjectServices
+
+<div class="container-lg">
+    <h1 class="text-center fw-bold">Create a new Subject</h1>
+    <EditForm Model="@Input" OnValidSubmit="@UpdateSubject">
+        <DataAnnotationsValidator />
+        <div class="row">
+            <div class="col-lg-6">
+                <label class="form-label fw-bold">@nameof(Input.Name) <span class="text-danger fw-bold">*</span></label>
+                <InputText @bind-Value="Input.Name" class="form-control" />
+                <ValidationMessage For="@(() => Input.Name)" />
+            </div>
+            <div class="col-lg-6">
+                <label class="form-label fw-bold">@nameof(Input.Description) <span class="text-danger fw-bold">*</span></label>
+                <InputText @bind-Value="Input.Description" class="form-control" />
+                <ValidationMessage For="@(() => Input.Description)" />
+            </div>
+            <div class="col-lg-6">
+                <label class="form-label fw-bold">@nameof(Input.Duration) <span class="text-danger fw-bold">*</span></label>
+                <InputNumber @bind-Value="Input.Duration" class="form-control" />
+                <ValidationMessage For="@(() => Input.Duration)" />
+            </div>
+            <div class="col-lg-6">
+                <label class="form-label fw-bold">@nameof(Input.Price) <span class="text-danger fw-bold">*</span></label>
+                <InputNumber @bind-Value="Input.Price" class="form-control" />
+                <ValidationMessage For="@(() => Input.Price)" />
+            </div>
+            <CreateButtonForForm FirstBtn="Update"/>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    #region Objects & param
+    [Parameter]
+    public int Id { get; set; }
+
+    private SubjectUpdateRequest Input { get; set; } = new();
+
+    #endregion
+
+    protected async override Task OnInitializedAsync()
+    {
+        var subject = await subjectService.GetSubjectVMAsync(Id);
+
+        Input = new SubjectUpdateRequest
+        {
+            Id = subject.Id,
+            Description = subject.Description,
+            Duration = subject.Duration,
+            Price = subject.Price,
+            Name = subject.Name
+        };
+    }
+
+    private async Task UpdateSubject()
+    {
+        if (Input is not null)
+        {
+            await subjectService.UpdateSubjectVMAsync(Input);
+
+            Nav.NavigateTo("/admin/subject");
+        }
+    }
+}
