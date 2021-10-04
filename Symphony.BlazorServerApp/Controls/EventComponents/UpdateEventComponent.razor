@@ -1,6 +1,61 @@
-﻿<h3>UpdateEventComponent</h3>
+﻿
+@inject IEventService newService
+@using Symphony.ViewModels.Consult
+@using Symphony.BlazorServerApp.Services.EventServices
+@inject NavigationManager Nav
+@using Symphony.BlazorServerApp.Controls.Utilities
 
+<EditForm Model="@InputNew" OnValidSubmit="UpdateNew" class="row g-3">
+    <DataAnnotationsValidator />
+    <div class="col-md-12">
+        <label class="form-label fw-bold">@nameof(InputNew.Title) <span class="text-danger fw-bold">*</span></label>
+        <InputText @bind-Value="InputNew.Title" class="form-control" />
+        <ValidationMessage For="@(() => InputNew.Title)" />
+    </div>
+    <div class="col-md-12">
+        <label class="form-label fw-bold">@nameof(InputNew.Description) <span class="text-danger fw-bold">*</span></label>
+        <div class="form-outline mb-4">
+            <textarea class="form-control" @bind="InputNew.Description" id="textAreaExample6" rows="20"></textarea>
+            <label class="form-label" for="textAreaExample6">100% width of the parent</label>
+        </div>
+        <ValidationMessage For="@(() => InputNew.Description)" />
+    </div>
+    <div class="col-md-6">
+        <label class="form-label fw-bold">@nameof(InputNew.IsShown) <span class="text-danger fw-bold">*</span></label>
+        <input type="checkbox" @bind-value="InputNew.IsShown" />
+        <ValidationMessage For="@(() => InputNew.IsShown)" />
+    </div>
+
+    <CreateButtonForForm />
+</EditForm>
 @code {
+    #region Parameter
+    public UpdateEventVM InputNew { get; set; } = new();
 
+    [Parameter]
+    public int newId { get; set; }
+
+    #endregion
+
+    protected async override Task OnInitializedAsync()
+    {
+        var newItem = await newService.GetEventAsync(newId);
+
+        InputNew = new UpdateEventVM
+        {
+            Id = newItem.Id,
+            Title = newItem.Title,
+            Description = newItem.Description,
+            IsShown = newItem.IsShown
+        };
+    }
+
+    private async Task UpdateNew()
+    {
+
+        await newService.UpdateEventAsync(InputNew);
+
+        Nav.NavigateTo("/admin/event/");
+
+    }
 }
- 

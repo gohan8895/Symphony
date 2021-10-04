@@ -28,7 +28,7 @@
 </EditForm>
 @code {
     #region Parameter
-    public CreateNewsVM InputNew { get; set; } = new();
+    public CreateEventVM InputNew { get; set; } = new();
 
 
 
@@ -41,7 +41,7 @@
             Description = InputNew.Description,
             IsShown = InputNew.IsShown
         };
-        await newService.CreateAsync(newitem);
-        Nav.NavigateTo("/admin/new/");
+        await eventService.CreateEventAsync(newitem);
+        Nav.NavigateTo("/admin/event/");
     }
 }
