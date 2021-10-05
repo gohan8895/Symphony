@@ -8,13 +8,20 @@
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <ul class="nav flex-column">
         <li class="nav-item px-3 fw-bold ">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+            <NavLink class="nav-link" href="admin/dashboard" Match="NavLinkMatch.All">
                 <span class="material-icons me-2">
                     dashboard
                 </span> Dashboard
             </NavLink>
         </li>
-        @*  User Management *@
+        <li class="nav-item px-3 ">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="material-icons me-2">
+                    home
+                </span> Home Page
+            </NavLink>
+        </li>
+        @* User Management *@
         <li class="nav-item px-3 fw-bold btn">
             <NavLink class="nav-link" @onclick="() => expandSubMenuUser = !expandSubMenuUser">
                 <span class="material-icons me-2">
@@ -28,7 +35,8 @@
             {
                 <ul class="nav flex-column">
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link expand-menu" href="admin/userManagement/adminManager"><span class="material-icons me-2">badge</span>Admin</NavLink>
+                        <NavLink class="nav-link expand-menu" href="admin/userManagement/adminManager"><span
+                            class="material-icons me-2">badge</span>Admin</NavLink>
                     </li>
                     <li class="nav-item px-3">
                         <NavLink class="nav-link expand-menu" href="admin/userManagement/teacherManager">
@@ -45,7 +53,7 @@
                 </ul>
             }
         </li>
-        @*  Course Management *@
+        @* Course Management *@
         <li class="nav-item px-3 fw-bold btn">
             <NavLink class="nav-link" @onclick="() => expandSubMenuCourse = !expandSubMenuCourse">
                 <span class="material-icons me-2">
@@ -60,10 +68,12 @@
             {
                 <ul class="nav flex-column">
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link expand-menu" href="admin/course"><span class="material-icons me-2">people</span>Course</NavLink>
+                        <NavLink class="nav-link expand-menu" href="admin/course"><span
+                            class="material-icons me-2">people</span>Course</NavLink>
                     </li>
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link expand-menu" href="admin/subject"><span class="material-icons me-2">subject</span> Subject</NavLink>
+                        <NavLink class="nav-link expand-menu" href="admin/subject"><span
+                            class="material-icons me-2">subject</span> Subject</NavLink>
                     </li>
                 </ul>
             }
@@ -81,10 +91,12 @@
             {
                 <ul class="nav flex-column">
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link expand-menu" href="admin/examManagement"><span class="material-icons me-2">quiz</span>Exam</NavLink>
+                        <NavLink class="nav-link expand-menu" href="admin/examManagement"><span
+                            class="material-icons me-2">quiz</span>Exam</NavLink>
                     </li>
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link expand-menu" href="admin/resultManagement"><span class="material-icons me-2">task</span> Result</NavLink>
+                        <NavLink class="nav-link expand-menu" href="admin/resultManagement"><span
+                            class="material-icons me-2">task</span> Result</NavLink>
                     </li>
                 </ul>
             }
@@ -152,12 +164,9 @@
             {
                 <ul class="nav flex-column">
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link expand-menu" href="admin/faq"><span class="material-icons me-2">badge</span>Faq Content</NavLink>
-                    </li>
-                    <li class="nav-item px-3">
                         <NavLink class="nav-link expand-menu" href="/admin/faq">
                             <span class="material-icons me-2">
-                                question_answer
+                                badge
                             </span> FAQ Manager
                         </NavLink>
                         <NavLink class="nav-link expand-menu" href="/faq">
@@ -209,7 +218,8 @@
             {
                 <ul class="nav flex-column">
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link expand-menu" href="admin/aboutus"><span class="material-icons me-2">badge</span>Manage About</NavLink>
+                        <NavLink class="nav-link expand-menu" href="admin/aboutus"><span
+                            class="material-icons me-2">badge</span>Manage About</NavLink>
                     </li>
                     <li class="nav-item px-3">
                         <NavLink class="nav-link expand-menu" href="/aboutus">
@@ -235,7 +245,8 @@
             {
                 <ul class="nav flex-column">
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link expand-menu" href="admin/event"><span class="material-icons me-2">badge</span>Manage Event</NavLink>
+                        <NavLink class="nav-link expand-menu" href="admin/event"><span
+                            class="material-icons me-2">badge</span>Manage Event</NavLink>
                     </li>
                     <li class="nav-item px-3">
                         <NavLink class="nav-link expand-menu" href="/event">
@@ -273,7 +284,3 @@
         collapseNavMenu = !collapseNavMenu;
     }
 }
-    
-     
-
-

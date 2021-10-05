@@ -1,14 +1,37 @@
-﻿/* Buttons */
+﻿/* display */
+
+.flex {
+    display: flex;
+    align-items: center;
+}
+
+/* Buttons */
 .filter-button {
     background-color: #ffc029;
+    font-weight: 700;
 }
 
 .sort-button {
     background-color: #30c3fc;
+    font-weight: 700;
 }
 
 .enroll-button {
     background-color: #f53322;
+    font-weight: 700;
+}
+
+.filter-button:hover {
+    background-color: #d8a122;
+}
+
+.sort-button:hover {
+    background-color: #269bc9;
+    font-weight: 900;
+}
+
+.enroll-button:hover {
+    background-color: #c42b1d;
 }
 
 /* Others */
@@ -18,11 +41,23 @@
     font-weight: bold;
 }
 
-.filter-item > .form-check {
+.form-check {
     margin: 0.5em 0;
 }
 
+.form-check:hover {
+    color: #000000;
+}
+
+.form-check-input, .form-check-label {
+    cursor: pointer;
+}
+
 .filter-item > .form-check > input {
+    border: 1px solid black;
+}
+
+.filter-item > .form-check > input:hover {
     border: 3px solid black;
 }
 
@@ -54,17 +89,37 @@
     min-height: 10em;
 }
 
-.course-row > .row > .col-3,
-.col-7,
-.col-md-2 {
+.course-row a {
+    text-decoration: none;
+    color: rgb(56, 56, 56);
+}
+
+.course-row a:hover {
+    font-weight: 900;
+    color: rgb(0, 0, 0);
+}
+
+.price-enroll {
+    min-height: 12em;
+}
+
+.col-2-row {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
 }
 
+.course-info-img:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+    background-blend-mode: darken;
+    transform: scale(1.1);
+    box-shadow: 1em 1em 0.5em rgba(65, 65, 65, 0.3);
+}
+
 .course-info-img {
-    max-width: 16em;
+    max-width: 15em;
     height: auto;
+    transition: transform 0.2s; /* Animation */
 }
 
 .col-2-row {

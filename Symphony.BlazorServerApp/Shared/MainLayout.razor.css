@@ -3,19 +3,27 @@
     display: flex;
     flex-direction: column;
     color: #2e2e2e;
-    background-image: url('./images/background/white-waves.png');
+    background-image: url("./images/background/white-waves.png");
+    min-height: 100vh;
+    overflow: auto;
+    overflow: overlay;
 }
 
 .main {
     flex: 1;
+    position: absolute;
+    right: 0;
+    width: 85.5%;
 }
 
 .sidebar {
     background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    width: 14.5%;
 }
 
 .sidebar-user {
     background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    width: 14.5%;
 }
 
 .top-row {
@@ -38,6 +46,10 @@
     text-overflow: ellipsis;
 }
 
+.content {
+    min-height: 70.4vh;
+}
+
 @media (max-width: 640.98px) {
     .top-row:not(.auth) {
         display: none;
@@ -51,6 +63,10 @@
     .top-row .btn-link {
         margin-left: 0;
     }
+
+    .content {
+        margin-bottom: 15em;
+    }
 }
 
 @media (min-width: 641px) {
@@ -59,14 +75,12 @@
     }
 
     .sidebar {
-        width: 278px;
         height: 100vh;
         position: sticky;
         top: 0;
     }
 
     .sidebar-user {
-        width: 13em;
         height: 100vh;
         position: sticky;
         top: 0;
