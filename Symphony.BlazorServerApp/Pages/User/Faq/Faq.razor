@@ -7,17 +7,23 @@
 <main class="main">
     @if (Data == null)
     {
-        <div class="loader"></div>
+        <div class="text-center">
+            <div class="loadingio-spinner-bars-f8jbu6upslt">
+                <div class="ldio-p5olh5z9oq">
+                    <div></div><div></div><div></div><div></div>
+                </div>
+            </div>
+        </div>
 
     }
     else
     {
-        <div class="text-center">
+        <div class="text-center text-warning">
             <h1>FAQ</h1>
         </div>
         <hr>
         <div class="accordion" id="accordionExample">
-            
+
             @foreach (var item in Data)
             {
                 if (item.IsShown)
