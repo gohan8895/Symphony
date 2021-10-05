@@ -29,3 +29,8 @@
     justify-content: center;
     background-color: #ffe855;
 }
+
+.detail-button:hover {
+    background-color: #cab840;
+    font-weight: 900;
+}
