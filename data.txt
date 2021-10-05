@@ -47,3 +47,141 @@ FAQs
 7	Will there be any fees for the entrance exam?	Yes there will be and it will be available on the application form	True	2021-09-30 17:34:00.9897430	2021-09-30 17:34:00.9897525
 10	How to make the payment?	Payment can be done through draft, or through cheque or through cash.	True	2021-09-30 17:36:32.3631862	2021-09-30 17:36:32.3631956
 
+News 
+
+18	How to drive enterprise efficiency with Confluence Data Center.	When it comes to driving efficiency and effectiveness in your organization,
+monitoring and reporting capabilities are your best friends. These capabilities are
+what allow you to gain insight into how your teams are using their software.
+
+Consider your current products and if they provide the right kind of data you need to answer questions, such as:
+· Are my teams following the organization’s established best practices?
+· What does my product’s performance look like?
+· Can I report back to the executive team on our security and compliance position?
+
+If the software that your organization relies on can’t help you answer questions like these, then they aren’t contributing to efficiency and effectiveness in
+your enterprise.
+Being an admin of a self-managed environment means that you are responsible
+for the management of your entire instance. This includes data retention, scale,
+performance, and end-user activity just to name a few things. On top of this, you
+also have to deliver on aggressive business objects, break down organizational
+silos, and establish consistent ways of working across the enterprise, that’s a
+whole lot to manage when you can’t understand what’s actually happening in
+your instance. That’s why having the right software that enables you to take
+action is so important.
+
+Gain insight with Data Center
+Data Center, Atlassian’s self-managed enterprise edition, has advanced auditing capabilities, which allow you to create a digital record of what’s happening in your instance.
+You can choose one of four different coverage levels (off, base, full, advanced) to
+log different types of events, depending on the unique needs and insight that
+your organization requires.
+
+Advanced auditing is built with file externalization capabilities, which means
+that you can integrate your Data Center products with third-party monitoring
+tools, such as Splunk, Elastic Stack, Sumo Logic, or CloudWatch.
+
+By leveraging file externalization, you can even use key features provided by your monitoring tools to gain even more insight into your event	2021-10-06 00:00:00.0000000	2021-10-05 00:00:00.0000000	True
+19	Research Data Framework (RDaF) 	This research data lifecycle has six stages: Envision; Plan; Generate/Acquire; Process/Analyze; Share/Use/Reuse; and Preserve/Discard
+What is the Research Data Framework?
+- A map of the research data space:  who, what, where, why, when?
+- A dynamic guide for the various stakeholders in research data to understand best practices for research data management and dissemination
+- A resource for understanding costs, benefits, and risks associated with research data management
+- A consensus document based on inputs and conversations amongst the stakeholders in research data
+- A tool that may be used to change the research data management culture in an organization
+- The Preliminary RDaF
+- The structure of the RDaF follows that of the NIST Cybersecurity and Privacy Frameworks, which consist of three parts: the Framework Core, the Framework Profiles, and Implementation Tiers.
+
+The Framework Core has four elements:
+
+- Functions organize foundational research data-related activities at their highest level. As depicted in the figure above, a lifecycle approach was selected as the organizing concept of the Framework Core.
+- Categories are topics for a Core Function that are closely tied to programmatic needs and activities, as well as other important factors.
+- Subcategories further divide a Category into more specific topics.
+- Informative References are standards, guidelines, and practices associated with a Subcategory that provide the means to address that topic.
+
+Framework Profiles allow the RDaF to be tailored to different levels of stakeholders/users from a CEO to an individual researcher. To develop a Framework Profile, an organization can review all the Categories and Subcategories and determine which are relevant for an organizational unit and/or job function. Categories and Subcategories can be added as needed to fully adapt the RDaF to the specific need or use. Framework Profiles may be used to conduct self-assessments of research data management and communicate the results within an organization or between organizations.
+
+Implementation Tiers are under development and are not available in the current version of the RDaF.
+
+Next Steps
+The objective of the next phase in the development of the RDaF is to test the applicability and usefulness of the Framework Core. To accomplish this objective, two concurrent pilot studies—one in Materials Science and the other encompassing various stakeholder roles in Research Universities and their Libraries, Scholarly Publishers, and Professional Societies—will be conducted.  
+
+How can you or your organization become involved in the RDaF development?
+- Contact Robert Hanisch, robert.hanisch@nist or Debbie Kaiser, debra.kaiser@nist.gov
+- Organize and host an informational webinar on the RDaF
+- Assist with the pilot studies through, e.g., identification of participants and organization of e-meetings on relevant topics
+- Identify informative references, both existing and under development, that are associated with the Subcategories in the RDaF Framework Core
+- Promulgate the RDaF through engagement and outreach activities at relevant technical events and venues
+- Publish notices concerning the RDaF in topical newsletters, journals, and social media
+
+Presentations
+
+Robert Hanisch's invited presentations on the RDaF (acronyms defined below*)
+
+MaRDA Working Group (6/3/21); RDA (4/21/21); ACS meeting: (4/14/21); AAU/APLU Research Data Summit (3/16/21); ORCID, DataCite (1/25/21); Future of Federally Supported Data Repositories workshop, panel and presentation (1/13-15/21); NIH Bio-Medical Information Council (1/13/21); Argonne National Lab, general symposium (12/17/20); Argonne National Lab, pre-briefing (12/9/20); FAIR Convergence Workshop (12/1/20); CNI Annual Meeting (11/20/20); SSURF, DOE National Labs (11/9/20); STM CHORUS (11/6/20); NASEM/BRDI (10/14/20); NASEM Review Panel for MML/ODI (9/9/20); OSTP Subcommittee on Open Science (3/26/20); OSTP Director Kelvin Droegemeier (3/26/20) 
+
+* ACS: American Chemical Society; BRDI: NASEM Board on Research Data and Information; CNI: Coalition for Networked Information; FAIR: Findable, Accessible, Interoperable and Reusable; MaRDA: Materials Research Data Alliance; MML: Material Measurement Laboratory (NIST); NASEM: National Academies of Sciences, Engineering, and Medicine; ODI: Office of Data and Informatics (MML, NIST); ORCID: Open Researcher and Contributor; OSTP: Office of Science and Technology Policy; RDA: Research Data Alliance; SSURF: Society of Scientific User Research Facilities; STM: International Association of Scientific, Technical and Medical Publishers
+	2021-10-05 00:00:00.0000000	2021-10-05 00:00:00.0000000	True
+20	Trusted AI framework for a new class of Standard Reference Materials and Data with exquisitely characterized uncertainty for billions of properties
+Share	The measurement of diverse molecular classes in biospecimens containing millions of molecules, known as omics, is increasingly important in the life sciences and medicine, and used to find novel cancer therapeutics, discover COVID-19 infection pathways, and diagnose diseases. NIST RMs and SRDs for genomics (measurement of DNA sequence) and proteomics (the measurement of proteins translated from the genome) are widely used in omics research and regulated clinical applications, including the first FDA authorization of a next-generation sequencing device. However, these standards have limited uncertainty information and only cover 80-90% of the genome and less than 20% of the proteome. The standards omit challenging but important genetic loci, such as loci essential to understanding the immune system. Reducing this gap in coverage requires analyzing billions of data points, which is beyond human abilities, but not beyond the capability of modern AI. We propose to create a suite of AI models trained on our large, high quality genomic and proteomic datasets to increase the coverage of the genome and proteome to >99%. It is essential that AI used in SRM's and SRD's be certified and trustworthy so that our industrial, academic, and government stakeholders can perform groundbreaking biomedical research and create novel applications for the clinic, such as testing for immunological and neurological disorders. To that end, we will investigate two bases of trust: accurate estimates of uncertainty and explanations of AI outputs. Both are active areas of research in AI and largely unexplored in biometrology, so application of these methods in light of our deep understanding of structures and biases in genomic and proteomic data will expand the use of AI not only into the different omics subfields, but throughout biometrology.	2021-10-05 00:00:00.0000000	2021-10-05 00:00:00.0000000	True
+21	New Online Tool to Improve Stakeholder Engagement with SP 800-53	A new SP 800-53 controls Public Comment Site is now available for interacting with, downloading, and submitting security and privacy controls, baselines, and assessments. We’ve heard your feedback about improving the usability of our most downloaded NIST publication, Special Publication (SP) 800-53! We have now made it available in additional data formats (e.g., CSV, XML, OSCAL, and online) and have improved the overall accessibility of the document.
+
+In response to your suggestions (and in the spirit of the NIST publication development principles), we have also developed a new online tool to allow stakeholders to provide real-time input and plan for future changes. This tool is a model for how standards and guidelines can keep pace with changes in technology and society, encourage all stakeholders to participate in the NIST standards/publication development and review process, and modernize how certain types of publications are issued in a more user-friendly manner.
+
+The NIST SP 800-53 Controls Public Comment Site now enables stakeholders to:
+
+- Keep up to date with the SP 800-53 controls and SP 800-53B control baselines, and access the most current controls in multiple data formats to manage cybersecurity, privacy, and supply chain risk.
+ 
+- Provide feedback more easily on the controls and baselines and track how feedback is addressed. Users can comment and provide suggestions on the controls, control enhancements, and control baselines any time. Users will also receive automated updates on the status of submitted comments and suggestions.
+ 
+- Participate in comment periods to review draft controls and changes to control baselines proposed for a future release of SP 800-53 and SP 800-53B. During public comment periods, reduce the level of effort needed to review and comment on proposed changes, engage in conversations with other stakeholders about proposed changes, and provide feedback to NIST via the SP 800-53 Public Comment Site. 
+ 
+- Prepare for updates to SP 800-53 and SP 800-53B. With a new regular update schedule, stakeholders can better allocate resources to participate in the NIST feedback process, as well as plan for and preview updates to SP 800-53. 
+
+Released	2021-10-05 00:00:00.0000000	2021-10-05 00:00:00.0000000	True
+22	The top 10 IT outsourcing service providers
+Accenture, TCS, and Cognizant remain atop an IT service provider market in a year of global upheaval and talent challenges, according to Everest Group’s 6th annual rankings. The top four outsourcers on Everest Group’s annual ranking of the top IT service providers remain unchanged this year, with Accenture taking the top stop for the fifth year in a row. Coming in behind Accenture are TCS, Cognizant, and Wipro.	All four continue to be the preferred partners for large enterprise buyers, particularly during the uncertainty of 2020. “Despite early challenges during COVID, all of them continued to be strong on execution even as service resilience and India as a reliable location for global IT services delivery came into question,” says Abhishek Singh, partner with Everest Group.
+
+While the top four remain solidly atop this list, their future rankings are not necessarily certain giving ongoing challenges of talent availability and upskilling.
+
+Another nuance to note among the top four IT outsourcing providers is the significant amount of changes seen within Wipro and Cognizant in the past two years. Brian Humphries, former CEO and board member of Vodafone Business, joined Cognizant as CEO in April 2019, where he has focused on growing the company’s international market and expanding its innovation portfolio. Thierry Delaporte — the former COO of CapGemini, who was credited with overhauling its India operations — took over as the new CEO of Wipro in July, driving the company’s stock price up before he even began his tenure.
+
+“Both organizations — especially Wipro — appear to have stabilized under their new leadership,” Singh says.
+
+This year’s ranking has HCL edging out Delaporte’s former employer CapGemini for the No. 5 spot, pushing CapGemini to sixth. The switch is more a reflection of HCL’s array of services aligned with pandemic-related needs than any underperformance by CapGemimi’s.
+
+“Capgemini did not do anything wrong. It continues to be a strong and a very fast evolving player,” says Singh. “However, HCL was able to position itself slightly better given its portfolio of services, including workplace solutions, and were primed for demand arising out of the COVID situation.”
+
+Top 10 IT service providers of the year
+1. Accenture
+2. TCS
+3. Cognizant
+4. Wipro
+5. HCL Technologies
+6. Capgemini
+7. Infosys
+8. IBM
+9. DXC Technology Company
+10. NTT DATA
+Credit: Everest Group 2021
+
+Other outsourcers moving up the overall list of top 25 providers were India-headquartered Infosys (moving up from eight place to seventh) and LTI (Larsen & Toubro Infotech, from 16th to 11th). US-based Deloitte also moved up, to the 12th spot from 15. “Infosys continues to perform better in the market, both on new deal wins and existing deal executions,” Singh says. Infosys does particularly well on the Everest ranking because client feedback is a significant factor in the calculation.
+
+Everest Group has been ranking service providers based on their performance in 26 categories, including key business lines, geographies, and technologies. The consulting and research firm also categorizes service providers as leaders, star performers, major contenders, or aspirants in each area. This year the company consolidated that information for 100 providers to come up with the overall rankings for the global IT outsourcing industry.
+
+LTI tied with HCL and Accenture for the special distinction of top star performer, denoting that they say the greatest positive movement in evaluation year over year. “All three have shown strong movement on capability enhancement — Accenture on cloud, HCL on products and platforms, and LTI on overall infrastructure services — and achieved growth at the same time,” explains Singh.
+
+LTI was also named the top IT service provider challenger, Everest Group’s designation for companies with less than $2 billion in revenue that are credible partners for enterprise customers in the digital-first era. Also worth noting in the small but mighty category is Coforge (formerly NTT Tech) up from seventh to fifth place on the challenger ranking. 
+
+“Coforge has continued to make significant advances under a new leadership,” says Singh. “It has transitioned from a slow growth midsize player to be considered in the fast growth pack of challengers.”
+
+While six of the top 25 IT service providers retained their ranking on the top 25 list, seven slipped. Within the top 10, IBM fell from No. 7 to No. 8, held back in part by its infrastructure business (since renamed Kyndryl and spun off).
+
+“IBM’s fall is part of a secular trend we have seen across the years,” says Singh. “With the divestment of Kyndryl, we hope to see a stronger growth profile from IBM. However, since our awards are based on a wide range of evaluations that range from the new (IBM) to the old (Kyndryl) service types, IBM’s rise in our service provider ranking may take a few cycles to accomplish.”
+
+Looking ahead, Accenture remains the firm to beat. “From the depth of services (from design to implementation) and breadth across horizontal and vertical segments, Accenture continues to stay ahead of the pack,” Singh says. “TCS continues to be a strong contender as they are able to manage transformation at scale.”
+
+Availability and project-ready talent will make the difference: both big issues for enterprise IT buyers. “There is a huge demand-supply gap, which is spiking attrition for IT services players, impacting execution,” says Singh. “For next-gen technologies such as cloud and data, quality of available talent is adding to the complexity. Hence, service providers have a two-pronged challenge: talent acquisition and skill development. Both are challenging, but upskilling is a long game: much more difficult plan and execute.”
+
+Accenture could falter if it is unable to keep its execution engine running. “High attrition, high prices, combined with poor provisioning or execution are aspects that enterprises watch closely from a supplier risk perspective,” Singh says. “Any vulnerability or opening and competitors are prepared to jump in and snatch their meal.”	2021-10-05 00:00:00.0000000	2021-10-05 00:00:00.0000000	True
+
+
+Event 
