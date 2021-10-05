@@ -26,48 +26,74 @@
                 <ValidationMessage For="@(() => Input.Name)" />
             </div>
             <div class="col-lg-6">
-                <label class="form-label fw-bold">@nameof(Input.Description) <span class="text-danger fw-bold">*</span></label>
+                <label class="form-label fw-bold">@nameof(Input.Description) <span
+                        class="text-danger fw-bold">*</span></label>
                 <InputTextArea @bind-Value="Input.Description" class="form-control" />
                 <ValidationMessage For="@(() => Input.Description)" />
             </div>
             <div class="col-lg-12 @(updateSubject ? "" : "d-none")">
-                <label class="form-label fw-bold text-center w-100">Subjects <span class="text-danger fw-bold">*</span></label>
+                <label class="form-label fw-bold text-center w-100">Subjects <span
+                        class="text-danger fw-bold">*</span></label>
                 <div class="checkbox form-switch">
                     @foreach (var subject in Subjects)
                     {
+                        @* If the current subject in this course contain id, then pre check the checkbox *@
+
                         <label class=" form-check-label fw-bold" for="@(subject.Id + "check")">
                             @(subject.Name)
-                            <input class="form-check-input mx-lg-3 mx-sm-1 mx-md-2"
-                                   type="checkbox"
-                                   @onclick="() => AddSubject(subject.Id)"
-                                   id="@(subject.Id + "check")"
-                                   checked="@(CurSubInCourseIds.Contains(subject.Id) ? "true" : "false")">
-                            @* If the current subject in this course contain id, then pre check the checkbox *@
+                            @if (CurSubInCourseIds.Contains(subject.Id))
+                            {
+                                <input class="form-check-input mx-lg-3 mx-sm-1 mx-md-2" type="checkbox"
+                            @onclick="() => AddSubject(subject.Id)" id="@(subject.Id + "check")" checked>
+                            }
+                            else
+                            {
+                                <input class="form-check-input mx-lg-3 mx-sm-1 mx-md-2" type="checkbox"
+                            @onclick="() => AddSubject(subject.Id)" id="@(subject.Id + "check")">
+                            }
                         </label>
                     }
                 </div>
                 @*<ValidationMessage For="@(() => Input.SubjectIds)" />*@
             </div>
             <div class="col-lg-4">
-                <label class="form-label fw-bold">@nameof(Input.StartDate) <span class="text-danger fw-bold">*</span></label>
+                <label class="form-label fw-bold">@nameof(Input.StartDate) <span
+                        class="text-danger fw-bold">*</span></label>
                 <InputDate @bind-Value="Input.StartDate" class="form-control" />
                 <ValidationMessage For="@(() => Input.StartDate)" />
             </div>
             <div class="col-lg-4">
-                <label class="form-label fw-bold">@nameof(Input.EndDate) <span class="text-danger fw-bold">*</span></label>
+                <label class="form-label fw-bold">@nameof(Input.EndDate) <span
+                        class="text-danger fw-bold">*</span></label>
                 <InputDate @bind-Value="Input.EndDate" class="form-control" />
                 <ValidationMessage For="@(() => Input.EndDate)" />
             </div>
             <div class="form-check col-md-2 col-sm-6 form-switch isBasic">
                 <label class="form-check-label fw-bold" for="isExtra">@nameof(Input.IsExtra)</label>
                 <div>
-                    <input class="form-check-input" type="checkbox" @onclick="() => isExtra = !isExtra" checked="@(Input.IsExtra ? "true" : "false")" id="isExtra">
+                    @if (Input.IsExtra)
+                    {
+                        <input class="form-check-input" type="checkbox" @onclick="() => isExtra = !isExtra" checked
+                        id="isExtra">
+                    }
+                    else
+                    {
+                        <input class="form-check-input" type="checkbox" @onclick="() => isExtra = !isExtra" id="isExtra">
+                    }
                 </div>
             </div>
             <div class="form-check col-md-2 col-sm-6 form-switch isExtra">
                 <label class="form-check-label fw-bold" for="isBasic">@nameof(Input.IsBasic)</label>
                 <div>
-                    <input class="form-check-input" type="checkbox" @onclick="() => isBasic = !isBasic" checked="@(Input.IsBasic ? "true" : "false")" id="isBasic">
+                    @if (Input.IsBasic)
+                    {
+                        <input class="form-check-input" type="checkbox" @onclick="() => isBasic = !isBasic" checked
+                        id="isBasic">
+                    }
+                    else
+                    {
+                        <input class="form-check-input" type="checkbox" @onclick="() => isBasic = !isBasic" id="isBasic">
+                    }
                 </div>
             </div>
             <div class="col-lg-12">
