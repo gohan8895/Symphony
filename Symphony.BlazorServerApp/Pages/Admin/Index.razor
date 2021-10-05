@@ -1,24 +1,151 @@
 ﻿@page "/admin/dashboard"
 
+@using Symphony.ViewModels.Consult
+@using Symphony.ViewModels.CourseViewModel
+@using Symphony.BlazorServerApp.Services.CourseServices
+@using Symphony.BlazorServerApp.Services.SubjectServices
+@using ChartJs.Blazor.PieChart
+@using ChartJs.Blazor.BarChart
+
+@inject ICourseService courseService
+@inject ISubjectService subjectService
+@inject UserManager<AppUser> userManager
+
 <div class="container-fluid">
-    <div class="Welcome">
-        <h3 class="fw-bold">OVERVIEW</h3>
-        <h1>Welcome Admin</h1>
-    </div>
     <div class="main-content">
-        <div class="content-1"></div>
-        <div class="content-2"></div>
-        <div class="content-3"></div>
-        <div class="content-4"></div>
-        <div class="content-5"></div>
-        <div class="content-6"></div>
-        <div class="content-7"></div>
-        <div class="content-8"></div>
-        <div class="content-9"></div>
-        <div class="content-10"></div>
+        <div class="content rounded-3 content-1">
+            <div>
+                <p class="fw-bold">OVERVIEW</p>
+                <h2 class="fw-bolder">Welcome Admin</h2>
+            </div>
+            <div class="">
+                <p>
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident debitis adipisci
+                    pariatur suscipit, nihil ratione doloribus temporibus minima voluptate repellendus.
+                </p>
+            </div>
+        </div>
+        <div class="content rounded-3 content-2 shadown-lg">
+            <Chart Config="pieConfig" @ref="pieChartJs"></Chart>
+        </div>
+        <div class="content rounded-3 content-3 shadown-lg">Lorem ipsum dolor sit amet.</div>
+        <div class="content rounded-3 content-4 shadown-lg">
+            <h3>Student Information</h3>
+            <Chart Config="barConfig" @ref="barChartJs"></Chart>
+        </div>
+        <div class="content rounded-3 content-5 shadown-lg">Lorem ipsum dolor sit amet.</div>
+        <div class="content rounded-3 content-6 shadown-lg">Lorem ipsum dolor sit amet.</div>
+        <div class="content rounded-3 content-7 shadown-lg">Lorem ipsum dolor sit amet.</div>
     </div>
 </div>
 
 @code {
+    public IEnumerable<CourseWithSubjects> Courses { get; set; } = Array.Empty<CourseWithSubjects>();
+    public IEnumerable<SubjectVM> Subjects { get; set; } = Array.Empty<SubjectVM>();
+    public IEnumerable<AppUser> Students { get; set; } = Array.Empty<AppUser>();
+    public IEnumerable<AppUser> Teachers { get; set; } = Array.Empty<AppUser>();
 
+    #region chart config
+    private Chart pieChartJs = new();
+    private Chart barChartJs = new();
+    private PieConfig pieConfig = new();
+    private BarConfig barConfig = new();
+    #endregion
+
+    protected override void OnInitialized()
+    {
+        #region chart
+        pieConfig = new PieConfig
+        {
+            Options = new PieOptions
+            {
+                Responsive = true,
+                Title = new OptionsTitle
+                {
+                    Display = true,
+                    Text = "ChartJs.Blazor Pie Chart"
+                }
+            }
+        };
+
+        foreach (string color in new[] { "Red", "Yellow", "Green", "Blue" })
+        {
+            pieConfig.Data.Labels.Add(color);
+        }
+
+        PieDataset<int> dataset = new PieDataset<int>(new[] { 6, 5, 3, 7 })
+        {
+            BackgroundColor = new[]
+            {
+            ColorUtil.ColorHexString(255, 99, 132), // Slice 1 aka "Red"
+            ColorUtil.ColorHexString(255, 205, 86), // Slice 2 aka "Yellow"
+            ColorUtil.ColorHexString(75, 192, 192), // Slice 3 aka "Green"
+            ColorUtil.ColorHexString(54, 162, 235), // Slice 4 aka "Blue"
+            }
+        };
+
+        pieConfig.Data.Datasets.Add(dataset);
+
+        barConfig = new BarConfig
+        {
+            Options = new BarOptions
+            {
+                Responsive = true,
+                Title = new OptionsTitle
+                {
+                    Display = true,
+                    Text = "Student Info Chart",
+                    FontColor = ColorUtil.ColorHexString(255, 255, 255)
+                },
+                Animation = new Animation
+                {
+                    Duration = 1000,
+                    Easing = Easing.EaseInBack
+                },
+                Tooltips = new Tooltips
+                {
+                    BackgroundColor = ColorUtil.ColorString(219, 152, 39),
+                    BorderColor = ColorUtil.ColorHexString(219, 175, 23),
+                    BodyFontColor = ColorUtil.ColorHexString(255, 255, 255),
+                    FooterFontColor = ColorUtil.ColorHexString(255, 255, 255)
+                },
+                Legend = new Legend
+                {
+                    Display = true,
+                    Labels = new LegendLabels()
+                    {
+                        FontColor = ColorUtil.ColorHexString(255, 255, 255)
+                    }
+                }
+            }
+        };
+
+        foreach (string month in new[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" })
+        {
+            barConfig.Data.XLabels.Add(month);
+        }
+
+        foreach (string amount in new[] { "5", "10", "15", "20", "25", "30", "35", "40", "45", "50" })
+        {
+            barConfig.Data.YLabels.Add(amount);
+        }
+
+        
+
+        BarDataset<int> barDataSet = new BarDataset<int>(new[] { 10, 8, 20, 45, 30, 35, 30, 10, 30, 50, 40, 25 });
+
+        barConfig.Data.Datasets.Add(barDataSet);
+        barDataSet.BackgroundColor = ColorUtil.ColorHexString(219, 152, 39);
+        barDataSet.BorderColor = ColorUtil.ColorHexString(219, 175, 23);
+        barDataSet.Label = "Number of Enrollments";
+        #endregion
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        Courses = (await courseService.GetCourseVMsAsync()).ToList();
+        Subjects = (await subjectService.GetSubjectVMsAsync()).ToList();
+        Students = await userManager.GetUsersInRoleAsync("student");
+        Teachers = await userManager.GetUsersInRoleAsync("teacher");
+    }
 }
