@@ -35,8 +35,9 @@
             {
                 <ul class="nav flex-column">
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link expand-menu" href="admin/userManagement/adminManager"><span
-                            class="material-icons me-2">badge</span>Admin</NavLink>
+                        <NavLink class="nav-link expand-menu" href="admin/userManagement/adminManager">
+                            <span class="material-icons me-2">badge</span>Admin
+                        </NavLink>
                     </li>
                     <li class="nav-item px-3">
                         <NavLink class="nav-link expand-menu" href="admin/userManagement/teacherManager">
@@ -68,12 +69,21 @@
             {
                 <ul class="nav flex-column">
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link expand-menu" href="admin/course"><span
-                            class="material-icons me-2">people</span>Course</NavLink>
+                        <NavLink class="nav-link expand-menu" href="admin/course">
+                            <span class="material-icons me-2">manage_search</span>Course Manager
+                        </NavLink>
                     </li>
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link expand-menu" href="admin/subject"><span
-                            class="material-icons me-2">subject</span> Subject</NavLink>
+                        <NavLink class="nav-link expand-menu" href="admin/subject">
+                            <span class="material-icons me-2">subject</span> Subject
+                        </NavLink>
+                    </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="/courses">
+                            <span class="material-icons me-2">
+                                class
+                            </span> Courses Page
+                        </NavLink>
                     </li>
                 </ul>
             }
@@ -91,12 +101,14 @@
             {
                 <ul class="nav flex-column">
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link expand-menu" href="admin/examManagement"><span
-                            class="material-icons me-2">quiz</span>Exam</NavLink>
+                        <NavLink class="nav-link expand-menu" href="admin/examManagement">
+                            <span class="material-icons me-2">quiz</span>Exam
+                        </NavLink>
                     </li>
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link expand-menu" href="admin/resultManagement"><span
-                            class="material-icons me-2">task</span> Result</NavLink>
+                        <NavLink class="nav-link expand-menu" href="admin/resultManagement">
+                            <span class="material-icons me-2">task</span> Result
+                        </NavLink>
                     </li>
                 </ul>
             }
@@ -138,13 +150,6 @@
             }
         </li>
         <li class="nav-item px-3 ">
-            <NavLink class="nav-link" href="/courses">
-                <span class="material-icons me-2">
-                    class
-                </span> Courses
-            </NavLink>
-        </li>
-        <li class="nav-item px-3 ">
             <NavLink class="nav-link" href="/studentCorner">
                 <span class="material-icons me-2">
                     menu_book
@@ -154,7 +159,7 @@
         <li class="nav-item px-3 fw-bold btn">
             <NavLink class="nav-link" @onclick="() => expandFAQ = !expandFAQ">
                 <span class="material-icons me-2">
-                    help
+                    question_answer
                 </span> FAQ Management
                 <span class="material-icons me-2">
                     @(expandFAQ ? "expand_less" : "expand_more")
@@ -166,7 +171,7 @@
                     <li class="nav-item px-3">
                         <NavLink class="nav-link expand-menu" href="/admin/faq">
                             <span class="material-icons me-2">
-                                badge
+                                manage_search
                             </span> FAQ Manager
                         </NavLink>
                         <NavLink class="nav-link expand-menu" href="/faq">
@@ -181,7 +186,7 @@
         <li class="nav-item px-3 fw-bold btn">
             <NavLink class="nav-link" @onclick="() => expandNew = !expandNew">
                 <span class="material-icons me-2">
-                    help
+                    article
                 </span> New Management
                 <span class="material-icons me-2">
                     @(expandNew ? "expand_less" : "expand_more")
@@ -193,12 +198,12 @@
                     <li class="nav-item px-3">
                         <NavLink class="nav-link expand-menu" href="/admin/new">
                             <span class="material-icons me-2">
-                                question_answer
+                                manage_search
                             </span> News Manager
                         </NavLink>
                         <NavLink class="nav-link expand-menu" href="/new">
                             <span class="material-icons me-2">
-                                question_answer
+                                article
                             </span> New Page
                         </NavLink>
                     </li>
@@ -218,8 +223,9 @@
             {
                 <ul class="nav flex-column">
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link expand-menu" href="admin/aboutus"><span
-                            class="material-icons me-2">badge</span>Manage About</NavLink>
+                        <NavLink class="nav-link expand-menu" href="admin/aboutus">
+                            <span class="material-icons me-2">manage_search</span>About Manager
+                        </NavLink>
                     </li>
                     <li class="nav-item px-3">
                         <NavLink class="nav-link expand-menu" href="/aboutus">
@@ -235,7 +241,7 @@
         <li class="nav-item px-3 fw-bold btn">
             <NavLink class="nav-link" @onclick="() => expandEvent = !expandEvent">
                 <span class="material-icons me-2">
-                    help
+                    event
                 </span> Event Management
                 <span class="material-icons me-2">
                     @(expandEvent ? "expand_less" : "expand_more")
@@ -245,13 +251,14 @@
             {
                 <ul class="nav flex-column">
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link expand-menu" href="admin/event"><span
-                            class="material-icons me-2">badge</span>Manage Event</NavLink>
+                        <NavLink class="nav-link expand-menu" href="admin/event">
+                            <span class="material-icons me-2">manage_search</span>Manage Event
+                        </NavLink>
                     </li>
                     <li class="nav-item px-3">
                         <NavLink class="nav-link expand-menu" href="/event">
                             <span class="material-icons me-2">
-                                help
+                                event
                             </span> Event
                         </NavLink>
                     </li>
