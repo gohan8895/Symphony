@@ -185,3 +185,71 @@ Accenture could falter if it is unable to keep its execution engine running. “
 
 
 Event 
+
+17	Training on Ubuntu System Administration	About the Program
+The objective of this six days of training is to provide inputs to members of IT cells, systems administrators and technical systems manpower in organisations to manage the Ubuntu Linux server. The training meets the requirement starting from the basic to intermediate level. The basic and intermediate level training are being conducted separately. The basic level will be suitable to fresh graduates also preferably with some exposure to Linux. Participants can join both the levels or any one of the levels based on their present skills levels. The maximum number of participants will be 20 and registration will be on a first come first serve basis.
+	2021-10-05 00:00:00.0000000	2021-10-05 00:00:00.0000000	True
+18	GERMAN COOPERATION IS A HEADLINE SPONSOR OF THE 2021 UNC WATER AND HEALTH CONFERENCE	The global WASH in Schools (WinS) Network, through the support of Fit for School being implemented by GIZ and funded by BMZ, is proud to sponsor the 2021 UNC Water and Health Conference that will be held virtually on October 4 to 8, 2021. Read more of what the conference has to offer here: https://waterinstitute.unc.edu/conferences/2021wh
+
+The annual UNC Water and Health Conference serves as a venue where policymakers, practitioners and researchers can gather to review the evidence, interrogate the science and improve old and develop new approaches to expanding WaSH access. Aligned with the continuing commitment to improving public health by achieving universal access to safe drinking water, sanitation and hygiene (WaSH) services that are safe, affordable and sustainable – particularly for the most marginalized.
+
+To access the full agenda, please register for the Conference at https://register.waterandhealthconference.com/.
+
+The WinS Network will offer a lunch session on the topic “Updates and lessons learned on WASH in Schools and safe school reopening during COVID-19” on Tuesday, 5 October at 12:15-.1:pm (US Eastern Time).  The session focuses on safe school reopening, key global guidance documents, as well as good practices to improve WinS and the school reopening process from East Asia and the Pacific region.
+
+GIZ will offer a lunch session on the topic “Climate Resilient Urban Sanitation” on Wednesday, 6 October at 12:15-.1:pm (US Eastern Time), highlighting lessons learnt from the recently published study “Climate Resilient Urban Sanitation: Accelerating the Convergence of Sanitation and Climate Action”. Sanitation can be a crucial driver for climate change adaptation and mitigation in cities. Join this session, if you want to learn more about how investments in resilient sanitation systems, can contribute to safeguard public health and create a sustainable economy around sanitation services.
+
+If you are participating from time zones in South-East Asia or Africa, don’t worry! GIZ will further co-host two Late Early Shows:
+
+for Southeast Asia and the Pacific on Thursday, 7 October 2021 at 9:00 (Bangkok time), co-hosted with the WASH Futures Conference team
+for Africa on Wednesday, 6 October, 1pm (CEST), co-hosted with UNICEF.
+The hosts will speak with conference attendees as well as panel of WASH leaders in various parts of the world to recap the events.
+
+Come and join us at UNC Water and Health 2021!	2021-10-05 00:00:00.0000000	2021-10-05 00:00:00.0000000	True
+19	FIT FOR SCHOOL AT THE WORLD WATER WEEK STOCKHOLM	As part of the 2021 Stockholm World Water Week, the Fit for School team is pleased to invite you our two sessions on the topics “Cleanliness at your fingertips: Calculate WASH costs with your phone” and on “Approaching One Health through Water, Sanitation and Hygiene in Schools”.
+
+“Cleanliness at your fingertips: Calculate WASH costs with your phone” will be taking place on the 24 August 2021 at 10:00 CET (15:00 Jakarta/Phnom Penh/Vientiane; 16:00 Manila) and will feature a guide to the Operation and Maintenance costing app “Calculate the Cost” developed by GIZ, including a test scenario to experience using the app, followed by a discussion on adaptations to focus on WASH in Healthcare facilities and other potential settings. For more information on the panelists and the agenda please follow this link: https://www.worldwaterweek.org/event/10070-cleanliness-at-your-fingertips-calculate-wash-costs-with-your-phone
+
+Our “Approaching One Health through Water, Sanitation and Hygiene in Schools” session will be taking place on the 27 August 2021 at 7:00 CET (12:00 Jakarta/Phnom Penh/Vientiane; 13:00 Manila) and will feature a panel discussion with key experts from the German Federal Ministry of Economic Cooperation and Development (BMZ), the World Health Organization (WHO), GIZ and the University of the Philippines.
+
+The objective of the session is to highlight how the One Health concept can be operationalized through school-based interventions, since schools offer a unique and concrete entry point to address public health concerns through existing government structures with a strong focus on prevention and behavior change. For more information on the panelists and the agenda please follow this link: https://www.worldwaterweek.org/event/10068-approaching-one-health-through-water-sanitation-and-hygiene-in-schools
+
+Participation is free of charge, but prior registration is necessary and can be accessed here: https://www.worldwaterweek.org/tickets (select option ‘limited access – free of charge’).
+
+Please feel free to share the information about this event with your colleagues and networks!
+
+We are looking forward to discussing with you during Stockholm World Water Week 2021!	2021-10-05 00:00:00.0000000	2021-10-05 00:00:00.0000000	True
+20	BATU BARA DISTRICT LAUNCHES PROGRAM ON PANDEMIC PREPAREDNESS AND RESPONSE FOR SAFE SCHOOL REOPENING	BATU BARA DISTRICT, 15 April 2021 – District Educational Office (DEO) of Batu Bara District, in collaboration with Ministry of Education and Culture (MOEC) and with support from the Deutsche Gesellschaft für Internationale Zusammenarbeit (GIZ) GmbH and Hygiene Behaviour Change Coalition (HBCC), officially launched the project “Harnessing the power of hygiene and behavior change in schools to fight COVID-19” at the Hall of the Regent’s Residence in Batu Bara District.
+
+The event was attended by 54 participants which comprises of representatives from 20 model schools, DEO, Department of Health in District level and GIZ team, and successfully covered by more than 75 local media (newspapers and local TV). The MoEC’s Director of Basic Education and GIZ-HBCC Deputy Regional Manager also virtually attended via zoom meeting.
+
+Deputy Regional Manager HBCC-GIZ Program, Dr. Johann Leonardia expressed appreciation to MoEC and DEO for their support on this project as well as to the selected schools who were willing to model the implementation of these guidelines and interventions. “Through commitment in undertaking this joint effort, we can altogether better learn how these measures can be best managed by the school community and its stakeholders. And in doing so, valuable, and practical lessons on how best to realize national guidelines for reopening schools can be gained and shared with the rest of Indonesia, the rest of Asia, and the rest of the world.”, he added.
+
+Director of Primary Schools of MoEC, Ms. Sri Wahyuingsih emphasized that health protocol shall always be monitored and become a long-term habit for the students. She reiterated MoEC’s full support for this project which is in line with the realisation of six values of Pancasila student profile. She added that Batu Bara District is one of the two selected districts in Indonesia to implement this joint effort.
+
+The project launch event included school orientation for 20 model schools and workshop on Preparedness and Responses (PPR) measures in schools to ensure these schools can start face-to-face learning activities safely for children. With support from (GIZ) GmbH and HBCC, the DEO also distributed the PPR packages for initial 4 pilot schools, which includes portable hand washing facility (WASHaLOT 3.0), hygiene kit package for cleaners and toilet users, and Information, Education, and Communication (IEC) materials. The PPR packages for the remaining schools will be distributed in June 2021 before the start of the next academic year. These interventions are in line with MoEC’s national guidelines for reopening schools during pandemic.
+
+<< Back to News & Events	2021-10-05 00:00:00.0000000	2021-10-05 00:00:00.0000000	True
+21	VIDEO SERIES ON WASH IN SCHOOLS GUIDELINES RELEASED BY THE CAMBODIAN SCHOOL HEALTH DEPARTMENT	The Minimum Requirement Guidelines on Water, Sanitation, and Hygiene in Schools (WinS), developed by the School Health Department (SHD) of the Cambodian Ministry of Education, Youth and Sport (MoEYS) were endorsed by the Minister in November 2016.
+
+The guidelines were developed to assist Cambodian schools in upgrading their school environment and management, ensuring that the school’s water, sanitation, and hygiene (WASH) situation meet the basic demands of Cambodian students in order to reduce infectious disease rates, especially diarrhea and respiratory infections, as well as reducing malnutrition. The guidelines can be found HERE.
+
+The success in implementing the Minimum Requirement Guidelines for WASH improvements is dependent upon a detailed understanding of the objective and contents of the guidelines, especially that of school principals and teachers. However, experiences from orientations, field testing and the baseline collection suggests that many school principals are not yet fully familiar with the contents of the MR Guidelines and how to use the monitoring tools.
+
+Therefore, to support the training of sub-national education officers, school principals and teachers, Fit for School supported the development of a video series on the Minimum Requirement Guidelines for WinS to complement the main guidance document. The videos consist of an introduction by the Minister of Education, Youth and Sport on the concept and objective of the MR Guidelines on WinS, and there are separate videos with concrete recommendations on the different categories such as drinking water, latrines and urinals, handwashing facilities, and the school environment and safety. Another video is dedicated to the monitoring and evaluation process to help educators understand how to use the tools and report on their school´s WASH status. You can access the MR videos on the Fit for School Youtube Channel HERE.
+
+Beginning in November 2018, all schools in Cambodia are required by MoEYS to conduct an annual self-assessment of the school’s WinS situation on the basis of the MR indicators and checklists, the results of which are then reported to the national level and will be monitored as part of the Education Strategic Plan (ESP) 2019-2023.	2021-10-05 00:00:00.0000000	2021-10-05 00:00:00.0000000	True
+22	UN DEPARTMENT FOR ECONOMIC AND SOCIAL AFFAIRS SELECTS FIT FOR SCHOOL AS A SDG GOOD PRACTICE	The regional Fit for School program has been selected as one of 16 outstanding Sustainable Development Goals (SDGs) Good Practices across the world to be featured in the UN Department for Economic and Social Affairs (DESA) digital publication “First Edition-SDG Good Practices: A compilation of success stories and lessons learnt in SDG implementation.”
+
+At the occasion of the publication´s virtual launching event on 02 December 2020, Ms. Kerstin Nagels, the Acting Head of the Department for Asia, Latin America and the Caribbean of GIZ, outlined some of the remarkable upscaling success stories of the Fit for School approach and program, observing that “with partner monitoring systems as its sources, the Fit for School M&E Framework documents that by 2020 more than 14.9 million children have directly been reached by the Fit for School programme”.
+
+Five years into the implementation of the 2030 Agenda and the SDGs, many Governments, UN entities, international and regional organizations and stakeholders are stock-taking of progress: What are the inspiring breakthroughs and success stories that are showing results and impacts? What are the good practices that can be replicated and scaled up? What are the gaps and constraints and how should we address them?
+
+To help answer these and other questions, the Division for Sustainable Development Goals (DSDG) in the United Nations Department of Economic and Social Affairs (UN DESA) launched a call for submissions of good practices, success stories and lessons learned by national governments and all stakeholders in the implementation of the 2030 Agenda and the SDGs and the results are made available in an online database of more than 500 good practices (which can be found HERE).
+
+The Fit for School Approach strengthens school-based management to support the implementation of water, sanitation and hygiene programmes, including daily handwashing and toothbrushing and regular deworming, to address pandemic preparedness and high-impact diseases. Combined with improved access to clean water, washing facilities and appropriate sanitation, key determinants of health are addressed in a single intervention package.
+
+A closer exploration of the Fit for School approach and its linkages to the various SDGs can be found HERE (or by clicking the cover picture below).
+
+GIZ was commissioned by the German Federal Ministry of Economic Cooperation and Development (BMZ) to implement the Regional Fit for School Programme since 2011 in partnership with the Southeast Asian Ministries of Education Organization (SEAMEO) and its Regional Center for Educational Innovation and Technology (SEAMEO INNOTECH) in the Philippines, Indonesia, Cambodia and Lao PDR.	2021-10-05 00:00:00.0000000	2021-10-05 00:00:00.0000000	True
+NULL	NULL	NULL	NULL	NULL	NULL
