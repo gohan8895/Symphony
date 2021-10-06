@@ -1,6 +1,8 @@
 ﻿using Symphony.Data.Entities;
+using Symphony.ViewModels.CustomAttributes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -14,6 +16,7 @@ namespace Symphony.ViewModels.Consult
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 
     public class BatchCreateRequest
@@ -22,9 +25,11 @@ namespace Symphony.ViewModels.Consult
         public string Description { get; set; }
 
         [Required]
+        [StartDate]
         public DateTime StartDate { get; set; }
 
         [Required]
+        [EndDate("StartDate")]
         public DateTime EndDate { get; set; }
     }
 
@@ -37,9 +42,11 @@ namespace Symphony.ViewModels.Consult
         public string Description { get; set; }
 
         [Required]
+        [StartDate]
         public DateTime StartDate { get; set; }
 
         [Required]
+        [EndDate("StartDate")]
         public DateTime EndDate { get; set; }
     }
 }

@@ -1,0 +1,76 @@
+﻿@page "/admin/batchManagement/edit/{id:int}"
+
+@using Symphony.BlazorServerApp.Services.BatchServices
+
+@inject IBatchService batchService;
+@inject NavigationManager nav
+
+<div class="container-fluid">
+    <h1 class="text-center fw-bold">Update Batch</h1>
+    @if (Batch is null)
+    {
+        <p>Loading....</p>
+    }
+    else
+    {
+        <EditForm Model="@UpdateRequest" OnValidSubmit="@UpdateBatch">
+            <DataAnnotationsValidator />
+            <ValidationSummary/>
+
+            <div class="row">
+                <div class="col-lg-6 mb-5">
+                    <label class="form-label fw-bold">@nameof(UpdateRequest.Description) <span class="text-danger fw-bold">*</span></label>
+                    <InputText @bind-Value="UpdateRequest.Description" class="form-control" required />
+                    <ValidationMessage For="@(() => UpdateRequest.Description)" />
+                </div>
+                <div class="col-lg-6 mb-5">
+                    <label class="form-label fw-bold">@nameof(UpdateRequest.StartDate) <span class="text-danger fw-bold">*</span></label>
+                    <InputDate @bind-Value="UpdateRequest.StartDate" @oninput="() => startDate = true" class="form-control" required />
+                    <ValidationMessage For="@(() => UpdateRequest.StartDate)" />
+                </div>
+                <div class="col-lg-6 mb-5">
+                    <label class="form-label fw-bold">@nameof(UpdateRequest.EndDate) <span class="text-danger fw-bold">*</span></label>
+                    @if (startDate)
+                    {
+                        <InputDate @bind-Value="UpdateRequest.EndDate" class="form-control" required />
+                        <ValidationMessage For="@(() => UpdateRequest.EndDate)" />
+                    }
+                    else
+                    {
+                        <InputDate @bind-Value="UpdateRequest.EndDate" class="form-control" required disabled />
+                        <ValidationMessage For="@(() => UpdateRequest.EndDate)" />
+                    }
+                </div>
+                <CreateButtonForForm FirstBtn="Update" />
+            </div>
+        </EditForm>
+    }
+</div>
+
+@code {
+    #region props
+    [Parameter]
+    public int Id { get; set; }
+    private BatchVM Batch { get; set; }
+    private BatchUpdateRequest UpdateRequest { get; set; }
+    private bool startDate { get; set; } = false;
+    #endregion
+
+    protected async override Task OnInitializedAsync()
+    {
+        Batch = await batchService.GetBatchVMAsync(Id);
+        UpdateRequest = new BatchUpdateRequest()
+        {
+            Id = Batch.Id,
+            Description = Batch.Description,
+            EndDate = Batch.EndDate,
+            StartDate = Batch.StartDate
+        };
+    }
+
+    private async Task UpdateBatch()
+    {
+        await batchService.UpdateAsync(UpdateRequest);
+        nav.NavigateTo("admin/batchManagement");
+    }
+}
