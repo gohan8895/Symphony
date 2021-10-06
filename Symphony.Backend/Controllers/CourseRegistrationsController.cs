@@ -36,7 +36,7 @@ namespace Symphony.Backend.Controllers
 
         // GET api/<CourseRegistrationsController>/5
         [HttpGet("get-course-registration-by-id/{id}")]
-        public async Task<ActionResult<CourseRegistrationVM>> GetCourseRegistration(int id)
+        public async Task<ActionResult<CourseRegistrationWithDataVM>> GetCourseRegistration(int id)
         {
             var result = await courseRegistrationService.GetCourseRegistrationVMAsync(id);
             if (result == null)

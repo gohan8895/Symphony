@@ -1,0 +1,115 @@
+﻿@page "/admin/registration/{id:int}"
+
+@using Symphony.ViewModels.Consult
+@using Symphony.BlazorServerApp.Services.CourseRegistrationService
+
+@inject ICourseRegistrationService courseRegService
+@inject NavigationManager nav
+
+
+<AuthorizeView Roles="admin">
+    <Authorized>
+        <div class="container-lg">
+            <h1 class="text-center fw-bolder">Registration Manager</h1>
+            @if (Registration is null)
+            {
+                <h3>Loading...</h3>
+            }
+            else
+            {
+                <div class="w-100"><small class="py-2 text-primary text-center">updated: @Registration.CreatedAt.Humanize()</small></div>
+                <div class="main-content flex">
+                    <ul>
+                        <li>
+                            <span class="fw-bolder pe-2">@nameof(Registration.Id):</span>@Registration.Id
+                        </li>
+                        <li>
+                            <span class="fw-bolder pe-2">@nameof(Registration.AppUserVM.FirstName):</span>@Registration.AppUserVM.FirstName
+                        </li>
+                        <li>
+                            <span class="fw-bolder pe-2">@nameof(Registration.AppUserVM.LastName):</span>@Registration.AppUserVM.LastName
+                        </li>
+                        <li>
+                            <span class="fw-bolder pe-2">@nameof(Registration.CourseVM.Name):</span>@Registration.CourseVM.Name
+                        </li>
+                        <li>
+                            <span class="fw-bolder pe-2">@nameof(Registration.CourseVM.StartDate):</span>@Registration.CourseVM.StartDate.ToShortDateString()
+                        </li>
+                        <li>
+                            <span class="fw-bolder pe-2">@nameof(Registration.CourseVM.EndDate):</span>$ @Registration.CourseVM.EndDate.ToShortDateString()
+                        </li>
+                        <li>
+                            <span class="fw-bolder pe-2">@nameof(Registration.CreatedAt):</span>@Registration.CreatedAt.ToShortDateString()
+                        </li>
+                        <li>
+                            <span class="fw-bolder pe-2">@nameof(Registration.IsApproved):</span>@(Registration.IsApproved ? "Approved" : "Not Approved")
+                        </li>
+                        <li>
+                            <span class="fw-bolder pe-2">@nameof(Registration.ExamRequired):</span>@(Registration.ExamRequired ? "Required" : "Not Required")
+                        </li>
+                        <li>
+                            <span class="fw-bolder pe-2">@nameof(Registration.EntranceExamFee):</span>$ @Registration.EntranceExamFee
+                        </li>
+                        <li>
+                            <span class="fw-bolder pe-2">@nameof(Registration.FinalPrice):</span>$ @Registration.FinalPrice
+                        </li>
+                    </ul>
+                </div>
+                <div class="navigator flex">
+                    <div>
+                        <a href="admin/registration" class="back">
+                            Go back to registration manager <span class="ps-3 material-icons">chevron_left</span>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="admin/registratrion/edit/@Registration.Id" class="edit"
+                           data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Update this registration approval status
+                            <span class="ps-3 material-icons">edit</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Change Approve Status</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Do you want to change this registration status?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @onclick="() => ChangeStatus(Registration.Id)">
+                                    Yes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <UnauthorizedAccess />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private CourseRegistrationWithDataVM Registration { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        Registration = await courseRegService.GetCourseRegistrationVMAsync(Id);
+    }
+
+    private async Task ChangeStatus(int id)
+    {
+        if (id != 0) await courseRegService.UpdateAsync(id);
+        Registration.IsApproved = !Registration.IsApproved;   
+    }
+}

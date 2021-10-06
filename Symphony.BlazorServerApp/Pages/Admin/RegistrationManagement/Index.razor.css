@@ -1,23 +1,23 @@
-.flex {
+﻿.flex {
     display: flex;
-    flex-direction:row;
+    flex-direction: row;
     align-items: center;
     margin: auto;
 }
 
 .hover-me:hover {
     text-decoration: underline;
-    color: white;
+    color: #DAED0C;
     font-weight: bolder;
     cursor: pointer;
 }
 
-.subject-name {
+.reg-name {
     text-decoration: none;
     color: #1d1d1d;
 }
 
-.subject-name:hover {
+.reg-name:hover {
     text-decoration: underline;
     font-weight: bolder;
     color: #102498;

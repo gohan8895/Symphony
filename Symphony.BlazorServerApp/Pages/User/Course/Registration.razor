@@ -67,7 +67,7 @@
     </div>
 
     @code {
-        #region
+        #region param & props
         [Parameter]
         public int Id { get; set; }
 
@@ -79,10 +79,12 @@
         private CourseWithSubjects Course { get; set; } = new();
 
         private IEnumerable<SimpleSubjectVM> Subjects { get; set; } = Array.Empty<SimpleSubjectVM>();
+        #endregion
 
+        #region other
         private int duration;
-
         private const string url = "/courses";
+        private int isSuccess;
         #endregion
 
         protected async override Task OnInitializedAsync()
@@ -105,11 +107,14 @@
                 UserId = userId
             };
 
-            await registrationService.CreateCourseRegistrationAsync(CreateCourseRegVM);
+            isSuccess = await registrationService.CreateAsync(CreateCourseRegVM);
 
-            var newRegister = (await registrationService.GetCourseRegistrationWithDataVMsAsync()).FirstOrDefault(r => r.CourseId ==
+            if (isSuccess != 0)
+            {
+                var newRegister = (await registrationService.GetCourseRegistrationWithDataVMsAsync()).FirstOrDefault(r => r.CourseId ==
             Id && r.UserId == userId);
 
-            nav.NavigateTo($"/course/registered/{@newRegister.Id}");
+                nav.NavigateTo($"/course/registered/{@newRegister.Id}");
+            }
         }
     }
