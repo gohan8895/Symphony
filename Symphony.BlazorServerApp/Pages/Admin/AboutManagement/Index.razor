@@ -12,7 +12,13 @@
         @if (events == null)
         {
 
-            <LoadingComponent />
+            <div class="text-center">
+                <div class="loadingio-spinner-bars-f8jbu6upslt">
+                    <div class="ldio-p5olh5z9oq">
+                        <div></div><div></div><div></div><div></div>
+                    </div>
+                </div>
+            </div>
 
         }
         else
@@ -23,15 +29,14 @@
 
                 <TableTemplate Caption="About" Items="events" Context="item">
                     <TableHeader>
-                        <td><p>@nameof(AboutVM.Title)</p></td>
-                        <td><p>@nameof(AboutVM.Content)</p></td>
-                        <td><p>@nameof(AboutVM.IsShown)</p></td>
+                        <th><p>@nameof(AboutVM.Title)</p></th>
+                        <th><p>@nameof(AboutVM.Content)</p></th>
+                        <th><p>@nameof(AboutVM.IsShown)</p></th>
                     </TableHeader>
                     <RowTemplate>
                         <td><p>@item.Title</p></td>
                         <td><p>@item.Content</p></td>
                         <td><p>@item.IsShown</p></td>
-
                     </RowTemplate>
                 </TableTemplate>
             </div>
@@ -50,5 +55,5 @@
         events = result.ToList();
     }
 
-   
+
 }
