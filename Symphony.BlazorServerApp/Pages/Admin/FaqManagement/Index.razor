@@ -11,9 +11,11 @@
         @if (Faqs == null)
         {
 
-            <div class="container">
-                <div class="spinner-border " role="status">
-                    <span class="visually-hidden">Loading...</span>
+            <div class="text-center">
+                <div class="loadingio-spinner-bars-f8jbu6upslt">
+                    <div class="ldio-p5olh5z9oq">
+                        <div></div><div></div><div></div><div></div>
+                    </div>
                 </div>
             </div>
 
@@ -25,9 +27,10 @@
                 <CreateButton Url="admin/faqManagement/createFaq" Who="a New FAQ" />
                 <TableTemplate Caption="FAQS" Items="Faqs" Context="faq">
                     <TableHeader>
-                        <td><p>@nameof(FAQ.Question)</p></td>
-                        <td><p>@nameof(FAQ.Answer)</p></td>
-                        <td><p>@nameof(FAQ.IsShown)</p></td>
+                        <th><p>@nameof(FAQ.Question)</p></th>
+                        <th><p>@nameof(FAQ.Answer)</p></th>
+                        <th><p>@nameof(FAQ.IsShown)</p></th>
+                        <th></th>
                     </TableHeader>
                     <RowTemplate>
                         <td><p>@faq.Question</p></td>
@@ -41,7 +44,7 @@
                 </TableTemplate>
             </div>
         }
-       
+
     </Authorized>
 </AuthorizeView>
 
@@ -51,7 +54,7 @@
     private bool render = false;
     protected async override Task OnInitializedAsync()
     {
-        var result = await faqService.GetFaqsAsync() ;
+        var result = await faqService.GetFaqsAsync();
         Faqs = result.ToList();
     }
 

@@ -13,7 +13,13 @@
             <h1 class="text-center fw-bolder">Registration Manager</h1>
             @if (Registration is null)
             {
-                <h3>Loading...</h3>
+                <div class="text-center">
+                    <div class="loadingio-spinner-bars-f8jbu6upslt">
+                        <div class="ldio-p5olh5z9oq">
+                            <div></div><div></div><div></div><div></div>
+                        </div>
+                    </div>
+                </div>
             }
             else
             {
@@ -110,6 +116,6 @@
     private async Task ChangeStatus(int id)
     {
         if (id != 0) await courseRegService.UpdateAsync(id);
-        Registration.IsApproved = !Registration.IsApproved;   
+        Registration.IsApproved = !Registration.IsApproved;
     }
 }

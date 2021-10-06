@@ -10,7 +10,13 @@
         <div class="container-lg">
             @if (Batches is null)
             {
-                <p>Loading...</p>
+                <div class="text-center">
+                    <div class="loadingio-spinner-bars-f8jbu6upslt">
+                        <div class="ldio-p5olh5z9oq">
+                            <div></div><div></div><div></div><div></div>
+                        </div>
+                    </div>
+                </div>
             }
             else
             {
@@ -136,7 +142,8 @@
             Batches = Batches.OrderByDescending(r => r.EndDate).ToList();
             sortEnd = !sortEnd;
         }
-    }private void SortCreateAt()
+    }
+    private void SortCreateAt()
     {
         if (sortCreate)
         {

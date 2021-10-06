@@ -8,7 +8,13 @@
     <Authorized>
         @if (Users is null)
         {
-            <LoadingComponent />
+            <div class="text-center">
+                <div class="loadingio-spinner-bars-f8jbu6upslt">
+                    <div class="ldio-p5olh5z9oq">
+                        <div></div><div></div><div></div><div></div>
+                    </div>
+                </div>
+            </div>
         }
         else
         {
@@ -17,16 +23,16 @@
                 <CreateButton Url="admin/usermanagement/createAdmin" Who="a New Admin" />
                 <TableTemplate Caption="Admins" Items="Users" Context="user">
                     <TableHeader>
-                        <td><p>@nameof(User.FirstName)</p></td>
-                        <td><p>@nameof(User.LastName)</p></td>
-                        <td><p>@nameof(User.DOB)</p></td>
-                        <td><p>@nameof(User.Gender)</p></td>
-                        <td><p>@nameof(User.PhoneNumber)</p></td>
-                        <td><p>@nameof(User.Address)</p></td>
-                        <td><p>@nameof(User.Email)</p></td>
-                        <td><p>@nameof(User.EmailConfirmed)</p></td>
-                        <td><p>@nameof(User.CreatedAt)</p></td>
-                        <td></td>
+                        <th><p>@nameof(User.FirstName)</p></th>
+                        <th><p>@nameof(User.LastName)</p></th>
+                        <th><p>@nameof(User.DOB)</p></th>
+                        <th><p>@nameof(User.Gender)</p></th>
+                        <th><p>@nameof(User.PhoneNumber)</p></th>
+                        <th><p>@nameof(User.Address)</p></th>
+                        <th><p>@nameof(User.Email)</p></th>
+                        <th><p>@nameof(User.EmailConfirmed)</p></th>
+                        <th><p>@nameof(User.CreatedAt)</p></th>
+                        <th></th>
                     </TableHeader>
                     <RowTemplate>
                         <td><p>@user.FirstName</p></td>
