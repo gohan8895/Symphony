@@ -1,5 +1,239 @@
 ﻿@page "/"
+@inject ICourseService courseService
+@using Symphony.ViewModels.CourseViewModel
+@using Symphony.BlazorServerApp.Services.CourseServices
+@using Symphony.Utilities.UtitlityClasses
+@inject INewService newService
+@using Symphony.ViewModels.Consult
+@using Symphony.BlazorServerApp.Services.NewService
 
-<h1>Symphony Institute</h1>
+<main class="main">
 
-Welcome to your new app.
+
+    <div class="container m-2 p-2 mb-5" style="background-image:url(/images/home/presentteacher.jpg); height:400px;">
+
+        <div class="row shadow" style="height:400px">
+            <div class="col-lg-3 col-sm-6 border-1  text-center m-2 p-2">
+                <div class="card " style="width:560px">
+                    <div class="card-body d-flex " style="height:350px;flex-direction:column; justify-content:center; align-items:center;">
+                        <h5>special title treatment</h5>
+                        <p class="card-text"> with supporting text below as natural leadin to a </p>
+                        <a href="#" class="btn btn-outline-dark">content</a>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-sm-6">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container m-2 p-5 bg-light mb-5">
+        <h2 class="fw-bold mb-2 p-2 bg-success bg-gradient
+ ">
+            Get Your Own Job Today !
+        </h2>
+        <p class="fw-bold  p-2 ">Looking for some awesome  Course for Beginner </p>
+        @*Starter courses*@
+        <div class="starter-courses m-2 p-2 border-bottom ">
+            <h4 class="fw-bold" Most Popular Course to create your path carrear</h4>
+            <div id="carouselExampleCaptions" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    @foreach (var carouselCourse in CarouselCourses)
+                    {
+                        <div class="carousel-item @(carouselCount == 0 ? "active" : "")">
+                            <div class="row mx-auto card-item">
+                                @foreach (var basicCourse in carouselCourse)
+                                {
+                                    <div class="col-lg-4 col-md-6 col-sm-2">
+                                        <div class="card border-0 " style="width: 15em;">
+                                            <img src="http://localhost:39699/@basicCourse.ImagePath" class="btn d-block w-100"
+                                                 alt="...">
+                                            <div class="card-body fw-bold">
+                                                <h5 class="card-title text-center">@basicCourse.Name</h5>
+                                                <p class="card-text fw-bolder text-center">
+                                                    $ @basicCourse.Price
+                                                </p>
+                                                <a href="courses/@basicCourse.Id" class="btn detail-button fw-bolder">
+                                                    View Detail
+                                                    <span class="material-icons ms-2">visibility</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="d-none">@(carouselCount++)</div>
+                    }
+                </div>
+                <button class="carousel-control-prev" style="width:80px" type="button" data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" style="width:80px" type="button" data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+    @if (Data == null)
+    {
+        <LoadingComponent />
+    }
+    else
+    {
+        <div class="container m-2 mb-5 bg-light p-5 ">
+            <h2 class="mb-2 p-4 bg-danger">Activity News </h2>
+
+            @foreach (var item in Data)
+            {<div class="row border-1 shadow mb-2 p-5" style="position:relative">
+                    <div class="col-6 p-2 pt-4 ">
+                        <h4><a href="/new" class="text-decoration-none ">@item.Title</a></h4>
+                        <span>@item.CreatedAt</span>
+                    </div>
+                    <div class="col-6 p-2 " style="text-overflow:ellipsis;overflow:hidden;height:190px; position:relative;">
+                        <p>@item.Description</p>
+
+                    </div>
+                </div>
+            }
+
+
+        </div>
+    }
+
+
+    <div class="container mb-5 bg-light p-5">
+        <h2 class="mb-2 p-2 bg-info text-white">Hear Student Talk About Symphony Schools </h2>
+
+        <div class="row">
+            @* student 1 *@
+            <div class="col-lg-3 col-md-6 mb-2">
+                <div class="card">
+                    <div class="card-body">
+                        As soon as I discovered Kyle's YouTube channel I knew I'd found the right place to improve my web development skills. He presents new topics in a very cohesive, simple way and teaches you how to use these tools yourself, in contrast to most other tutorials where you end up copy-pasting code unaware of how it works
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-6">
+                                <img src="/images/home/student2.jpg" style="border-radius:50%;width:100px" alt="Alternate Text" />
+                            </div>
+                            <div class="col-6">
+                                <p>Marcus Otterström</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* student 2 *@
+
+            <div class="col-lg-3 col-md-6  mb-2">
+                <div class="card">
+                    <div class="card-body">
+                        I was fortunate enough to have beta access to this CSS course, and everyone (even experienced web devs) should be excited about this one! I have over 20 years of web development experience, and I learned new things and was
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-6">
+                                <img src="/images/home/student1.jpg" style="border-radius:50%;width:100px" alt="Alternate Text" />
+                            </div>
+                            <div class="col-6">
+                                <p>Annie Taylor Chen</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @* student 3 *@
+
+            <div class="col-lg-3 col-md-6  mb-2">
+                <div class="card">
+                    <div class="card-body">
+
+                        Hear What Others Have To Say
+                        If you're looking for a no fluff, succinct and articulate approach to learning the basics of the ReactJS library you won't do any better than this course.  Kyle has a straightforward and to the point approach that gets the important points across without extraneous distractions.  This is not the typical copy and paste type of course you may have run across with previous courses.
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-6">
+                                <img src="/images/home/student3.png" style="border-radius:50%;width:100px" alt="Alternate Text" />
+                            </div>
+                            <div class="col-6">
+                                <p>Dan Forth</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* student 4  *@
+            <div class="col-lg-3 col-md-6  mb-2">
+                <div class="card">
+                    <div class="card-body">
+                        CSS course has taken away a lot of my impostor syndrome. I don’t assume things like I used to. He breaks down every bit of the course so that you will understand how everything works from the ground up. He also makes sure to point out good practices which is very valuable.
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-6">
+                                <img src="/images/home/student4.webp" style="border-radius:50%;width:100px" alt="Alternate Text" />
+                            </div>
+                            <div class="col-6">
+                                <p>Jesus Avina</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+
+
+
+
+@code{
+    #region Props
+    private IEnumerable<CourseWithSubjects> Courses { get; set; } = Array.Empty<CourseWithSubjects>();
+    private List<List<CourseWithSubjects>> CarouselCourses { get; set; } = new();
+    private bool shouldRender;
+    private int carouselCount = 0;
+    private IEnumerable<NewsVM> Data = null;
+    #endregion
+
+    protected override bool ShouldRender() => shouldRender;
+
+    protected async override Task OnInitializedAsync()
+    {
+        shouldRender = false;
+        var result = await newService.GetNewsAsync();
+        Data = result.Take(3);
+
+        Courses = (await courseService.GetCourseVMsAsync()).ToList();
+
+        var basicCourses = Courses.Where(c => c.IsBasic is true).ToList();
+
+        CarouselCourses = ListExtension.ChunkBy<CourseWithSubjects>(basicCourses, 3).Take(3).ToList();
+
+        if (Courses is not null && CarouselCourses is not null) shouldRender = true;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
