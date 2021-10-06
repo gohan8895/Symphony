@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Symphony.BlazorServerApp.Areas.Identity;
 using Symphony.BlazorServerApp.Services.AboutServices;
+using Symphony.BlazorServerApp.Services.BatchServices;
 using Symphony.BlazorServerApp.Services.CourseRegistrationService;
 using Symphony.BlazorServerApp.Services.CourseServices;
 using Symphony.BlazorServerApp.Services.EventServices;
@@ -57,13 +58,14 @@ namespace Symphony.BlazorServerApp
             /*
              * DI services
              */
-            services.AddTransient<IEventService, EventService>();
-            services.AddTransient<INewService, NewService>();
             services.AddTransient<IAboutService, AboutService>();
+            services.AddTransient<IBatchService, BatchService>();
             services.AddTransient<ICourseService, CourseService>();
-            services.AddTransient<ISubjectService, SubjectService>();
             services.AddTransient<ICourseRegistrationService, CourseRegistrationService>();
+            services.AddTransient<IEventService, EventService>();
             services.AddTransient<IFaqService, FaqService>();
+            services.AddTransient<INewService, NewService>();
+            services.AddTransient<ISubjectService, SubjectService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

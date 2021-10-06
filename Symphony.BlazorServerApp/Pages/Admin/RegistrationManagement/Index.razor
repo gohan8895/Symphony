@@ -22,12 +22,11 @@
                         </span>
                     </th>
                     <th>
-                        @nameof(Registration.UserId)
-
+                        User ID
                     </th>
                     <th>
                         <span @onclick="SortCourse" class="flex">
-                            @nameof(Registration.CourseId)
+                            Course ID
                             <span class="ps-1 material-icons hover-me">
                                 @(sortCourse ? "arrow_downward" : "arrow_upward")
                             </span>
@@ -35,7 +34,7 @@
                     </th>
                     <th>
                         <span @onclick="SortIsApp" class="flex">
-                            @nameof(Registration.IsApproved)
+                            Approval Status
                             <span class="ps-1 material-icons hover-me">
                                 @(sortIsApp ? "arrow_downward" : "arrow_upward")
                             </span>
@@ -43,7 +42,7 @@
                     </th>
                     <th>
                         <span @onclick="SortExam" class="flex">
-                            @nameof(Registration.ExamRequired)
+                            Entrance Exam
                             <span class="ps-1 material-icons hover-me">
                                 @(sortExamReg ? "arrow_downward" : "arrow_upward")
                             </span>
@@ -51,7 +50,7 @@
                     </th>
                     <th>
                         <div @onclick="SortCreatedAt" class="flex">
-                            @nameof(Registration.CreatedAt)
+                            Created At
                             <span class="ps-1 material-icons hover-me">
                                 @(sortCreatedAt ? "arrow_downward" : "arrow_upward")
                             </span>
@@ -63,7 +62,7 @@
                     <td>
                         <a class="reg-name fw-bold" href="/admin/registration/@reg.Id">@reg.Id</a>
                     </td>
-                    <td>@reg.UserId.ToString().Substring(0, 7)</td>
+                    <td>@reg.UserId.ToString().Substring(0, 7) ...</td>
                     <td>@reg.CourseId</td>
                     <td>
                         @reg.IsApproved
@@ -71,7 +70,6 @@
                     <td>@(reg.ExamRequired ? "Required" : "Not Required")</td>
                     <td>@reg.CreatedAt.ToShortTimeString()</td>
                     <td class="text-center flex justify-content-center">
-                        @*<a href="/admin/registration/edit/sub.Id" class="btn material-icons  ">edit</a>*@
                         <a class="btn material-icons text-warning"
                            data-bs-toggle="modal" data-bs-target="#exampleModal"
                            title="Change this registration approve status"
