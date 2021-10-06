@@ -46,13 +46,30 @@ namespace Symphony.Services.BackendServices.CourseRegistrationServices
             return courseRegistrationWithDataVM;
         }
 
-        public async Task<CourseRegistrationVM> GetCourseRegistrationVMAsync(int courseRegisId)
+        public async Task<CourseRegistrationWithDataVM> GetCourseRegistrationVMAsync(int courseRegisId)
         {
-            var result = await symphonyDBContext.CourseRegistrations.FirstOrDefaultAsync(a => a.Id == courseRegisId);
+            var result = await symphonyDBContext
+                .CourseRegistrations
+                .Include(c => c.Course)
+                .Include(c => c.AppUser)
+                .Select(c => new CourseRegistrationWithDataVM 
+                { 
+                    Id = c.Id,
+                    UserId = c.UserId,
+                    CourseId = c.CourseId,
+                    IsApproved = c.IsApproved,
+                    CreatedAt = c.CreatedAt,
+                    ExamRequired = c.ExamRequired,
+                    AppUserVM = c.AppUser.AsVM(),
+                    CourseVM = c.Course.AsVM(),
+                    EntranceExamFee = c.ExamRequired ? 50 : 0,
+                    FinalPrice = c.ExamRequired ? c.Course.Price + 50 : c.Course.Price
+                })
+                .FirstOrDefaultAsync(a => a.Id == courseRegisId);
 
             if (result is null) return null;
 
-            return result.AsVM();
+            return result;
         }
 
         public async Task<CourseRegistrationWithDataVM> CreateCourseRegistrationAsync(CreateCourseRegistrationVM courseRegistration)
