@@ -5,6 +5,7 @@
 @using Symphony.BlazorServerApp.Services.CourseServices
 @using Symphony.BlazorServerApp.Services.SubjectServices
 @using Symphony.BlazorServerApp.Services.EnrollmentServices
+@using Symphony.BlazorServerApp.Services.PaymentStatusServices
 @using ChartJs.Blazor.PieChart
 @using ChartJs.Blazor.BarChart
 
@@ -12,6 +13,7 @@
 @inject ISubjectService subjectService
 @inject UserManager<AppUser> userManager
 @inject IEnrollmentService enrollService
+@inject IPaymentStatusService paymentService
 @if (Enrollments is null)
 {
     <div class="text-center">
@@ -41,7 +43,7 @@ else
             <div class="content rounded-3 content-2 shadown-lg">
                 <Chart Config="pieConfig" @ref="pieChartJs"></Chart>
             </div>
-            <div class="content rounded-3 content-3 shadown-lg">Lorem ipsum dolor sit amet.</div>
+            <div class="content rounded-3 content-3 shadown-lg text-white">Total Payment of all time: @Payments.Sum(x => x.Amount)</div>
             <div class="content rounded-3 content-4 shadown-lg">
                 <h3>Enrollment Information</h3>
                 <Chart Config="barConfig" @ref="barChartJs"></Chart>
@@ -58,6 +60,7 @@ else
     public IEnumerable<AppUser> Students { get; set; } = Array.Empty<AppUser>();
     public IEnumerable<AppUser> Teachers { get; set; } = Array.Empty<AppUser>();
     public IEnumerable<EnrollmentWithData> Enrollments { get; set; } = Array.Empty<EnrollmentWithData>();
+    public IEnumerable<PaymentStatusVM> Payments { get; set; } = Array.Empty<PaymentStatusVM>();
 
     #region chart config
     private Chart pieChartJs = new();
@@ -168,7 +171,8 @@ else
         {
             barConfig.Data.YLabels.Add(amount);
         }
-
+        var payments = (await paymentService.GetAllPaymentStatusAsync()).Where(x => x.HasPaid == true);
+        this.Payments = payments;
         BarDataset<int> barDataSet = new BarDataset<int>(enronPerMonth);
 
         barConfig.Data.Datasets.Add(barDataSet);
@@ -176,6 +180,7 @@ else
         barDataSet.BorderColor = ColorUtil.ColorHexString(219, 175, 23);
         barDataSet.Label = "Number of Enrollments";
         #endregion
+
     }
 
     protected async override Task OnInitializedAsync()

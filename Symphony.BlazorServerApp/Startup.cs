@@ -19,6 +19,7 @@ using Symphony.BlazorServerApp.Services.EnrollmentServices;
 using Symphony.BlazorServerApp.Services.EventServices;
 using Symphony.BlazorServerApp.Services.FaqServices;
 using Symphony.BlazorServerApp.Services.NewService;
+using Symphony.BlazorServerApp.Services.PaymentStatusServices;
 using Symphony.BlazorServerApp.Services.SubjectServices;
 using Symphony.Data.EF;
 using Symphony.Data.Entities;
@@ -38,6 +39,7 @@ namespace Symphony.BlazorServerApp
         }
 
         public IConfiguration Configuration { get; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -68,18 +70,18 @@ namespace Symphony.BlazorServerApp
             services.AddTransient<IFaqService, FaqService>();
             services.AddTransient<INewService, NewService>();
             services.AddTransient<ISubjectService, SubjectService>();
-
+            services.AddTransient<IPaymentStatusService, PaymentStatusService>();
 
             /* Google Auth */
-            services.AddAuthentication()
-                .AddGoogle(options =>
-                {
-                    IConfigurationSection googleAuthNSection =
-                        Configuration.GetSection("Authentication:Google");
+            //services.AddAuthentication()
+            //    .AddGoogle(options =>
+            //    {
+            //        IConfigurationSection googleAuthNSection =
+            //            Configuration.GetSection("Authentication:Google");
 
-                    options.ClientId = googleAuthNSection["ClientId"];
-                    options.ClientSecret = googleAuthNSection["ClientSecret"];
-                });
+            //        options.ClientId = googleAuthNSection["ClientId"];
+            //        options.ClientSecret = googleAuthNSection["ClientSecret"];
+            //    });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
