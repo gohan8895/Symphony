@@ -73,20 +73,27 @@ namespace Symphony.Services.BackendServices.EnrollmentServices
             return enrollment.EnsVM();
         }
 
-        public async Task ChangeEnrollmentStatus(Guid studentId, int courseId)
+        public async Task<int> ChangeEnrollmentStatus(Guid studentId, int courseId)
         {
             var timeNow = DateTime.Now;
             var enrollment = await symphonyDBContext.Enrollments.FirstOrDefaultAsync(e => e.UserId == studentId
                 && e.CourseId == courseId
             );
+
+            if (enrollment is null) return 0;
+
             var status = enrollment.IsDelete;
             enrollment.UpdatedAt = timeNow;
+
             if (enrollment.IsDelete == false)
             {
                 enrollment.IsDelete = true;
             }
             else enrollment.IsDelete = false;
-            await symphonyDBContext.SaveChangesAsync();
+
+            var result = await symphonyDBContext.SaveChangesAsync();
+
+            return result == 0 ? 0 : 1;
         }
 
         public async Task<IEnumerable<EnrollmentWithData>> GetEnrollmentWithDataVM()

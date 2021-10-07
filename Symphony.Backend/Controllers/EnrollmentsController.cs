@@ -28,8 +28,8 @@ namespace Symphony.Backend.Controllers
             return Ok(await enrollmentService.GetEnrollmentVMsAsync());
         }
 
-        // GET api/<EnrollmentsController>/5
-        [HttpGet("{id}")]
+        // GET api/<EnrollmentsController>/student/5/course/10
+        [HttpGet("student/{studentID}/course/{courseId}")]
         public async Task<ActionResult<EnrollmentVM>> Get(Guid studentID, int courseId)
         {
             var enrollment = await enrollmentService.GetEnrollmentVMAsync(studentID, courseId);
@@ -38,6 +38,24 @@ namespace Symphony.Backend.Controllers
                 return NotFound();
             }
             return Ok(enrollment);
+        }
+
+        // UPDATE Enrollemnt Status
+        [HttpGet("update-enrollment-state/student/{studentId}/course/{courseId}")]
+        public async Task<ActionResult> ChangeStatus(Guid studentId, int courseId)
+        {
+            if (studentId == Guid.Empty || courseId == 0) return BadRequest();
+
+            var enrollment = await enrollmentService.GetEnrollmentVMAsync(studentId, courseId);
+
+            if (enrollment is null)
+            {
+                return NotFound();
+            }
+
+            var result = await enrollmentService.ChangeEnrollmentStatus(studentId, courseId);
+
+            return result == 1 ? NoContent() : BadRequest();
         }
 
         // POST api/<EnrollmentsController>
@@ -57,8 +75,8 @@ namespace Symphony.Backend.Controllers
             return CreatedAtAction(nameof(Get), new { id = enrollmentVM.Id }, enrollmentVM);
         }
 
-        // PUT api/<EnrollmentsController>/5
-        [HttpPut("{id}")]
+        // PUT api/<EnrollmentsController>/
+        [HttpPut]
         public async Task<ActionResult<EnrollmentVM>> Put([FromBody] UpdateEnrollmentVM updateEnrollmentVM)
         {
             if (updateEnrollmentVM is null)
@@ -78,20 +96,7 @@ namespace Symphony.Backend.Controllers
             return NoContent();
         }
 
-        // UPDATE Enrollemnt Status
-        [HttpPut("update-enrollment-state/{id}")]
-        public async Task<ActionResult> ChangeStatus(Guid studentId, int courseId)
-        {
-            var enrollment = await enrollmentService.GetEnrollmentVMAsync(studentId, courseId);
-            if (enrollment is null)
-            {
-                return NotFound();
-            }
-            await enrollmentService.ChangeEnrollmentStatus(studentId, courseId);
-            return NoContent();
-        }
-
-        [HttpGet("enrollment/get-enrollment-with-data")]
+        [HttpGet("get-enrollments-with-user-and-course")]
         public async Task<ActionResult<EnrollmentWithData>> GetEnrollmentWithData()
         {
             return Ok(await enrollmentService.GetEnrollmentWithDataVM());
