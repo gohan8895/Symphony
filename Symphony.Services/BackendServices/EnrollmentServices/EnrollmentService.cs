@@ -40,11 +40,14 @@ namespace Symphony.Services.BackendServices.EnrollmentServices
 
         public async Task<EnrollmentVM> CreateEnrollment(CreateEnrollmentVM enrollmentVM)
         {
+            var timeNow = DateTime.Now;
             var enrollment = new Enrollment()
             {
                 UserId = enrollmentVM.UserId,
                 CourseId = enrollmentVM.CourseId,
-                IsDelete = false
+                IsDelete = false,
+                CreatedAt = timeNow,
+                UpdatedAt = timeNow
             };
 
             await symphonyDBContext.Enrollments.AddAsync(enrollment);
@@ -60,10 +63,11 @@ namespace Symphony.Services.BackendServices.EnrollmentServices
             {
                 return null;
             }
-
+            var timeNow = DateTime.Now;
             enrollment.UserId = enrollmentVM.UserId;
             enrollment.CourseId = enrollmentVM.CourseId;
             enrollment.IsDelete = enrollmentVM.IsDelete;
+            enrollment.UpdatedAt = timeNow;
 
             await symphonyDBContext.SaveChangesAsync();
             return enrollment.EnsVM();
@@ -71,6 +75,7 @@ namespace Symphony.Services.BackendServices.EnrollmentServices
 
         public async Task<int> ChangeEnrollmentStatus(Guid studentId, int courseId)
         {
+            var timeNow = DateTime.Now;
             var enrollment = await symphonyDBContext.Enrollments.FirstOrDefaultAsync(e => e.UserId == studentId
                 && e.CourseId == courseId
             );
@@ -78,6 +83,7 @@ namespace Symphony.Services.BackendServices.EnrollmentServices
             if (enrollment is null) return 0;
 
             var status = enrollment.IsDelete;
+            enrollment.UpdatedAt = timeNow;
 
             if (enrollment.IsDelete == false)
             {
