@@ -97,11 +97,38 @@
                     <td>@(course.IsShown ? "Show" : "Hidden")</td>
                     <td>@course.UpdatedAt.ToShortDateString()</td>
                     <td class="text-center">
-                        <a href="/admin/course/edit/@course.Id" class="btn material-icons  text-warning">edit</a>
-                        <a @onclick="() => ChangeStatus(course.Id)" class="btn material-icons text-danger">update</a>
+                        <a href="/admin/course/edit/@course.Id" class="btn material-icons  text-warning"
+                           data-bs-toggle="tooltip" data-bs-placement="right" title="Go to edit page">
+                            edit
+                        </a>
+                        <a @onclick="() => CourseId = course.Id"
+                           data-bs-toggle="modal" data-bs-target="#courseModal"
+                           class="btn material-icons text-danger">
+                            update
+                        </a>
                     </td>
                 </RowTemplate>
             </TableTemplate>
+            <!-- Modal -->
+            <div class="modal fade" id="courseModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Change Course Status</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Do you want to change this course status?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @onclick="() => ChangeStatus(CourseId)">
+                                Yes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </Authorized>
     <NotAuthorized>
@@ -113,6 +140,7 @@
     #region param & prop
     public List<CourseWithSubjects> Courses { get; set; } = new();
     public CourseWithSubjects Course { get; set; }
+    private int CourseId { get; set; }
     #endregion
 
     #region other
@@ -133,9 +161,10 @@
 
     private async Task ChangeStatus(int id)
     {
+        var course = Courses.FirstOrDefault(c => c.Id == id);
         if (id != 0) await courseService.UpdateCourseStatusAsync(id);
 
-        StateHasChanged();
+        Courses.Remove(course);
     }
 
     #region fiter logic

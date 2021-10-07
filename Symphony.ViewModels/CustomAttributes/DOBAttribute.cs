@@ -1,22 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Symphony.ViewModels.CustomAttributes
 {
-    public class StartDateAttribute : ValidationAttribute
+    public class DOBAttribute : ValidationAttribute
     {
         public string GetErrorMessage() =>
-            $"Start date must be today or after today.";
+            $"Sorry, Student must be 16 years or older";
 
         protected override ValidationResult IsValid(object value,
             ValidationContext validationContext)
         {
             var inputTime = ((DateTime)value);
-            if (inputTime <= DateTime.UtcNow)
+            if (DateTime.UtcNow.Year - inputTime.Year < 16)
             {
                 return new ValidationResult(GetErrorMessage());
             }
