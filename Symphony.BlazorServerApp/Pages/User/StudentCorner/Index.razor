@@ -1,0 +1,91 @@
+@page "/studentCorner"
+
+@using Symphony.BlazorServerApp.Services.BatchServices
+@using Symphony.BlazorServerApp.Services.CourseRegistrationService
+
+@inject IBatchService batchService
+@inject UserManager<AppUser> userManager
+@inject ICourseRegistrationService courseRegService
+@inject NavigationManager nav
+
+
+<AuthorizeView>
+    <Authorized>
+        @if (Batch is null)
+        {
+        <div class="container col-xxl-8 px-4 py-5 mt-5">
+            <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+                <div class="col-10 col-sm-8 col-lg-6">
+                    <img src="images/background/html-tag.png" class="d-block mx-lg-auto img-fluid" alt="courses" width="700" height="500" loading="lazy">
+                </div>
+                <div class="col-lg-6">
+                    <h1 class="display-5 fw-bold lh-1 mb-3">Hello There!</h1>
+                    <p class="lead">You have not enroll for a course yet. Join us today!</p>
+                    <div class="d-grid gap-2 mx-auto">
+                        <a href="courses" class="btn btn-primary btn-lg px-4 me-md-2" >Go to course Page</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+        else
+        {
+            <div class="p-5 mb-5 bg-light rounded-3 mt-5">
+                <div class="container-fluid py-5">
+                    <h1 class="display-5 fw-bold">Your examination</h1>
+                    <p class="col-md-8 fs-4">If there is any course examinations, display here</p>
+                </div>
+            </div>
+
+            <div class="row align-items-md-stretch">
+                <div class="col-md-6">
+                    <div class="h-100 p-5 text-white bg-dark rounded-3">
+                        <h2>Your enrollemnt information</h2>
+                        <ul class="mt-5">
+                            <li>Batch: <span class="ms-2">@Batch.Description</span></li>
+                            <li>Start Date: <span class="ms-2">@Batch.StartDate.ToShortDateString()</span></li>
+                            <li>End Date: <span class="ms-2">@Batch.EndDate.ToShortDateString()</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="h-100 p-5 bg-light border rounded-3">
+                        <h2 class="fw-bold">Entrance Examination</h2>
+                        <a class="nav-link" href="#"><p>If there are any entrance examinations, display here!</p></a>
+                    </div>
+                </div>
+            </div>
+        }
+    </Authorized>
+    <NotAuthorized>
+        @if (!AuthState.User.Identity.IsAuthenticated)
+        {
+            nav.NavigateTo("Identity/Account/Login?returnUrl=/studentCorner", forceLoad: true);
+        }
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    #region
+    private EnrollmentVM Enrollment { get; set; }
+    private BatchVM Batch { get; set; }
+    private AuthenticationState AuthState { get; set; }
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    #endregion
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        AuthState = await authenticationStateTask;
+
+        @if (AuthState.User.Identity.IsAuthenticated)
+        {
+            var userId = Guid.Parse(AuthState.User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value);
+
+            var user = userManager.Users.FirstOrDefault(u => u.Id == userId);
+
+            Batch = await batchService.GetBatchVMAsync(user.BatchId.GetValueOrDefault());
+        }
+    }
+}

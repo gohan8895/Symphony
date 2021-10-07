@@ -15,6 +15,7 @@ using Symphony.BlazorServerApp.Services.AboutServices;
 using Symphony.BlazorServerApp.Services.BatchServices;
 using Symphony.BlazorServerApp.Services.CourseRegistrationService;
 using Symphony.BlazorServerApp.Services.CourseServices;
+using Symphony.BlazorServerApp.Services.EnrollmentServices;
 using Symphony.BlazorServerApp.Services.EventServices;
 using Symphony.BlazorServerApp.Services.FaqServices;
 using Symphony.BlazorServerApp.Services.NewService;
@@ -62,6 +63,7 @@ namespace Symphony.BlazorServerApp
             services.AddTransient<IBatchService, BatchService>();
             services.AddTransient<ICourseService, CourseService>();
             services.AddTransient<ICourseRegistrationService, CourseRegistrationService>();
+            services.AddTransient<IEnrollmentService, EnrollmentService>();
             services.AddTransient<IEventService, EventService>();
             services.AddTransient<IFaqService, FaqService>();
             services.AddTransient<INewService, NewService>();
