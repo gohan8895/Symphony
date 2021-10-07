@@ -31,7 +31,7 @@ namespace Symphony.BlazorServerApp.Services.EventServices
                     "application/json"
                     );
 
-                using var httpResponse = await client.PostAsync("event/", newJson);
+                using var httpResponse = await client.PostAsync("events/", newJson);
 
                 httpResponse.EnsureSuccessStatusCode();
             }
@@ -43,7 +43,7 @@ namespace Symphony.BlazorServerApp.Services.EventServices
             if (id != 0)
             {
                 var client = clientFactory.CreateClient("symphony");
-                using var httpResponse = await client.DeleteAsync("event/" + $"{id}");
+                using var httpResponse = await client.DeleteAsync("events/" + $"{id}");
 
                 httpResponse.EnsureSuccessStatusCode();
             }
