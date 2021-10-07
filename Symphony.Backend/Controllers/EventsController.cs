@@ -56,7 +56,7 @@ namespace Symphony.Backend.Controllers
         }
 
         // PUT api/<EventsController>/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<ActionResult<EventVM>> Put( [FromBody] UpdateEventVM updateEventVM)
         {
             if (updateEventVM is null) return BadRequest();
