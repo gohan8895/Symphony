@@ -68,6 +68,19 @@
             }
         };
 
+        DateTime now = DateTime.Now;
+        DateTime currentMonth = new DateTime(now.Year, now.Month, 1);
+        var last12monthsString = new List<string>();
+        var lastTwelveMonths =
+            Enumerable.Range(0, 12)
+                      .Select(i => -i)
+                      .Select(monthsToAdd => currentMonth.AddMonths(monthsToAdd))
+                      .ToList();
+        foreach (var item in lastTwelveMonths)
+        {
+            last12monthsString.Add(item.ToString("MMM"));
+        }
+        last12monthsString.Reverse();
         foreach (string color in new[] { "Red", "Yellow", "Green", "Blue" })
         {
             pieConfig.Data.Labels.Add(color);
@@ -120,7 +133,7 @@
             }
         };
 
-        foreach (string month in new[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" })
+        foreach (string month in last12monthsString)
         {
             barConfig.Data.XLabels.Add(month);
         }
@@ -129,8 +142,6 @@
         {
             barConfig.Data.YLabels.Add(amount);
         }
-
-        
 
         BarDataset<int> barDataSet = new BarDataset<int>(new[] { 10, 8, 20, 45, 30, 35, 30, 10, 30, 50, 40, 25 });
 
