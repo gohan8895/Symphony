@@ -1,11 +1,12 @@
 ﻿@page "/admin/subject/{id:int}"
 
-@inject ISubjectService subjectService
 @using Symphony.BlazorServerApp.Services.SubjectServices
-@using Symphony.BlazorServerApp.Controls.UploadComponents
-@using Symphony.BlazorServerApp.Controls.TableComponents
+@using System.Net.Http.Headers
 
-<AuthorizeView Roles="admin">
+@inject ISubjectService subjectService
+@inject IHttpClientFactory ClientFactory
+
+<AuthorizeView Roles="admin" Context="subjectDetail">
     <Authorized>
         <div class="container-lg">
             <h1 class="text-center fw-bolder">Subject Manager</h1>
@@ -63,10 +64,27 @@
             </div>
             <div class="upload flex">
                 <div class="images-upload">
-                    <ImageComponent SubjectVM="Subject" />
+                    <EditForm Model="Subject" OnValidSubmit="UpdateImages">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <div id="#imageUp" class="mb-2">
+                            <label class="form-label fw-bold">@nameof(SubjectVM.Images)</label>
+                            <InputFile OnChange="@OnInputImageChanged" class="form-control" accept=".jpg , .png, .jpeg" multiple />
+                        </div>
+                        <div class="border-1 rounded-1">
+                            @foreach (var uri in imageDataUris)
+                            {
+                                <img src="@uri" class="p-1 w-auto" height="100" />
+                            }
+                        </div>
+                        <CreateButtonForForm FirstBtn="Update Existing" />
+                    </EditForm>
                 </div>
                 <div class="files-upload">
-                    <FileComponent SubjectVM="Subject" />
+                    <div id="#fileUp" class="my-2">
+                        <label class="form-label fw-bold">@nameof(Subject.Files)</label>
+                        <InputFile OnChange="@OnInputFileChanged" class="form-control" accept=".docx, .doc, .xlsx, .pdf, .pptx" multiple />
+                    </div>
                 </div>
             </div>
             <div class="navigator flex">
@@ -89,12 +107,134 @@
 </AuthorizeView>
 
 @code {
+    #region Parameter & props
     [Parameter]
     public int Id { get; set; }
     private SubjectVM Subject { get; set; } = new();
 
-    protected async override Task OnInitializedAsync()
+    private List<string> imageDataUris { get; set; } = new();
+    private MultipartFormDataContent content = new();
+    private MultipartFormDataContent contentForFile = new();
+
+    #endregion
+
+    protected async override Task OnParametersSetAsync()
     {
         Subject = await subjectService.GetSubjectVMAsync(id: Id);
     }
+
+    #region constant
+
+    private bool shouldRender;
+    private bool IsSuccess;
+    private bool upload;
+    private const long maxFileSize = 1024 * 1024 * 15;
+    private const int maxAllowedFiles = 3;
+
+    #endregion
+
+    #region image upload
+    private async Task OnInputImageChanged(InputFileChangeEventArgs e)
+    {
+        upload = false;
+
+        foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
+        {
+            try
+            {
+                var fileContent = new StreamContent(file.OpenReadStream(maxFileSize));
+
+                fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+
+                content.Add(
+                    content: fileContent,
+                    name: "\"images\"",
+                    fileName: file.Name
+                    );
+
+                //Show images to browser
+                var imageFile = await file.RequestImageFileAsync("image", maxWith: 640, maxHeight: 480);
+                using Stream fileStream = imageFile.OpenReadStream(maxAllowedSize: maxFileSize);
+
+                using MemoryStream ms = new();
+                await fileStream.CopyToAsync(ms);
+
+                imageDataUris.Add($"data:image/jpeg;base64,{Convert.ToBase64String(ms.ToArray())}");
+                //
+
+                upload = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+    }
+
+    private async Task UpdateImages()
+    {
+        if (upload)
+        {
+            var response = await subjectService.UpdateSubjectImagesVMAsync(Subject.Id, content);
+
+            if (response == 1)
+            {
+                IsSuccess = true;
+                Subject = await subjectService.GetSubjectVMAsync(id: Id);
+            }
+            else
+            {
+                IsSuccess = false;
+            }
+        }
+    }
+    #endregion
+
+    #region file upload
+    private async Task OnInputFileChanged(InputFileChangeEventArgs e)
+    {
+        shouldRender = false;
+        upload = false;
+
+        foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
+        {
+            try
+            {
+                var fileContent = new StreamContent(file.OpenReadStream(maxFileSize));
+
+                fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+
+                contentForFile.Add(
+                    content: fileContent,
+                    name: "\"files\"",
+                    fileName: file.Name
+                    );
+
+                upload = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        if (upload)
+        {
+            var client = ClientFactory.CreateClient("symphony");
+
+            var response =
+                await client.PutAsync($"subjects/update-subject-files/{Subject.Id}", contentForFile);
+
+            if (response.IsSuccessStatusCode)
+            {
+                IsSuccess = true;
+                Subject = await subjectService.GetSubjectVMAsync(id: Id);
+            }
+            else
+            {
+                IsSuccess = false;
+            }
+        }
+    }
+    #endregion
 }
