@@ -64,14 +64,26 @@
                 }
                 else
                 {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal p-0">
                         <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins)
+                            @foreach (var provider in Model.ExternalLogins)
+                            {
+                                if (provider.Name == "Google")
+                                {
+                                    <button type="submit" class="btn"
+                                            name="provider" value="@provider.Name"
+                                            title="Log in using your
+                                                @provider.DisplayName account">
+                                        <img src="@Url.Content("~/images/signin/btn_google_signin_light_normal_web@2x.png")"
+                                             style="width: auto; height: 4em;" alt="Google signin" onmouseover="hover(this);" onmouseout="unhover(this);"/>
+                                    </button>
+                                }
+                                else
                                 {
                                     <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
                                 }
-                            </p>
+                            }
+
                         </div>
                     </form>
                 }
@@ -82,4 +94,16 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+
+    <script>
+    function hover(element) {
+        element.setAttribute('src', '@Url.Content("~/images/signin/btn_google_signin_light_pressed_web@2x.png")')
+    }
+
+    function unhover(element) {
+        element.setAttribute('src', '@Url.Content("~/images/signin/btn_google_signin_light_normal_web@2x.png")');
+    }
+    </script>
 }
+
