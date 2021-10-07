@@ -15,7 +15,9 @@ namespace Symphony.ViewModels.Extensions
             Id = enrollment.Id,
             UserId = enrollment.UserId,
             CourseId = enrollment.CourseId,
-            IsDelete = enrollment.IsDelete
+            IsDelete = enrollment.IsDelete,
+            CreatedAt = enrollment.CreatedAt,
+            UpdatedAt = enrollment.UpdatedAt
         };
     }
 }
