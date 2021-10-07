@@ -22,7 +22,7 @@
                         </span>
                     </th>
                     <th>
-                        User ID
+                        Student Name
                     </th>
                     <th>
                         <span @onclick="SortCourse" class="flex">
@@ -50,7 +50,7 @@
                     </th>
                     <th>
                         <div @onclick="SortCreatedAt" class="flex">
-                            Created At
+                            Registered At
                             <span class="ps-1 material-icons hover-me">
                                 @(sortCreatedAt ? "arrow_downward" : "arrow_upward")
                             </span>
@@ -62,13 +62,14 @@
                     <td>
                         <a class="reg-name fw-bold" href="/admin/registration/@reg.Id">@reg.Id</a>
                     </td>
-                    <td>@reg.UserId.ToString().Substring(0, 7) ...</td>
+
+                    <td>@reg.AppUserVM.FirstName @reg.AppUserVM.LastName</td>
                     <td>@reg.CourseId</td>
                     <td>
                         @reg.IsApproved
                     </td>
                     <td>@(reg.ExamRequired ? "Required" : "Not Required")</td>
-                    <td>@reg.CreatedAt.ToShortTimeString()</td>
+                    <td>@reg.CreatedAt.ToString("MM/dd/yyyy HH:mm:ss")</td>
                     <td class="text-center flex justify-content-center">
                         <a class="btn material-icons text-warning"
                            data-bs-toggle="modal" data-bs-target="#exampleModal"
@@ -127,7 +128,7 @@
 
 @code {
     #region param & prop
-    public List<CourseRegistrationVM> Registrations { get; set; } = new();
+    public List<CourseRegistrationWithDataVM> Registrations { get; set; } = new();
     public CourseRegistrationVM Registration { get; set; }
     public int CourseRegId { get; set; }
     public bool IsDelete { get; set; }
@@ -144,7 +145,7 @@
 
     protected async override Task OnInitializedAsync()
     {
-        Registrations = (await courseRegService.GetAllCourseRegistrationVMsAsync()).ToList();
+        Registrations = (await courseRegService.GetCourseRegistrationWithDataVMsAsync()).ToList();
     }
 
     private async Task ChangeStatus(int id)

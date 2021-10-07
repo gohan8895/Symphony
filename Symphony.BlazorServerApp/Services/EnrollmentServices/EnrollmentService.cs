@@ -74,7 +74,6 @@ namespace Symphony.BlazorServerApp.Services.EnrollmentServices
             }
         }
 
-
         public async Task<int> UpdateEnrollment(UpdateEnrollmentVM enrollmentVM)
         {
             if (enrollmentVM is not null)
