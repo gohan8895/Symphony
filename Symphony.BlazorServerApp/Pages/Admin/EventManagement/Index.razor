@@ -3,7 +3,7 @@
 @inject IEventService eventService
 @using Symphony.ViewModels.Consult
 @using Symphony.BlazorServerApp.Services.EventServices
-@using Symphony.BlazorServerApp.Controls.TableComponents 
+@using Symphony.BlazorServerApp.Controls.TableComponents
 @inject NavigationManager nav
 @using Symphony.BlazorServerApp.Controls.Utilities
 
@@ -11,8 +11,13 @@
     <Authorized>
         @if (events == null)
         {
-
-           <LoadingComponent />
+            <div class="text-center">
+                <div class="loadingio-spinner-bars-f8jbu6upslt">
+                    <div class="ldio-p5olh5z9oq">
+                        <div></div><div></div><div></div><div></div>
+                    </div>
+                </div>
+            </div>
 
         }
         else
@@ -23,9 +28,10 @@
                 <CreateButton Url="admin/eventManagement/createevent" Who="a New Event" />
                 <TableTemplate Caption="Event" Items="events" Context="item">
                     <TableHeader>
-                        <td><p>@nameof(Event.Title)</p></td>
-                        <td><p>@nameof(Event.Description)</p></td>
-                        <td><p>@nameof(Event.IsShown)</p></td>
+                        <th><p>@nameof(Event.Title)</p></th>
+                        <th><p>@nameof(Event.Description)</p></th>
+                        <th><p>@nameof(Event.IsShown)</p></th>
+                        <th></th>
                     </TableHeader>
                     <RowTemplate>
                         <td><p>@item.Title</p></td>
@@ -45,12 +51,12 @@
 
 @code {
     private List<EventVM> events = null;
-    
+
     private bool render = false;
     protected async override Task OnInitializedAsync()
     {
         var result = await eventService.GetEventsAsync();
-         events = result.ToList();
+        events = result.ToList();
     }
 
     private async Task DeleteEvent(int id)

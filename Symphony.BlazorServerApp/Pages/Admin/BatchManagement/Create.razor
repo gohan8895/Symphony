@@ -1,0 +1,69 @@
+﻿@page "/admin/batchManagement/create"
+
+@inject NavigationManager Nav
+@using Symphony.BlazorServerApp.Services.BatchServices
+
+@inject IBatchService batchService
+
+<div class="container-lg">
+    <h1 class="text-center fw-bold">Create a new Batch</h1>
+    @if (Input is null)
+    {
+        <div class="text-center">
+            <div class="loadingio-spinner-bars-f8jbu6upslt">
+                <div class="ldio-p5olh5z9oq">
+                    <div></div><div></div><div></div><div></div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <EditForm Model="Input" OnValidSubmit="CreateSubject">
+            <DataAnnotationsValidator />
+            <div class="row">
+                <div class="col-lg-6 mb-5">
+                    <label class="form-label fw-bold">@nameof(Input.Description) <span class="text-danger fw-bold">*</span></label>
+                    <InputText @bind-Value="Input.Description" class="form-control" required />
+                    <ValidationMessage For="@(() => Input.Description)" />
+                </div>
+                <div class="col-lg-6 mb-5">
+                    <label class="form-label fw-bold">@nameof(Input.StartDate) <span class="text-danger fw-bold">*</span></label>
+                    <InputDate @bind-Value="Input.StartDate" @oninput="() => startDate = true" @oninvalid="() => startDate = false" class="form-control" required />
+                    <ValidationMessage For="@(() => Input.StartDate)" />
+                </div>
+                <div class="col-lg-6 mb-5">
+                    <label class="form-label fw-bold">@nameof(Input.EndDate) <span class="text-danger fw-bold">*</span></label>
+                    @if (startDate)
+                    {
+                        <InputDate @bind-Value="Input.EndDate" class="form-control" required />
+                        <ValidationMessage For="@(() => Input.EndDate)" />
+                    }
+                    else
+                    {
+                        <InputDate @bind-Value="Input.EndDate" class="form-control" required disabled />
+                        <ValidationMessage For="@(() => Input.EndDate)" />
+                    }
+                </div>
+                <CreateButtonForForm FirstBtn="Create" />
+            </div>
+        </EditForm>
+    }
+</div>
+
+@code {
+    #region Objects
+    private BatchCreateRequest Input { get; set; } = new();
+    private bool startDate { get; set; } = false;
+    #endregion
+
+    private async Task CreateSubject()
+    {
+        if (Input is not null)
+        {
+            await batchService.CreateAsync(Input);
+
+            Nav.NavigateTo("/admin/batchManagement");
+        }
+    }
+}

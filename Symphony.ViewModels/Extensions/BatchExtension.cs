@@ -15,7 +15,8 @@ namespace Symphony.ViewModels.Extensions
             Id = batch.Id,
             Description = batch.Description,
             StartDate = batch.StartDate,
-            EndDate = batch.EndDate
+            EndDate = batch.EndDate,
+            CreatedAt = batch.CreatedAt
         };
     }
 }

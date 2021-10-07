@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Symphony.ViewModels.CustomAttributes;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -41,6 +42,7 @@ namespace Symphony.ViewModels.Consult
         public string LastName { get; set; }
 
         [Required]
+        [DOB]
         [DataType(DataType.Date)]
         [Display(Name = "Day of Birth")]
         public DateTime DOB { get; set; }
@@ -83,6 +85,7 @@ namespace Symphony.ViewModels.Consult
         public string LastName { get; set; }
 
         [Required]
+        [DOB]
         [DataType(DataType.Date)]
         [Display(Name = "Day of Birth")]
         public DateTime DOB { get; set; }

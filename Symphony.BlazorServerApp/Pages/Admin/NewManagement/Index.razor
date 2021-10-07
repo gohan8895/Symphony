@@ -12,24 +12,27 @@
         @if (news == null)
         {
 
-            <div class="container">
-                <div class="spinner-border " role="status">
-                    <span class="visually-hidden">Loading...</span>
+            <div class="text-center">
+                <div class="loadingio-spinner-bars-f8jbu6upslt">
+                    <div class="ldio-p5olh5z9oq">
+                        <div></div><div></div><div></div><div></div>
+                    </div>
                 </div>
             </div>
 
         }
         else
         {
-           
+
             <div class="container-fluid">
                 <h1 class="text-center fw-bolder">News Manager</h1>
                 <CreateButton Url="admin/newManagement/createNew" Who="a New News" />
                 <TableTemplate Caption="News" Items="news" Context="item">
                     <TableHeader>
-                        <td><p>@nameof(News.Title)</p></td>
-                        <td><p>@nameof(News.Description)</p></td>
-                        <td><p>@nameof(News.IsShown)</p></td>
+                        <th><p>@nameof(News.Title)</p></th>
+                        <th><p>@nameof(News.Description)</p></th>
+                        <th><p>@nameof(News.IsShown)</p></th>
+                        <th></th>
                     </TableHeader>
                     <RowTemplate>
                         <td><p>@item.Title</p></td>

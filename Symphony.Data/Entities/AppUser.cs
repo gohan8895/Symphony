@@ -17,6 +17,7 @@ namespace Symphony.Data.Entities
         [PersonalData]
         public string Address { get; set; }
         [PersonalData]
+        [DOB]
         [DataType(DataType.Date)]
         public DateTime DOB { get; set; }
         [PersonalData]
@@ -36,5 +37,23 @@ namespace Symphony.Data.Entities
         public List<CourseRegistration> CourseRegistrations { get; set; }
         public List<ExamRegistration> ExamRegistrations { get; set; }
         public List<ConsultRegistration> ConsultRegistrations { get; set; }
+    }
+
+    public class DOBAttribute : ValidationAttribute
+    {
+        public string GetErrorMessage() =>
+            $"Sorry, Student must be 16 years or older";
+
+        protected override ValidationResult IsValid(object value,
+            ValidationContext validationContext)
+        {
+            var inputTime = ((DateTime)value);
+            if (DateTime.UtcNow.Year - inputTime.Year < 16)
+            {
+                return new ValidationResult(GetErrorMessage());
+            }
+
+            return ValidationResult.Success;
+        }
     }
 }

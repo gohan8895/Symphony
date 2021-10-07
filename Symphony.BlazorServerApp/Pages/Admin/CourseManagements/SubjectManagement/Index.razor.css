@@ -11,3 +11,14 @@
     font-weight: bolder;
     cursor: pointer;
 }
+
+.subject-name {
+    text-decoration: none;
+    color: #1d1d1d;
+}
+
+.subject-name:hover {
+    text-decoration: underline;
+    font-weight: bolder;
+    color: #102498;
+}

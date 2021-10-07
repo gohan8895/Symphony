@@ -60,6 +60,7 @@ namespace Symphony.BlazorServerApp.Areas.Identity.Pages.Account
             public string LastName { get; set; }
 
             [Required]
+            [DOB]
             [DataType(DataType.Date)]
             [Display(Name = "Day of Birth")]
             public DateTime DOB { get; set; }

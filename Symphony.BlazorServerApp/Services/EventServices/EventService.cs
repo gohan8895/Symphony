@@ -25,13 +25,13 @@ namespace Symphony.BlazorServerApp.Services.EventServices
             if (item is not null)
             {
                 var client = clientFactory.CreateClient("symphony");
-                var faqJson = new StringContent(
+                var newJson = new StringContent(
                     JsonSerializer.Serialize(item, options),
                     encoding: Encoding.UTF8,
                     "application/json"
                     );
 
-                using var httpResponse = await client.PostAsync("events/", faqJson);
+                using var httpResponse = await client.PostAsync("event/", newJson);
 
                 httpResponse.EnsureSuccessStatusCode();
             }
@@ -39,10 +39,11 @@ namespace Symphony.BlazorServerApp.Services.EventServices
 
         public async Task DeleteEventAsync(int id)
         {
+
             if (id != 0)
             {
                 var client = clientFactory.CreateClient("symphony");
-                using var httpResponse = await client.DeleteAsync("events/" + $"{id}");
+                using var httpResponse = await client.DeleteAsync("event/" + $"{id}");
 
                 httpResponse.EnsureSuccessStatusCode();
             }
@@ -70,6 +71,7 @@ namespace Symphony.BlazorServerApp.Services.EventServices
             var request = new HttpRequestMessage(HttpMethod.Get, "events/");
             var client = clientFactory.CreateClient("symphony");
             var response = await client.SendAsync(request);
+
             if (response.IsSuccessStatusCode)
             {
                 using var reponseStream = await response.Content.ReadAsStreamAsync();
@@ -86,13 +88,13 @@ namespace Symphony.BlazorServerApp.Services.EventServices
             if (item is not null)
             {
                 var client = clientFactory.CreateClient("symphony");
-                var faqJson = new StringContent(
+                var newJson = new StringContent(
                     JsonSerializer.Serialize(item, options),
                     encoding: Encoding.UTF8,
                     "application/json"
                     );
 
-                using var httpResponse = await client.PutAsync("events/", faqJson);
+                using var httpResponse = await client.PutAsync("events/", newJson);
 
                 httpResponse.EnsureSuccessStatusCode();
             }

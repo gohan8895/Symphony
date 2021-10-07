@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Symphony.Data.Entities;
 using Symphony.ViewModels.Consult;
+using Symphony.ViewModels.CustomAttributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -72,11 +73,13 @@ namespace Symphony.ViewModels.CourseViewModel
 
         [Required]
         [DataType(DataType.Date)]
+        [StartDate]
         [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
+        [EndDate("StartDate")]
         [Display(Name = "Start Date")]
         public DateTime EndDate { get; set; }
 
@@ -112,11 +115,13 @@ namespace Symphony.ViewModels.CourseViewModel
         public double DiscountedPrice { get; set; }
 
         [Required]
+        [StartDate]
         [DataType(DataType.Date)]
         [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; }
 
         [Required]
+        [EndDate("StartDate")]
         [DataType(DataType.Date)]
         [Display(Name = "Start Date")]
         public DateTime EndDate { get; set; }

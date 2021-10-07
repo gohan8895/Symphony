@@ -118,7 +118,7 @@ namespace Symphony.Services.BackendServices.CourseServices
 
                     string uploadTime = DateTime.Now.ToString("MMddyyyHHmmss");
                     var imgName = uploadTime + "_" + Path.GetFileName(image.FileName);
-                    var imgPath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwwroot\images", imgName);
+                    var imgPath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", imgName);
 
                     await using (var fileStream = new FileStream(imgPath, FileMode.Create))
                     {
@@ -127,7 +127,7 @@ namespace Symphony.Services.BackendServices.CourseServices
 
                     course.ImagePath = $@"images/{imgName}";
 
-                    await _context.SaveChangesAsync();
+                    return await _context.SaveChangesAsync();
                 }
             }
             return 0;

@@ -1,7 +1,7 @@
 ﻿.first-sec {
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
     padding-top: 1em;
     width: 50%;
     margin: auto;
@@ -12,10 +12,14 @@
     text-decoration: none;
 }
 
+.first-sec a:hover {
+    border-bottom: 2px white solid;
+}
+
 .third-sec {
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
     width: 50%;
     margin: auto;
     padding-bottom: 1em;

@@ -1,11 +1,17 @@
-﻿.main {
-    font-size: 20px;
-}
-
-.main img {
+﻿.main img {
     border-radius: 1em;
     width: 100%;
     height: auto;
+}
+
+h1 {
+    font-size: 50px;
+    font-weight: bolder;
+}
+
+h2 {
+    font-weight: bolder;
+    font-style: italic;
 }
 
 /*

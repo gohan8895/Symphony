@@ -17,6 +17,7 @@
     <None Remove="Pages\User\About\AboutUs.razor.css" />
     <None Remove="Pages\User\Course\Registered.razor.css" />
     <None Remove="Pages\User\Faq\Faq.razor.css" />
+    <None Remove="Pages\User\New\NewDetail.razor.css" />
 
     <None Remove="Shared\Admin\LoginDisplayAdmin.razor.css" />
 
@@ -29,11 +30,16 @@
     <Content Include="Pages\User\About\AboutUs.razor.css" />
     <Content Include="Pages\User\Course\Registered.razor.css" />
     <Content Include="Pages\User\Faq\Faq.razor.css" />
+    <Content Include="Pages\User\New\NewDetail.razor.css" />
 
     <Content Include="Shared\Admin\LoginDisplayAdmin.razor.css" />
 
     <Content Include="Shared\User\Footer.razor.css" />
     <Content Include="Shared\User\LoginDisplay.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\images\home\student4.webp" />
   </ItemGroup>
 
   <ItemGroup>
