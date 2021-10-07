@@ -4,7 +4,7 @@
 @using Symphony.ViewModels.Consult
 @using Symphony.BlazorServerApp.Services.FaqServices
 
-<main class="main">
+<main class="main p-5 mb-5" style="background-color: #ebebeb; border-radius: 10px;">
     @if (Data == null)
     {
         <div class="text-center">
@@ -18,8 +18,8 @@
     }
     else
     {
-        <div class="text-center text-warning">
-            <h1>FAQ</h1>
+        <div class="text-center ">
+            <h1 style="font-family: 'Roboto', sans-serif;">FAQ</h1>
         </div>
         <hr>
         <div class="accordion" id="accordionExample">
