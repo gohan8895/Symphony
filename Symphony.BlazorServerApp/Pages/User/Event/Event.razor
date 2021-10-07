@@ -8,36 +8,32 @@
 <main class="main">
     @if (Data == null)
     {
-    <div class="text-center">
-        <div class="loadingio-spinner-bars-f8jbu6upslt">
-            <div class="ldio-p5olh5z9oq">
-                <div></div><div></div><div></div><div></div>
+        <div class="text-center">
+            <div class="loadingio-spinner-bars-f8jbu6upslt">
+                <div class="ldio-p5olh5z9oq">
+                    <div></div><div></div><div></div><div></div>
+                </div>
             </div>
         </div>
-    </div>
 
     }
     else
     {
-        <div class="text-center text-warning">
-            <h1 class="display-1 ">Event</h1>
-        </div>
-        <hr>
-        <div class="container">
-         
-            <div class="row">
+        <div class="container m-4 shadow p-5" style="background-color: white; border-radius: 10px; font-family: 'Roboto', sans-serif; ">
+            <div class="header p-2 m-2 display-4  text-center" style="font-weight:900;">Events</div>
+            <div class="content">
                 @foreach (var item in Data)
                 {
-                    <div class="col-12">
-                        <div class="text-center fw-bold card border-dark mb-3" style="min-width: 25rem;">
-                            <div class="card-header display-3">@item.Title</div>
-                            <div class="card-body text-dark">
-                                <h5 class="card-title">@item.CreatedAt</h5>
-                                <p class="card-text">@item.Description</p>
-                            </div>
+                    <div class="card w-60 h-auto mb-3">
+
+                        <div class="card-header" style="background-color: #f2ddff; font-family: 'Roboto', sans-serif; height: 30px; font-size: 13px;">@item.CreatedAt</div>
+                        <div class="card-body" style="background-color: #ebebeb;">
+                            <div class="title display-6 mb-2" style="font-family: 'PT Serif', serif;">@item.Title</div>
+                            <div class="decription p-2 m-2 " style="font-family: 'PT Serif', serif;margin-left:10px;"> @item.Description</div>
                         </div>
                     </div>
                 }
+
             </div>
         </div>
     }
