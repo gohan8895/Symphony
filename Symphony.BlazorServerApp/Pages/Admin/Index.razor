@@ -4,46 +4,60 @@
 @using Symphony.ViewModels.CourseViewModel
 @using Symphony.BlazorServerApp.Services.CourseServices
 @using Symphony.BlazorServerApp.Services.SubjectServices
+@using Symphony.BlazorServerApp.Services.EnrollmentServices
 @using ChartJs.Blazor.PieChart
 @using ChartJs.Blazor.BarChart
 
 @inject ICourseService courseService
 @inject ISubjectService subjectService
 @inject UserManager<AppUser> userManager
-
-<div class="container-fluid">
-    <div class="main-content">
-        <div class="content rounded-3 content-1">
-            <div>
-                <p class="fw-bold">OVERVIEW</p>
-                <h2 class="fw-bolder">Welcome Admin</h2>
-            </div>
-            <div class="">
-                <p>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident debitis adipisci
-                    pariatur suscipit, nihil ratione doloribus temporibus minima voluptate repellendus.
-                </p>
+@inject IEnrollmentService enrollService
+@if (Enrollments is null)
+{
+    <div class="text-center">
+        <div class="loadingio-spinner-bars-f8jbu6upslt">
+            <div class="ldio-p5olh5z9oq">
+                <div></div><div></div><div></div><div></div>
             </div>
         </div>
-        <div class="content rounded-3 content-2 shadown-lg">
-            <Chart Config="pieConfig" @ref="pieChartJs"></Chart>
-        </div>
-        <div class="content rounded-3 content-3 shadown-lg">Lorem ipsum dolor sit amet.</div>
-        <div class="content rounded-3 content-4 shadown-lg">
-            <h3>Student Information</h3>
-            <Chart Config="barConfig" @ref="barChartJs"></Chart>
-        </div>
-        <div class="content rounded-3 content-5 shadown-lg">Lorem ipsum dolor sit amet.</div>
-        <div class="content rounded-3 content-6 shadown-lg">Lorem ipsum dolor sit amet.</div>
-        <div class="content rounded-3 content-7 shadown-lg">Lorem ipsum dolor sit amet.</div>
     </div>
-</div>
-
+}
+else
+{
+    <div class="container-fluid">
+        <div class="main-content">
+            <div class="content rounded-3 content-1">
+                <div>
+                    <p class="fw-bold">OVERVIEW</p>
+                    <h2 class="fw-bolder">Welcome Admin</h2>
+                </div>
+                <div class="">
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident debitis adipisci
+                        pariatur suscipit, nihil ratione doloribus temporibus minima voluptate repellendus.
+                    </p>
+                </div>
+            </div>
+            <div class="content rounded-3 content-2 shadown-lg">
+                <Chart Config="pieConfig" @ref="pieChartJs"></Chart>
+            </div>
+            <div class="content rounded-3 content-3 shadown-lg">Lorem ipsum dolor sit amet.</div>
+            <div class="content rounded-3 content-4 shadown-lg">
+                <h3>Enrollment Information</h3>
+                <Chart Config="barConfig" @ref="barChartJs"></Chart>
+            </div>
+            <div class="content rounded-3 content-5 shadown-lg">Lorem ipsum dolor sit amet.</div>
+            <div class="content rounded-3 content-6 shadown-lg">Lorem ipsum dolor sit amet.</div>
+            <div class="content rounded-3 content-7 shadown-lg">Lorem ipsum dolor sit amet.</div>
+        </div>
+    </div>
+}
 @code {
     public IEnumerable<CourseWithSubjects> Courses { get; set; } = Array.Empty<CourseWithSubjects>();
     public IEnumerable<SubjectVM> Subjects { get; set; } = Array.Empty<SubjectVM>();
     public IEnumerable<AppUser> Students { get; set; } = Array.Empty<AppUser>();
     public IEnumerable<AppUser> Teachers { get; set; } = Array.Empty<AppUser>();
+    public IEnumerable<EnrollmentWithData> Enrollments { get; set; } = Array.Empty<EnrollmentWithData>();
 
     #region chart config
     private Chart pieChartJs = new();
@@ -52,7 +66,7 @@
     private BarConfig barConfig = new();
     #endregion
 
-    protected override void OnInitialized()
+    protected async override void OnInitialized()
     {
         #region chart
         pieConfig = new PieConfig
@@ -71,6 +85,7 @@
         DateTime now = DateTime.Now;
         DateTime currentMonth = new DateTime(now.Year, now.Month, 1);
         var last12monthsString = new List<string>();
+        var last12monthsInt = new List<int>();
         var lastTwelveMonths =
             Enumerable.Range(0, 12)
                       .Select(i => -i)
@@ -79,6 +94,7 @@
         foreach (var item in lastTwelveMonths)
         {
             last12monthsString.Add(item.ToString("MMM"));
+            last12monthsInt.Add(item.Month);
         }
         last12monthsString.Reverse();
         foreach (string color in new[] { "Red", "Yellow", "Green", "Blue" })
@@ -107,7 +123,7 @@
                 Title = new OptionsTitle
                 {
                     Display = true,
-                    Text = "Student Info Chart",
+                    Text = "Student Enrollment Info Chart",
                     FontColor = ColorUtil.ColorHexString(255, 255, 255)
                 },
                 Animation = new Animation
@@ -138,12 +154,22 @@
             barConfig.Data.XLabels.Add(month);
         }
 
+        var enronPerMonth = new List<int>();
+        last12monthsInt.Reverse();
+        var enrolls = (await enrollService.GetEnrollmentWithDataVM()).ToList();
+        foreach (var month in last12monthsInt)
+        {
+            //string _count = Enrollments.Where(x => x.CreatedAt.Month == month).Count().ToString();
+            int _count = enrolls.Where(x => x.CreatedAt.Month == month).Count();
+            enronPerMonth.Add(_count);
+        }
+
         foreach (string amount in new[] { "5", "10", "15", "20", "25", "30", "35", "40", "45", "50" })
         {
             barConfig.Data.YLabels.Add(amount);
         }
 
-        BarDataset<int> barDataSet = new BarDataset<int>(new[] { 10, 8, 20, 45, 30, 35, 30, 10, 30, 50, 40, 25 });
+        BarDataset<int> barDataSet = new BarDataset<int>(enronPerMonth);
 
         barConfig.Data.Datasets.Add(barDataSet);
         barDataSet.BackgroundColor = ColorUtil.ColorHexString(219, 152, 39);
@@ -158,5 +184,6 @@
         Subjects = (await subjectService.GetSubjectVMsAsync()).ToList();
         Students = await userManager.GetUsersInRoleAsync("student");
         Teachers = await userManager.GetUsersInRoleAsync("teacher");
+        Enrollments = (await enrollService.GetEnrollmentWithDataVM()).ToList();
     }
 }

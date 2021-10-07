@@ -104,6 +104,8 @@ namespace Symphony.Services.BackendServices.EnrollmentServices
                 UserId = e.UserId,
                 CourseId = e.CourseId,
                 IsDelete = e.IsDelete,
+                CreatedAt = e.CreatedAt,
+                UpdatedAt = e.UpdatedAt,
                 AppUserVM = e.AppUser.AsVM(),
                 CourseVM = e.Course.AsVM()
             }).ToListAsync();
