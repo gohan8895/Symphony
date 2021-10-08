@@ -19,6 +19,7 @@ namespace Symphony.ViewModels.Consult
         [DisplayName("Phone Number")]
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
+        public int BatchId { get; set; }
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         public string UserName { get; set; }

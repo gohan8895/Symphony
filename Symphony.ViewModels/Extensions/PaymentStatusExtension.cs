@@ -17,9 +17,8 @@ namespace Symphony.ViewModels.Extensions
             CourseRegistrationId = paymentStatus.CourseRegistrationId,
             Amount = paymentStatus.Amount,
             HasPaid = paymentStatus.HasPaid,
-            CreatedAt = DateTime.Now,
+            CreatedAt = paymentStatus.CreatedAt,
             UpdatedAt = paymentStatus.UpdatedAt
-
         }; 
     }
 }
