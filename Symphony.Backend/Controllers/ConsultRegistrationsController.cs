@@ -48,9 +48,9 @@ namespace Symphony.Backend.Controllers
 
         // PUT api/<ConsultRegistrationsController>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutConsult(int id, ConsultUpdateRequest request)
+        public async Task<IActionResult> PutConsult(int id)
         {
-            await _services.PutConsultRegistration(request, id);
+            await _services.PutConsultRegistration(id);
             return NoContent();
         }
 

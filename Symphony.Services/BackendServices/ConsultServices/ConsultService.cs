@@ -64,12 +64,12 @@ namespace Symphony.Services.BackendServices.ConsultServices
             return regis.Id;
         }
 
-        public async Task PutConsultRegistration(ConsultUpdateRequest registration, int id)
+        public async Task PutConsultRegistration(int id)
         {
             var _regis = await _context.ConsultRegistrations
                         .SingleOrDefaultAsync(x => x.Id == id);
 
-            _regis.IsContacted = registration.IsContacted;
+            _regis.IsContacted = !(_regis.IsContacted);
             await _context.SaveChangesAsync();
         }
     }
