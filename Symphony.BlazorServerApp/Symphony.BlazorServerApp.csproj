@@ -65,4 +65,8 @@
     <ProjectReference Include="..\Symphony.ViewModels\Symphony.ViewModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\Admin\PaymentStatusManagements\" />
+  </ItemGroup>
+
 </Project>

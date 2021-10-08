@@ -70,19 +70,19 @@ namespace Symphony.BlazorServerApp
             services.AddTransient<IEventService, EventService>();
             services.AddTransient<IFaqService, FaqService>();
             services.AddTransient<INewService, NewService>();
-            services.AddTransient<ISubjectService, SubjectService>();
             services.AddTransient<IPaymentStatusService, PaymentStatusService>();
+            services.AddTransient<ISubjectService, SubjectService>();
 
-            /* Google Auth */
-            //services.AddAuthentication()
-            //    .AddGoogle(options =>
-            //    {
-            //        IConfigurationSection googleAuthNSection =
-            //            Configuration.GetSection("Authentication:Google");
+            /*Google Auth*/
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    IConfigurationSection googleAuthNSection =
+                        Configuration.GetSection("Authentication:Google");
 
-            //        options.ClientId = googleAuthNSection["ClientId"];
-            //        options.ClientSecret = googleAuthNSection["ClientSecret"];
-            //    });
+                    options.ClientId = googleAuthNSection["ClientId"];
+                    options.ClientSecret = googleAuthNSection["ClientSecret"];
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
