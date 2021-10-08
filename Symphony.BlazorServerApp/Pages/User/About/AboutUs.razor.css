@@ -13,18 +13,3 @@ h2 {
     font-weight: bolder;
     font-style: italic;
 }
-
-/*
-.grid-container {
-    margin-top: 2em;
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    grid-auto-rows: max(auto);
-    row-gap: 3em;
-    column-gap: 3em;
-}
-
-
-.grid-item {
-    margin: auto;
-} */
