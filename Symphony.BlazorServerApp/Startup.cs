@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Symphony.BlazorServerApp.Areas.Identity;
 using Symphony.BlazorServerApp.Services.AboutServices;
 using Symphony.BlazorServerApp.Services.BatchServices;
+using Symphony.BlazorServerApp.Services.ConsultRegisationService;
 using Symphony.BlazorServerApp.Services.CourseRegistrationService;
 using Symphony.BlazorServerApp.Services.CourseServices;
 using Symphony.BlazorServerApp.Services.EnrollmentServices;
@@ -70,19 +71,20 @@ namespace Symphony.BlazorServerApp
             services.AddTransient<IEventService, EventService>();
             services.AddTransient<IFaqService, FaqService>();
             services.AddTransient<INewService, NewService>();
-            services.AddTransient<ISubjectService, SubjectService>();
             services.AddTransient<IPaymentStatusService, PaymentStatusService>();
+            services.AddTransient<ISubjectService, SubjectService>();
+            services.AddTransient<IConsultRegistrationService, ConsultRegistrationService>();
 
-            /* Google Auth */
-            //services.AddAuthentication()
-            //    .AddGoogle(options =>
-            //    {
-            //        IConfigurationSection googleAuthNSection =
-            //            Configuration.GetSection("Authentication:Google");
+            /*Google Auth*/
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    IConfigurationSection googleAuthNSection =
+                        Configuration.GetSection("Authentication:Google");
 
-            //        options.ClientId = googleAuthNSection["ClientId"];
-            //        options.ClientSecret = googleAuthNSection["ClientSecret"];
-            //    });
+                    options.ClientId = googleAuthNSection["ClientId"];
+                    options.ClientSecret = googleAuthNSection["ClientSecret"];
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,0 +1,119 @@
+﻿@page "/admin/enrollment/{id:int}"
+
+@using Symphony.BlazorServerApp.Services.EnrollmentServices
+
+@inject IEnrollmentService enrollService
+@inject NavigationManager nav
+
+
+<AuthorizeView Roles="admin">
+    <Authorized>
+        <div class="container-lg">
+            <h1 class="text-center fw-bolder">Enrollment Manager</h1>
+            @if (Enrollment is null)
+            {
+                <div class="text-center">
+                    <div class="loadingio-spinner-bars-f8jbu6upslt">
+                        <div class="ldio-p5olh5z9oq">
+                            <div></div><div></div><div></div><div></div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <p class="py-2 text-primary text-center mx-auto">Updated: @Enrollment.UpdatedAt.Humanize()</p>
+                <div class="main-content flex align-items-start">
+                    <div>
+                        <h4 class="fw-bold text-center">Enrollment & Course</h4>
+                        <ul>
+                            <li>
+                                <span class="fw-bolder pe-2">@nameof(Enrollment.Id):</span>@Enrollment.Id
+                            </li>
+                            <li>
+                                <span class="fw-bolder pe-2">Enrollment created at:</span>@Enrollment.CreatedAt.ToShortDateString()
+                            </li>
+                            <li>
+                                <span class="fw-bolder pe-2">Enrollment updated at:</span>@Enrollment.UpdatedAt.ToShortDateString()
+                            </li>
+                            <li>
+                                <a href="/admin/course/@Enrollment.CourseId">
+                                    <span class="fw-bolder pe-2">@nameof(Enrollment.CourseVM.Name):</span>
+                                    @Enrollment.CourseVM.Name
+                                </a>
+                            </li>
+                            <li>
+                                <span class="fw-bolder pe-2">@nameof(Enrollment.CourseVM.StartDate):</span>@Enrollment.CourseVM.StartDate.ToShortDateString()
+                            </li>
+                            <li>
+                                <span class="fw-bolder pe-2">@nameof(Enrollment.CourseVM.EndDate):</span>@Enrollment.CourseVM.EndDate.ToShortDateString()
+                            </li>
+                            <li>
+                                <span class="fw-bolder pe-2">@nameof(Enrollment.CourseVM.CreatedAt):</span>@Enrollment.CourseVM.CreatedAt.ToShortDateString()
+                            </li>
+                            <li>
+                                <span class="fw-bolder pe-2">@nameof(Enrollment.CourseVM.UpdatedAt):</span>@Enrollment.CourseVM.UpdatedAt.ToShortDateString()
+                            </li>
+                            <li>
+                                <span class="fw-bolder pe-2">Extra lab session:</span>@Enrollment.CourseVM.IsExtra
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="fw-bold text-center">Student Info</h4>
+                        <ul>
+                            <li>
+                                <a href="/admin/userManagement/@Enrollment.AppUserVM.Id">
+                                    <span class="fw-bolder pe-2">User @nameof(Enrollment.AppUserVM.Id):</span>
+                                    @Enrollment.AppUserVM.Id
+                                </a>
+                            </li>
+                            <li>
+                                <span class="fw-bolder pe-2">First Name: </span>@Enrollment.AppUserVM.FirstName
+                            </li>
+                            <li>
+                                <span class="fw-bolder pe-2">Last Name:</span>@Enrollment.AppUserVM.LastName
+                            </li>
+                            <li>
+                                <span class="fw-bolder pe-2">@nameof(Enrollment.AppUserVM.Gender)</span>@(Enrollment.AppUserVM.Gender == 'M' ? "Male" : "Female")
+                            </li>
+                            <li>
+                                <span class="fw-bolder pe-2">Day of Birth:</span>@Enrollment.AppUserVM.DOB.ToShortDateString()
+                            </li>
+                            <li>
+                                <span class="fw-bolder pe-2">@nameof(Enrollment.AppUserVM.Email):</span>@Enrollment.AppUserVM.Email
+                            </li>
+                            <li>
+                                <span class="fw-bolder pe-2">Phone Number:</span>@Enrollment.AppUserVM.PhoneNumber
+                            </li>
+                            <li>
+                                <span class="fw-bolder pe-2">@nameof(Enrollment.AppUserVM.Address):</span>@Enrollment.AppUserVM.Address
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="navigator flex">
+                    <div>
+                        <a href="admin/registration" class="back text-center">
+                            Go back to registration manager <span class="ps-3 material-icons">chevron_left</span>
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <UnauthorizedAccess />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private EnrollmentWithData Enrollment { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        Enrollment = (await enrollService.GetEnrollmentWithDataVM()).FirstOrDefault(e => e.Id == Id);
+    }
+}

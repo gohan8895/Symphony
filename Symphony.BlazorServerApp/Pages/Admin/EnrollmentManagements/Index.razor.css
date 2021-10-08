@@ -11,14 +11,3 @@
     font-weight: bolder;
     cursor: pointer;
 }
-
-.reg-name {
-    text-decoration: none;
-    color: #1d1d1d;
-}
-
-.reg-name:hover {
-    text-decoration: underline;
-    font-weight: bolder;
-    color: #102498;
-}

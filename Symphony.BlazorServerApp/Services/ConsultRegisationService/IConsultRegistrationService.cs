@@ -1,14 +1,12 @@
-﻿using Symphony.Data.Entities;
-using Symphony.ViewModels.Consult;
+﻿using Symphony.ViewModels.Consult;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Symphony.Services.BackendServices.ConsultServices
+namespace Symphony.BlazorServerApp.Services.ConsultRegisationService
 {
-    public interface IConsultService
+    public interface IConsultRegistrationService
     {
         Task<IEnumerable<ConsultVM>> GetConsultRegistrations();
 
