@@ -14,7 +14,7 @@ namespace Symphony.BlazorServerApp.Services.ConsultRegisationService
 
         Task<int> PostConsultRegistration(ConsultCreateRequest registration);
 
-        Task PutConsultRegistration(int id);
+        Task<int> PutConsultRegistration(int id);
 
         Task DeleteConsultRegistration(int id);
     }
