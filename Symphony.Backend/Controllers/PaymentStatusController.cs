@@ -12,11 +12,11 @@ namespace Symphony.Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PaymentStatussController : ControllerBase
+    public class PaymentStatusController : ControllerBase
     {
         private readonly IPaymentStatusService paymentStatusService;
 
-        public PaymentStatussController(IPaymentStatusService paymentStatusService)
+        public PaymentStatusController(IPaymentStatusService paymentStatusService)
         {
             this.paymentStatusService = paymentStatusService;
         }
@@ -31,10 +31,13 @@ namespace Symphony.Backend.Controllers
             return Ok(result);
         }
 
-        [HttpGet]
-        public async Task<ActionResult<PaymentStatusVM>> GetPaymentStatus(int id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<PaymentStatusWithData>> GetPaymentStatus(int id)
         {
             var result = await paymentStatusService.GetPaymentStatusAsync(id);
+
+            if (result is null) return NotFound();
+
             return Ok(result);
         }
 

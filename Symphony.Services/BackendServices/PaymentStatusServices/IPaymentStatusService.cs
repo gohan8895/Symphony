@@ -11,7 +11,7 @@ namespace Symphony.Services.BackendServices.PaymentStatusServices
     {
         Task<IEnumerable<PaymentStatusVM>> GetAllPaymentStatusAsync();
 
-        Task<PaymentStatusVM> GetPaymentStatusAsync(int courseRegistrationId);
+        Task<PaymentStatusWithData> GetPaymentStatusAsync(int courseRegistrationId);
 
         Task<PaymentStatusVM> CreatePaymentStatusAsync(int courseRegistrationId, double amount);
 

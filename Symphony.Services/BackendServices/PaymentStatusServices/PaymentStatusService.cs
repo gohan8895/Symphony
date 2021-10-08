@@ -21,6 +21,41 @@ namespace Symphony.Services.BackendServices.PaymentStatusServices
             this.symphonyDBContext = symphonyDBContext;
         }
 
+        public async Task<IEnumerable<PaymentStatusVM>> GetAllPaymentStatusAsync()
+        {
+            var result = await symphonyDBContext.PaymentStatuses.Select(a => a.AsVM()).ToListAsync();
+            if (result is null)
+            {
+                return null;
+            }
+            return result;
+        }
+
+        public async Task<PaymentStatusWithData> GetPaymentStatusAsync(int courseID)
+        {
+            var result = await symphonyDBContext
+                .PaymentStatuses
+                .Include(p => p.CourseRegistration)
+                .Select(p => new PaymentStatusWithData { 
+                    Id = p.Id,
+                    CourseRegistrationId = p.CourseRegistrationId,
+                    Amount = p.Amount,
+                    HasPaid = p.HasPaid,
+                    CreatedAt=  p.CreatedAt,
+                    UpdatedAt = p.UpdatedAt,
+                    CourseRegistrationVM = p.CourseRegistration.AsVM()
+                })
+                .FirstOrDefaultAsync(a => a.CourseRegistrationId == courseID);
+
+            if (result is null)
+            {
+                return null;
+            }
+
+            return result;
+        }
+
+
         public async Task<PaymentStatusVM> CreatePaymentStatusAsync(int courseRegistrationId, double amount)
         {
             var paymentStatus = new PaymentStatus()
@@ -34,38 +69,6 @@ namespace Symphony.Services.BackendServices.PaymentStatusServices
             await symphonyDBContext.PaymentStatuses.AddAsync(paymentStatus);
             await symphonyDBContext.SaveChangesAsync();
             return paymentStatus.AsVM();
-        }
-
-        public async Task<PaymentStatusVM> DeletePaymentStatusAsync(int id)
-        {
-            var result = await symphonyDBContext.PaymentStatuses.FirstOrDefaultAsync(a => a.Id == id);
-            if (result is null)
-            {
-                return null;
-            }
-            symphonyDBContext.PaymentStatuses.Remove(result);
-            await symphonyDBContext.SaveChangesAsync();
-            return result.AsVM();
-        }
-
-        public async Task<IEnumerable<PaymentStatusVM>> GetAllPaymentStatusAsync()
-        {
-            var result = await symphonyDBContext.PaymentStatuses.Select(a => a.AsVM()).ToListAsync();
-            if (result is null)
-            {
-                return null;
-            }
-            return result;
-        }
-
-        public async Task<PaymentStatusVM> GetPaymentStatusAsync(int courseID)
-        {
-            var result = await symphonyDBContext.PaymentStatuses.FirstOrDefaultAsync(a => a.CourseRegistrationId == courseID);
-            if (result is null)
-            {
-                return null;
-            }
-            return result.AsVM();
         }
 
         public async Task<PaymentStatusVM> UpdatePaymentStatusAsync(int courseRegistrationId, bool courseRegisIsApproved)
@@ -82,6 +85,18 @@ namespace Symphony.Services.BackendServices.PaymentStatusServices
             paymentStatus.UpdatedAt = DateTime.Now;
             await symphonyDBContext.SaveChangesAsync();
             return paymentStatus.AsVM();
+        }
+
+        public async Task<PaymentStatusVM> DeletePaymentStatusAsync(int id)
+        {
+            var result = await symphonyDBContext.PaymentStatuses.FirstOrDefaultAsync(a => a.Id == id);
+            if (result is null)
+            {
+                return null;
+            }
+            symphonyDBContext.PaymentStatuses.Remove(result);
+            await symphonyDBContext.SaveChangesAsync();
+            return result.AsVM();
         }
     }
 }

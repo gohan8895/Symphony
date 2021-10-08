@@ -16,10 +16,7 @@ namespace Symphony.ViewModels.Consult
         public Guid UserId { get; set; }
         public int CourseId { get; set; }
         public bool IsApproved { get; set; }
-
-        [DisplayName("Register Date")]
         public DateTime CreatedAt { get; set; }
-
         public bool ExamRequired { get; set; }
     }
 
