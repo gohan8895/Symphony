@@ -21,7 +21,7 @@
     </div>
     <div class="col-md-6">
         <label class="form-label fw-bold">@nameof(InputFaq.IsShown) <span class="text-danger fw-bold">*</span></label>
-        <input type="checkbox" @bind-value="InputFaq.IsShown" />
+        <input type="checkbox" @bind="InputFaq.IsShown" />
         <ValidationMessage For="@(() => InputFaq.IsShown)" />
     </div>
       
