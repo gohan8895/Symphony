@@ -22,7 +22,7 @@
     </div>
     <div class="col-md-6">
         <label class="form-label fw-bold">@nameof(InputNew.IsShown) <span class="text-danger fw-bold">*</span></label>
-        <input type="checkbox" @bind-value="InputNew.IsShown"  />
+        <input type="checkbox" @bind="InputNew.IsShown"  />
         <ValidationMessage For="@(() => InputNew.IsShown)" />
     </div>
 
