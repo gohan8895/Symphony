@@ -1,8 +1,9 @@
 ﻿@page "/admin/userManagement/userManager"
 
+@using Symphony.BlazorServerApp.Controls.TableComponents
+
 @inject UserManager<AppUser> userManager
 @inject RoleManager<AppRole> roleManager
-@using Symphony.BlazorServerApp.Controls.TableComponents
 @inject NavigationManager nav
 
 
@@ -25,27 +26,34 @@
                 <CreateButton Url="admin/userManagement/createUser" Who="a New User" />
                 <TableTemplate Caption="Users" Items="Users" Context="user">
                     <TableHeader>
-                        <th><p>@nameof(User.FirstName)</p></th>
-                        <th><p>@nameof(User.LastName)</p></th>
-                        <th><p>@nameof(User.DOB)</p></th>
-                        <th><p>@nameof(User.Gender)</p></th>
-                        <th><p>@nameof(User.PhoneNumber)</p></th>
-                        <th><p>@nameof(User.Address)</p></th>
-                        <th><p>@nameof(User.Email)</p></th>
-                        <th><p>@nameof(User.EmailConfirmed)</p></th>
-                        <th><p>@nameof(User.CreatedAt)</p></th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>@nameof(User.DOB)</th>
+                        <th>@nameof(User.Gender)</th>
+                        <th>Phone Number</th>
+                        <th>@nameof(User.Address)</th>
+                        <th>Batch ID</th>
+                        <th>@nameof(User.Email)</th>
+                        <th>Email Confirmation</th>
+                        <th>Created At</th>
                         <th></th>
                     </TableHeader>
                     <RowTemplate>
-                        <td><p>@user.FirstName</p></td>
-                        <td><p>@user.LastName</p></td>
-                        <td><p>@user.DOB</p></td>
-                        <td><p>@user.Gender</p></td>
-                        <td><p>@user.PhoneNumber</p></td>
-                        <td><p>@user.Address</p></td>
-                        <td><p>@user.Email</p></td>
-                        <td><p>@(user.EmailConfirmed ? "Confirmed" : "Unconfirmed")</p></td>
-                        <td><p>@user.CreatedAt</p></td>
+                        <td>@user.FirstName</td>
+                        <td>@user.LastName</td>
+                        <td>@user.DOB</td>
+                        <td>@user.Gender</td>
+                        <td>@user.PhoneNumber</td>
+                        <td>@user.Address</td>
+                        <td>
+                            <a href="admin/batchManagement/@user.BatchId"
+                               class="link-dark">
+                            @user.BatchId
+                            </a>
+                        </td>
+                        <td>@user.Email</td>
+                        <td>@(user.EmailConfirmed ? "Confirmed" : "Unconfirmed")</td>
+                        <td>@user.CreatedAt.ToShortDateString()</td>
                         <td class="text-center">
                             <NavLink href=@($"/admin/userManagement/editUser/{user.Id}") class="material-icons nav-item text-warning me-4">edit</NavLink>
                             <button @onclick="() => DeleteUser(user.Email)" class="btn material-icons nav-item text-danger me-2">delete</button>
@@ -65,7 +73,7 @@
 @code {
 
     #region DTO
-    private List<AppUserVM> Users { get; set; } = null;
+    private List<AppUserVM> Users { get; set; }
     private AppUserVM User { get; set; }
     private bool render = false;
     #endregion
