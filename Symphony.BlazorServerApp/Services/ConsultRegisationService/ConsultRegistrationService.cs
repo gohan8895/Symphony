@@ -85,21 +85,19 @@ namespace Symphony.BlazorServerApp.Services.ConsultRegisationService
             return 0;
         }
 
-        public async Task PutConsultRegistration(int id)
+        public async Task<int> PutConsultRegistration(int id)
         {
             if (id != 0)
             {
+                var request = new HttpRequestMessage(HttpMethod.Put, $"ConsultRegistrations/{id}");
                 var client = clientFactory.CreateClient("symphony");
-                var faqJson = new StringContent(
-                    JsonSerializer.Serialize(id, options),
-                    encoding: Encoding.UTF8,
-                    "application/json"
-                    );
-
-                using var httpResponse = await client.PutAsync("ConsultRegistrations/", faqJson);
-
-                httpResponse.EnsureSuccessStatusCode();
+                var response = await client.SendAsync(request);
+                if (response.IsSuccessStatusCode)
+                {
+                    return 1;
+                }
             }
+            return 0;
         }
     }
 }

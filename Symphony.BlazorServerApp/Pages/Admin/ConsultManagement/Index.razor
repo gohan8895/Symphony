@@ -1,0 +1,243 @@
+﻿@page "/admin/consulregistration"
+
+@using Symphony.BlazorServerApp.Controls.TableComponents
+
+@using Symphony.BlazorServerApp.Services.ConsultRegisationService
+
+@inject IConsultRegistrationService _service
+
+<AuthorizeView Roles="admin">
+    <Authorized>
+        <div class="container-lg">
+            <h1 class="text-center fw-bolder">Consult Registration Manager</h1>
+            @if (ConsultRegisAll is null)
+            {
+                <div class="text-center">
+                    <div class="loadingio-spinner-bars-f8jbu6upslt">
+                        <div class="ldio-p5olh5z9oq">
+                            <div></div><div></div><div></div><div></div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <TableTemplate Caption="Consult Registration" Items="ConsultRegisAll" Context="p">
+                    <TableHeader>
+                        <th>
+                            <span @onclick="SortId" class="flex">
+                                @nameof(ConsultVM.Id)
+                                <span class="ps-1 material-icons hover-me">
+                                    @(sortId ? "arrow_downward" : "arrow_upward")
+                                </span>
+                            </span>
+                        </th>
+                        <th>
+                            <span @onclick="SortFullName" class="flex">
+                                Full Name
+                                <span class="ps-1 material-icons hover-me">
+                                    @(sortFullName ? "arrow_downward" : "arrow_upward")
+                                </span>
+                            </span>
+                        </th>
+                        <th>
+                            <span @onclick="SortPhone" class="flex">
+                                Phone
+                                <span class="ps-1 material-icons hover-me">
+                                    @(sortPhone ? "arrow_downward" : "arrow_upward")
+                                </span>
+                            </span>
+                        </th>
+                        <th>
+                            <span @onclick="SortStatus" class="flex">
+                                Has Contacted?
+                                <span class="ps-1 material-icons hover-me">
+                                    @(sortHasContacted ? "arrow_downward" : "arrow_upward")
+                                </span>
+                            </span>
+                        </th>
+                        <th>
+                            <span @onclick="SortEmail" class="flex">
+                                Email
+                                <span class="ps-1 material-icons hover-me">
+                                    @(sortEmail ? "arrow_downward" : "arrow_upward")
+                                </span>
+                            </span>
+                        </th>
+                        <th>
+                            <div @onclick="SortCreatedAt" class="flex">
+                                Created At
+                                <span class="ps-1 material-icons hover-me">
+                                    @(sortCreatedAt ? "arrow_downward" : "arrow_upward")
+                                </span>
+                            </div>
+                        </th>
+                        <th>Update Status</th>
+                    </TableHeader>
+                    <RowTemplate>
+                        <td>
+                            @p.Id
+                        </td>
+                        <td>@p.FullName</td>
+                        <td>@p.Phone</td>
+                        <td>@p.IsContacted</td>
+                        <td>@p.Email</td>
+                        <td>@p.CreatedAt.ToLongDateString()</td>
+                        <td class="text-center flex justify-content-center">
+                            <a class="btn material-icons text-warning"
+                               data-bs-toggle="modal" data-bs-target="#exampleModal"
+                               title="Click to confirm this form is contacted"
+                               @onclick="() => { courseRegId = p.Id; }">update</a>
+                        </td>
+                    </RowTemplate>
+                </TableTemplate>
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Remove Payment Status</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Do you want to Update this Consult Form status?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @onclick="() => ChangeStatus(courseRegId)">
+                                    Yes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <UnauthorizedAccess />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    #region param & prop
+    private List<ConsultVM> ConsultRegisAll { get; set; }
+    private ConsultVM ConsultRegis { get; set; }
+    private int courseRegId { get; set; }
+    #endregion
+
+    #region other
+    private bool sortId = false;
+    private bool sortFullName = false;
+    private bool sortPhone = false;
+    private bool sortHasContacted = false;
+    private bool sortCreatedAt = true;
+    private bool sortEmail = false;
+
+    #endregion
+
+    protected async override Task OnInitializedAsync()
+    {
+        ConsultRegisAll = (await _service.GetConsultRegistrations()).ToList();
+    }
+
+    private async Task ChangeStatus(int consultId)
+    {
+        var consultVM = ConsultRegisAll.FirstOrDefault(p => p.Id == consultId);
+        if (consultId != 0) await _service.PutConsultRegistration(consultId);
+        if (consultVM.IsContacted == "Yes") consultVM.IsContacted = "No";
+        else consultVM.IsContacted = "Yes";
+    }
+
+    private async Task DeleteConsult(int id)
+    {
+        var faq = await _service.GetConsultRegistration(id);
+
+        if (faq is not null) await _service.DeleteConsultRegistration(id);
+        //render = !render;
+        ConsultRegisAll = (await _service.GetConsultRegistrations()).ToList();
+    }
+
+    #region fiter logic
+    private void SortId()
+    {
+        if (sortId)
+        {
+            ConsultRegisAll = ConsultRegisAll.OrderBy(r => r.Id).ToList();
+            sortId = !sortId;
+        }
+        else
+        {
+            ConsultRegisAll = ConsultRegisAll.OrderByDescending(r => r.Id).ToList();
+            sortId = !sortId;
+        }
+    }
+    private void SortFullName()
+    {
+        if (sortFullName)
+        {
+            ConsultRegisAll = ConsultRegisAll.OrderBy(r => r.FullName).ToList();
+            sortFullName = !sortFullName;
+        }
+        else
+        {
+            ConsultRegisAll = ConsultRegisAll.OrderByDescending(r => r.FullName).ToList();
+            sortFullName = !sortFullName;
+        }
+    }
+    private void SortPhone()
+    {
+        if (sortPhone)
+        {
+            ConsultRegisAll = ConsultRegisAll.OrderBy(r => r.Phone).ToList();
+            sortPhone = !sortPhone;
+        }
+        else
+        {
+            ConsultRegisAll = ConsultRegisAll.OrderByDescending(r => r.Phone).ToList();
+            sortPhone = !sortPhone;
+        }
+    }
+    private void SortStatus()
+    {
+        if (sortHasContacted)
+        {
+            ConsultRegisAll = ConsultRegisAll.OrderBy(r => r.IsContacted).ToList();
+            sortHasContacted = !sortHasContacted;
+        }
+        else
+        {
+            ConsultRegisAll = ConsultRegisAll.OrderByDescending(r => r.IsContacted).ToList();
+            sortHasContacted = !sortHasContacted;
+        }
+    }
+    private void SortEmail()
+    {
+        if (sortEmail)
+        {
+            ConsultRegisAll = ConsultRegisAll.OrderBy(r => r.Email).ToList();
+            sortEmail = !sortEmail;
+        }
+        else
+        {
+            ConsultRegisAll = ConsultRegisAll.OrderByDescending(r => r.Email).ToList();
+            sortEmail = !sortEmail;
+        }
+    }
+
+    private void SortCreatedAt()
+    {
+        if (sortCreatedAt)
+        {
+            ConsultRegisAll = ConsultRegisAll.OrderBy(r => r.CreatedAt).ToList();
+            sortCreatedAt = !sortCreatedAt;
+        }
+        else
+        {
+            ConsultRegisAll = ConsultRegisAll.OrderByDescending(r => r.CreatedAt).ToList();
+            sortCreatedAt = !sortCreatedAt;
+        }
+    }
+
+    #endregion
+}
