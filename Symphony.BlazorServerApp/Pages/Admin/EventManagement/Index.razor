@@ -62,8 +62,10 @@
     private async Task DeleteEvent(int id)
     {
         var item = await eventService.GetEventAsync(id);
-
+        
         if (item is not null) await eventService.DeleteEventAsync(id);
-        render = !render;
+        events = (await eventService.GetEventsAsync()).ToList();
     }
+
+
 }
