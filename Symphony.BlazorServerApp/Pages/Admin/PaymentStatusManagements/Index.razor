@@ -1,15 +1,15 @@
-﻿@page "/admin/enrollment"
+﻿@page "/admin/paymentStatus"
 
-@using Symphony.BlazorServerApp.Services.EnrollmentServices
+@using Symphony.BlazorServerApp.Services.PaymentStatusServices
 @using Symphony.BlazorServerApp.Controls.TableComponents
 
-@inject IEnrollmentService enrollService
+@inject IPaymentStatusService paymentService
 
 <AuthorizeView Roles="admin">
     <Authorized>
         <div class="container-lg">
-            <h1 class="text-center fw-bolder">Enrollment Manager</h1>
-            @if (Enrollments is null)
+            <h1 class="text-center fw-bolder">Payment Manager</h1>
+            @if (Payments is null)
             {
                 <div class="text-center">
                     <div class="loadingio-spinner-bars-f8jbu6upslt">
@@ -21,7 +21,7 @@
             }
             else
             {
-                <TableTemplate Caption="Enrollments" Items="Enrollments" Context="en">
+                <TableTemplate Caption="Payment Status" Items="Payments" Context="p">
                     <TableHeader>
                         <th>
                             <span @onclick="SortId" class="flex">
@@ -32,19 +32,32 @@
                             </span>
                         </th>
                         <th>
-                            Student Email
+                            <span @onclick="SortCourseReg" class="flex">
+                                Course Registration ID
+                                <span class="ps-1 material-icons hover-me">
+                                    @(sortCourseReg ? "arrow_downward" : "arrow_upward")
+                                </span>
+                            </span>
                         </th>
                         <th>
-                            <span @onclick="SortCourse" class="flex">
-                                Course ID
+                            <span @onclick="SortAmount" class="flex">
+                                @nameof(Payment.Amount)
                                 <span class="ps-1 material-icons hover-me">
-                                    @(sortCourse ? "arrow_downward" : "arrow_upward")
+                                    @(sortAmount ? "arrow_downward" : "arrow_upward")
+                                </span>
+                            </span>
+                        </th>
+                        <th>
+                            <span @onclick="SortStatus" class="flex">
+                                Has Paid
+                                <span class="ps-1 material-icons hover-me">
+                                    @(sortHasPaid ? "arrow_downward" : "arrow_upward")
                                 </span>
                             </span>
                         </th>
                         <th>
                             <div @onclick="SortCreatedAt" class="flex">
-                                Registered At
+                                Created At
                                 <span class="ps-1 material-icons hover-me">
                                     @(sortCreatedAt ? "arrow_downward" : "arrow_upward")
                                 </span>
@@ -62,17 +75,18 @@
                     </TableHeader>
                     <RowTemplate>
                         <td>
-                            <a class="en-name fw-bold" href="/admin/enrollment/@en.Id">@en.Id</a>
+                            <a class="payment-name fw-bold" href="/admin/paymentStatus/@p.CourseRegistrationId">@p.Id</a>
                         </td>
-                        <td>@en.AppUserVM.Email</td>
-                        <td>@en.CourseId</td>
-                        <td>@en.CreatedAt.ToLongDateString()</td>
-                        <td>@en.UpdatedAt.ToLongDateString()</td>
+                        <td>@p.CourseRegistrationId</td>
+                        <td>$ @p.Amount</td>
+                        <td>@(p.HasPaid ? "Paid" : "Not Yet")</td>
+                        <td>@p.CreatedAt.ToLongDateString()</td>
+                        <td>@p.UpdatedAt.ToLongDateString()</td>
                         <td class="text-center flex justify-content-center">
                             <a class="btn material-icons text-warning"
                                data-bs-toggle="modal" data-bs-target="#exampleModal"
                                title="Change this enistration approve status"
-                               @onclick="() => { userId = en.UserId; courseId = en.CourseId; }">update</a>
+                               @onclick="() => { courseRegId = p.CourseRegistrationId; }">delete</a>
                         </td>
                     </RowTemplate>
                 </TableTemplate>
@@ -81,15 +95,15 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Change Enrollment Status</h5>
+                                <h5 class="modal-title">Remove Payment Status</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <p>Do you want to change this enrollment status?</p>
+                                <p>Do you want to Remove this payment status?</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @onclick="() => ChangeStatus(userId, courseId)">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @onclick="() => ChangeStatus(courseRegId)">
                                     Yes
                                 </button>
                             </div>
@@ -106,32 +120,31 @@
 
 @code {
     #region param & prop
-    public List<EnrollmentWithData> Enrollments { get; set; }
-    public EnrollmentVM Enrollment { get; set; }
-    public Guid userId { get; set; }
-    public int courseId { get; set; }
+    private List<PaymentStatusVM> Payments { get; set; }
+    private PaymentStatusVM Payment { get; set; }
+    private int courseRegId { get; set; }
     #endregion
 
     #region other
     private bool sortId = false;
-    private bool sortCourse = false;
-    private bool sortStatus = false;
+    private bool sortCourseReg = false;
+    private bool sortAmount = false;
+    private bool sortHasPaid = false;
     private bool sortCreatedAt = true;
     private bool sortUpdatedAt = true;
     #endregion
 
     protected async override Task OnInitializedAsync()
     {
-        Enrollments = (await enrollService.GetEnrollmentWithDataVM()).Where(e => e.IsDelete == false).ToList();
+        Payments = (await paymentService.GetAllPaymentStatusAsync()).ToList();
     }
 
-    private async Task ChangeStatus(Guid studentId, int id)
+    private async Task ChangeStatus(int id)
     {
-        var enrollment = Enrollments.FirstOrDefault(r => r.UserId == studentId && r.CourseId == courseId);
-        if (id != 0) await enrollService.ChangeEnrollmentStatus(studentId, id);
+        var payment = Payments.FirstOrDefault(p => p.CourseRegistrationId == id);
+        if (id != 0) await paymentService.DeletePaymentStatusAsync(id);
 
-        Enrollments.Remove(enrollment);
-        enrollment.IsDelete = !enrollment.IsDelete;
+        Payments.Remove(payment);
     }
 
     #region fiter logic
@@ -139,39 +152,52 @@
     {
         if (sortId)
         {
-            Enrollments = Enrollments.OrderBy(r => r.Id).ToList();
+            Payments = Payments.OrderBy(r => r.Id).ToList();
             sortId = !sortId;
         }
         else
         {
-            Enrollments = Enrollments.OrderByDescending(r => r.Id).ToList();
+            Payments = Payments.OrderByDescending(r => r.Id).ToList();
             sortId = !sortId;
         }
     }
-    private void SortCourse()
+    private void SortCourseReg()
     {
-        if (sortCourse)
+        if (sortCourseReg)
         {
-            Enrollments = Enrollments.OrderBy(r => r.CourseId).ToList();
-            sortCourse = !sortCourse;
+            Payments = Payments.OrderBy(r => r.CourseRegistrationId).ToList();
+            sortCourseReg = !sortCourseReg;
         }
         else
         {
-            Enrollments = Enrollments.OrderByDescending(r => r.CourseId).ToList();
-            sortCourse = !sortCourse;
+            Payments = Payments.OrderByDescending(r => r.CourseRegistrationId).ToList();
+            sortCourseReg = !sortCourseReg;
+        }
+    }
+    private void SortAmount()
+    {
+        if (sortAmount)
+        {
+            Payments = Payments.OrderBy(r => r.Amount).ToList();
+            sortAmount = !sortAmount;
+        }
+        else
+        {
+            Payments = Payments.OrderByDescending(r => r.Amount).ToList();
+            sortAmount = !sortAmount;
         }
     }
     private void SortStatus()
     {
-        if (sortStatus)
+        if (sortHasPaid)
         {
-            Enrollments = Enrollments.OrderBy(r => r.IsDelete).ToList();
-            sortStatus = !sortStatus;
+            Payments = Payments.OrderBy(r => r.HasPaid).ToList();
+            sortHasPaid = !sortHasPaid;
         }
         else
         {
-            Enrollments = Enrollments.OrderByDescending(r => r.IsDelete).ToList();
-            sortStatus = !sortStatus;
+            Payments = Payments.OrderByDescending(r => r.HasPaid).ToList();
+            sortHasPaid = !sortHasPaid;
         }
     }
 
@@ -179,12 +205,12 @@
     {
         if (sortCreatedAt)
         {
-            Enrollments = Enrollments.OrderBy(r => r.CreatedAt).ToList();
+            Payments = Payments.OrderBy(r => r.CreatedAt).ToList();
             sortCreatedAt = !sortCreatedAt;
         }
         else
         {
-            Enrollments = Enrollments.OrderByDescending(r => r.CreatedAt).ToList();
+            Payments = Payments.OrderByDescending(r => r.CreatedAt).ToList();
             sortCreatedAt = !sortCreatedAt;
         }
     }
@@ -193,12 +219,12 @@
     {
         if (sortUpdatedAt)
         {
-            Enrollments = Enrollments.OrderBy(r => r.UpdatedAt).ToList();
+            Payments = Payments.OrderBy(r => r.UpdatedAt).ToList();
             sortUpdatedAt = !sortUpdatedAt;
         }
         else
         {
-            Enrollments = Enrollments.OrderByDescending(r => r.UpdatedAt).ToList();
+            Payments = Payments.OrderByDescending(r => r.UpdatedAt).ToList();
             sortUpdatedAt = !sortUpdatedAt;
         }
     }

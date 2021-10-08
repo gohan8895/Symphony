@@ -1,0 +1,104 @@
+﻿@page "/admin/paymentStatus/{id:int}"
+
+@using Symphony.BlazorServerApp.Services.PaymentStatusServices
+
+@inject IPaymentStatusService paymentService
+@inject NavigationManager nav
+
+
+<AuthorizeView Roles="admin">
+    <Authorized>
+        <div class="container-lg">
+            <h1 class="text-center fw-bolder">Payment Manager</h1>
+            @if (Payment is null)
+            {
+                <div class="text-center">
+                    <div class="loadingio-spinner-bars-f8jbu6upslt">
+                        <div class="ldio-p5olh5z9oq">
+                            <div></div><div></div><div></div><div></div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <p class="py-2 text-primary text-center">Updated: @Payment.UpdatedAt.Humanize()</p>
+                <div class="main-content flex align-items-start">
+                    <div>
+                        <h4 class="fw-bold text-center">Payment Status</h4>
+                        <ul>
+                            <li>
+                                <span class="fw-bolder pe-2">@nameof(Payment.Id):</span>@Payment.Id
+                            </li>
+                            <li>
+                                <span class="fw-bolder pe-2">@nameof(Payment.Amount):</span>@Payment.Amount
+                            </li>
+                            <li>
+                                <span class="fw-bolder pe-2">Has Paid:</span>@(Payment.HasPaid ? "Paid" : "Not Yet")
+                            </li>
+                            <li>
+                                <span class="fw-bolder pe-2">Payment created at:</span>@Payment.CreatedAt.ToLongDateString()
+                            </li>
+                            <li>
+                                <span class="fw-bolder pe-2">Payment updated at:</span>@Payment.UpdatedAt.ToLongDateString()
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="fw-bold text-center">Course Registration</h4>
+                        <ul>
+                            <li>
+                                <span class="fw-bolder pe-2">@nameof(Payment.CourseRegistrationVM.Id):</span>
+                                <a href="/admin/registration/@Payment.CourseRegistrationVM.Id">
+                                    @Payment.CourseRegistrationVM.Id
+                                </a>
+                            </li>
+                            <li>
+                                <span class="fw-bolder pe-2">User ID:</span>
+                                <a href="/admin/userManagement/@Payment.CourseRegistrationVM.UserId">
+                                    @Payment.CourseRegistrationVM.UserId
+                                </a>
+                            </li>
+                            <li>
+                                <span class="fw-bolder pe-2">Course ID:</span>
+                                <a href="/admin/course/@Payment.CourseRegistrationVM.CourseId">
+                                    @Payment.CourseRegistrationVM.CourseId
+                                </a>
+                            </li>
+                            <li>
+                                <span class="fw-bolder pe-2">Approval Status:</span>@(Payment.CourseRegistrationVM.IsApproved ? "Approved" : "Not Approve")
+                            </li>
+                            <li>
+                                <span class="fw-bolder pe-2">Exam Required:</span>@(Payment.CourseRegistrationVM.ExamRequired ? "Required" : "Not Require")
+                            </li>
+                            <li>
+                                <span class="fw-bolder pe-2">Created At:</span>@Payment.CreatedAt.ToLongDateString()
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="navigator flex">
+                    <div>
+                        <a href="admin/paymentStatus" class="back text-center">
+                            Go back to registration manager <span class="ps-3 material-icons">chevron_left</span>
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <UnauthorizedAccess />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private PaymentStatusWithData Payment { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        Payment = await paymentService.GetPaymentStatusAsync(Id);
+    }
+}

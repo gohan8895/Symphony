@@ -23,7 +23,7 @@ namespace Symphony.BlazorServerApp.Services.PaymentStatusServices
 
         public async Task<IEnumerable<PaymentStatusVM>> GetAllPaymentStatusAsync()
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, "PaymentStatuss/get-all-paymentstatus");
+            var request = new HttpRequestMessage(HttpMethod.Get, "paymentstatus/get-all-paymentstatus");
             var client = clientFactory.CreateClient("symphony");
             var response = await client.SendAsync(request);
 
@@ -38,16 +38,16 @@ namespace Symphony.BlazorServerApp.Services.PaymentStatusServices
             }
         }
 
-        public async Task<PaymentStatusVM> GetPaymentStatusAsync(int courseRegistrationId)
+        public async Task<PaymentStatusWithData> GetPaymentStatusAsync(int id)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, $"PaymentStatuss/{courseRegistrationId}");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"paymentstatus/{id}");
             var client = clientFactory.CreateClient("symphony");
             var response = await client.SendAsync(request);
 
             if (response.IsSuccessStatusCode)
             {
                 using var reponseStream = await response.Content.ReadAsStreamAsync();
-                return await JsonSerializer.DeserializeAsync<PaymentStatusVM>(reponseStream, options);
+                return await JsonSerializer.DeserializeAsync<PaymentStatusWithData>(reponseStream, options);
             }
             else
             {
@@ -60,10 +60,18 @@ namespace Symphony.BlazorServerApp.Services.PaymentStatusServices
             if (id != 0)
             {
                 var client = clientFactory.CreateClient("symphony");
-                using var httpResponse = await client.DeleteAsync("PaymentStatuss/" + $"{id}");
+                using var httpResponse = await client.DeleteAsync("paymentstatus/" + $"{id}");
 
                 httpResponse.EnsureSuccessStatusCode();
-                return 1;
+
+                if (httpResponse.IsSuccessStatusCode)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
             }
             return 0;
         }

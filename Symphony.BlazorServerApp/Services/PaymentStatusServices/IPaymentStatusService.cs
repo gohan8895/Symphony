@@ -10,7 +10,7 @@ namespace Symphony.BlazorServerApp.Services.PaymentStatusServices
     {
         Task<IEnumerable<PaymentStatusVM>> GetAllPaymentStatusAsync();
 
-        Task<PaymentStatusVM> GetPaymentStatusAsync(int courseRegistrationId);
+        Task<PaymentStatusWithData> GetPaymentStatusAsync(int courseRegistrationId);
 
         Task<int> DeletePaymentStatusAsync(int id);
     }

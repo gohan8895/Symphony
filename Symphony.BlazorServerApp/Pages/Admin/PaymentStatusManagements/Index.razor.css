@@ -12,13 +12,13 @@
     cursor: pointer;
 }
 
-.en-name {
+.payment-name {
     text-decoration: none;
     color: #1d1d1d;
 }
 
-    .en-name:hover {
-        text-decoration: underline;
-        font-weight: bolder;
-        color: #102498;
-    }
+.payment-name:hover {
+    text-decoration: underline;
+    font-weight: bolder;
+    color: #102498;
+}
