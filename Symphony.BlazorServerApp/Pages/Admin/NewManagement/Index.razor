@@ -40,7 +40,7 @@
                         <td><p>@item.IsShown</p></td>
                         <td class="text-center">
                             <NavLink href=@($"/admin/newManagement/editnew/{item.Id}") class="material-icons nav-item text-warning me-4">edit</NavLink>
-                            <a @onclick="() => DeleteNew(item.Id)" class="btn material-icons nav-item text-danger me-2">delete</a>
+                            <button @onclick="() => DeleteNew(item.Id)" class="btn material-icons nav-item text-danger me-2">delete</button>
                         </td>
                     </RowTemplate>
                 </TableTemplate>
@@ -65,6 +65,7 @@
         var faq = await newService.GetNewAsync(id);
 
         if (faq is not null) await newService.DeleteAsync(id);
-        render = !render;
+        news = (await newService.GetNewsAsync()).ToList();
+
     }
 }

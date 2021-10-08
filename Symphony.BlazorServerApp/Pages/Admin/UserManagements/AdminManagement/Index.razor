@@ -46,7 +46,7 @@
                         <td><p>@user.CreatedAt</p></td>
                         <td class="text-center">
                             <NavLink href=@($"/admin/userManagement/editAdmin/{user.Id}") class="material-icons nav-item text-warning me-4">edit</NavLink>
-                            <a @onclick="() => DeleteAdmin(user.Email)" class="btn material-icons nav-item text-danger me-2">delete</a>
+                            <button @onclick="() => DeleteAdmin(user.Email)" class="btn material-icons nav-item text-danger me-2">delete</button>
                         </td>
                     </RowTemplate>
                 </TableTemplate>
@@ -79,7 +79,10 @@
         var user = await userManager.FindByEmailAsync(email);
 
         if (user is not null) await userManager.DeleteAsync(user);
+        var students = await userManager.GetUsersInRoleAsync("admin");
 
-        StateHasChanged();
+        Users = students.Select(u => u.AsVM()).ToList();
+
+        //StateHasChanged();
     }
 }
