@@ -22,7 +22,7 @@
         }
         else
         {
-            <div class="container-fluid">
+            <div class="container-fluid mb-5">
                 <h1 class="text-center fw-bolder">User Manager</h1>
                 <CreateButton Url="admin/faqManagement/createFaq" Who="a New FAQ" />
                 <TableTemplate Caption="FAQS" Items="Faqs" Context="faq">
@@ -38,7 +38,7 @@
                         <td><p>@faq.IsShown</p></td>
                         <td class="text-center">
                             <NavLink href=@($"/admin/faqManagement/editfaq/{faq.Id}") class="material-icons nav-item text-warning me-4">edit</NavLink>
-                            <a @onclick="() => DeleteFaq(faq.Id)" class="btn material-icons nav-item text-danger me-2">delete</a>
+                            <button @onclick="() => DeleteFaq(faq.Id)" class="btn material-icons nav-item text-danger me-2">delete</button>
                         </td>
                     </RowTemplate>
                 </TableTemplate>
@@ -63,6 +63,7 @@
         var faq = await faqService.GetFaqAsync(id);
 
         if (faq is not null) await faqService.DeleteFaqAsync(id);
-        render = !render;
+        //render = !render;
+        Faqs = (await faqService.GetFaqsAsync()).ToList();
     }
 }

@@ -15,7 +15,8 @@ namespace Symphony.BlazorServerApp.Areas.Identity
     {
         public void Configure(IWebHostBuilder builder)
         {
-            builder.ConfigureServices((context, services) => {
+            builder.ConfigureServices((context, services) =>
+            {
                 services.AddDbContext<SymphonyDBContext>(options =>
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("SymphonyDb")));
@@ -24,7 +25,7 @@ namespace Symphony.BlazorServerApp.Areas.Identity
                    .AddRoles<AppRole>()
                    .AddEntityFrameworkStores<SymphonyDBContext>()
                    .AddDefaultTokenProviders();
-                
+
 
 
                 services.Configure<IdentityOptions>(options =>

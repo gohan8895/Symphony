@@ -22,17 +22,20 @@ namespace Symphony.BlazorServerApp.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<AppRole> _roleManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger<ExternalLoginModel> _logger;
 
         public ExternalLoginModel(
             SignInManager<AppUser> signInManager,
             UserManager<AppUser> userManager,
+            RoleManager<AppRole> roleManager,
             ILogger<ExternalLoginModel> logger,
             IEmailSender emailSender)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _roleManager = roleManager;
             _logger = logger;
             _emailSender = emailSender;
         }
@@ -49,6 +52,22 @@ namespace Symphony.BlazorServerApp.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+
+            [Required]
+            [DOB]
+            [DataType(DataType.Date)]
+            [Display(Name = "Day of Birth")]
+            public DateTime DOB { get; set; }
+
             [Required]
             [EmailAddress]
             public string Email { get; set; }
@@ -102,9 +121,30 @@ namespace Symphony.BlazorServerApp.Areas.Identity.Pages.Account
                 {
                     Input = new InputModel
                     {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                        Email = info.Principal.FindFirstValue(ClaimTypes.Email),
                     };
                 }
+
+                if (info.Principal.HasClaim(c => c.Type == ClaimTypes.GivenName))
+                {
+                    Input.FirstName = info.Principal.FindFirstValue(ClaimTypes.GivenName);
+                }
+                else
+                {
+                    Input.FirstName = "Please enter your First Name";
+                }
+                
+                if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Surname))
+                {
+                    Input.LastName = info.Principal.FindFirstValue(ClaimTypes.Surname);
+                }
+                else
+                {
+                    Input.FirstName = "Please enter your Last Name";
+                }
+
+                Input.DOB = DateTime.UtcNow;
+
                 return Page();
             }
         }
@@ -122,9 +162,11 @@ namespace Symphony.BlazorServerApp.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new AppUser { UserName = Input.Email, Email = Input.Email };
+                var user = new AppUser { UserName = Input.Email, Email = Input.Email, FirstName = Input.FirstName, LastName = Input.LastName, DOB = Input.DOB };
 
                 var result = await _userManager.CreateAsync(user);
+
+                await _userManager.AddToRoleAsync(user, "student");
                 if (result.Succeeded)
                 {
                     result = await _userManager.AddLoginAsync(user, info);

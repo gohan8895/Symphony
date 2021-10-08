@@ -1,10 +1,4 @@
-﻿p {
-    color: #0080ff;
-    background-color: #e0e0e0;
-    font-size: 25px;
-}
-
-.starter-courses {
+﻿.starter-courses {
     border-top: 1px solid #ababab;
     padding: 1em 0;
 }
@@ -40,4 +34,3 @@
         background-color: #cab840;
         font-weight: 900;
     }
-

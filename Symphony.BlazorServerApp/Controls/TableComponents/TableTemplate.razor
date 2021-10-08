@@ -17,78 +17,81 @@
         </tbody>
     </table>
 </div>
-<div>
-    <button class="btn btn-secondary m-2" @onclick="@(e=>NavigateTo("first"))">First</button>
+<nav aria-label="Page navigation">
+    <ul class="pagination" style="justify-content:center;cursor:pointer;">
+        <li class="page-item " @onclick="@(e=>NavigateTo("first"))"><span class="page-link">First</span> </li>
 
-    <button class="btn btn-secondary m-2" @onclick="@(e=>NavigateTo("prev"))">Prev</button>
+        <li class="page-item" @onclick="@(e=>NavigateTo("prev"))"><span class="page-link">Prev</span></li>
 
-    @for (int i = 0; i < TotalPages; i++)
-    {
-        var pageNumber = i;
-        <button class="btn @(CurrentPage==pageNumber?"btn-dark":"btn-info") m-2" @onclick="()=>UpdateList(pageNumber)">@(i+1)</button>
+        @for (int i = 0; i < TotalPages; i++)
+        {
+            var pageNumber = i;
+            <li class="@(CurrentPage==pageNumber?"page-item active":"page-item ") " @onclick="()=>UpdateList(pageNumber)"><span class="page-link">@(i+1)</span> </li>
+        }
+        <li class="page-item page-link" @onclick="@(e=>NavigateTo("next"))">Next</li>
+        <li class="page-item page-link" @onclick="@(e=>NavigateTo("last"))">Last</li>
+
+    </ul>
+    </nav>
+   
+
+    @code {
+        [Parameter]
+        public string Caption { get; set; }
+
+        [Parameter]
+        public RenderFragment TableHeader { get; set; }
+
+        [Parameter]
+        public RenderFragment<TItem> RowTemplate { get; set; }
+
+        [Parameter]
+        public IReadOnlyList<TItem> Items { get; set; }
+
+        public IReadOnlyList<TItem> ItemList { get; set; }
+        public int PageSize { get; set; }
+        public int TotalPages { get; set; }
+
+        public int CurrentPage { get; set; }
+
+
+        protected override void OnParametersSet()
+        {
+            PageSize = 10;
+            ItemList = Items.Take(PageSize).ToList();
+            TotalPages = (int)Math.Ceiling(Items.Count() / (decimal)PageSize);
+            if (TotalPages < 1)
+            {
+                TotalPages = 1;
+            }
+        }
+
+        private void UpdateList(int pageNumber)
+        {
+
+            ItemList = Items.Skip(pageNumber * PageSize).Take(PageSize).ToList();
+            CurrentPage = pageNumber;
+        }
+
+        private void NavigateTo(string direction)
+        {
+            if (direction == "prev" && CurrentPage != 0)
+            {
+                CurrentPage -= 1;
+            }
+            if (direction == "next" && CurrentPage != TotalPages - 1)
+            {
+                CurrentPage += 1;
+            }
+            if (direction == "first")
+            {
+                CurrentPage = 0;
+            }
+            if (direction == "last")
+            {
+                CurrentPage = TotalPages - 1;
+            }
+            UpdateList(CurrentPage);
+        }
+
     }
-    <button class="btn btn-secondary m-2" @onclick="@(e=>NavigateTo("next"))">Next</button>
-    <button class="btn btn-secondary m-2" @onclick="@(e=>NavigateTo("last"))">Last</button>
-
-</div>
-
-@code {
-    [Parameter]
-    public string Caption { get; set; }
-
-    [Parameter]
-    public RenderFragment TableHeader { get; set; }
-
-    [Parameter]
-    public RenderFragment<TItem> RowTemplate { get; set; }
-
-    [Parameter]
-    public IReadOnlyList<TItem> Items { get; set; }
-
-    public IReadOnlyList<TItem> ItemList { get; set; }
-    public int PageSize { get; set; }
-    public int TotalPages { get; set; }
-
-    public int CurrentPage { get; set; }
-
-
-    protected override void OnParametersSet()
-    {
-        PageSize = 10;
-        ItemList = Items.Take(PageSize).ToList();
-        TotalPages = (int)Math.Ceiling(Items.Count() / (decimal)PageSize);
-        if(TotalPages < 1)
-        {
-            TotalPages = 1;
-        }
-    }
-
-    private void UpdateList(int pageNumber)
-    {
-
-        ItemList = Items.Skip(pageNumber * PageSize).Take(PageSize).ToList();
-        CurrentPage = pageNumber;
-    }
-
-    private void NavigateTo(string direction)
-    {
-        if (direction == "prev" && CurrentPage != 0)
-        {
-            CurrentPage -= 1;
-        }
-        if (direction == "next" && CurrentPage != TotalPages - 1)
-        {
-            CurrentPage += 1;
-        }
-        if (direction == "first")
-        {
-            CurrentPage = 0;
-        }
-        if (direction == "last")
-        {
-            CurrentPage = TotalPages - 1;
-        }
-        UpdateList(CurrentPage);
-    }
-
-}

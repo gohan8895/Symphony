@@ -15,9 +15,11 @@ using Symphony.BlazorServerApp.Services.AboutServices;
 using Symphony.BlazorServerApp.Services.BatchServices;
 using Symphony.BlazorServerApp.Services.CourseRegistrationService;
 using Symphony.BlazorServerApp.Services.CourseServices;
+using Symphony.BlazorServerApp.Services.EnrollmentServices;
 using Symphony.BlazorServerApp.Services.EventServices;
 using Symphony.BlazorServerApp.Services.FaqServices;
 using Symphony.BlazorServerApp.Services.NewService;
+using Symphony.BlazorServerApp.Services.PaymentStatusServices;
 using Symphony.BlazorServerApp.Services.SubjectServices;
 using Symphony.Data.EF;
 using Symphony.Data.Entities;
@@ -25,6 +27,7 @@ using Symphony.Services.BackendServices.EmailSenderService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Symphony.BlazorServerApp
@@ -37,6 +40,7 @@ namespace Symphony.BlazorServerApp
         }
 
         public IConfiguration Configuration { get; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -62,10 +66,23 @@ namespace Symphony.BlazorServerApp
             services.AddTransient<IBatchService, BatchService>();
             services.AddTransient<ICourseService, CourseService>();
             services.AddTransient<ICourseRegistrationService, CourseRegistrationService>();
+            services.AddTransient<IEnrollmentService, EnrollmentService>();
             services.AddTransient<IEventService, EventService>();
             services.AddTransient<IFaqService, FaqService>();
             services.AddTransient<INewService, NewService>();
             services.AddTransient<ISubjectService, SubjectService>();
+            services.AddTransient<IPaymentStatusService, PaymentStatusService>();
+
+            /* Google Auth */
+            //services.AddAuthentication()
+            //    .AddGoogle(options =>
+            //    {
+            //        IConfigurationSection googleAuthNSection =
+            //            Configuration.GetSection("Authentication:Google");
+
+            //        options.ClientId = googleAuthNSection["ClientId"];
+            //        options.ClientSecret = googleAuthNSection["ClientSecret"];
+            //    });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,24 +1,194 @@
 ﻿@page "/admin/dashboard"
 
-<div class="container-fluid">
-    <div class="Welcome">
-        <h3 class="fw-bold">OVERVIEW</h3>
-        <h1>Welcome Admin</h1>
-    </div>
-    <div class="main-content">
-        <div class="content-1"></div>
-        <div class="content-2"></div>
-        <div class="content-3"></div>
-        <div class="content-4"></div>
-        <div class="content-5"></div>
-        <div class="content-6"></div>
-        <div class="content-7"></div>
-        <div class="content-8"></div>
-        <div class="content-9"></div>
-        <div class="content-10"></div>
-    </div>
-</div>
+@using Symphony.ViewModels.Consult
+@using Symphony.ViewModels.CourseViewModel
+@using Symphony.BlazorServerApp.Services.CourseServices
+@using Symphony.BlazorServerApp.Services.SubjectServices
+@using Symphony.BlazorServerApp.Services.EnrollmentServices
+@using Symphony.BlazorServerApp.Services.PaymentStatusServices
+@using ChartJs.Blazor.PieChart
+@using ChartJs.Blazor.BarChart
 
+@inject ICourseService courseService
+@inject ISubjectService subjectService
+@inject UserManager<AppUser> userManager
+@inject IEnrollmentService enrollService
+@inject IPaymentStatusService paymentService
+@if (Enrollments is null)
+{
+    <div class="text-center">
+        <div class="loadingio-spinner-bars-f8jbu6upslt">
+            <div class="ldio-p5olh5z9oq">
+                <div></div><div></div><div></div><div></div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container-fluid">
+        <div class="main-content">
+            <div class="content rounded-3 content-1">
+                <div>
+                    <p class="fw-bold">OVERVIEW</p>
+                    <h2 class="fw-bolder">Welcome Admin</h2>
+                </div>
+                <div class="">
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident debitis adipisci
+                        pariatur suscipit, nihil ratione doloribus temporibus minima voluptate repellendus.
+                    </p>
+                </div>
+            </div>
+            <div class="content rounded-3 content-2 shadown-lg">
+                <Chart Config="pieConfig" @ref="pieChartJs"></Chart>
+            </div>
+            <div class="content rounded-3 content-3 shadown-lg text-white">Total Payment of all time: @Payments.Sum(x => x.Amount)</div>
+            <div class="content rounded-3 content-4 shadown-lg">
+                <h3>Enrollment Information</h3>
+                <Chart Config="barConfig" @ref="barChartJs"></Chart>
+            </div>
+            <div class="content rounded-3 content-5 shadown-lg">Lorem ipsum dolor sit amet.</div>
+            <div class="content rounded-3 content-6 shadown-lg">Lorem ipsum dolor sit amet.</div>
+            <div class="content rounded-3 content-7 shadown-lg">Lorem ipsum dolor sit amet.</div>
+        </div>
+    </div>
+}
 @code {
+    public IEnumerable<CourseWithSubjects> Courses { get; set; } = Array.Empty<CourseWithSubjects>();
+    public IEnumerable<SubjectVM> Subjects { get; set; } = Array.Empty<SubjectVM>();
+    public IEnumerable<AppUser> Students { get; set; } = Array.Empty<AppUser>();
+    public IEnumerable<AppUser> Teachers { get; set; } = Array.Empty<AppUser>();
+    public IEnumerable<EnrollmentWithData> Enrollments { get; set; } = Array.Empty<EnrollmentWithData>();
+    public IEnumerable<PaymentStatusVM> Payments { get; set; } = Array.Empty<PaymentStatusVM>();
 
+    #region chart config
+    private Chart pieChartJs = new();
+    private Chart barChartJs = new();
+    private PieConfig pieConfig = new();
+    private BarConfig barConfig = new();
+    #endregion
+
+    protected async override void OnInitialized()
+    {
+        #region chart
+        pieConfig = new PieConfig
+        {
+            Options = new PieOptions
+            {
+                Responsive = true,
+                Title = new OptionsTitle
+                {
+                    Display = true,
+                    Text = "ChartJs.Blazor Pie Chart"
+                }
+            }
+        };
+
+        DateTime now = DateTime.Now;
+        DateTime currentMonth = new DateTime(now.Year, now.Month, 1);
+        var last12monthsString = new List<string>();
+        var last12monthsInt = new List<int>();
+        var lastTwelveMonths =
+            Enumerable.Range(0, 12)
+                      .Select(i => -i)
+                      .Select(monthsToAdd => currentMonth.AddMonths(monthsToAdd))
+                      .ToList();
+        foreach (var item in lastTwelveMonths)
+        {
+            last12monthsString.Add(item.ToString("MMM"));
+            last12monthsInt.Add(item.Month);
+        }
+        last12monthsString.Reverse();
+        foreach (string color in new[] { "Red", "Yellow", "Green", "Blue" })
+        {
+            pieConfig.Data.Labels.Add(color);
+        }
+
+        PieDataset<int> dataset = new PieDataset<int>(new[] { 6, 5, 3, 7 })
+        {
+            BackgroundColor = new[]
+            {
+            ColorUtil.ColorHexString(255, 99, 132), // Slice 1 aka "Red"
+            ColorUtil.ColorHexString(255, 205, 86), // Slice 2 aka "Yellow"
+            ColorUtil.ColorHexString(75, 192, 192), // Slice 3 aka "Green"
+            ColorUtil.ColorHexString(54, 162, 235), // Slice 4 aka "Blue"
+            }
+        };
+
+        pieConfig.Data.Datasets.Add(dataset);
+
+        barConfig = new BarConfig
+        {
+            Options = new BarOptions
+            {
+                Responsive = true,
+                Title = new OptionsTitle
+                {
+                    Display = true,
+                    Text = "Student Enrollment Info Chart",
+                    FontColor = ColorUtil.ColorHexString(255, 255, 255)
+                },
+                Animation = new Animation
+                {
+                    Duration = 1000,
+                    Easing = Easing.EaseInBack
+                },
+                Tooltips = new Tooltips
+                {
+                    BackgroundColor = ColorUtil.ColorString(219, 152, 39),
+                    BorderColor = ColorUtil.ColorHexString(219, 175, 23),
+                    BodyFontColor = ColorUtil.ColorHexString(255, 255, 255),
+                    FooterFontColor = ColorUtil.ColorHexString(255, 255, 255)
+                },
+                Legend = new Legend
+                {
+                    Display = true,
+                    Labels = new LegendLabels()
+                    {
+                        FontColor = ColorUtil.ColorHexString(255, 255, 255)
+                    }
+                }
+            }
+        };
+
+        foreach (string month in last12monthsString)
+        {
+            barConfig.Data.XLabels.Add(month);
+        }
+
+        var enronPerMonth = new List<int>();
+        last12monthsInt.Reverse();
+        var enrolls = (await enrollService.GetEnrollmentWithDataVM()).ToList();
+        foreach (var month in last12monthsInt)
+        {
+            //string _count = Enrollments.Where(x => x.CreatedAt.Month == month).Count().ToString();
+            int _count = enrolls.Where(x => x.CreatedAt.Month == month).Count();
+            enronPerMonth.Add(_count);
+        }
+
+        foreach (string amount in new[] { "5", "10", "15", "20", "25", "30", "35", "40", "45", "50" })
+        {
+            barConfig.Data.YLabels.Add(amount);
+        }
+        var payments = (await paymentService.GetAllPaymentStatusAsync()).Where(x => x.HasPaid == true);
+        this.Payments = payments;
+        BarDataset<int> barDataSet = new BarDataset<int>(enronPerMonth);
+
+        barConfig.Data.Datasets.Add(barDataSet);
+        barDataSet.BackgroundColor = ColorUtil.ColorHexString(219, 152, 39);
+        barDataSet.BorderColor = ColorUtil.ColorHexString(219, 175, 23);
+        barDataSet.Label = "Number of Enrollments";
+        #endregion
+
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        Courses = (await courseService.GetCourseVMsAsync()).ToList();
+        Subjects = (await subjectService.GetSubjectVMsAsync()).ToList();
+        Students = await userManager.GetUsersInRoleAsync("student");
+        Teachers = await userManager.GetUsersInRoleAsync("teacher");
+        Enrollments = (await enrollService.GetEnrollmentWithDataVM()).ToList();
+    }
 }
