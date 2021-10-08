@@ -25,9 +25,4 @@ namespace Symphony.ViewModels.Consult
         public string Email { get; set; }
         public string Message { get; set; }
     }
-
-    public class ConsultUpdateRequest
-    {
-        public bool IsContacted { get; set; }
-    }
 }

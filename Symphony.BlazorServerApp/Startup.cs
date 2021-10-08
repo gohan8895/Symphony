@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Symphony.BlazorServerApp.Areas.Identity;
 using Symphony.BlazorServerApp.Services.AboutServices;
 using Symphony.BlazorServerApp.Services.BatchServices;
+using Symphony.BlazorServerApp.Services.ConsultRegisationService;
 using Symphony.BlazorServerApp.Services.CourseRegistrationService;
 using Symphony.BlazorServerApp.Services.CourseServices;
 using Symphony.BlazorServerApp.Services.EnrollmentServices;
@@ -72,6 +73,7 @@ namespace Symphony.BlazorServerApp
             services.AddTransient<INewService, NewService>();
             services.AddTransient<IPaymentStatusService, PaymentStatusService>();
             services.AddTransient<ISubjectService, SubjectService>();
+            services.AddTransient<IConsultRegistrationService, ConsultRegistrationService>();
 
             /*Google Auth*/
             services.AddAuthentication()
