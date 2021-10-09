@@ -43,18 +43,30 @@
                     <div class="row align-items-md-stretch">
                         <div class="col-md-6">
                             <div class="h-100 p-5 text-white bg-dark rounded-3">
-                                <h2>Your enrollemnt information</h2>
-                                <ul class="mt-5">
+                                <h2>Your enrollment information</h2>
+                                <h5 class="fw-bold">Your batch info:</h5>
+                                <ul class="p-2">
                                     <li>Batch: <span class="ms-2">@Batch.Description</span></li>
                                     <li>Start Date: <span class="ms-2">@Batch.StartDate.ToShortDateString()</span></li>
                                     <li>End Date: <span class="ms-2">@Batch.EndDate.ToShortDateString()</span></li>
                                 </ul>
+                                <h5 class="fw-bold">Your courses info:</h5>
+                                <ul class="px-2 pt-2">
+                                    @foreach (var c in CurrentCourseRegs)
+                                    {
+                                        <li class="pt-2">Name: <span class="ms-2">@c.CourseVM.Name</span></li>
+                                        <li>Start Date: <span class="ms-2">@c.CourseVM.StartDate.ToShortDateString()</span></li>
+                                        <li>End Date: <span class="ms-2">@c.CourseVM.EndDate.ToShortDateString()</span></li>
+                                        <li class="pb-1  border-bottom">Time to final exam: <span class="ms-2">@c.CourseVM.EndDate.Humanize()</span></li>
+
+                                    }
+                                </ul>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="h-100 p-5 border rounded-3" style="background: #d7d7d7a6;">
+                            <div class="h-100 p-5 border rounded-3" style="background: rgb(17 111 191 / 0.65);">
                                 <h2 class="fw-bold">Entrance Examination</h2>
-                                <a class="nav-link" href="#"><p>If there are any entrance examinations, display here!</p></a>
+                                <a class="link-light" href="#"><p>If there are any entrance examinations, display here!</p></a>
                             </div>
                         </div>
                     </div>
@@ -66,7 +78,7 @@
         </AuthorizeView>
         <AuthorizeView Roles="teacher" Context="teacher">
             <Authorized>
-                @if (Batch is null)
+                @if (User is null)
                 {
                     <div class="text-center">
                         <div class="loadingio-spinner-bars-f8jbu6upslt">
@@ -88,12 +100,29 @@
                     <div class="row align-items-md-stretch">
                         <div class="col-md-6">
                             <div class="h-100 p-5 text-white bg-dark rounded-3">
-                                <h2>Your enrollemnt information</h2>
-                                <ul class="mt-5">
-                                    <li>Batch: <span class="ms-2">@Batch.Description</span></li>
-                                    <li>Start Date: <span class="ms-2">@Batch.StartDate.ToShortDateString()</span></li>
-                                    <li>End Date: <span class="ms-2">@Batch.EndDate.ToShortDateString()</span></li>
-                                </ul>
+                                <h2>Your enrollment information</h2>
+                                @if (Batch is null)
+                                {
+                                    <p class="p-3">Batch, courses information</p>
+                                }
+                                else
+                                {
+                                    <h5 class="fw-bold">Your batch info:</h5>
+                                    <ul class="p-2">
+                                        <li>Batch: <span class="ms-2">@Batch.Description</span></li>
+                                        <li>Start Date: <span class="ms-2">@Batch.StartDate.ToShortDateString()</span></li>
+                                        <li>End Date: <span class="ms-2">@Batch.EndDate.ToShortDateString()</span></li>
+                                    </ul>
+                                    <h5 class="fw-bold">Your courses info:</h5>
+                                    <ul class="p-2">
+                                        @foreach (var c in CurrentCourseRegs)
+                                        {
+                                            <li>Name: <span class="ms-2">@c.CourseVM.Name</span></li>
+                                            <li>Start Date: <span class="ms-2">@c.CourseVM.StartDate</span></li>
+                                            <li>End Date: <span class="ms-2">@c.CourseVM.EndDate</span></li>
+                                        }
+                                    </ul>
+                                }
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -108,7 +137,7 @@
         </AuthorizeView>
         <AuthorizeView Roles="admin" Context="admin">
             <Authorized>
-                @if (Batch is null)
+                @if (User is null)
                 {
                     <div class="text-center">
                         <div class="loadingio-spinner-bars-f8jbu6upslt">
@@ -130,12 +159,19 @@
                     <div class="row align-items-md-stretch">
                         <div class="col-md-6">
                             <div class="h-100 p-5 text-white bg-dark rounded-3">
-                                <h2>Your enrollemnt information</h2>
-                                <ul class="mt-5">
-                                    <li>Batch: <span class="ms-2">@Batch.Description</span></li>
-                                    <li>Start Date: <span class="ms-2">@Batch.StartDate.ToShortDateString()</span></li>
-                                    <li>End Date: <span class="ms-2">@Batch.EndDate.ToShortDateString()</span></li>
-                                </ul>
+                                <h2>Your enrollment information</h2>
+                                @if (Batch is null)
+                                {
+                                    <p class="p-3">Batch, courses information</p>
+                                }
+                                else
+                                {
+                                    <ul class="mt-5">
+                                        <li>Batch: <span class="ms-2">@Batch.Description</span></li>
+                                        <li>Start Date: <span class="ms-2">@Batch.StartDate.ToShortDateString()</span></li>
+                                        <li>End Date: <span class="ms-2">@Batch.EndDate.ToShortDateString()</span></li>
+                                    </ul>
+                                }
                             </div>
                         </div>
                         <div class="col-md-6">

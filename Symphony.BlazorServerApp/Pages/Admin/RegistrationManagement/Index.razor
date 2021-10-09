@@ -145,7 +145,7 @@
 
     protected async override Task OnInitializedAsync()
     {
-        Registrations = (await courseRegService.GetCourseRegistrationWithDataVMsAsync()).ToList();
+        Registrations = (await courseRegService.GetCourseRegistrationWithDataVMsAsync()).Where(cr => cr.IsDelete == false).ToList();
     }
 
     private async Task ChangeStatus(int id)
