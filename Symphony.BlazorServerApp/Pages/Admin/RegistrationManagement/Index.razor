@@ -150,12 +150,10 @@
 
     private async Task ChangeStatus(int id)
     {
-        var reg = Registrations.FirstOrDefault(r => r.Id == id);
+        var status = Registrations.FirstOrDefault(r => r.Id == id).IsApproved;
         if (id != 0) await courseRegService.UpdateAsync(id);
 
-        Registrations.Remove(reg);
-        reg.IsApproved = !reg.IsApproved;
-        Registrations.Add(reg);
+        Registrations.FirstOrDefault(r => r.Id == id).IsApproved = !status;
 
         CourseRegId = 0;
     }

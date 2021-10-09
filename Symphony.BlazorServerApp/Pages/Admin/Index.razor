@@ -3,121 +3,382 @@
 @using Symphony.ViewModels.Consult
 @using Symphony.ViewModels.CourseViewModel
 @using Symphony.BlazorServerApp.Services.CourseServices
+@using Symphony.BlazorServerApp.Services.CourseRegistrationService
 @using Symphony.BlazorServerApp.Services.SubjectServices
 @using Symphony.BlazorServerApp.Services.EnrollmentServices
 @using Symphony.BlazorServerApp.Services.PaymentStatusServices
+@using Symphony.BlazorServerApp.Services.BatchServices
 @using ChartJs.Blazor.PieChart
 @using ChartJs.Blazor.BarChart
+@using ChartJs.Blazor.LineChart
 
+@inject IBatchService batchService
 @inject ICourseService courseService
+@inject ICourseRegistrationService courseRegService
 @inject ISubjectService subjectService
 @inject UserManager<AppUser> userManager
 @inject IEnrollmentService enrollService
 @inject IPaymentStatusService paymentService
-@if (Enrollments is null)
-{
-    <div class="text-center">
-        <div class="loadingio-spinner-bars-f8jbu6upslt">
-            <div class="ldio-p5olh5z9oq">
-                <div></div><div></div><div></div><div></div>
-            </div>
-        </div>
-    </div>
-}
-else
-{
-    <div class="container-fluid">
-        <div class="main-content">
-            <div class="content rounded-3 content-1">
-                <div>
-                    <p class="fw-bold">OVERVIEW</p>
-                    <h2 class="fw-bolder">Welcome Admin</h2>
-                </div>
-                <div class="">
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident debitis adipisci
-                        pariatur suscipit, nihil ratione doloribus temporibus minima voluptate repellendus.
-                    </p>
-                </div>
-            </div>
-            <div class="content rounded-3 content-2 shadown-lg">
-                <Chart Config="pieConfig" @ref="pieChartJs"></Chart>
-            </div>
-            <div class="content rounded-3 content-3 shadown-lg text-white">Total Payment of all time: @Payments.Sum(x => x.Amount)</div>
-            <div class="content rounded-3 content-4 shadown-lg">
-                <h3>Enrollment Information</h3>
-                <Chart Config="barConfig" @ref="barChartJs"></Chart>
-            </div>
-            <div class="content rounded-3 content-5 shadown-lg">Lorem ipsum dolor sit amet.</div>
-            <div class="content rounded-3 content-6 shadown-lg">Lorem ipsum dolor sit amet.</div>
-            <div class="content rounded-3 content-7 shadown-lg">Lorem ipsum dolor sit amet.</div>
-        </div>
-    </div>
-}
-@code {
-    public IEnumerable<CourseWithSubjects> Courses { get; set; } = Array.Empty<CourseWithSubjects>();
-    public IEnumerable<SubjectVM> Subjects { get; set; } = Array.Empty<SubjectVM>();
-    public IEnumerable<AppUser> Students { get; set; } = Array.Empty<AppUser>();
-    public IEnumerable<AppUser> Teachers { get; set; } = Array.Empty<AppUser>();
-    public IEnumerable<EnrollmentWithData> Enrollments { get; set; } = Array.Empty<EnrollmentWithData>();
-    public IEnumerable<PaymentStatusVM> Payments { get; set; } = Array.Empty<PaymentStatusVM>();
+@* ------------- import & DI -------------- *@
 
-    #region chart config
-    private Chart pieChartJs = new();
-    private Chart barChartJs = new();
-    private PieConfig pieConfig = new();
-    private BarConfig barConfig = new();
+<AuthorizeView Roles="admin" Context="adminPage">
+    <Authorized>
+        @if (Enrollments is null || CourseRegs is null || Subjects is null)
+        {
+            <div class="text-center">
+                <div class="loadingio-spinner-bars-f8jbu6upslt">
+                    <div class="ldio-p5olh5z9oq">
+                        <div></div><div></div><div></div><div></div>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="container-fluid">
+                <div class="main-content">
+                    <div class="content rounded-3 content-1">
+                        <div>
+                            <p class="fw-bold">OVERVIEW</p>
+                            <h2 class="fw-bolder">Welcome @Admin.FirstName</h2>
+                        </div>
+                        <div class="d-flex flex-column align-items-start p-3">
+                            @if (registrationCount == 0)
+                            {
+                                <div class="flex w-100 m-0 overview">
+                                    <p>There are currently no registration await for approval.</p>
+                                    <div class="overview-btn btn">
+                                        <a class="overview-tag" href="admin/registration">Registration</a>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="flex w-100 m-0 overview">
+                                    <p>There are <span class="px-2 fw-bold fs-5">@registrationCount</span> registrations await for approval.</p>
+                                    <div class="overview-btn btn">
+                                        <a class="overview-tag" href="admin/registration">Registration</a>
+                                    </div>
+                                </div>
+                            }
+                            @if (Students.Count() == 0)
+                            {
+                                <div class="flex w-100 m-0 overview">
+                                    <p>
+                                        There are currently no student.
+                                    </p>
+                                    <div class="overview-btn btn">
+                                        <a class="overview-tag" href="admin/userManagement/userManager">Manage Students</a>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="flex w-100 m-0 overview">
+                                    <p>There are <span class="px-2 fw-bold fs-5">@Students.Count()</span> students enrolled right now.</p>
+                                    <div class="overview-btn btn">
+                                        <a class="overview-tag" href="admin/userManager">Manage Students</a>
+                                    </div>
+                                </div>
+                            }
+
+                            @if (Subjects.Count() == 0)
+                            {
+
+                                <div class="flex w-100 m-0 overview">
+                                    <p>
+                                        There are currently no subjects being teach.
+                                    </p>
+                                    <div class="overview-btn btn">
+                                        <a class="overview-tag" href="admin/subject">Manage Subjects</a>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="flex w-100 m-0 overview">
+                                    <p>Subjects being teach at our Institute: <span class="ps-2 fw-bold fs-5">@Subjects.Count().</span></p>
+                                    <div class="overview-btn btn">
+                                        <a class="overview-tag" href="admin/subject">Manage Subjects</a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="content rounded-3 content-2 shadown-lg">
+                        <Chart Config="lineConfig" @ref="lineChartJs"></Chart>
+                    </div>
+                    <div class="content rounded-3 content-3 shadown-lg text-white">
+                        <h3>Enrollment Information</h3>
+                        <Chart Config="barConfig" @ref="barChartJs"></Chart>
+                    </div>
+                    <div class="content rounded-3 content-4 shadown-lg ">
+                        <h4 class="fw-bold text-white">New Registrations</h4>
+                        <table class="table-sm caption-top table-borderless text-white shadow-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <span @onclick="SortId" class="flex">
+                                            ID
+                                            <span class="ps-1 material-icons hover-me">
+                                                @(sortId ? "arrow_downward" : "arrow_upward")
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th>
+                                        Student Name
+                                    </th>
+                                    <th>
+                                        <span @onclick="SortCourse" class="flex">
+                                            Course ID
+                                            <span class="ps-1 material-icons hover-me">
+                                                @(sortCourse ? "arrow_downward" : "arrow_upward")
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th>
+                                        <span @onclick="SortIsApp" class="flex">
+                                            Approval Status
+                                            <span class="ps-1 material-icons hover-me">
+                                                @(sortIsApp ? "arrow_downward" : "arrow_upward")
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th>
+                                        <span @onclick="SortExam" class="flex">
+                                            Entrance Exam
+                                            <span class="ps-1 material-icons hover-me">
+                                                @(sortExamReg ? "arrow_downward" : "arrow_upward")
+                                            </span>
+                                        </span>
+                                    </th>
+                                    <th>
+                                        <div @onclick="SortCreatedAt" class="flex">
+                                            Created At
+                                            <span class="ps-1 material-icons hover-me">
+                                                @(sortCreatedAt ? "arrow_downward" : "arrow_upward")
+                                            </span>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var reg in CourseRegs)
+                                {
+                                    <tr>
+
+                                        <td>
+                                            <a class="reg-name fw-bold" href="/admin/registration/@reg.Id">@reg.Id</a>
+                                        </td>
+                                        <td>@reg.UserId</td>
+                                        <td>@reg.CourseId</td>
+                                        <td>
+                                            @reg.IsApproved
+                                        </td>
+                                        <td>@(reg.ExamRequired ? "Required" : "Not Required")</td>
+                                        <td>@reg.CreatedAt.ToShortDateString()</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="content rounded-3 content-5 shadown-lg">
+                        <h3 class="text-center fw-bold text-white">Statistics</h3>
+                        <div class="facts">
+                            <ul>
+                                <li><p>Total Payment of all time: <span class="px-2 fw-bold fs-5">$ @Payments.Sum(x => x.Amount)</span></p></li>
+                                <li><p>Number of courses: <span class="px-2 fw-bold fs-5">@Courses.Count()</span></p></li>
+                                <li><p>Number of subjects: <span class="px-2 fw-bold fs-5">@Subjects.Count()</span></p></li>
+                                <li><p>Number of students: <span class="px-2 fw-bold fs-5">@Students.Count()</span></p></li>
+                                <li><p>Number of teachers: <span class="px-2 fw-bold fs-5">@Teachers.Count()</span></p></li>
+                                <li><p>Number of visitors: <span class="px-2 fw-bold fs-5">1993</span></p></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <UnauthorizedAccess />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    #region props
+    private IEnumerable<BatchVM> Batches { get; set; }
+    private IEnumerable<CourseWithSubjects> Courses { get; set; }
+    private IEnumerable<CourseRegistrationVM> CourseRegs { get; set; }
+    private IEnumerable<SubjectVM> Subjects { get; set; }
+    private List<AppUser> Students { get; set; }
+    private AppUser Admin { get; set; }
+    private IEnumerable<AppUser> Teachers { get; set; }
+    private IEnumerable<EnrollmentWithData> Enrollments { get; set; }
+    private IEnumerable<PaymentStatusVM> Payments { get; set; }
+    private AuthenticationState AuthState { get; set; }
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    private int registrationCount { get; set; }
     #endregion
 
-    protected async override void OnInitialized()
+    #region chart config
+    private Chart lineChartJs = new();
+    private Chart barChartJs = new();
+    private LineConfig lineConfig = new();
+    private BarConfig barConfig = new();
+
+    #endregion
+
+    #region other
+    private bool sortId = false;
+    private bool sortCourse = false;
+    private bool sortIsApp = false;
+    private bool sortCreatedAt = true;
+    private bool sortExamReg = true;
+    #endregion
+
+    #region fiter logic
+    private void SortId()
+    {
+        if (sortId)
+        {
+            CourseRegs = CourseRegs.OrderBy(r => r.Id).ToList();
+            sortId = !sortId;
+        }
+        else
+        {
+            CourseRegs = CourseRegs.OrderByDescending(r => r.Id).ToList();
+            sortId = !sortId;
+        }
+    }
+    private void SortCourse()
+    {
+        if (sortCourse)
+        {
+            CourseRegs = CourseRegs.OrderBy(r => r.CourseId).ToList();
+            sortCourse = !sortCourse;
+        }
+        else
+        {
+            CourseRegs = CourseRegs.OrderByDescending(r => r.CourseId).ToList();
+            sortCourse = !sortCourse;
+        }
+    }
+    private void SortIsApp()
+    {
+        if (sortIsApp)
+        {
+            CourseRegs = CourseRegs.OrderBy(r => r.IsApproved).ToList();
+            sortIsApp = !sortIsApp;
+        }
+        else
+        {
+            CourseRegs = CourseRegs.OrderByDescending(r => r.IsApproved).ToList();
+            sortIsApp = !sortIsApp;
+        }
+    }
+    private void SortExam()
+    {
+        if (sortExamReg)
+        {
+            CourseRegs = CourseRegs.OrderBy(r => r.ExamRequired).ToList();
+            sortExamReg = !sortExamReg;
+        }
+        else
+        {
+            CourseRegs = CourseRegs.OrderByDescending(r => r.ExamRequired).ToList();
+            sortExamReg = !sortExamReg;
+        }
+    }
+    private void SortCreatedAt()
+    {
+        if (sortCreatedAt)
+        {
+            CourseRegs = CourseRegs.OrderBy(r => r.CreatedAt).ToList();
+            sortCreatedAt = !sortCreatedAt;
+        }
+        else
+        {
+            CourseRegs = CourseRegs.OrderByDescending(r => r.CreatedAt).ToList();
+            sortCreatedAt = !sortCreatedAt;
+        }
+    }
+    #endregion
+
+    protected override void OnParametersSet()
     {
         #region chart
-        pieConfig = new PieConfig
+
+        #region line chart
+        lineConfig = new LineConfig
         {
-            Options = new PieOptions
+            Options = new LineOptions
             {
                 Responsive = true,
                 Title = new OptionsTitle
                 {
                     Display = true,
-                    Text = "ChartJs.Blazor Pie Chart"
+                    Text = "Revenue Last Six Months",
+                    FontColor = ColorUtil.ColorHexString(242, 242, 242)
+                },
+                Legend = new Legend
+                {
+                    Display = true,
+                    Labels = new LegendLabels
+                    {
+                        FontColor = ColorUtil.ColorHexString(242, 242, 242)
+                    }
+                },
+                Animation = new Animation
+                {
+                    Duration = 1000,
+                    Easing = Easing.EaseInElastic
                 }
             }
         };
 
-        DateTime now = DateTime.Now;
+        DateTime now = DateTime.UtcNow;
         DateTime currentMonth = new DateTime(now.Year, now.Month, 1);
-        var last12monthsString = new List<string>();
-        var last12monthsInt = new List<int>();
-        var lastTwelveMonths =
-            Enumerable.Range(0, 12)
-                      .Select(i => -i)
-                      .Select(monthsToAdd => currentMonth.AddMonths(monthsToAdd))
-                      .ToList();
-        foreach (var item in lastTwelveMonths)
+        var sixMonthRev = new List<double>();
+        var sixMonthRevString = new List<string>();
+        var lastSixMonths = Enumerable.Range(0, 6)
+            .Select(i => -i)
+            .Select(monthsToAdd => currentMonth.AddMonths(monthsToAdd))
+            .ToList();
+
+        foreach (var item in lastSixMonths)
         {
-            last12monthsString.Add(item.ToString("MMM"));
-            last12monthsInt.Add(item.Month);
-        }
-        last12monthsString.Reverse();
-        foreach (string color in new[] { "Red", "Yellow", "Green", "Blue" })
-        {
-            pieConfig.Data.Labels.Add(color);
+            sixMonthRevString.Add(item.ToString("MMM"));
+            sixMonthRev.Add(item.Month);
         }
 
-        PieDataset<int> dataset = new PieDataset<int>(new[] { 6, 5, 3, 7 })
+        sixMonthRevString.Reverse();
+
+        foreach (string month in sixMonthRevString)
         {
-            BackgroundColor = new[]
-            {
-            ColorUtil.ColorHexString(255, 99, 132), // Slice 1 aka "Red"
-            ColorUtil.ColorHexString(255, 205, 86), // Slice 2 aka "Yellow"
-            ColorUtil.ColorHexString(75, 192, 192), // Slice 3 aka "Green"
-            ColorUtil.ColorHexString(54, 162, 235), // Slice 4 aka "Blue"
-            }
-        };
+            lineConfig.Data.XLabels.Add(month);
+        }
 
-        pieConfig.Data.Datasets.Add(dataset);
+        var revPerMonth = new List<double>();
+        sixMonthRev.Reverse();
 
+        var revs = Payments;
+        foreach (var month in sixMonthRev)
+        {
+            //string _count = Enrollments.Where(x => x.CreatedAt.Month == month).Count().ToString();
+            double rev = Payments.Where(x => x.CreatedAt.Month == month).Sum(p => p.Amount);
+            revPerMonth.Add(rev);
+        }
+
+        LineDataset<double> lineDataset = new LineDataset<double>(revPerMonth);
+        lineDataset.BackgroundColor = ColorUtil.ColorHexString(242, 242, 242);
+        lineDataset.Label = "Revenue";
+        lineConfig.Data.Datasets.Add(lineDataset);
+        #endregion
+
+        #region bar chart
         barConfig = new BarConfig
         {
             Options = new BarOptions
@@ -126,31 +387,30 @@ else
                 Title = new OptionsTitle
                 {
                     Display = true,
-                    Text = "Student Enrollment Info Chart",
-                    FontColor = ColorUtil.ColorHexString(255, 255, 255)
+                    Text = "Student Enrollment Info Chart"
                 },
                 Animation = new Animation
                 {
                     Duration = 1000,
                     Easing = Easing.EaseInBack
-                },
-                Tooltips = new Tooltips
-                {
-                    BackgroundColor = ColorUtil.ColorString(219, 152, 39),
-                    BorderColor = ColorUtil.ColorHexString(219, 175, 23),
-                    BodyFontColor = ColorUtil.ColorHexString(255, 255, 255),
-                    FooterFontColor = ColorUtil.ColorHexString(255, 255, 255)
-                },
-                Legend = new Legend
-                {
-                    Display = true,
-                    Labels = new LegendLabels()
-                    {
-                        FontColor = ColorUtil.ColorHexString(255, 255, 255)
-                    }
                 }
             }
         };
+
+        var last12monthsString = new List<string>();
+        var last12monthsInt = new List<int>();
+        var lastTwelveMonths = Enumerable.Range(0, 12)
+            .Select(i => -i)
+            .Select(monthsToAdd => currentMonth.AddMonths(monthsToAdd))
+            .ToList();
+
+        foreach (var item in lastTwelveMonths)
+        {
+            last12monthsString.Add(item.ToString("MMM"));
+            last12monthsInt.Add(item.Month);
+        }
+
+        last12monthsString.Reverse();
 
         foreach (string month in last12monthsString)
         {
@@ -159,7 +419,8 @@ else
 
         var enronPerMonth = new List<int>();
         last12monthsInt.Reverse();
-        var enrolls = (await enrollService.GetEnrollmentWithDataVM()).ToList();
+
+        var enrolls = Enrollments;
         foreach (var month in last12monthsInt)
         {
             //string _count = Enrollments.Where(x => x.CreatedAt.Month == month).Count().ToString();
@@ -167,28 +428,56 @@ else
             enronPerMonth.Add(_count);
         }
 
-        foreach (string amount in new[] { "5", "10", "15", "20", "25", "30", "35", "40", "45", "50" })
-        {
-            barConfig.Data.YLabels.Add(amount);
-        }
-        var payments = (await paymentService.GetAllPaymentStatusAsync()).Where(x => x.HasPaid == true);
-        this.Payments = payments;
         BarDataset<int> barDataSet = new BarDataset<int>(enronPerMonth);
 
+        // Config char color
         barConfig.Data.Datasets.Add(barDataSet);
         barDataSet.BackgroundColor = ColorUtil.ColorHexString(219, 152, 39);
         barDataSet.BorderColor = ColorUtil.ColorHexString(219, 175, 23);
         barDataSet.Label = "Number of Enrollments";
         #endregion
 
+        #endregion
     }
 
     protected async override Task OnInitializedAsync()
     {
+        Batches = (await batchService.GetBatchesVMsAsync()).Where(b => b.EndDate > DateTime.Now).ToList();
         Courses = (await courseService.GetCourseVMsAsync()).ToList();
+        CourseRegs = (await courseRegService.GetAllCourseRegistrationVMsAsync()).OrderByDescending(c => c.CreatedAt).ToList();
         Subjects = (await subjectService.GetSubjectVMsAsync()).ToList();
-        Students = await userManager.GetUsersInRoleAsync("student");
+        Students = (await userManager.GetUsersInRoleAsync("student")).ToList();
         Teachers = await userManager.GetUsersInRoleAsync("teacher");
         Enrollments = (await enrollService.GetEnrollmentWithDataVM()).ToList();
+        Payments = (await paymentService.GetAllPaymentStatusAsync()).Where(x => x.HasPaid == true);
+        AuthState = await authenticationStateTask;
+
+        #region filtering list
+        var batchIds = new List<int>();
+
+        foreach (var batch in Batches)
+        {
+            batchIds.Add(batch.Id);
+        }
+
+        for (int i = Students.Count() - 1; i > -1; --i)
+        {
+            if (!batchIds.Contains(Students[i].BatchId.GetValueOrDefault()))
+            {
+                Students.Remove(Students[i]);
+            }
+        }
+        #endregion
+
+        #region Get current logged in user
+        if (AuthState.User.Identity.IsAuthenticated)
+        {
+            var userId = Guid.Parse(AuthState.User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value);
+
+            Admin = userManager.Users.FirstOrDefault(u => u.Id == userId);
+        }
+        #endregion
+
+        registrationCount = CourseRegs.Where(c => c.IsApproved == false).Count();
     }
 }

@@ -14,6 +14,7 @@ namespace Symphony.ViewModels.Extensions
             PhoneNumber = appUser.PhoneNumber,
             Gender = appUser.Gender,
             Address = appUser.Address,
+            BatchId = appUser.BatchId.GetValueOrDefault(),
             Email = appUser.Email,
             UserName = appUser.UserName,
             EmailConfirmed = appUser.EmailConfirmed,
