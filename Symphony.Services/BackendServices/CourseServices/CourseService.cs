@@ -184,5 +184,21 @@ namespace Symphony.Services.BackendServices.CourseServices
                 await _context.Subject_Courses.AddAsync(_subject_course);
             }
         }
+
+        public async Task<IEnumerable<CourseVM>> SearchCourseAsync(string context)
+        {
+            if (context is not null && !String.IsNullOrEmpty(context))
+            {
+                return await _context.Courses
+                    .Where(c => c.Name.Contains(context) || c.Description.Contains(context) || c.DetailDescription.Contains(context)).Select(c => new CourseVM
+                    {
+                            Id = c.Id,
+                            Name = c.Name,
+                            ImagePath = c.ImagePath
+                    }).ToListAsync();
+            }
+
+            return null;
+        }
     }
 }

@@ -14,6 +14,8 @@ namespace Symphony.Services.BackendServices.CourseServices
 
         Task<IEnumerable<CourseWithSubjects>> GetCoursesWithSubjectsAsync();
 
+        Task<IEnumerable<CourseVM>> SearchCourseAsync(string context);
+
         Task<CourseWithSubjects> CreateCourseAsync(CourseCreateRequest request);
 
         Task<int> UpdateCourseDetails(CourseUpdateRequest request);

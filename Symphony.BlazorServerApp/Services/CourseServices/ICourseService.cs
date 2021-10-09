@@ -8,6 +8,7 @@ namespace Symphony.BlazorServerApp.Services.CourseServices
     public interface ICourseService
     {
         Task<IEnumerable<CourseWithSubjects>> GetCourseVMsAsync();
+        Task<IEnumerable<CourseVM>> SearchCourseAsync(string context);
         Task<CourseWithSubjects> GetCourseVMAsync(int id);
         Task<int> CreateAsync(CourseCreateRequest course);
         Task<int> UpdateAsync(CourseUpdateRequest course);
