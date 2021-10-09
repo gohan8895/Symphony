@@ -150,9 +150,7 @@
                                 <h4 class="fw-bold">
                                     @course.Name
                                     <small class="ps-2 fs-6 text-danger">
-                                        Level: @(course.IsBasic
-                                    ?
-                                    "Beginner" : "Advanced")
+                                        Level: @(course.IsBasic ? "Beginner" : "Advanced")
                                     </small>
                                 </h4>
                             </a>
@@ -180,7 +178,25 @@
                         <div class="col-md-2 col-sm-12 price-enroll">
                             <div class="row col-2-row">
                                 <div class="col-12">
-                                    <h3 class="w-100 text-center">@course.Price $</h3>
+                                    <h3 class="w-100 text-center">
+                                        @if (course.IsExtra && !course.IsBasic)
+                                        {
+                                            <span class="ps-4">$ @(course.Price + 300 + 50)</span>
+
+                                        }
+                                        else if (course.IsExtra && course.IsBasic)
+                                        {
+                                            <span class="ps-4">$ @(course.Price + 300)</span>
+                                        }
+                                        else if (!course.IsExtra && !course.IsBasic)
+                                        {
+                                            <span class="ps-4">$ @(course.Price + 50)</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="ps-4">$ @course.Price</span>
+                                        }
+                                    </h3>
                                 </div>
                                 <div class="col-12">
                                     <AuthorizeView>

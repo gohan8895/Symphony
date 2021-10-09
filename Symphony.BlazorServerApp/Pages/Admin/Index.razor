@@ -23,7 +23,7 @@
 
 <AuthorizeView Roles="admin" Context="adminPage">
     <Authorized>
-        @if (Enrollments is null || CourseRegs is null || Subjects is null)
+        @if (Enrollments is null || CourseRegs is null || Subjects is null || Batches is null)
         {
             <div class="text-center">
                 <div class="loadingio-spinner-bars-f8jbu6upslt">
