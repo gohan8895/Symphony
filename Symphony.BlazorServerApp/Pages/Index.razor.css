@@ -92,3 +92,12 @@
     margin: 0;
     width:100%;
 }
+
+/*Advanced courses*/
+.course-info-img:hover {
+    transform: scale(1.1);
+}
+
+.course-info-img {
+    transition: transform 0.2s; /* Animation */
+}

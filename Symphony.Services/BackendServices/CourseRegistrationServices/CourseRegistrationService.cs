@@ -92,7 +92,11 @@ namespace Symphony.Services.BackendServices.CourseRegistrationServices
             //Insert data into payment
             double finalPrice = _course.Price;
             double priceEntranceExam = 50;
+            double priceForLabSession = 300;
+            if (_course.IsExtra) finalPrice += priceForLabSession;
+
             if (courseRegis.ExamRequired) finalPrice += priceEntranceExam;
+            
             var _paymentStatus = await _paymnetService.CreatePaymentStatusAsync(courseRegis.Id, finalPrice);
 
             //If

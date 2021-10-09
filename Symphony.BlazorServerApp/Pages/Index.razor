@@ -123,7 +123,7 @@
             <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
                 @for (int i = AdvancedCourses.Count() - 1; i > -1; --i)
                 {
-                    <div class="col">
+                    <div class="col course-info-img">
                         <a href="courses/@AdvancedCourses[i].Id" style="text-decoration:none;">
                             <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-3 shadow-lg" style="background-image: url('./images/background/course-@(i).png');">
                                 <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">

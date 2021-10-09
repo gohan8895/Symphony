@@ -444,7 +444,7 @@
     {
         Batches = (await batchService.GetBatchesVMsAsync()).Where(b => b.EndDate > DateTime.Now).ToList();
         Courses = (await courseService.GetCourseVMsAsync()).ToList();
-        CourseRegs = (await courseRegService.GetAllCourseRegistrationVMsAsync()).OrderByDescending(c => c.CreatedAt).Where(c => c.IsDelete == false).ToList();
+        CourseRegs = (await courseRegService.GetAllCourseRegistrationVMsAsync()).OrderByDescending(c => c.CreatedAt).Where(c => c.IsDelete == false).Take(8).ToList();
         Subjects = (await subjectService.GetSubjectVMsAsync()).ToList();
         Students = (await userManager.GetUsersInRoleAsync("student")).ToList();
         Teachers = await userManager.GetUsersInRoleAsync("teacher");
