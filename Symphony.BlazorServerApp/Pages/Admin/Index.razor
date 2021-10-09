@@ -389,11 +389,14 @@
                     Display = true,
                     Text = "Student Enrollment Info Chart"
                 },
-                Animation = new Animation
+                Legend = new Legend
                 {
-                    Duration = 1000,
-                    Easing = Easing.EaseInBack
-                }
+                    Display = true,
+                    Labels = new LegendLabels
+                    {
+                        FontColor = ColorUtil.ColorHexString(0, 0, 0)
+                    }
+                },
             }
         };
 
