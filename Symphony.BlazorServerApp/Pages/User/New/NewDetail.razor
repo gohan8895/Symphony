@@ -1,0 +1,45 @@
+﻿
+@page "/new/{id:int}"
+@inject INewService newService
+@using Symphony.ViewModels.Consult
+@using Symphony.BlazorServerApp.Services.NewService
+
+<main>
+    @if (Data == null)
+    {
+    <div class="text-center">
+        <div class="loadingio-spinner-bars-f8jbu6upslt">
+            <div class="ldio-p5olh5z9oq">
+                <div></div><div></div><div></div><div></div>
+            </div>
+        </div>
+    </div>
+   
+    }
+    else
+    {
+<div class="container m-2">
+    
+    <h1 class="fs-1 mg-5 font-monospace text-decoration-underline p-2">@Data.Title</h1>
+    <p style=" line-height: 1.6;" class="p-3 p-2 ">@Data.Description</p>
+</div>
+      
+       
+    }
+
+</main>
+
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    public NewsVM Data = null;
+
+    protected async override Task OnInitializedAsync()
+    {
+
+        Data = await newService.GetNewAsync(id);
+    }
+
+}

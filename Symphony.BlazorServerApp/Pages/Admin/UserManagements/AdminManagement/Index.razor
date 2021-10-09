@@ -1,0 +1,88 @@
+﻿@page "/admin/userManagement/adminManager"
+
+@inject UserManager<AppUser> userManager
+@inject RoleManager<AppRole> roleManager
+@using Symphony.BlazorServerApp.Controls.TableComponents
+
+<AuthorizeView Roles="admin">
+    <Authorized>
+        @if (Users is null)
+        {
+            <div class="text-center">
+                <div class="loadingio-spinner-bars-f8jbu6upslt">
+                    <div class="ldio-p5olh5z9oq">
+                        <div></div><div></div><div></div><div></div>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="container-fluid">
+                <h1 class="text-center fw-bolder">Admin Manager</h1>
+                <CreateButton Url="admin/usermanagement/createAdmin" Who="a New Admin" />
+                <TableTemplate Caption="Admins" Items="Users" Context="user">
+                    <TableHeader>
+                        <th><p>@nameof(User.FirstName)</p></th>
+                        <th><p>@nameof(User.LastName)</p></th>
+                        <th><p>@nameof(User.DOB)</p></th>
+                        <th><p>@nameof(User.Gender)</p></th>
+                        <th><p>@nameof(User.PhoneNumber)</p></th>
+                        <th><p>@nameof(User.Address)</p></th>
+                        <th><p>@nameof(User.Email)</p></th>
+                        <th><p>@nameof(User.EmailConfirmed)</p></th>
+                        <th><p>@nameof(User.CreatedAt)</p></th>
+                        <th></th>
+                    </TableHeader>
+                    <RowTemplate>
+                        <td><p>@user.FirstName</p></td>
+                        <td><p>@user.LastName</p></td>
+                        <td><p>@user.DOB</p></td>
+                        <td><p>@user.Gender</p></td>
+                        <td><p>@user.PhoneNumber</p></td>
+                        <td><p>@user.Address</p></td>
+                        <td><p>@user.Email</p></td>
+                        <td><p>@(user.EmailConfirmed ? "Confirmed" : "Unconfirmed")</p></td>
+                        <td><p>@user.CreatedAt</p></td>
+                        <td class="text-center">
+                            <NavLink href=@($"/admin/userManagement/editAdmin/{user.Id}") class="material-icons nav-item text-warning me-4">edit</NavLink>
+                            <button @onclick="() => DeleteAdmin(user.Email)" class="btn material-icons nav-item text-danger me-2">delete</button>
+                        </td>
+                    </RowTemplate>
+                </TableTemplate>
+            </div>
+        }
+
+    </Authorized>
+    <NotAuthorized>
+        <UnauthorizedAccess />
+    </NotAuthorized>
+</AuthorizeView>
+
+
+@code {
+
+    #region DTO
+    public List<AppUserVM> Users { get; set; } = null;
+    public AppUserVM User { get; set; }
+    #endregion
+
+    protected async override Task OnInitializedAsync()
+    {
+        var users = await userManager.GetUsersInRoleAsync("admin");
+
+        Users = users.Select(u => u.AsVM()).ToList();
+    }
+
+    private async Task DeleteAdmin(string email)
+    {
+        var user = await userManager.FindByEmailAsync(email);
+
+        if (user is not null) await userManager.DeleteAsync(user);
+        var students = await userManager.GetUsersInRoleAsync("admin");
+
+        Users = students.Select(u => u.AsVM()).ToList();
+
+        //StateHasChanged();
+    }
+}

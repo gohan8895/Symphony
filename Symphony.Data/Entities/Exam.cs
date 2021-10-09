@@ -18,11 +18,15 @@ namespace Symphony.Data.Entities
         public bool IsEntranceExam { get; set; }
         public int CourseId { get; set; }
         public int Duration { get; set; }
+        public int MaxScore { get; set; }
+        public int RequiredScore { get; set; }
+        public bool? IsDelete { get; set; }
         public Batch Batch { get; set; }
         public Subject Subject { get; set; }
+        public Course Course { get; set; }
         public List<Student_In_Exam> Student_In_Exams { get; set; }
         public List<Exam_Result> Exam_Results { get; set; }
-        public List<Questions_In_Exam> Questions_In_Exams { get; set; }
+        public List<QuestionExam> QuestionExams { get; set; }
         public List<Student_Answer> Student_Answers { get; set; }
         public List<ExamRegistration> ExamRegistrations { get; set; }
     }

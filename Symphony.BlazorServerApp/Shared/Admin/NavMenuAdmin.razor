@@ -1,0 +1,305 @@
+﻿<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand mx-auto" href="">Symphony Institute</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3 fw-bold ">
+            <NavLink class="nav-link" href="admin/dashboard" Match="NavLinkMatch.All">
+                <span class="material-icons me-2">
+                    dashboard
+                </span> Dashboard
+            </NavLink>
+        </li>
+        <li class="nav-item px-3 ">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="material-icons me-2">
+                    home
+                </span> Home Page
+            </NavLink>
+        </li>
+        @* User Management *@
+        <li class="nav-item px-3 fw-bold btn">
+            <NavLink class="nav-link" @onclick="() => expandSubMenuUser = !expandSubMenuUser">
+                <span class="material-icons me-2">
+                    people
+                </span> User Management
+                <span class="material-icons me-2">
+                    @(expandSubMenuUser ? "expand_less" : "expand_more")
+                </span>
+            </NavLink>
+            @if (expandSubMenuUser)
+            {
+                <ul class="nav flex-column">
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="admin/userManagement/adminManager">
+                            <span class="material-icons me-2">badge</span>Admin
+                        </NavLink>
+                    </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="admin/userManagement/teacherManager">
+                            <span class="material-icons me-2">supervisor_account</span>
+                            Teacher
+                        </NavLink>
+                    </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="admin/userManagement/userManager">
+                            <span class="material-icons me-2">group</span>
+                            Student
+                        </NavLink>
+                    </li>
+                </ul>
+            }
+        </li>
+        @* Course Management *@
+        <li class="nav-item px-3 fw-bold btn">
+            <NavLink class="nav-link" @onclick="() => expandSubMenuCourse = !expandSubMenuCourse">
+                <span class="material-icons me-2">
+                    menu_book
+                </span>
+                Course Management
+                <span class="material-icons me-2">
+                    @(expandSubMenuCourse ? "expand_less" : "expand_more")
+                </span>
+            </NavLink>
+            @if (expandSubMenuCourse)
+            {
+                <ul class="nav flex-column">
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="admin/course">
+                            <span class="material-icons me-2">manage_search</span>Course Manager
+                        </NavLink>
+                    </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="admin/subject">
+                            <span class="material-icons me-2">subject</span> Subject
+                        </NavLink>
+                    </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="/courses">
+                            <span class="material-icons me-2">
+                                class
+                            </span> Courses Page
+                        </NavLink>
+                    </li>
+                </ul>
+            }
+        </li>
+        <li class="nav-item px-3 fw-bold btn">
+            <NavLink class="nav-link" @onclick="() => expandSubMenuExam = !expandSubMenuExam">
+                <span class="material-icons me-2">
+                    quiz
+                </span> Exam Management
+                <span class="material-icons me-2">
+                    @(expandSubMenuExam ? "expand_less" : "expand_more")
+                </span>
+            </NavLink>
+            @if (expandSubMenuExam)
+            {
+                <ul class="nav flex-column">
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="admin/examManagement">
+                            <span class="material-icons me-2">quiz</span>Exam
+                        </NavLink>
+                    </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="admin/resultManagement">
+                            <span class="material-icons me-2">task</span> Result
+                        </NavLink>
+                    </li>
+                </ul>
+            }
+        </li>
+        <li class="nav-item px-3 fw-bold btn">
+            <NavLink class="nav-link" @onclick="() => expandSubMenuRegistration = !expandSubMenuRegistration">
+                <span class="material-icons me-2">
+                    feed
+                </span>
+                Registration
+                <span class="material-icons me-2">
+                    @(expandSubMenuRegistration ? "expand_less" : "expand_more")
+                </span>
+            </NavLink>
+            @if (expandSubMenuRegistration)
+            {
+                <ul class="nav flex-column">
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="admin/registration">
+                            <span class="material-icons me-2">school</span>
+                            Registration
+                        </NavLink>
+                    </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="admin/enrollment">
+                            <span class="material-icons me-2">app_registration</span>
+                            Enrollment
+                        </NavLink>
+                    </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="admin/paymentStatus">
+                            <span class="material-icons me-2">payments</span>
+                            Payment
+                        </NavLink>
+                    </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="/admin/consulregistration">
+                            <span class="material-icons me-2">
+                                forum
+                            </span>Consults
+                        </NavLink>
+                    </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="admin/batchManagement">
+                            <span class="material-icons me-2">
+                                class
+                            </span>Batch Management
+                        </NavLink>
+                    </li>
+                </ul>
+            }
+        </li>
+        <li class="nav-item px-3 ">
+            <NavLink class="nav-link" href="/studentCorner">
+                <span class="material-icons me-2">
+                    menu_book
+                </span> Student Corner
+            </NavLink>
+        </li>
+        <li class="nav-item px-3 fw-bold btn">
+            <NavLink class="nav-link" @onclick="() => expandFAQ = !expandFAQ">
+                <span class="material-icons me-2">
+                    question_answer
+                </span> FAQ Management
+                <span class="material-icons me-2">
+                    @(expandFAQ ? "expand_less" : "expand_more")
+                </span>
+            </NavLink>
+            @if (expandFAQ)
+            {
+                <ul class="nav flex-column">
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="/admin/faq">
+                            <span class="material-icons me-2">
+                                manage_search
+                            </span> FAQ Manager
+                        </NavLink>
+                        <NavLink class="nav-link expand-menu" href="/faq">
+                            <span class="material-icons me-2">
+                                question_answer
+                            </span> FAQ Page
+                        </NavLink>
+                    </li>
+                </ul>
+            }
+        </li>
+        <li class="nav-item px-3 fw-bold btn">
+            <NavLink class="nav-link" @onclick="() => expandNew = !expandNew">
+                <span class="material-icons me-2">
+                    article
+                </span> News Management
+                <span class="material-icons me-2">
+                    @(expandNew ? "expand_less" : "expand_more")
+                </span>
+            </NavLink>
+            @if (expandNew)
+            {
+                <ul class="nav flex-column">
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="/admin/new">
+                            <span class="material-icons me-2">
+                                manage_search
+                            </span> News Manager
+                        </NavLink>
+                        <NavLink class="nav-link expand-menu" href="/new">
+                            <span class="material-icons me-2">
+                                article
+                            </span> News Page
+                        </NavLink>
+                    </li>
+                </ul>
+            }
+        </li>
+        <li class="nav-item px-3 fw-bold btn">
+            <NavLink class="nav-link" @onclick="() => expandAbout = !expandAbout">
+                <span class="material-icons me-2">
+                    help
+                </span> About Management
+                <span class="material-icons me-2">
+                    @(expandAbout ? "expand_less" : "expand_more")
+                </span>
+            </NavLink>
+            @if (expandAbout)
+            {
+                <ul class="nav flex-column">
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="admin/aboutus">
+                            <span class="material-icons me-2">manage_search</span>About Manager
+                        </NavLink>
+                    </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="/aboutus">
+                            <span class="material-icons me-2">
+                                help
+                            </span> About
+                        </NavLink>
+                    </li>
+                </ul>
+            }
+        </li>
+
+        <li class="nav-item px-3 fw-bold btn">
+            <NavLink class="nav-link" @onclick="() => expandEvent = !expandEvent">
+                <span class="material-icons me-2">
+                    event
+                </span> Event Management
+                <span class="material-icons me-2">
+                    @(expandEvent ? "expand_less" : "expand_more")
+                </span>
+            </NavLink>
+            @if (expandEvent)
+            {
+                <ul class="nav flex-column">
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="admin/event">
+                            <span class="material-icons me-2">manage_search</span>Manage Event
+                        </NavLink>
+                    </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link expand-menu" href="/event">
+                            <span class="material-icons me-2">
+                                event
+                            </span> Event
+                        </NavLink>
+                    </li>
+                </ul>
+            }
+        </li>
+    </ul>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    #region expand Sub menu
+
+    private bool expandSubMenuUser = false;
+    private bool expandSubMenuCourse = false;
+    private bool expandSubMenuExam = false;
+    private bool expandSubMenuRegistration = false;
+    private bool expandAbout = false;
+    private bool expandFAQ = false;
+    private bool expandNew = false;
+    private bool expandEvent = false;
+
+    #endregion
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

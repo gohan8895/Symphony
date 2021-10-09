@@ -6,6 +6,48 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\**" />
+    <Content Remove="Data\**" />
+    <EmbeddedResource Remove="Data\**" />
+    <None Remove="Data\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Controls\CourseComponents\AllCourses.razor.css" />
+    <None Remove="Pages\User\About\AboutUs.razor.css" />
+    <None Remove="Pages\User\Course\Registered.razor.css" />
+    <None Remove="Pages\User\Faq\Faq.razor.css" />
+    <None Remove="Pages\User\New\NewDetail.razor.css" />
+
+    <None Remove="Shared\Admin\LoginDisplayAdmin.razor.css" />
+
+    <None Remove="Shared\User\Footer.razor.css" />
+    <None Remove="Shared\User\LoginDisplay.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Controls\CourseComponents\AllCourses.razor.css" />
+    <Content Include="Pages\User\About\AboutUs.razor.css" />
+    <Content Include="Pages\User\Course\Registered.razor.css" />
+    <Content Include="Pages\User\Faq\Faq.razor.css" />
+    <Content Include="Pages\User\New\NewDetail.razor.css" />
+
+    <Content Include="Shared\Admin\LoginDisplayAdmin.razor.css" />
+
+    <Content Include="Shared\User\Footer.razor.css" />
+    <Content Include="Shared\User\LoginDisplay.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\images\home\student4.webp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Blazored.Typeahead" Version="4.6.0" />
+    <PackageReference Include="ChartJs.Blazor" Version="1.1.0" />
+    <PackageReference Include="ChartJs.Blazor.Fork" Version="2.0.2" />
+    <PackageReference Include="Humanizer" Version="2.11.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="5.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.10" />
@@ -18,13 +60,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
-    <Folder Include="Controls\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Symphony.Data\Symphony.Data.csproj" />
+    <ProjectReference Include="..\Symphony.Services\Symphony.Services.csproj" />
+    <ProjectReference Include="..\Symphony.Utilities\Symphony.Utilities.csproj" />
+    <ProjectReference Include="..\Symphony.ViewModels\Symphony.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

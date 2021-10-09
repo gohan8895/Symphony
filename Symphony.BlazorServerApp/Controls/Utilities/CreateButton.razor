@@ -1,0 +1,39 @@
+﻿<div class="create-button">
+    <a class="btn btn-dark text-white w-75 d-flex justify-content-around" href="@Url">
+        <span>Create @Who</span>
+        <span class="material-icons">add</span>
+    </a>
+
+    <style type="text/css">
+        .create-button {
+            width: 25%;
+        }
+
+        .btn:hover {
+            font-weight: bolder;
+            background-color: #0B2363
+        }
+
+        @@media only screen and (max-width: 640px) {
+            .create-button {
+                width: 80%;
+            }
+        }
+
+        @@media only screen and (max-width: 390px) {
+            .create-button {
+                width: 100%;
+            }
+        }
+    </style>
+</div>
+
+
+
+@code {
+    [Parameter]
+    public string Url { get; set; }
+
+    [Parameter]
+    public string Who { get; set; }
+}

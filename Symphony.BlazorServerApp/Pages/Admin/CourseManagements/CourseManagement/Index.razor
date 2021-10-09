@@ -1,0 +1,276 @@
+﻿@page "/admin/course"
+
+@using Symphony.ViewModels.CourseViewModel
+@using Symphony.BlazorServerApp.Services.CourseServices
+@using Symphony.BlazorServerApp.Services.SubjectServices
+@using Symphony.BlazorServerApp.Controls.TableComponents
+
+@inject ICourseService courseService
+@inject ISubjectService subjectService
+
+<AuthorizeView Roles="admin">
+    <Authorized>
+        <div class="container-lg">
+            <h1 class="text-center fw-bolder">Course Manager</h1>
+            <CreateButton Url="/admin/course/create" Who="a New Course" />
+            <TableTemplate Caption="Courses" Items="Courses" Context="course">
+                <TableHeader>
+                    <th>
+                        <span @onclick="SortId" class="flex">
+                            @nameof(Course.Id)
+                            <span class="ps-1 material-icons hover-me">
+                                @(sortId ? "arrow_downward" : "arrow_upward")
+                            </span>
+                        </span>
+                    </th>
+                    <th>
+                        <span @onclick="SortName" class="flex">
+                            @nameof(Course.Name)
+                            <span class="ps-1 material-icons hover-me">
+                                @(sortName ? "arrow_downward" : "arrow_upward")
+                            </span>
+                        </span>
+                    </th>
+                    <th>
+                        @nameof(Course.Description)
+                    </th>
+                    <th>
+                        <span @onclick="SortStartDate" class="flex">
+                            @nameof(Course.StartDate)
+                            <span class="ps-1 material-icons hover-me">
+                                @(sortStartDate ? "arrow_downward" : "arrow_upward")
+                            </span>
+                        </span>
+                    </th>
+                    <th>
+                        <span @onclick="SortEndDate" class="flex">
+                            @nameof(Course.EndDate)
+                            <span class="ps-1 material-icons hover-me">
+                                @(sortEndDate ? "arrow_downward" : "arrow_upward")
+                            </span>
+                        </span>
+                    </th>
+                    <th>
+                        <span @onclick="SortPrice" class="flex">
+                            @nameof(Course.Price)
+                            <span class="ps-1 material-icons hover-me">
+                                @(sortPrice ? "arrow_downward" : "arrow_upward")
+                            </span>
+                        </span>
+                    </th>
+                    <th>
+                        <span @onclick="SortIsBasic" class="flex">
+                            @nameof(Course.IsBasic)
+                            <span class="ps-1 material-icons hover-me">
+                                @(sortIsBasic ? "arrow_downward" : "arrow_upward")
+                            </span>
+                        </span>
+                    </th>
+                    <th>
+                        <div @onclick="SortStatus" class="flex">
+                            @nameof(Course.IsShown)
+                            <span class="ps-1 material-icons hover-me">
+                                @(sortIsShown ? "arrow_downward" : "arrow_upward")
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div @onclick="SortUpdated" class="flex">
+                            @nameof(Course.UpdatedAt)
+                            <span class="ps-1 material-icons hover-me">
+                                @(sortUpdatedAt ? "arrow_downward" : "arrow_upward")
+                            </span>
+                        </div>
+                    </th>
+                    <th></th>
+                </TableHeader>
+                <RowTemplate>
+                    <td>@course.Id</td>
+                    <td>
+                        <a class="fw-bold course-name" href="/admin/course/@course.Id">@course.Name</a>
+                    </td>
+                    <td>@course.Description</td>
+                    <td>@course.StartDate.ToShortDateString()</td>
+                    <td>@course.EndDate.ToShortDateString()</td>
+                    <td>@course.Price</td>
+                    <td>@(course.IsBasic ? "Beginner" : "Advanced")</td>
+                    <td>@(course.IsShown ? "Show" : "Hidden")</td>
+                    <td>@course.UpdatedAt.ToShortDateString()</td>
+                    <td class="text-center">
+                        <a href="/admin/course/edit/@course.Id" class="btn material-icons  text-warning"
+                           data-bs-toggle="tooltip" data-bs-placement="right" title="Go to edit page">
+                            edit
+                        </a>
+                        <a @onclick="() => CourseId = course.Id"
+                           data-bs-toggle="modal" data-bs-target="#courseModal"
+                           class="btn material-icons text-danger">
+                            update
+                        </a>
+                    </td>
+                </RowTemplate>
+            </TableTemplate>
+            <!-- Modal -->
+            <div class="modal fade" id="courseModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Change Course Status</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Do you want to change this course status?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @onclick="() => ChangeStatus(CourseId)">
+                                Yes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <UnauthorizedAccess />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    #region param & prop
+    public List<CourseWithSubjects> Courses { get; set; } = new();
+    public CourseWithSubjects Course { get; set; }
+    private int CourseId { get; set; }
+    #endregion
+
+    #region other
+    private bool sortId = false;
+    private bool sortName = false;
+    private bool sortStartDate = false;
+    private bool sortEndDate = false;
+    private bool sortPrice = false;
+    private bool sortIsBasic = true;
+    private bool sortIsShown = true;
+    private bool sortUpdatedAt = false;
+    #endregion
+
+    protected async override Task OnInitializedAsync()
+    {
+        Courses = (await courseService.GetCourseVMsAsync()).ToList();
+    }
+
+    private async Task ChangeStatus(int id)
+    {
+        var course = Courses.FirstOrDefault(c => c.Id == id);
+        if (id != 0) await courseService.UpdateCourseStatusAsync(id);
+
+        Courses.Remove(course);
+    }
+
+    #region fiter logic
+    private void SortId()
+    {
+        if (sortId)
+        {
+            Courses = Courses.OrderBy(s => s.Id).ToList();
+            sortId = !sortId;
+        }
+        else
+        {
+            Courses = Courses.OrderByDescending(s => s.Id).ToList();
+            sortId = !sortId;
+        }
+    }
+    private void SortName()
+    {
+        if (sortName)
+        {
+            Courses = Courses.OrderBy(s => s.Name).ToList();
+            sortName = !sortName;
+        }
+        else
+        {
+            Courses = Courses.OrderByDescending(s => s.Name).ToList();
+            sortName = !sortName;
+        }
+    }
+    private void SortStartDate()
+    {
+        if (sortStartDate)
+        {
+            Courses = Courses.OrderBy(c => c.StartDate).ToList();
+            sortStartDate = !sortStartDate;
+        }
+        else
+        {
+            Courses = Courses.OrderByDescending(c => c.StartDate).ToList();
+            sortStartDate = !sortStartDate;
+        }
+    }
+    private void SortEndDate()
+    {
+        if (sortStartDate)
+        {
+            Courses = Courses.OrderBy(c => c.EndDate).ToList();
+            sortEndDate = !sortEndDate;
+        }
+        else
+        {
+            Courses = Courses.OrderByDescending(c => c.EndDate).ToList();
+            sortEndDate = !sortEndDate;
+        }
+    }
+    private void SortPrice()
+    {
+        if (sortPrice)
+        {
+            Courses = Courses.OrderBy(s => s.Price).ToList();
+            sortPrice = !sortPrice;
+        }
+        else
+        {
+            Courses = Courses.OrderByDescending(s => s.Price).ToList();
+            sortPrice = !sortPrice;
+        }
+    }
+    private void SortUpdated()
+    {
+        if (sortUpdatedAt)
+        {
+            Courses = Courses.OrderBy(s => s.UpdatedAt).ToList();
+            sortUpdatedAt = !sortUpdatedAt;
+        }
+        else
+        {
+            Courses = Courses.OrderByDescending(s => s.UpdatedAt).ToList();
+            sortUpdatedAt = !sortUpdatedAt;
+        }
+    }
+    private void SortIsBasic()
+    {
+        if (sortIsBasic)
+        {
+            Courses = Courses.OrderBy(s => s.IsBasic).ToList();
+            sortIsBasic = !sortIsBasic;
+        }
+        else
+        {
+            Courses = Courses.OrderByDescending(s => s.IsBasic).ToList();
+            sortIsBasic = !sortIsBasic;
+        }
+    }
+    private void SortStatus()
+    {
+        if (sortIsShown)
+        {
+            Courses = Courses.OrderBy(s => s.IsShown).ToList();
+            sortIsShown = !sortIsShown;
+        }
+        else
+        {
+            Courses = Courses.OrderByDescending(s => s.IsShown).ToList();
+            sortIsShown = !sortIsShown;
+        }
+    }
+    #endregion
+}

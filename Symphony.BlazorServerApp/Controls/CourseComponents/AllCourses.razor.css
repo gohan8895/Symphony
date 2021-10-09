@@ -1,0 +1,161 @@
+﻿/* display */
+
+.flex {
+    display: flex;
+    align-items: center;
+}
+
+/* Buttons */
+.filter-button {
+    background-color: #ffc029;
+    font-weight: 700;
+}
+
+.sort-button {
+    background-color: #30c3fc;
+    font-weight: 700;
+}
+
+.enroll-button {
+    background-color: #f53322;
+    font-weight: 700;
+}
+
+.filter-button:hover {
+    background-color: #d8a122;
+}
+
+.sort-button:hover {
+    background-color: #269bc9;
+    font-weight: 900;
+}
+
+.enroll-button:hover {
+    background-color: #c42b1d;
+}
+
+/* Others */
+.filter-item {
+    border-bottom: 1px solid #ababab;
+    padding: 1em 0;
+    font-weight: bold;
+}
+
+.form-check {
+    margin: 0.5em 0;
+}
+
+.form-check:hover {
+    color: #000000;
+}
+
+.form-check-input, .form-check-label {
+    cursor: pointer;
+}
+
+.filter-item > .form-check > input {
+    border: 1px solid black;
+}
+
+.filter-item > .form-check > input:hover {
+    border: 3px solid black;
+}
+
+.filter-sidebar .filter-item:first-child {
+    border-top: 1px solid #ababab;
+    margin-top: 0;
+}
+
+/*All Course*/
+.all-course .course-row:first-child {
+    border-top: 1px solid #ababab;
+    margin-top: 0;
+}
+
+.sort-button-item {
+    display: flex;
+    align-items: center;
+}
+
+/*Each course row*/
+
+.course-row {
+    border-bottom: 1px solid #ababab;
+    padding: 0.5em 0;
+    margin: 0.5em 0;
+}
+
+.course-row > .row {
+    min-height: 10em;
+}
+
+.course-row a {
+    text-decoration: none;
+    color: rgb(56, 56, 56);
+}
+
+.course-row a:hover {
+    font-weight: 900;
+    color: rgb(0, 0, 0);
+}
+
+.price-enroll {
+    min-height: 12em;
+}
+
+.col-2-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.course-info-img:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+    background-blend-mode: darken;
+    transform: scale(1.1);
+    box-shadow: 1em 1em 0.5em rgba(65, 65, 65, 0.3);
+}
+
+.course-info-img {
+    max-width: 15em;
+    height: auto;
+    transition: transform 0.2s; /* Animation */
+}
+
+.col-2-row {
+    height: 100%;
+    align-content: space-evenly;
+}
+
+@media only screen and (max-width: 990px) {
+    .course-info-img {
+        max-width: 11em;
+        height: auto;
+    }
+}
+
+@media only screen and (max-width: 770px) {
+    .course-info {
+        text-align: right;
+    }
+
+    .course-info-img {
+        max-width: 11em;
+        height: 100%;
+    }
+}
+
+@media only screen and (max-width: 635px) {
+    .course-info {
+        text-align: right;
+    }
+
+    .course-info-img {
+        max-width: 11em;
+        height: 100%;
+    }
+
+    .all-course {
+        margin-bottom: 2em;
+    }
+}

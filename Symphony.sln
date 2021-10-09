@@ -7,7 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Symphony.Backend", "Symphon
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Symphony.Data", "Symphony.Data\Symphony.Data.csproj", "{7CE8EA50-8848-49B9-BF7B-77D57003D1DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Symphony.BlazorServerApp", "Symphony.BlazorServerApp\Symphony.BlazorServerApp.csproj", "{EA8BC3E5-7BEB-4242-9A25-C0A8218E2E01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Symphony.BlazorServerApp", "Symphony.BlazorServerApp\Symphony.BlazorServerApp.csproj", "{EA8BC3E5-7BEB-4242-9A25-C0A8218E2E01}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Symphony.Services", "Symphony.Services\Symphony.Services.csproj", "{C249D91D-F08F-4384-BF2E-FA00AF739076}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Symphony.Utilities", "Symphony.Utilities\Symphony.Utilities.csproj", "{011A6726-DBF8-4DA4-BAA6-1D5596E6B4BF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Symphony.ViewModels", "Symphony.ViewModels\Symphony.ViewModels.csproj", "{22B4A8F6-48F0-45C2-8A1C-C17E9FFA2146}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +33,18 @@ Global
 		{EA8BC3E5-7BEB-4242-9A25-C0A8218E2E01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA8BC3E5-7BEB-4242-9A25-C0A8218E2E01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA8BC3E5-7BEB-4242-9A25-C0A8218E2E01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C249D91D-F08F-4384-BF2E-FA00AF739076}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C249D91D-F08F-4384-BF2E-FA00AF739076}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C249D91D-F08F-4384-BF2E-FA00AF739076}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C249D91D-F08F-4384-BF2E-FA00AF739076}.Release|Any CPU.Build.0 = Release|Any CPU
+		{011A6726-DBF8-4DA4-BAA6-1D5596E6B4BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{011A6726-DBF8-4DA4-BAA6-1D5596E6B4BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{011A6726-DBF8-4DA4-BAA6-1D5596E6B4BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{011A6726-DBF8-4DA4-BAA6-1D5596E6B4BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22B4A8F6-48F0-45C2-8A1C-C17E9FFA2146}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22B4A8F6-48F0-45C2-8A1C-C17E9FFA2146}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22B4A8F6-48F0-45C2-8A1C-C17E9FFA2146}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22B4A8F6-48F0-45C2-8A1C-C17E9FFA2146}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

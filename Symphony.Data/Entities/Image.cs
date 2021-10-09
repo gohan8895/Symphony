@@ -10,6 +10,7 @@ namespace Symphony.Data.Entities
     {
         public int Id { get; set; }
         public string Path { get; set; }
-        public List<Image_Subject> Image_Subjects { get; set; }
+        public int SubjectId { get; set; }
+        public Subject Subject { get; set; }
     }
 }

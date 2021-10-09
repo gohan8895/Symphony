@@ -2,14 +2,32 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    color: #2e2e2e;
+    background-image: url("./images/background/white-waves.png");
+    min-height: 100vh;
+    overflow: auto;
+    overflow: overlay;
 }
 
 .main {
     flex: 1;
+    position: absolute;
+    right: 0;
+    width: 85.5%;
 }
 
 .sidebar {
     background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    width: 14.5%;
+}
+
+.sidebar-user {
+    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    width: 14.5%;
+}
+
+.sidebar:hover {
+    overflow: overlay;
 }
 
 .top-row {
@@ -21,15 +39,20 @@
     align-items: center;
 }
 
-    .top-row ::deep a, .top-row .btn-link {
-        white-space: nowrap;
-        margin-left: 1.5rem;
-    }
+.top-row ::deep a,
+.top-row .btn-link {
+    white-space: nowrap;
+    margin-left: 1.5rem;
+}
 
-    .top-row a:first-child {
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+.top-row a:first-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.content {
+    min-height: 95vh;
+}
 
 @media (max-width: 640.98px) {
     .top-row:not(.auth) {
@@ -40,8 +63,13 @@
         justify-content: space-between;
     }
 
-    .top-row a, .top-row .btn-link {
+    .top-row a,
+    .top-row .btn-link {
         margin-left: 0;
+    }
+
+    .content {
+        margin-bottom: 15em;
     }
 }
 
@@ -51,7 +79,12 @@
     }
 
     .sidebar {
-        width: 250px;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+    }
+
+    .sidebar-user {
         height: 100vh;
         position: sticky;
         top: 0;

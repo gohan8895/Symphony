@@ -1,0 +1,24 @@
+.flex {
+    display: flex;
+    flex-direction:row;
+    align-items: center;
+    margin: auto;
+}
+
+.hover-me:hover {
+    text-decoration: underline;
+    color: #DAED0C;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.course-name {
+    text-decoration: none;
+    color: #1d1d1d;
+}
+
+    .course-name:hover {
+        text-decoration: underline;
+        font-weight: bolder;
+        color: #102498;
+    }

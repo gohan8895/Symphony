@@ -1,0 +1,17 @@
+﻿.main img {
+    border-radius: 1em;
+    width: 100%;
+    height: auto;
+    font-size: 1.3em;
+    line-height: 2.5em;
+}
+
+h1 {
+    font-size: 50px;
+    font-weight: bolder;
+}
+
+h2 {
+    font-weight: bolder;
+    font-style: italic;
+}

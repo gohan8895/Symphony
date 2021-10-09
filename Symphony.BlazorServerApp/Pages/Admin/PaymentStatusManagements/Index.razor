@@ -1,0 +1,232 @@
+﻿@page "/admin/paymentStatus"
+
+@using Symphony.BlazorServerApp.Services.PaymentStatusServices
+@using Symphony.BlazorServerApp.Controls.TableComponents
+
+@inject IPaymentStatusService paymentService
+
+<AuthorizeView Roles="admin">
+    <Authorized>
+        <div class="container-lg">
+            <h1 class="text-center fw-bolder">Payment Manager</h1>
+            @if (Payments is null)
+            {
+                <div class="text-center">
+                    <div class="loadingio-spinner-bars-f8jbu6upslt">
+                        <div class="ldio-p5olh5z9oq">
+                            <div></div><div></div><div></div><div></div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <TableTemplate Caption="Payment Status" Items="Payments" Context="p">
+                    <TableHeader>
+                        <th>
+                            <span @onclick="SortId" class="flex">
+                                @nameof(Enrollment.Id)
+                                <span class="ps-1 material-icons hover-me">
+                                    @(sortId ? "arrow_downward" : "arrow_upward")
+                                </span>
+                            </span>
+                        </th>
+                        <th>
+                            <span @onclick="SortCourseReg" class="flex">
+                                Course Registration ID
+                                <span class="ps-1 material-icons hover-me">
+                                    @(sortCourseReg ? "arrow_downward" : "arrow_upward")
+                                </span>
+                            </span>
+                        </th>
+                        <th>
+                            <span @onclick="SortAmount" class="flex">
+                                @nameof(Payment.Amount)
+                                <span class="ps-1 material-icons hover-me">
+                                    @(sortAmount ? "arrow_downward" : "arrow_upward")
+                                </span>
+                            </span>
+                        </th>
+                        <th>
+                            <span @onclick="SortStatus" class="flex">
+                                Has Paid
+                                <span class="ps-1 material-icons hover-me">
+                                    @(sortHasPaid ? "arrow_downward" : "arrow_upward")
+                                </span>
+                            </span>
+                        </th>
+                        <th>
+                            <div @onclick="SortCreatedAt" class="flex">
+                                Created At
+                                <span class="ps-1 material-icons hover-me">
+                                    @(sortCreatedAt ? "arrow_downward" : "arrow_upward")
+                                </span>
+                            </div>
+                        </th>
+                        <th>
+                            <div @onclick="SortUpdatedAt" class="flex">
+                                Updated At
+                                <span class="ps-1 material-icons hover-me">
+                                    @(sortUpdatedAt ? "arrow_downward" : "arrow_upward")
+                                </span>
+                            </div>
+                        </th>
+                        <th>Update Status</th>
+                    </TableHeader>
+                    <RowTemplate>
+                        <td>
+                            <a class="payment-name fw-bold" href="/admin/paymentStatus/@p.CourseRegistrationId">@p.Id</a>
+                        </td>
+                        <td>@p.CourseRegistrationId</td>
+                        <td>$ @p.Amount</td>
+                        <td>@(p.HasPaid ? "Paid" : "Not Yet")</td>
+                        <td>@p.CreatedAt.ToLongDateString()</td>
+                        <td>@p.UpdatedAt.ToLongDateString()</td>
+                        <td class="text-center flex justify-content-center">
+                            <a class="btn material-icons text-warning"
+                               data-bs-toggle="modal" data-bs-target="#exampleModal"
+                               title="Change this enistration approve status"
+                               @onclick="() => { courseRegId = p.CourseRegistrationId; }">delete</a>
+                        </td>
+                    </RowTemplate>
+                </TableTemplate>
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Remove Payment Status</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Do you want to Remove this payment status?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @onclick="() => ChangeStatus(courseRegId)">
+                                    Yes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <UnauthorizedAccess />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    #region param & prop
+    private List<PaymentStatusVM> Payments { get; set; }
+    private PaymentStatusVM Payment { get; set; }
+    private int courseRegId { get; set; }
+    #endregion
+
+    #region other
+    private bool sortId = false;
+    private bool sortCourseReg = false;
+    private bool sortAmount = false;
+    private bool sortHasPaid = false;
+    private bool sortCreatedAt = true;
+    private bool sortUpdatedAt = true;
+    #endregion
+
+    protected async override Task OnInitializedAsync()
+    {
+        Payments = (await paymentService.GetAllPaymentStatusAsync()).ToList();
+    }
+
+    private async Task ChangeStatus(int id)
+    {
+        var payment = Payments.FirstOrDefault(p => p.CourseRegistrationId == id);
+        if (id != 0) await paymentService.DeletePaymentStatusAsync(id);
+
+        Payments.Remove(payment);
+    }
+
+    #region fiter logic
+    private void SortId()
+    {
+        if (sortId)
+        {
+            Payments = Payments.OrderBy(r => r.Id).ToList();
+            sortId = !sortId;
+        }
+        else
+        {
+            Payments = Payments.OrderByDescending(r => r.Id).ToList();
+            sortId = !sortId;
+        }
+    }
+    private void SortCourseReg()
+    {
+        if (sortCourseReg)
+        {
+            Payments = Payments.OrderBy(r => r.CourseRegistrationId).ToList();
+            sortCourseReg = !sortCourseReg;
+        }
+        else
+        {
+            Payments = Payments.OrderByDescending(r => r.CourseRegistrationId).ToList();
+            sortCourseReg = !sortCourseReg;
+        }
+    }
+    private void SortAmount()
+    {
+        if (sortAmount)
+        {
+            Payments = Payments.OrderBy(r => r.Amount).ToList();
+            sortAmount = !sortAmount;
+        }
+        else
+        {
+            Payments = Payments.OrderByDescending(r => r.Amount).ToList();
+            sortAmount = !sortAmount;
+        }
+    }
+    private void SortStatus()
+    {
+        if (sortHasPaid)
+        {
+            Payments = Payments.OrderBy(r => r.HasPaid).ToList();
+            sortHasPaid = !sortHasPaid;
+        }
+        else
+        {
+            Payments = Payments.OrderByDescending(r => r.HasPaid).ToList();
+            sortHasPaid = !sortHasPaid;
+        }
+    }
+
+    private void SortCreatedAt()
+    {
+        if (sortCreatedAt)
+        {
+            Payments = Payments.OrderBy(r => r.CreatedAt).ToList();
+            sortCreatedAt = !sortCreatedAt;
+        }
+        else
+        {
+            Payments = Payments.OrderByDescending(r => r.CreatedAt).ToList();
+            sortCreatedAt = !sortCreatedAt;
+        }
+    }
+
+    private void SortUpdatedAt()
+    {
+        if (sortUpdatedAt)
+        {
+            Payments = Payments.OrderBy(r => r.UpdatedAt).ToList();
+            sortUpdatedAt = !sortUpdatedAt;
+        }
+        else
+        {
+            Payments = Payments.OrderByDescending(r => r.UpdatedAt).ToList();
+            sortUpdatedAt = !sortUpdatedAt;
+        }
+    }
+    #endregion
+}

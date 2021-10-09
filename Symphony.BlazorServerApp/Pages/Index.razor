@@ -1,5 +1,283 @@
 ﻿@page "/"
+@inject ICourseService courseService
+@using Symphony.ViewModels.CourseViewModel
+@using Symphony.BlazorServerApp.Services.CourseServices
+@using Symphony.Utilities.UtitlityClasses
+@inject INewService newService
+@using Symphony.ViewModels.Consult
+@using Symphony.BlazorServerApp.Services.NewService
 
-<h1>Symphony Institute</h1>
+<main class="main">
 
-Welcome to your new app.
+    <div class="my-2 mx-5 px-5 py-3">
+        <div class="header text-center" style="margin-bottom:24px;">
+            <h1 style=" font-size: 40px; width: 90%; font-family: Suisse Works,Georgia,Times,Times New Roman,serif;">Changing learning for the better</h1>
+        </div>
+        <div class="content text-center" style="font-weight:600;"><p class="" style="line-height: 145%; font-size: 21px; max-width: 67rem; color: #1c1d1f;">Whether you want to learn or to share what you know, you’ve come to the right place. As a global destination for  learning, we connect people through knowledge.</p></div>
+    </div>
+
+    <div id="demo" class="carousel slide container m-2 mb-5 py-3 " data-bs-ride="carousel">
+        <div class="carousel-inner rounded-3 shadow-lg">
+            <div class="carousel-item carousel-item-1 active rounded-3">
+                <p class="p-4">Symphony Institute has more than 20 years in IT and Software industries. We are a diverse global community of world-class academics, students, industry links,external partners and alumni.</p>
+            </div>
+            <div class="carousel-item carousel-item-2 rounded-3">
+                <p class="p-4">We have courses from basic courses to advanced courses. Basic courses are for beginners, advanced courses include entrance exam for students. </p>
+            </div>
+            <div class="carousel-item carousel-item-3 rounded-3">
+                <p class=" p-4">We always update the latest information to keep up with the trend of the times</p>
+            </div>
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+
+    </div>
+
+    <div class="container m-2 p-2 mb-5 "
+         style="background-image:url(/images/home/presentteacher.jpg); height:400px; border-radius:4px;">
+        <div class="row" style="height:400px">
+            <div class="col-lg-3 col-sm-6 border-1  text-center m-2 p-2">
+                <div class="card shadow" style="width: 560px; background-color: #471254 !important;">
+                    <div class="card-body d-flex"
+                         style="height:350px;flex-direction:column;
+                                justify-content:center; align-items:center;">
+                        <h4 class="text-white" style="font-family: 'Roboto', sans-serif;font-weight:900;">For Individuals: Build better skills</h4>
+                        <p class="card-text text-white">With the technology skills platform, you can see where your skills stand and master the latest in software development, IT ops, AI and machine learning, security and more.</p>
+                        <a href="/courses" class="btn btn-outline-light">See All Course</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container m-2 mb-5 p-2 " style=" border-radius: 4px; ">
+        <h2 class="mb-4 p-2">Reccommend Courses</h2>
+        @*Starter courses*@
+        <div class="starter-courses m-2 p-2">
+            <div id="carouselExampleCaptions" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    @foreach (var carouselCourse in CarouselCourses)
+                    {
+                        <div class="carousel-item @(carouselCount == 0 ? "active" : "")">
+                            <div class="row mx-auto card-item">
+                                @foreach (var basicCourse in carouselCourse)
+                                {
+                                    <div class="col-lg-4 col-md-6 col-sm-2">
+                                        <div class="card shadow mb-2">
+                                            <img src="http://localhost:39699/@basicCourse.ImagePath" class="btn d-block w-100"
+                                                 alt="...">
+                                            <div class="card-body fw-bold">
+                                                <h5 class="card-title text-center">@basicCourse.Name</h5>
+                                                <p class="card-text fw-bolder text-center">
+                                                    $ @basicCourse.Price
+                                                </p>
+                                                <a href="courses/@basicCourse.Id" class="btn detail-button fw-bolder p-2">
+                                                    View Detail
+                                                    <span class="material-icons ms-2">visibility</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="d-none">@(carouselCount++)</div>
+                    }
+                </div>
+                <button class="carousel-control-prev" style="width:80px" type="button" data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" style="width:80px" type="button" data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+
+    @if (AdvancedCourses == null)
+    {
+        <div class="text-center">
+            <div class="loadingio-spinner-bars-f8jbu6upslt">
+                <div class="ldio-p5olh5z9oq">
+                    <div></div><div></div><div></div><div></div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="container px-4 py-5" id="custom-cards">
+            <h2 class="pb-2 border-bottom">Advanced Courses</h2>
+
+            <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+                @for (int i = AdvancedCourses.Count() - 1; i > -1; --i)
+                {
+                    <div class="col course-info-img">
+                        <a href="courses/@AdvancedCourses[i].Id" style="text-decoration:none;">
+                            <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-3 shadow-lg" style="background-image: url('./images/background/course-@(i).png');">
+                                <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                                    <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">@AdvancedCourses[i].Name</h2>
+                                    <ul class="d-flex list-unstyled mt-auto">
+                                        <li class="me-auto">
+                                            <img src="http://localhost:39699/@AdvancedCourses[i].ImagePath" alt="Bootstrap" width="32" height="32" class="rounded-circle border border-white">
+                                        </li>
+                                        <li class="d-flex align-items-center me-3">
+                                            <small>@AdvancedCourses[i].UpdatedAt.ToShortDateString()</small>
+                                        </li>
+                                        <li class="d-flex align-items-center">
+                                            @if (AdvancedCourses[i].IsExtra && !AdvancedCourses[i].IsBasic)
+                                            {
+                                                <small class="ps-4">$ @(AdvancedCourses[i].Price + 300 + 50)</small>
+
+                                            }
+                                            else if (AdvancedCourses[i].IsExtra && AdvancedCourses[i].IsBasic)
+                                            {
+                                                <small class="ps-4">$ @(AdvancedCourses[i].Price + 300)</small>
+                                            }
+                                            else if (!AdvancedCourses[i].IsExtra && !AdvancedCourses[i].IsBasic)
+                                            {
+                                                <small class="ps-4">$ @(AdvancedCourses[i].Price + 50)</small>
+                                            }
+                                            else
+                                            {
+                                                <small class="ps-4">$ @AdvancedCourses[i].Price</small>
+                                            }
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                }
+
+            </div>
+        </div>
+    }
+
+
+    <div class="container mb-5 p-5" style=" border-radius: 4px;">
+        <h2 class="mb-4 p-2 " style="border-bottom: #471254 1px solid;">Hear Student Talk About Symphony Institute </h2>
+
+        <div class="row">
+            @* student 1 *@
+            <div class="col-lg-3 col-md-6 mb-2">
+                <div class="card shadow" style="min-height: 31em;">
+                    <div class="card-body">
+                        As soon as I discovered Kyle's YouTube channel I knew I'd found the right place to improve my web development skills. He presents new topics in a very cohesive, simple way and teaches you how to use these tools yourself, in contrast to most other tutorials where you end up copy-pasting code unaware of how it works
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-6">
+                                <img src="/images/home/student2.jpg" style="border-radius:50%;width:100px" alt="Alternate Text" />
+                            </div>
+                            <div class="col-6 d-flex" style="align-items:center;">
+                                <p>Marcus Otterström</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* student 2 *@
+
+            <div class="col-lg-3 col-md-6  mb-2">
+                <div class="card shadow " style="min-height: 31em;">
+                    <div class="card-body">
+                        I was fortunate enough to have beta access to this CSS course, and everyone (even experienced web devs) should be excited about this one! I have over 20 years of web development experience, and I learned new things.
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-6">
+                                <img src="/images/home/student1.jpg" style="border-radius:50%;width:100px" alt="Alternate Text" />
+                            </div>
+                            <div class="col-6 d-flex" style="align-items:center;">
+                                <p>Annie Taylor Chen</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @* student 3 *@
+
+            <div class="col-lg-3 col-md-6  mb-2 ">
+                <div class="card shadow" style="min-height: 31em;">
+                    <div class="card-body">
+                        Hear What Others Have To Say
+                        If you're looking for a no fluff, succinct and articulate approach to learning the basics of the ReactJS library you won't do any better than this course. Kyle has a straightforward and to the point approach that gets the important points across without extraneous distractions.  This is not the typical copy and paste type of course you may have run across with previous courses.
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-6">
+                                <img src="/images/home/student3.png" style="border-radius:50%;width:100px" alt="Alternate Text" />
+                            </div>
+                            <div class="col-6 d-flex" style="align-items:center;">
+                                <p>Dan Forth</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* student 4  *@
+            <div class="col-lg-3 col-md-6 mb-2" >
+                <div class="card shadow" style="min-height: 31em;">
+                    <div class="card-body">
+                        CSS course has taken away a lot of my impostor syndrome. I don’t assume things like I used to. He breaks down every bit of the course so that you will understand how everything works from the ground up. He also makes sure to point out good practices which is very valuable.
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-6">
+                                <img src="/images/home/student4.webp" style="border-radius:50%;width:100px" alt="Alternate Text" />
+                            </div>
+                            <div class="col-6 d-flex" style="align-items:center;">
+                                <p>Jesus Avina</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+@code{
+    #region Props
+    private IEnumerable<CourseWithSubjects> Courses { get; set; } = Array.Empty<CourseWithSubjects>();
+    private List<CourseWithSubjects> AdvancedCourses { get; set; }
+    private List<List<CourseWithSubjects>> CarouselCourses { get; set; } = new();
+    private bool shouldRender;
+    private int carouselCount = 0;
+    private IEnumerable<NewsVM> Data = null;
+    #endregion
+
+    protected override bool ShouldRender() => shouldRender;
+
+    protected async override Task OnInitializedAsync()
+    {
+        shouldRender = false;
+        var result = await newService.GetNewsAsync();
+        Data = result.Take(3);
+
+        Courses = (await courseService.GetCourseVMsAsync()).ToList();
+
+        var basicCourses = Courses.Where(c => c.IsBasic is true).ToList();
+
+        CarouselCourses = ListExtension.ChunkBy<CourseWithSubjects>(basicCourses, 3).Take(2).ToList();
+
+        if (Courses is not null && CarouselCourses is not null) shouldRender = true;
+
+        AdvancedCourses = Courses.Where(c => c.IsBasic is not true).OrderByDescending(c => c.CreatedAt).Take(3).ToList();
+    }
+
+}

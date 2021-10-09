@@ -1,0 +1,27 @@
+﻿@page "/admin/faqManagement/editfaq/{Id:int}"
+@using Symphony.BlazorServerApp.Controls.FaqComponents
+@using Symphony.BlazorServerApp.Controls.Utilities
+
+@using Symphony.BlazorServerApp.Controls.FormComponents
+
+
+<div class="container mb-5">
+   
+    <AuthorizeView Roles="admin">
+        <Authorized Context="User">
+            <h2 class="fw-bolder text-center fs">Update a Faq</h2>
+            <UpdateFaqComponent faqId="Id"/>
+        </Authorized>
+        <NotAuthorized>
+            <UnauthorizedAccess />
+        </NotAuthorized>
+    </AuthorizeView>
+</div>
+
+
+@code {
+    #region Parameter
+    [Parameter]
+    public int Id { get; set; }
+    #endregion
+}

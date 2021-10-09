@@ -1,0 +1,16 @@
+﻿@page "/admin/newManagement/createNew"
+
+@using Symphony.BlazorServerApp.Controls.NewComponents
+@using Symphony.BlazorServerApp.Controls.Utilities
+
+<div class="container-fluid mb-5">
+    <AuthorizeView Roles="admin">
+        <Authorized Context="User">
+            <h2 class="fw-bolder text-center fs">Create a New</h2>
+            <CreateNewComponent />
+        </Authorized>
+        <NotAuthorized>
+            <UnauthorizedAccess />
+        </NotAuthorized>
+    </AuthorizeView>
+</div>

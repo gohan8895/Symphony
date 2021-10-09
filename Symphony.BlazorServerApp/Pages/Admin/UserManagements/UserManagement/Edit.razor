@@ -1,0 +1,24 @@
+﻿@page "/admin/userManagement/editUser/{Id:guid}"
+
+@using Symphony.BlazorServerApp.Controls.FormComponents
+@using Symphony.BlazorServerApp.Controls.Utilities
+
+<div class="container">
+    <AuthorizeView Roles="admin">
+        <Authorized Context="User">
+            <h2 class="fw-bolder text-center fs">Update a User</h2>
+            <UpdateUserComponent Id="Id" WhoToUpdate="student" />
+        </Authorized>
+        <NotAuthorized>
+            <UnauthorizedAccess />
+        </NotAuthorized>
+    </AuthorizeView>
+</div>
+
+
+@code {
+    #region Parameter & VM
+    [Parameter]
+    public Guid Id { get; set; }
+    #endregion
+}

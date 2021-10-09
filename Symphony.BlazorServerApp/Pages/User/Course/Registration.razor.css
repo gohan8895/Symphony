@@ -1,0 +1,49 @@
+﻿.container {
+    color: #343434;
+}
+
+.item-1 {
+    background-image: url('./images/background/papyrus.png');
+    background-color: #ebebeb;
+}
+
+.item-1 p {
+    font-weight: 600;
+    line-height: 2em;
+}
+
+.item-1 li {
+    list-style-type: none;
+}
+
+.register-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: auto;
+    width: 40%;
+}
+
+.register-button button {
+    width: 10em;
+    font-weight: 700;
+    font-size: 1.5em;
+}
+
+@media only screen and (max-width: 640px) {
+    .container {
+        margin-bottom: 15em;
+    }
+
+    .register-button {
+        width: 50%;
+    }
+
+    .register-button button {
+        width: 10em;
+        font-weight: 700;
+        font-size: 1.2em;
+    }
+
+}
+

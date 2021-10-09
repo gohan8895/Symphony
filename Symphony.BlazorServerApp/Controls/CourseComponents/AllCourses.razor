@@ -1,0 +1,334 @@
+﻿@using Symphony.ViewModels.CourseViewModel
+@using Symphony.BlazorServerApp.Services.CourseServices
+@using Symphony.BlazorServerApp.Services.SubjectServices
+@inject ICourseService courseService
+@inject ISubjectService subjectService
+
+<div class="all-courses">
+    <h2 class="fw-bold mb-5">All Courses</h2>
+    <div class="row">
+        <!-- Filter, sort buttons and number of results -->
+        <div class="col-12 mb-5 d-flex flex-row align-items-center justify-content-between">
+            <div class="d-flex flex-row align-items-center">
+                <button class="btn filter-button border-2 me-2 d-flex align-items-center" @onclick="HideFilter">
+                    @(Filter is true ? "Show Filter" : "Hide Filter")
+                    <span class="material-icons ps-1">filter_list</span>
+                </button>
+                <div class="dropdown">
+                    <button class="btn sort-button d-flex align-items-center" type="button" id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        Sort By <span class="material-icons ps-1">sort</span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li>
+                            <a class="dropdown-item sort-button-item btn"
+                               @onclick="@(() => Sort(sortByName, sortByNameClick))">
+                                Name
+                                <span class="material-icons ms-2">
+                                    @(sortByNameClick ? "arrow_downward" :
+                                    "arrow_upward")
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item sort-button-item btn"
+                               @onclick="@(() => Sort(sortByPrice, sortByPriceClick))">
+                                Price
+                                <span class="material-icons ms-2">
+                                    @(sortByPriceClick ? "arrow_downward" :
+                                    "arrow_upward")
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item sort-button-item btn">
+                                Duration
+                                <span class="material-icons ms-2">arrow_upward</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="">@Courses.Count() results</div>
+        </div>
+        <!-- Filter sidebar -->
+        <aside class="col-lg-2 col-md-12 col-sm-12 border-end filter-sidebar @(Filter is true ? "d-none" : "")">
+            <div class="filter-item">
+                <h4>Course Duration</h4>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        0 - 10 Hours
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">
+                    <label class="form-check-label" for="flexCheckDefault1">
+                        10 - 20 Hours
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">
+                    <label class="form-check-label" for="flexCheckDefault2">
+                        20 - 30 Hours
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">
+                    <label class="form-check-label" for="flexCheckDefault3">
+                        Over 30 Hours
+                    </label>
+                </div>
+            </div>
+            <div class="filter-item">
+                <h4>Level</h4>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" @bind-value:event="oninput"
+                           @onchange="ActivateFilter" @bind-value="beginner" id="flexCheckDefault4">
+                    <label class="form-check-label" for="flexCheckDefault4">
+                        Beginner
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" @bind-value:event="oninput"
+                           @onchange="ActivateFilter" @bind-value="advanced" id="flexCheckDefault5">
+                    <label class="form-check-label" for="flexCheckDefault5">
+                        Advanced
+                    </label>
+                </div>
+            </div>
+            <div class="filter-item">
+                <h4>Subject</h4>
+                @foreach (var sub in Subjects)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="@sub.Name">
+                        <label class="form-check-label" for="@sub.Name">
+                            @sub.Name
+                        </label>
+                    </div>
+                }
+            </div>
+            <div class="filter-item">
+                <h4>Price</h4>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" @bind-value:event="oninput"
+                           @onchange="ActivateFilter" @bind-value="priceLow" id="flexCheckDefault8">
+                    <label class="form-check-label" for="flexCheckDefault8">
+                        0 - 400
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" @bind-value:event="oninput"
+                           @onchange="ActivateFilter" @bind-value="priceMed" id="flexCheckDefault9">
+                    <label class="form-check-label" for="flexCheckDefault9">
+                        400 - 1000
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" @bind-value:event="oninput"
+                           @onchange="ActivateFilter" @bind-value="priceHi" id="flexCheckDefault0">
+                    <label class="form-check-label" for="flexCheckDefault0">
+                        Over 1000
+                    </label>
+                </div>
+            </div>
+        </aside>
+        <!-- Courses -->
+        <div class="col-lg-10 col-md-12 col-sm-12 all-course @(Filter is true ? "col-lg-12" : "col-lg-10")">
+            @foreach (var course in Courses)
+            {
+                <div class="course-row">
+                    <div class="row flex">
+                        <div class="col-md-3 col-sm-4 ">
+                            <a href="courses/@course.Id" class="course-image">
+                                <img class="course-info-img" src="http://localhost:39699/@course.ImagePath">
+                            </a>
+                        </div>
+                        <div class="col-md-7 col-sm-8 course-info">
+                            <a href="courses/@course.Id">
+                                <h4 class="fw-bold">
+                                    @course.Name
+                                    <small class="ps-2 fs-6 text-danger">
+                                        Level: @(course.IsBasic ? "Beginner" : "Advanced")
+                                    </small>
+                                </h4>
+                            </a>
+
+                            @if (!course.IsBasic)
+                            {
+                                <small class="fw-bold text-primary">
+                                    This course require paying for and
+                                    passing an entrance examination. For more info please visit FAQ page.
+                                </small>
+                            }
+                            <p>
+                                @course.Description
+                            </p>
+                            <p class="text-sm" style="color: #0094ff">
+
+                                @foreach (var sub in course.SimpleSubjectVMs)
+                                {
+                                    duration += sub.Duration;
+                                }
+                                Duration: @duration Hours
+                                <span class="d-none">@(duration = 0)</span>
+                            </p>
+                        </div>
+                        <div class="col-md-2 col-sm-12 price-enroll">
+                            <div class="row col-2-row">
+                                <div class="col-12">
+                                    <h3 class="w-100 text-center">
+                                        @if (course.IsExtra && !course.IsBasic)
+                                        {
+                                            <span class="ps-4">$ @(course.Price + 300 + 50)</span>
+
+                                        }
+                                        else if (course.IsExtra && course.IsBasic)
+                                        {
+                                            <span class="ps-4">$ @(course.Price + 300)</span>
+                                        }
+                                        else if (!course.IsExtra && !course.IsBasic)
+                                        {
+                                            <span class="ps-4">$ @(course.Price + 50)</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="ps-4">$ @course.Price</span>
+                                        }
+                                    </h3>
+                                </div>
+                                <div class="col-12">
+                                    <AuthorizeView>
+                                        <Authorized>
+                                            <a class="btn enroll-button mt-auto fw-bold text-white w-100"
+                                               href="course/registration/@course.Id">Enroll</a>
+                                        </Authorized>
+                                        <NotAuthorized>
+                                            <a class="btn enroll-button mt-auto fw-bold text-white w-100"
+                                               href="Identity/Account/Login?returnUrl=/courses">Login or Register</a>
+                                        </NotAuthorized>
+                                    </AuthorizeView>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    #region Props
+    [Parameter]
+    public IEnumerable<CourseWithSubjects> Courses { get; set; } = Array.Empty<CourseWithSubjects>();
+    public IEnumerable<SubjectVM> Subjects { get; set; } = Array.Empty<SubjectVM>();
+    private bool Filter = false;
+    private int duration;
+    #endregion
+    #region filter props
+    private const string sortByName = "name";
+    private bool sortByNameClick = false;
+    private const string sortByPrice = "price";
+    private bool sortByPriceClick = false;
+    private bool beginner = false;
+    private bool advanced = false;
+    private bool priceLow = false;
+    private bool priceMed = false;
+    private bool priceHi = false;
+    private bool java = false;
+    private bool html = false;
+    private bool css = false;
+    private bool javascript = false;
+    private bool python = false;
+    private bool php = false;
+    private bool c = false;
+    private bool cpp = false;
+    private bool cs = false;
+    #endregion
+
+    protected async override Task OnParametersSetAsync()
+    {
+        Subjects = (await subjectService.GetSubjectVMsAsync()).Where(s => s.IsShown == true).ToList();
+    }
+
+    private async Task ActivateFilter()
+    {
+        Courses = (await courseService.GetCourseVMsAsync()).ToList();
+
+        #region level
+        if (beginner && !advanced)
+        {
+            Courses = Courses.Where(c => c.IsBasic is true);
+        }
+
+        if (advanced && !beginner)
+        {
+            Courses = Courses.Where(c => c.IsBasic is false);
+        }
+        #endregion
+        #region subject
+        if (java && !html && !css && !javascript && !python && !php && !c && !cpp && !cs)
+        {
+            var subjects = Courses.Select(c => c.SimpleSubjectVMs);
+        }
+        #endregion
+        #region price
+        if (priceLow && !priceMed && !priceHi)
+        {
+            Courses = Courses.Where(c => c.Price <= 400);
+        }
+
+        if (priceLow && priceMed && !priceHi)
+        {
+            Courses = Courses.Where(c => c.Price <= 1000);
+        }
+
+        if (priceLow && !priceMed && priceHi)
+        {
+            Courses = Courses.Where(c => c.Price <= 400 || c.Price >= 1000);
+        }
+
+        if (priceMed && !priceLow && !priceHi)
+        {
+            Courses = Courses.Where(c => c.Price >= 400 && c.Price <= 1000);
+        }
+
+        if (priceMed && !priceLow && priceHi)
+        {
+            Courses = Courses.Where(c => c.Price >= 400);
+        }
+
+        if (priceHi && !priceLow && !priceMed)
+        {
+            Courses = Courses.Where(c => c.Price >= 1000);
+        }
+        #endregion
+    }
+
+    private void Sort(string creteria, bool again)
+    {
+        switch (creteria, again)
+        {
+            case (sortByName, false):
+                Courses = Courses.OrderBy(c => c.Name);
+                sortByNameClick = !sortByNameClick;
+                break;
+            case (sortByName, true):
+                Courses = Courses.OrderByDescending(c => c.Name);
+                sortByNameClick = !sortByNameClick;
+                break;
+            case (sortByPrice, false):
+                Courses = Courses.OrderBy(c => c.Price);
+                sortByPriceClick = !sortByPriceClick;
+                break;
+            case (sortByPrice, true):
+                Courses = Courses.OrderByDescending(c => c.Price);
+                sortByPriceClick = !sortByPriceClick;
+                break;
+        }
+    }
+
+    private void HideFilter() => Filter = !Filter;
+}

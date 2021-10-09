@@ -1,0 +1,189 @@
+﻿@page "/admin/course/{id:int}"
+
+@using Symphony.ViewModels.CourseViewModel
+@using Symphony.BlazorServerApp.Services.SubjectServices
+@using Symphony.BlazorServerApp.Services.CourseServices
+@using System.Net.Http.Headers
+
+@inject ICourseService courseService
+@inject ISubjectService subjectService
+
+<AuthorizeView Roles="admin" Context="admin">
+    <Authorized>
+        @if (Course is null)
+        {
+            <div class="text-center">
+                <div class="loadingio-spinner-bars-f8jbu6upslt">
+                    <div class="ldio-p5olh5z9oq">
+                        <div></div><div></div><div></div><div></div>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="container-lg">
+                <h1 class="text-center fw-bolder">Course Manager</h1>
+                <p class="py-2 text-primary text-center">updated: @Course.UpdatedAt.Humanize()</p>
+                <div class="main-content flex">
+                    <ul>
+                        <li>
+                            <span class="fw-bolder pe-2">@nameof(Course.Id):</span>@Course.Id
+                        </li>
+                        <li>
+                            <span class="fw-bolder pe-2">@nameof(Course.Name):</span>@Course.Name
+                        </li>
+                        <li>
+                            <span class="fw-bolder pe-2">@nameof(Course.DetailDescription):</span>@Course.DetailDescription
+                        </li>
+                        <li>
+                            <span class="fw-bolder pe-2">@nameof(Course.StartDate):</span>@Course.StartDate.ToShortDateString()
+                        </li>
+                        <li>
+                            <span class="fw-bolder pe-2">@nameof(Course.EndDate):</span>@Course.EndDate.ToShortDateString()
+                        </li>
+                        <li>
+                            <span class="fw-bolder pe-2">@nameof(Course.Price):</span>$ @Course.Price
+                        </li>
+                        <li>
+                            <span class="fw-bolder pe-2">@nameof(Course.IsBasic):</span>@(Course.IsBasic ? "Beginner" : "Advanced")
+                        </li>
+                        <li>
+                            <span class="fw-bolder pe-2">@nameof(Course.IsShown):</span>@(Course.IsShown ? "Active" : "InActive")
+                        </li>
+                        <li>
+                            <span class="fw-bolder pe-2">@nameof(Course.CreatedAt):</span>@Course.CreatedAt.ToShortDateString()
+                        </li>
+                        <li>
+                            <span class="fw-bolder pe-2">@nameof(Course.UpdatedAt):</span>@Course.UpdatedAt.ToShortDateString()
+                        </li>
+                    </ul>
+                    <aside>
+                        <div class="subject-image">
+                            @if (Course.ImagePath is not null)
+                            {
+                                <div class="images">
+                                    <img class="rounded-2" src="http:/localhost:39699/@Course.ImagePath" />
+                                </div>
+                            }
+                            else
+                            {
+                                <p>There is no image upload for this Course yet. <a href="#imageUp">Upload one?</a></p>
+                            }
+                        </div>
+                    </aside>
+                </div>
+                <div class="upload">
+                    <EditForm Model="@Course" OnValidSubmit="@UpdateImage">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <div id="#imageUp" class="mb-2">
+                            <label class="form-label fw-bold">@nameof(Course.ImagePath)</label>
+                            <InputFile OnChange="@OnInputChanged" class="form-control" accept=".jpg , .png, .jpeg" multiple />
+                        </div>
+                        <div class="border-1 rounded-1">
+                            <img src="@imageDataUri" class="p-1 w-auto" height="100" />
+                        </div>
+                        <CreateButtonForForm FirstBtn="Update Existing" />
+                    </EditForm>
+                </div>
+                <div class="navigator flex">
+                    <div>
+                        <a href="admin/course" class="back">
+                            Go back to course manager <span class="ps-3 material-icons">chevron_left</span>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="admin/course/edit/@Course.Id" class="edit">
+                            Edit this course <span class="ps-3 material-icons">edit</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <UnauthorizedAccess />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    #region Parameter & props
+    [Parameter]
+    public int Id { get; set; }
+
+    private CourseWithSubjects Course { get; set; }
+    private SubjectVM Subject { get; set; }
+    private List<SimpleSubjectVM> Subjects { get; set; }
+
+    private string imageDataUri { get; set; }
+    private MultipartFormDataContent content = new();
+    #endregion
+
+    protected async override Task OnParametersSetAsync()
+    {
+        Course = await courseService.GetCourseVMAsync(id: Id);
+        Subjects = Course.SimpleSubjectVMs;
+    }
+
+    #region constant
+    private bool IsSuccess;
+    private bool upload;
+    private const long maxFileSize = 1024 * 1024 * 15;
+    private const int maxAllowedFiles = 3;
+    #endregion
+
+    #region image upload
+    private async Task OnInputChanged(InputFileChangeEventArgs e)
+    {
+        upload = false;
+
+        try
+        {
+            var fileContent = new StreamContent(e.File.OpenReadStream(maxFileSize));
+
+            fileContent.Headers.ContentType = new MediaTypeHeaderValue(e.File.ContentType);
+
+            content.Add(
+                content: fileContent,
+                name: "\"image\"",
+                fileName: e.File.Name
+                );
+
+            //Show images to browser
+            var imageFile = await e.File.RequestImageFileAsync("image", maxWith: 640, maxHeight: 480);
+            using Stream fileStream = imageFile.OpenReadStream(maxAllowedSize: maxFileSize);
+
+            using MemoryStream ms = new();
+            await fileStream.CopyToAsync(ms);
+
+            imageDataUri = $"data:image/jpeg;base64,{Convert.ToBase64String(ms.ToArray())}";
+            //
+
+            upload = true;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
+    private async Task UpdateImage()
+    {
+        if (upload)
+        {
+            var response = await courseService.UpdateImageAsync(Course.Id, content);
+
+            if (response == 1)
+            {
+                IsSuccess = true;
+                Course = await courseService.GetCourseVMAsync(Course.Id);
+            }
+            else
+            {
+                IsSuccess = false;
+            }
+        }
+    }
+    #endregion
+}

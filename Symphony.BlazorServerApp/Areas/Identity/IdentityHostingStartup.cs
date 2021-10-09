@@ -1,8 +1,7 @@
 using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,18 +15,23 @@ namespace Symphony.BlazorServerApp.Areas.Identity
     {
         public void Configure(IWebHostBuilder builder)
         {
-            builder.ConfigureServices((context, services) => {
+            builder.ConfigureServices((context, services) =>
+            {
                 services.AddDbContext<SymphonyDBContext>(options =>
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("SymphonyDb")));
 
-                services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = false)
-                   .AddEntityFrameworkStores<SymphonyDBContext>();
+                services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = true)
+                   .AddRoles<AppRole>()
+                   .AddEntityFrameworkStores<SymphonyDBContext>()
+                   .AddDefaultTokenProviders();
 
-                services.AddScoped<IEmailSender, EmailSeder>();
+
 
                 services.Configure<IdentityOptions>(options =>
                 {
+                    //Other
+
                     // Password settings.
                     options.Password.RequireDigit = false;
                     options.Password.RequireLowercase = true;
@@ -43,7 +47,7 @@ namespace Symphony.BlazorServerApp.Areas.Identity
 
                     // User settings.
                     options.User.AllowedUserNameCharacters =
-                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+/ ";
                     options.User.RequireUniqueEmail = true;
                 });
 
@@ -51,12 +55,19 @@ namespace Symphony.BlazorServerApp.Areas.Identity
                 {
                     // Cookie settings
                     options.Cookie.HttpOnly = true;
-                    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
 
                     options.LoginPath = "/Identity/Account/Login";
                     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                     options.SlidingExpiration = true;
                 });
+
+                /*services.AddAuthorization(options =>
+                {
+                    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        .Build();
+                });*/
             });
         }
     }

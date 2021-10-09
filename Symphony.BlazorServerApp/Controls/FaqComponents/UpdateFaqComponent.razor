@@ -1,0 +1,61 @@
+﻿
+@inject IFaqService faqService
+@using Symphony.ViewModels.Consult
+@using Symphony.BlazorServerApp.Services.FaqServices
+@inject NavigationManager Nav
+
+<EditForm Model="@InputFaq" OnValidSubmit="UpdateFaq" class="row g-3">
+    <DataAnnotationsValidator />
+    <div class="col-md-12">
+        <label class="form-label fw-bold">@nameof(InputFaq.Question) <span class="text-danger fw-bold">*</span></label>
+        <InputText @bind-Value="InputFaq.Question" class="form-control" />
+        <ValidationMessage For="@(() => InputFaq.Question)" />
+    </div>
+    <div class="col-md-12">
+        <label class="form-label fw-bold">@nameof(InputFaq.Answer) <span class="text-danger fw-bold">*</span></label>
+        <div class="form-outline mb-4">
+            <textarea class="form-control" @bind="InputFaq.Answer" id="textAreaExample6" rows="20"></textarea>
+           
+        </div>
+    
+    </div>
+    <div class="col-md-6">
+        <label class="form-label fw-bold">@nameof(InputFaq.IsShown) <span class="text-danger fw-bold">*</span></label>
+        <input type="checkbox" @bind="InputFaq.IsShown" />
+        <ValidationMessage For="@(() => InputFaq.IsShown)" />
+    </div>
+      
+
+    <CreateButtonForForm />
+</EditForm>
+@code {
+    #region Parameter
+    public UpdateFAQVM InputFaq { get; set; } = new();
+
+    [Parameter]
+    public int faqId { get; set; }
+
+    #endregion
+
+    protected async override Task OnInitializedAsync()
+    {
+        var Faq = await faqService.GetFaqAsync(faqId);
+
+        InputFaq = new UpdateFAQVM
+        {
+            Id = Faq.Id ,
+            Question = Faq.Question,
+            Answer = Faq.Answer,
+            IsShown = Faq.IsShown
+        };
+    }
+
+    private async Task UpdateFaq()
+    {
+        
+        await faqService.UpdateFaqAsync(InputFaq);
+        
+        Nav.NavigateTo("/admin/faq/");
+
+    }
+}

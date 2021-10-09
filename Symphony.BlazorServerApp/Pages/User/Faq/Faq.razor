@@ -1,0 +1,58 @@
+﻿@page "/faq"
+
+@inject IFaqService faqService
+@using Symphony.ViewModels.Consult
+@using Symphony.BlazorServerApp.Services.FaqServices
+
+<main class="main p-5 mb-5" style="background-color: #ebebeb; border-radius: 10px;">
+    @if (Data == null)
+    {
+        <div class="text-center">
+            <div class="loadingio-spinner-bars-f8jbu6upslt">
+                <div class="ldio-p5olh5z9oq">
+                    <div></div><div></div><div></div><div></div>
+                </div>
+            </div>
+        </div>
+
+    }
+    else
+    {
+        <div class="text-center ">
+            <h1 style="font-family: 'Roboto', sans-serif;">FAQ</h1>
+        </div>
+        <hr>
+        <div class="accordion" id="accordionExample">
+
+            @foreach (var item in Data)
+            {
+                if (item.IsShown)
+                {
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading-@item.Id">
+                            <button class="accordion-button collapsed fw-bolder" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@item.Id" aria-expanded="false" aria-controls="collapse-@item.Id">
+                                @item.Question
+                            </button>
+                        </h2>
+                        <div id="collapse-@item.Id" class="accordion-collapse collapse" aria-labelledby="heading-@item.Id" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                @item.Answer
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            }
+        </div>
+    }
+
+</main>
+
+@code {
+private IEnumerable<FAQVM> Data = null;
+
+    protected async override Task OnInitializedAsync()
+    {
+    Data = await faqService.GetFaqsAsync();
+    }
+    }

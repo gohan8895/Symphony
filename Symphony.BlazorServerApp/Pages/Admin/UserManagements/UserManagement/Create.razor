@@ -1,0 +1,13 @@
+﻿@page "/admin/userManagement/createUser"
+
+<div class="container">
+    <AuthorizeView Roles="admin">
+        <Authorized Context="User">
+            <h2 class="fw-bolder text-center">Create a User</h2>
+            <CreateUserComponent CreateWho="student" />
+        </Authorized>
+        <NotAuthorized>
+            <UnauthorizedAccess />
+        </NotAuthorized>
+    </AuthorizeView>
+</div>

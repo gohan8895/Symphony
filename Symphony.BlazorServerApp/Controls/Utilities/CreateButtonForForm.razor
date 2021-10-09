@@ -1,0 +1,36 @@
+﻿<div class="col-md-12 d-flex justify-content-start">
+    <button class="first-btn btn-lg btn-dark d-flex justify-content-between border-0 me-3" type="submit">
+        @(FirstBtn is not null ? FirstBtn : "Submit")
+        <span class="ms-1 material-icons">
+            add
+        </span>
+    </button>
+    <button class="second-btn btn-lg d-flex justify-content-between border-0" type="reset" style="background-color: #4a235a; color: #fbebeb">
+        @(SecondBtn is not null ? SecondBtn : "Reset")
+        <span class="ms-1 material-icons">
+            restart_alt
+        </span>
+    </button>
+
+    <style type="text/css">
+        .btn-lg:hover {
+            font-weight: bolder;
+        }
+
+        .first-btn:hover {
+            background-color: #4C56FA;
+            color: white;
+        }
+
+        .second-btn:hover {
+            background-color: #D0F00E;
+        }
+    </style>
+</div>
+
+@code {
+    [Parameter]
+    public string FirstBtn { get; set; }
+    [Parameter]
+    public string SecondBtn { get; set; }
+}

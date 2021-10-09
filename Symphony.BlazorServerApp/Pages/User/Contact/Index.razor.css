@@ -1,0 +1,27 @@
+﻿.accordion:hover .accordion-item:hover {
+    background-color: #606060;
+    color: white;
+}
+
+h1 {
+    font-size: 50px;
+    font-weight: bolder;
+}
+
+h2 {
+    font: bold 20px/30px;
+}
+
+.list {
+    font-size: 1.2em;
+    line-height: 1.4em;
+}
+
+.list li {
+    list-style-type: none;
+}
+
+.contact p {
+    font-size: 1.2em;
+    line-height: 1.4em;
+}

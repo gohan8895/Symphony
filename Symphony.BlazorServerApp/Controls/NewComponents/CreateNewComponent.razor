@@ -1,0 +1,48 @@
+﻿
+@inject INewService newService
+@using Symphony.ViewModels.Consult
+@using Symphony.BlazorServerApp.Services.NewService
+@inject NavigationManager Nav
+
+<EditForm Model="@InputNew" OnValidSubmit="CreateNew" class="row g-3">
+    <DataAnnotationsValidator />
+    <div class="col-md-12">
+        <label class="form-label fw-bold">@nameof(InputNew.Title) <span class="text-danger fw-bold">*</span></label>
+        <InputText @bind-Value="InputNew.Title" class="form-control" />
+        <ValidationMessage For="@(() => InputNew.Title)" />
+    </div>
+    <div class="col-md-12">
+        <label class="form-label fw-bold">@nameof(InputNew.Description) <span class="text-danger fw-bold">*</span></label>
+        <div class="form-outline mb-4">
+            <textarea class="form-control" @bind="InputNew.Description" id="textAreaExample6" rows="20"></textarea>
+      
+        </div>
+        <ValidationMessage For="@(() => InputNew.Description)" />
+    </div>
+    <div class="col-md-6">
+        <label class="form-label fw-bold">@nameof(InputNew.IsShown) <span class="text-danger fw-bold">*</span></label>
+        <input type="checkbox" checked @bind-value="InputNew.IsShown" />
+        <ValidationMessage For="@(() => InputNew.IsShown)" />
+    </div>
+
+    <CreateButtonForForm />
+</EditForm>
+@code {
+    #region Parameter
+    public CreateNewsVM InputNew { get; set; } = new();
+
+
+
+    #endregion
+    private async Task CreateNew()
+    {
+        var newitem = new CreateNewsVM
+        {
+            Title = InputNew.Title,
+            Description = InputNew.Description,
+            IsShown = InputNew.IsShown
+        };
+        await newService.CreateAsync(newitem);
+        Nav.NavigateTo("/admin/new/");
+    }
+}

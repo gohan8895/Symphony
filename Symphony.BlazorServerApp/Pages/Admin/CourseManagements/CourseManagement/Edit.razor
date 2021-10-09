@@ -1,0 +1,203 @@
+﻿@page "/admin/course/edit/{id:int}"
+
+@using Symphony.ViewModels.CourseViewModel
+@using Symphony.BlazorServerApp.Services.SubjectServices
+@using Symphony.BlazorServerApp.Services.CourseServices
+
+
+@inject NavigationManager Nav
+@inject ICourseService courseService
+@inject ISubjectService subjectService
+
+
+<AuthorizeView Roles="admin" Context="editCourse">
+    <Authorized>
+        <div class="container-lg">
+            <h1 class="text-center fw-bold my-2 py-1">Update a new Course</h1>
+            <button class="btn first-btn @(updateSubject? "danger" : "")" @onclick="() => updateSubject = !updateSubject">
+                <small>Course Subjects Checkbox</small>
+                <span class="ps-2 material-icons">@(updateSubject? "arrow_drop_up" : "arrow_drop_down")</span>
+            </button>
+            <EditForm Model="@Input" OnValidSubmit="@EditCourse">
+                <DataAnnotationsValidator />
+                <div class="row">
+                    <div class="col-lg-6">
+                        <label class="form-label fw-bold">@nameof(Input.Name) <span class="text-danger fw-bold">*</span></label>
+                        <InputText @bind-Value="Input.Name" class="form-control" style="min-height: 3.85em;" />
+                        <ValidationMessage For="@(() => Input.Name)" />
+                    </div>
+                    <div class="col-lg-6">
+                        <label class="form-label fw-bold">
+                            @nameof(Input.Description) <span class="text-danger fw-bold">*</span>
+                        </label>
+                        <InputTextArea @bind-Value="Input.Description" class="form-control" />
+                        <ValidationMessage For="@(() => Input.Description)" />
+                    </div>
+                    <div class="col-lg-12 @(updateSubject ? "" : "d-none")">
+                        <label class="form-label fw-bold text-center w-100">
+                            Subjects <span class="text-danger fw-bold">*</span>
+                        </label>
+                        <div class="checkbox form-switch">
+                            @foreach (var subject in Subjects)
+                            {
+                                @* If the current subject in this course contain id, then pre check the checkbox *@
+
+                                <label class=" form-check-label fw-bold" for="@(subject.Id + "check")">
+                                    @(subject.Name)
+                                    @if (CurSubInCourseIds.Contains(subject.Id))
+                                    {
+                                        <input class="form-check-input mx-lg-3 mx-sm-1 mx-md-2" type="checkbox"
+                                               @onclick="() => AddSubject(subject.Id)" id="@(subject.Id + "check")" checked>
+                                    }
+                                    else
+                                    {
+                                        <input class="form-check-input mx-lg-3 mx-sm-1 mx-md-2" type="checkbox"
+                                               @onclick="() => AddSubject(subject.Id)" id="@(subject.Id + "check")">
+                                    }
+                                </label>
+                            }
+                        </div>
+                        @*<ValidationMessage For="@(() => Input.SubjectIds)" />*@
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label fw-bold">
+                            @nameof(Input.StartDate) <span class="text-danger fw-bold">*</span>
+                        </label>
+                        <InputDate @bind-Value="Input.StartDate"
+                                   @oninput="() => startDate = true" @oninvalid="() => startDate = false"
+                                   class="form-control" />
+                        <ValidationMessage For="@(() => Input.StartDate)" />
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label fw-bold">
+                            @nameof(Input.EndDate) <span class="text-danger fw-bold">*</span>
+                        </label>
+                        @if (startDate)
+                        {
+                            <InputDate @bind-Value="Input.EndDate" class="form-control" required />
+                            <ValidationMessage For="@(() => Input.EndDate)" />
+                        }
+                        else
+                        {
+                            <InputDate @bind-Value="Input.EndDate" class="form-control" required disabled />
+                            <ValidationMessage For="@(() => Input.EndDate)" />
+                        }
+                    </div>
+                    <div class="form-check col-md-2 col-sm-6 form-switch isBasic">
+                        <label class="form-check-label fw-bold" for="isExtra">@nameof(Input.IsExtra)</label>
+                        <div>
+                            @if (Input.IsExtra)
+                            {
+                                <input class="form-check-input" type="checkbox" @onclick="() => isExtra = !isExtra" checked
+                                       id="isExtra">
+                            }
+                            else
+                            {
+                                <input class="form-check-input" type="checkbox" @onclick="() => isExtra = !isExtra" id="isExtra">
+                            }
+                        </div>
+                    </div>
+                    <div class="form-check col-md-2 col-sm-6 form-switch isExtra">
+                        <label class="form-check-label fw-bold" for="isBasic">@nameof(Input.IsBasic)</label>
+                        <div>
+                            @if (Input.IsBasic)
+                            {
+                                <input class="form-check-input" type="checkbox" @onclick="() => isBasic = !isBasic" checked
+                                       id="isBasic">
+                            }
+                            else
+                            {
+                                <input class="form-check-input" type="checkbox" @onclick="() => isBasic = !isBasic" id="isBasic">
+                            }
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <label class="form-label fw-bold">@nameof(Input.DetailDescription)</label>
+                        <InputTextArea @bind-Value="Input.DetailDescription" class="form-control" />
+                        <ValidationMessage For="@(() => Input.DetailDescription)" />
+                    </div>
+                    <CreateButtonForForm />
+                </div>
+            </EditForm>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <UnauthorizedAccess />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    #region Objects & props
+    [Parameter]
+    public int Id { get; set; }
+    public CourseUpdateRequest Input { get; set; } = new();
+    private List<SubjectVM> Subjects { get; set; } = new();
+    private List<int> CurSubInCourseIds { get; set; } = new();
+    private bool isExtra { get; set; } = false;
+    private bool isBasic { get; set; } = false;
+    private bool updateSubject { get; set; } = false;
+    private bool startDate { get; set; } = false;
+    private bool shouldRender;
+    #endregion
+
+    protected async override Task OnInitializedAsync()
+    {
+        shouldRender = false;
+
+        var course = await courseService.GetCourseVMAsync(id: Id);
+
+        if (course is not null) shouldRender = true;
+
+        @* Get all courseWithSubjects and create a new UpdateRequestVM base on that *@
+
+        Input = new CourseUpdateRequest
+        {
+            Id = course.Id,
+            Name = course.Name,
+            StartDate = course.StartDate,
+            EndDate = course.EndDate,
+            Description = course.Description,
+            DetailDescription = course.DetailDescription,
+            IsBasic = course.IsBasic,
+            IsExtra = course.IsExtra
+        };
+
+        @* Get all current subjects in course *@
+
+        foreach (var sub in course.SimpleSubjectVMs)
+        {
+            CurSubInCourseIds.Add(sub.Id);
+        }
+
+        @* Get all subject for display *@
+
+        Subjects = (await subjectService.GetSubjectVMsAsync()).ToList();
+    }
+
+    @* Checkbox logic for choosing subjects *@
+    private void AddSubject(int id)
+    {
+        if (CurSubInCourseIds.Contains(id))
+        {
+            CurSubInCourseIds.Remove(id);
+        }
+        else
+        {
+            CurSubInCourseIds.Add(id);
+        }
+    }
+
+    private async Task EditCourse()
+    {
+        if (Input is not null)
+        {
+            Input.IsExtra = isExtra;
+            Input.IsBasic = isBasic;
+
+            await courseService.UpdateSubjectInCourseAsync(Input.Id, CurSubInCourseIds);
+            await courseService.UpdateAsync(Input);
+
+            Nav.NavigateTo("/admin/course");
+        }
+    }
+}

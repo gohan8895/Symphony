@@ -1,0 +1,64 @@
+﻿@page "/admin/aboutus"
+
+@inject IAboutService aboutService
+@using Symphony.ViewModels.AboutViewModel
+@using Symphony.BlazorServerApp.Services.AboutServices
+@using Symphony.BlazorServerApp.Controls.TableComponents
+@inject NavigationManager nav
+@using Symphony.BlazorServerApp.Controls.Utilities
+
+<AuthorizeView Roles="admin">
+    <Authorized>
+        @if (events == null)
+        {
+
+            <div class="text-center">
+                <div class="loadingio-spinner-bars-f8jbu6upslt">
+                    <div class="ldio-p5olh5z9oq">
+                        <div></div><div></div><div></div><div></div>
+                    </div>
+                </div>
+            </div>
+
+        }
+        else
+        {
+
+            <div class="container-fluid mb-5">
+                <h1 class="text-center fw-bolder">About Manager</h1>
+
+                <TableTemplate Caption="About" Items="events" Context="item">
+                    <TableHeader>
+                        <th><p>@nameof(AboutVM.Title)</p></th>
+                        <th><p>@nameof(AboutVM.Content)</p></th>
+                        <th><p>@nameof(AboutVM.IsShown)</p></th>
+                        <th></th>
+                    </TableHeader>
+                    <RowTemplate>
+                        <td><p>@item.Title</p></td>
+                        <td><p>@item.Content</p></td>
+                        <td><p>@item.IsShown</p></td>
+                        <td class="text-center">
+                            <NavLink href=@($"/admin/aboutManagement/editabout/{item.Id}") class="material-icons nav-item text-warning me-4">edit</NavLink>
+                           
+                        </td>
+                    </RowTemplate>
+                </TableTemplate>
+            </div>
+        }
+
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    private List<AboutVM> events = null;
+
+    private bool render = false;
+    protected async override Task OnInitializedAsync()
+    {
+        var result = await aboutService.GetAboutsAsync();
+        events = result.ToList();
+    }
+
+
+}

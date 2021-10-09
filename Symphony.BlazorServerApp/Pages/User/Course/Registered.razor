@@ -1,0 +1,42 @@
+﻿@page "/course/registered/{id:int}"
+@using Symphony.BlazorServerApp.Services.CourseRegistrationService
+@inject ICourseRegistrationService courseRegistrationService
+@inject UserManager<AppUser> userManager
+
+<AuthorizeView>
+    <Authorized>
+        <div class="container">
+            <div class="header-info">
+                <h1>Register Successfully!</h1>
+                <h2>Welcome onboard @User.Email</h2>
+            </div>
+            <div class="information">
+                <p>
+                    Here is your registration code:
+                    <span>
+                        @("RegNo-" + CourseRegistration.Id + CourseRegistration.CourseId + "-" + CourseRegistration.UserId.ToString().Substring(startIndex: 3, 5) + "-" + CourseRegistration.CreatedAt.Year.ToString())
+                    </span>
+                </p>
+                <p class="text-center">
+                    Please bring the registration code above to Symphony Institution at <small>street address</small> to make a payment and enroll to our Institution. Thank you!
+                </p>
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <UnauthorizedAccess></UnauthorizedAccess>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private CourseRegistrationWithDataVM CourseRegistration { get; set; } = new();
+    private AppUser User { get; set; } = new();
+
+    protected async override Task OnInitializedAsync()
+    {
+        CourseRegistration = await courseRegistrationService.GetCourseRegistrationVMAsync(Id);
+        User = await userManager.FindByIdAsync(CourseRegistration.UserId.ToString());
+    }
+}

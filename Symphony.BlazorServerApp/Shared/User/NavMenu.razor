@@ -1,0 +1,71 @@
+﻿<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand mx-auto" href="">Symphony Institute</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3 ">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="material-icons me-2">
+                    home
+                </span> Home
+            </NavLink>
+        </li>
+        <li class="nav-item px-3 ">
+            <NavLink class="nav-link" href="/courses">
+                <span class="material-icons me-2">
+                    class
+                </span> Courses
+            </NavLink>
+        </li>
+        <li class="nav-item px-3 ">
+            <NavLink class="nav-link" href="/studentCorner">
+                <span class="material-icons me-2">
+                    assignment_ind
+                </span> Student Corner
+            </NavLink>
+        </li>
+        <li class="nav-item px-3 ">
+            <NavLink class="nav-link" href="/faq">
+                <span class="material-icons me-2">
+                    question_answer
+                </span> FAQ
+            </NavLink>
+        </li>
+        <li class="nav-item px-3 ">
+            <NavLink class="nav-link" href="/aboutus">
+                <span class="material-icons me-2">
+                    help
+                </span> About
+            </NavLink>
+        </li>
+        <li class="nav-item px-3 ">
+            <NavLink class="nav-link" href="/new">
+                <span class="material-icons me-2">
+                    article
+                </span> News
+            </NavLink>
+        </li>
+        <li class="nav-item px-3 ">
+            <NavLink class="nav-link" href="/event">
+                <span class="material-icons me-2">
+                    event
+                </span> Event
+            </NavLink>
+        </li>
+    </ul>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}
