@@ -16,7 +16,7 @@ namespace Symphony.ViewModels.Extensions
             UserId = courseRegistration.UserId,
             CourseId = courseRegistration.CourseId,
             IsApproved = courseRegistration.IsApproved,
-            CreatedAt = DateTime.Now,
+            CreatedAt = courseRegistration.CreatedAt,
             IsDelete = courseRegistration.IsDelete,
             ExamRequired = courseRegistration.ExamRequired
         };
