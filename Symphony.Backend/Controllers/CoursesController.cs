@@ -38,6 +38,19 @@ namespace Symphony.Backend.Controllers
             if (_course is null) return NotFound();
             return Ok(_course);
         }
+        
+        // GET api/<CoursesController>/
+        [HttpGet("search/{context}")]
+        public async Task<ActionResult<IEnumerable<CourseVM>>> Get(string context)
+        {
+            if (context is null || String.IsNullOrEmpty(context)) return BadRequest();
+
+            var courses = await _service.SearchCourseAsync(context);
+
+            if (courses is null) return NotFound();
+
+            return Ok(courses);
+        }
 
         // Get api/<CoursesController>/update-course-status/5
         [HttpGet("update-course-status/{id}")]

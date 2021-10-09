@@ -53,6 +53,8 @@
     background-color: #23255a;
 }
 
+
+
 @media (min-width: 641px) {
     .navbar-toggler {
         display: none;
