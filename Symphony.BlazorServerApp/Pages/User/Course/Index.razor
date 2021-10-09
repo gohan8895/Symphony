@@ -26,7 +26,23 @@
                                         <div class="card-body fw-bold">
                                             <h5 class="card-title text-center">@basicCourse.Name</h5>
                                             <p class="card-text fw-bolder text-center">
-                                                $ @basicCourse.Price
+                                                @if (basicCourse.IsExtra && !basicCourse.IsBasic)
+                                                {
+                                                    <span class="ps-4">$ @(basicCourse.Price + 300 + 50)</span>
+
+                                                }
+                                                else if (basicCourse.IsExtra && basicCourse.IsBasic)
+                                                {
+                                                    <span class="ps-4">$ @(basicCourse.Price + 300)</span>
+                                                }
+                                                else if (!basicCourse.IsExtra && !basicCourse.IsBasic)
+                                                {
+                                                    <span class="ps-4">$ @(basicCourse.Price + 50)</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="ps-4">$ @basicCourse.Price</span>
+                                                }
                                             </p>
                                             <a href="courses/@basicCourse.Id" class="btn detail-button fw-bolder">
                                                 View Detail

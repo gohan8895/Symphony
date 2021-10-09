@@ -1,0 +1,89 @@
+﻿@page "/contact"
+
+@inject NavigationManager Nav
+@using Symphony.BlazorServerApp.Services.ConsultRegisationService
+
+@inject IConsultRegistrationService _service
+
+<div class="container-lg">
+    <div class="row p-1 mt-2">
+        <div class="col-lg-6 col-sm-12 p-2">
+            <h3 class="text-center fw-bold mb-3">Contact Us</h3>
+            <img src="images/need_support.jpg" style="width: 50%;" class="d-block mx-auto my-3 rounded-3" alt="Symphony Institute" />
+            <div class="contact">
+                <h4 class="fw-bold my-2 py-2">Symphony Institute</h4>
+                <ul class="list">
+                    <li>Wellington Square</li>
+                    <li>Oxford</li>
+                    <li>OX1 2JD</li>
+                    <li>United Kingdom</li>
+                    <li class="pt-2">
+                        Telephone: +44 1865 270000
+                    </li>
+                    <li class="pb-2">Fax: +44 1865 270708</li>
+                </ul>
+                <p class="p-2 mt-2">
+                    If you have a question you would like to ask, including admission queries, please fill in the contact form on the right. You can view frequently asked questions using the FAQ tab.
+                </p>
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-12 p-2">
+            <h3 class="text-center fw-bold mb-3">Need our advice? Please fill in below form</h3>
+            <img src="images/need_support.jpg" style="width: 50%;" class="d-block mx-auto my-3 rounded-3" alt="Symphony Institute" />
+            <EditForm Model="@Input" OnValidSubmit="@CreateSubject" class="my-2">
+                <DataAnnotationsValidator />
+                <div class="row justify-content-md-center">
+                    <div class="col-lg-12 mb-3">
+                        <label class="form-label fw-bold">Your Full Name <span class="text-danger fw-bold">*</span></label>
+                        <InputText @bind-Value="Input.FullName" class="form-control" required />
+                        <ValidationMessage For="@(() => Input.FullName)" />
+                    </div>
+                </div>
+
+                <div class="row justify-content-md-center">
+                    <div class="col-lg-12 mb-3">
+                        <label class="form-label fw-bold">Your Phone Number<span class="text-danger fw-bold">*</span></label>
+                        <InputText @bind-Value="Input.Phone" class="form-control" required />
+                        <ValidationMessage For="@(() => Input.Phone)" />
+                    </div>
+                </div>
+                <div class="row justify-content-md-center">
+                    <div class="col-lg-12 mb-3">
+                        <label class="form-label fw-bold">Your Email <span class="text-danger fw-bold">*</span></label>
+                        <InputText @bind-Value="Input.Email" class="form-control" required />
+                        <ValidationMessage For="@(() => Input.Email)" />
+                    </div>
+                </div>
+                <div class="row justify-content-md-center">
+                    <div class="col-lg-12 mb-3">
+                        <label class="form-label fw-bold">Your message to us <span class="text-danger fw-bold">*</span></label>
+                        <InputTextArea @bind-Value="Input.Message" class="form-control" rows="5" required />
+                        <ValidationMessage For="@(() => Input.Message)" />
+                    </div>
+                </div>
+                <div class="row justify-content-md-center">
+                    <div class="col-lg-12 mb-5">
+                        <CreateButtonForForm FirstBtn="Submit" />
+                    </div>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@code {
+    #region Objects
+    private ConsultCreateRequest Input { get; set; } = new();
+    private bool startDate { get; set; } = false;
+    #endregion
+
+    private async Task CreateSubject()
+    {
+        if (Input is not null)
+        {
+            await _service.PostConsultRegistration(Input);
+
+            Nav.NavigateTo("/faq");
+        }
+    }
+}
