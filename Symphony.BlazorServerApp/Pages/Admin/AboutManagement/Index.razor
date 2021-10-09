@@ -32,11 +32,16 @@
                         <th><p>@nameof(AboutVM.Title)</p></th>
                         <th><p>@nameof(AboutVM.Content)</p></th>
                         <th><p>@nameof(AboutVM.IsShown)</p></th>
+                        <th></th>
                     </TableHeader>
                     <RowTemplate>
                         <td><p>@item.Title</p></td>
                         <td><p>@item.Content</p></td>
                         <td><p>@item.IsShown</p></td>
+                        <td class="text-center">
+                            <NavLink href=@($"/admin/aboutManagement/editabout/{item.Id}") class="material-icons nav-item text-warning me-4">edit</NavLink>
+                           
+                        </td>
                     </RowTemplate>
                 </TableTemplate>
             </div>
