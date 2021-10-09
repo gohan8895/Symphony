@@ -10,7 +10,7 @@
     <Authorized>
         <div class="container-lg">
             <h1 class="text-center fw-bolder">Registration Manager</h1>
-            <CreateButton Url="/admin/subject/create" Who="a New Registration" />
+            <CreateButton Url="/admin/registration/create" Who="a New Registration" />
             <TableTemplate Caption="Course Registrations" Items="Registrations" Context="reg">
                 <TableHeader>
                     <th>
@@ -145,7 +145,7 @@
 
     protected async override Task OnInitializedAsync()
     {
-        Registrations = (await courseRegService.GetCourseRegistrationWithDataVMsAsync()).ToList();
+        Registrations = (await courseRegService.GetCourseRegistrationWithDataVMsAsync()).Where(cr => cr.IsDelete == false).ToList();
     }
 
     private async Task ChangeStatus(int id)

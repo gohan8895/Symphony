@@ -14,6 +14,7 @@ namespace Symphony.Data.Configurations
             builder.ToTable("Enrollments");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
+            builder.Property(x => x.IsDelete).HasDefaultValue(false);
 
             builder.HasOne(x => x.AppUser).WithMany(x => x.Enrollments).HasForeignKey(x => x.UserId);
         }

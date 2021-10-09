@@ -15,8 +15,8 @@ namespace Symphony.Data.Configurations
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
             builder.Property(x => x.IsApproved).HasDefaultValue(false);
-            builder.Property(x => x.IsApproved).HasDefaultValue(false);
             builder.Property(x => x.CreatedAt);
+            builder.Property(x => x.IsDelete).HasDefaultValue(false);
             builder.Property(x => x.ExamRequired).HasDefaultValue(false);
 
             builder.HasOne(x => x.AppUser).WithMany(x => x.CourseRegistrations).HasForeignKey(x => x.UserId);

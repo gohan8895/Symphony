@@ -131,7 +131,6 @@
         if (id != 0) await enrollService.ChangeEnrollmentStatus(studentId, id);
 
         Enrollments.Remove(enrollment);
-        enrollment.IsDelete = !enrollment.IsDelete;
     }
 
     #region fiter logic

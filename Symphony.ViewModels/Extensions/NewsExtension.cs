@@ -16,7 +16,7 @@ namespace Symphony.ViewModels.Extensions
             Title = news.Title,
             Description = news.Description,
             IsShown = news.IsShown,
-            CreatedAt = DateTime.Now,
+            CreatedAt = news.CreatedAt,
             UpdatedAt = news.UpdatedAt
         };
     }

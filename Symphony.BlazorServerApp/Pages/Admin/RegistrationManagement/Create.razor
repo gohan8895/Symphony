@@ -1,0 +1,51 @@
+﻿@page "/admin/registration/create"
+
+@using Symphony.BlazorServerApp.Services.CourseRegistrationService
+
+@inject NavigationManager Nav
+@inject ICourseRegistrationService courseRegService
+
+<div class="container-lg">
+    <h1 class="text-center fw-bold">Create a new Registration</h1>
+    <EditForm Model="@Input" OnValidSubmit="@CreateSubject">
+        <DataAnnotationsValidator />
+        <div class="row">
+            <div class="col-lg-6 col-sm-12 my-5">
+                <label class="form-label fw-bold">User ID <span class="text-danger fw-bold">*</span></label>
+                <InputText @bind-Value="Id" class="form-control" />
+                <ValidationMessage For="@(() => Id)" />
+            </div>
+            <div class="col-lg-6 col-sm-12 my-5">
+                <label class="form-label fw-bold">Course ID <span class="text-danger fw-bold">*</span></label>
+                <InputNumber @bind-Value="Input.CourseId" class="form-control" />
+                <ValidationMessage For="@(() => Input.CourseId)" />
+            </div>
+            <CreateButtonForForm />
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    #region Objects
+    public CreateCourseRegistrationVM Input { get; set; } = new();
+
+    [Required]
+    private string Id { get; set; }
+
+    #endregion
+
+    private async Task CreateSubject()
+    {
+        if (Input is not null)
+        {
+            Guid userId = Guid.Empty;
+            Guid.TryParse(Id, out userId);
+
+            Input.UserId = userId;
+
+            await courseRegService.CreateAsync(Input);
+
+            Nav.NavigateTo("/admin/registration");
+        }
+    }
+}

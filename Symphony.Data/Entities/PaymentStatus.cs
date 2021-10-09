@@ -15,5 +15,6 @@ namespace Symphony.Data.Entities
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public CourseRegistration CourseRegistration { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
