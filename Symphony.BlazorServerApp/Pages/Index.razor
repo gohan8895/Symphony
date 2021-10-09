@@ -123,39 +123,41 @@
             <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
                 @for (int i = AdvancedCourses.Count() - 1; i > -1; --i)
                 {
-                    <div class="col">
-                        <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-3 shadow-lg" style="background-image: url('./images/background/course-@(i).png');">
-                            <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                                <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">@AdvancedCourses[i].Name</h2>
-                                <ul class="d-flex list-unstyled mt-auto">
-                                    <li class="me-auto">
-                                        <img src="http://localhost:39699/@AdvancedCourses[i].ImagePath" alt="Bootstrap" width="32" height="32" class="rounded-circle border border-white">
-                                    </li>
-                                    <li class="d-flex align-items-center me-3">
-                                        <small>@AdvancedCourses[i].UpdatedAt.ToShortDateString()</small>
-                                    </li>
-                                    <li class="d-flex align-items-center">
-                                        @if (AdvancedCourses[i].IsExtra && !AdvancedCourses[i].IsBasic)
-                                        {
-                                            <small class="ps-4">$ @(AdvancedCourses[i].Price + 300 + 50)</small>
+                    <div class="col">than
+                        <a href="courses/@AdvancedCourses[i].Id">
+                            <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-3 shadow-lg" style="background-image: url('./images/background/course-@(i).png');">
+                                <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                                    <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">@AdvancedCourses[i].Name</h2>
+                                    <ul class="d-flex list-unstyled mt-auto">
+                                        <li class="me-auto">
+                                            <img src="http://localhost:39699/@AdvancedCourses[i].ImagePath" alt="Bootstrap" width="32" height="32" class="rounded-circle border border-white">
+                                        </li>
+                                        <li class="d-flex align-items-center me-3">
+                                            <small>@AdvancedCourses[i].UpdatedAt.ToShortDateString()</small>
+                                        </li>
+                                        <li class="d-flex align-items-center">
+                                            @if (AdvancedCourses[i].IsExtra && !AdvancedCourses[i].IsBasic)
+                                            {
+                                                <small class="ps-4">$ @(AdvancedCourses[i].Price + 300 + 50)</small>
 
-                                        }
-                                        else if (AdvancedCourses[i].IsExtra && AdvancedCourses[i].IsBasic)
-                                        {
-                                            <small class="ps-4">$ @(AdvancedCourses[i].Price + 300)</small>
-                                        }
-                                        else if (!AdvancedCourses[i].IsExtra && !AdvancedCourses[i].IsBasic)
-                                        {
-                                            <small class="ps-4">$ @(AdvancedCourses[i].Price + 50)</small>
-                                        }
-                                        else
-                                        {
-                                            <small class="ps-4">$ @AdvancedCourses[i].Price</small>
-                                        }
-                                    </li>
-                                </ul>
+                                            }
+                                            else if (AdvancedCourses[i].IsExtra && AdvancedCourses[i].IsBasic)
+                                            {
+                                                <small class="ps-4">$ @(AdvancedCourses[i].Price + 300)</small>
+                                            }
+                                            else if (!AdvancedCourses[i].IsExtra && !AdvancedCourses[i].IsBasic)
+                                            {
+                                                <small class="ps-4">$ @(AdvancedCourses[i].Price + 50)</small>
+                                            }
+                                            else
+                                            {
+                                                <small class="ps-4">$ @AdvancedCourses[i].Price</small>
+                                            }
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 }
 
@@ -258,7 +260,7 @@
     private int carouselCount = 0;
     private IEnumerable<NewsVM> Data = null;
     #endregion
-    // TODO: Add search bar
+
     protected override bool ShouldRender() => shouldRender;
 
     protected async override Task OnInitializedAsync()
