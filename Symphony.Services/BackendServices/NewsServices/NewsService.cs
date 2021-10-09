@@ -36,7 +36,7 @@ namespace Symphony.Services.BackendServices.NewsServices
 
         public async Task<NewsVM> CreateNewsAsync(CreateNewsVM NewsVM)
         {
-            var news = new News { Title = NewsVM.Title, Description = NewsVM.Description, IsShown = NewsVM.IsShown };
+            var news = new News { Title = NewsVM.Title, Description = NewsVM.Description, IsShown = NewsVM.IsShown, CreatedAt = DateTime.UtcNow };
 
             await symphonyDBContext.News.AddAsync(news);
             await symphonyDBContext.SaveChangesAsync();

@@ -15,7 +15,7 @@ namespace Symphony.ViewModels.Consult
         public int Id { get; set; }
         public Guid UserId { get; set; }
         public int CourseId { get; set; }
-        public bool? IsDelete { get; set; }
+        public bool IsDelete { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }
@@ -25,7 +25,7 @@ namespace Symphony.ViewModels.Consult
         public int Id { get; set; }
         public Guid UserId { get; set; }
         public int CourseId { get; set; }
-        public bool? IsDelete { get; set; }
+        public bool IsDelete { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public AppUserVM AppUserVM { get; set; }
@@ -59,6 +59,6 @@ namespace Symphony.ViewModels.Consult
         [Required]
         [DisplayName("Delete")]
         [DefaultValue(false)]
-        public bool? IsDelete { get; set; }
+        public bool IsDelete { get; set; }
     }
 }

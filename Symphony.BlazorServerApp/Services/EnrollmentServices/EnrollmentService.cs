@@ -22,7 +22,7 @@ namespace Symphony.BlazorServerApp.Services.EnrollmentServices
 
         public async Task<EnrollmentVM> GetEnrollmentVMAsync(Guid studentId, int courseId)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, $"courseregistrations/student/{studentId}/course/{courseId}");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"enrollments/student/{studentId}/course/{courseId}");
             var client = clientFactory.CreateClient("symphony");
             var response = await client.SendAsync(request);
 
@@ -39,9 +39,9 @@ namespace Symphony.BlazorServerApp.Services.EnrollmentServices
 
         public async Task<int> ChangeEnrollmentStatus(Guid studentId, int courseId)
         {
-            if (studentId == Guid.Empty || courseId == 0)
+            if (studentId != Guid.Empty || courseId != 0)
             {
-                var request = new HttpRequestMessage(HttpMethod.Get, $"update-enrollment-state/student/{studentId}/course/{courseId}");
+                var request = new HttpRequestMessage(HttpMethod.Get, $"enrollments/update-enrollment-state/student/{studentId}/course/{courseId}");
                 var client = clientFactory.CreateClient("symphony");
                 var response = await client.SendAsync(request);
 
@@ -85,7 +85,7 @@ namespace Symphony.BlazorServerApp.Services.EnrollmentServices
                     "application/json"
                     );
 
-                using var httpResponse = await client.PutAsync("courseregistrations/", enrollmentJson);
+                using var httpResponse = await client.PutAsync("enrollments/", enrollmentJson);
 
                 httpResponse.EnsureSuccessStatusCode();
 

@@ -17,7 +17,23 @@ namespace Symphony.ViewModels.Consult
         public int CourseId { get; set; }
         public bool IsApproved { get; set; }
         public DateTime CreatedAt { get; set; }
+        public bool IsDelete { get; set; }
         public bool ExamRequired { get; set; }
+    }
+
+    public class CourseRegistrationWithDataVM
+    {
+        public int Id { get; set; }
+        public Guid UserId { get; set; }
+        public int CourseId { get; set; }
+        public bool IsApproved { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public bool ExamRequired { get; set; }
+        public bool IsDelete { get; set; }
+        public AppUserVM AppUserVM { get; set; }
+        public CourseVM CourseVM { get; set; }
+        public double EntranceExamFee { get; set; }
+        public double FinalPrice { get; set; }
     }
 
     public class CreateCourseRegistrationVM
@@ -63,18 +79,4 @@ namespace Symphony.ViewModels.Consult
     //    [DefaultValue(false)]
     //    public bool ExamRequired { get; set; }
     //}
-
-    public class CourseRegistrationWithDataVM
-    {
-        public int Id { get; set; }
-        public Guid UserId { get; set; }
-        public int CourseId { get; set; }
-        public bool IsApproved { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public bool ExamRequired { get; set; }
-        public AppUserVM AppUserVM { get; set; }
-        public CourseVM CourseVM { get; set; }
-        public double EntranceExamFee { get; set; }
-        public double FinalPrice { get; set; }
-    }
 }

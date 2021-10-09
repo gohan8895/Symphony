@@ -41,6 +41,7 @@ namespace Symphony.Backend.Controllers
         }
 
         // UPDATE Enrollemnt Status
+        // update-enrollment-state/student/5/course/5
         [HttpGet("update-enrollment-state/student/{studentId}/course/{courseId}")]
         public async Task<ActionResult> ChangeStatus(Guid studentId, int courseId)
         {

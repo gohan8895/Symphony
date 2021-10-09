@@ -30,7 +30,65 @@
     background-color: #ffe855;
 }
 
-    .detail-button:hover {
-        background-color: #cab840;
-        font-weight: 900;
-    }
+.detail-button:hover {
+    background-color: #cab840;
+    font-weight: 900;
+}
+
+.carousel-item-1 {
+    background-image: url('./images/institute.jpg');
+    background-position: bottom;
+    background-size: cover;
+    width: 100%;
+    height: 30em;
+}
+
+.carousel-item-1 p {
+    background-color: rgb(0 0 0 / 0.60);
+    font-size: 1.4em;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    margin: 0;
+}
+
+.carousel-item-2 {
+    background-image: url('./images/home/1_n5X0FjTaBF-e-ux2VlonAg.png');
+    background-position: bottom;
+    background-size: contain;
+    width: 100%;
+    height: 30em;
+}
+
+.carousel-item-2 p {
+    background-color: rgb(0 0 0 / 0.60);
+    font-size: 1.4em;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    margin: 0;
+}
+
+.carousel-item-3 {
+    background-image: url('./images/home/magazine.jpg');
+    background-position: bottom;
+    background-size: cover;
+    width: 100%;
+    height: 30em;
+}
+
+.carousel-item-3 p {
+    background-color: rgb(0 0 0 / 0.60);
+    font-size: 1.4em;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    margin: 0;
+    width:100%;
+}
