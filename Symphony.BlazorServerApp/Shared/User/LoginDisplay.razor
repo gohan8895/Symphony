@@ -1,58 +1,157 @@
-﻿<AuthorizeView Context="anonymous">
+﻿@using Symphony.BlazorServerApp.Services.CourseServices
+@using Symphony.ViewModels.CourseViewModel
+
+@inject ICourseService courseService
+@inject NavigationManager nav
+
+<AuthorizeView Context="anonymous">
     <Authorized>
         <AuthorizeView Roles="student" Context="student">
             <Authorized>
-                <ul class="logged-in nav fw-bold text-center ms-auto">
-                    <li class="nav-item">
-                        <a href="Identity/Account/Manage" class="nav-link link-dark px-2">
-                            Student @student.User.Identity.Name!
-                        </a>
-
-                    </li>
-                    <li class="nav-item">
-                        <form method="post" action="Identity/Account/LogOut">
-                            <button type="submit" class="nav-link btn link-dark fw-bold">
-                                <span class="material-icons">logout</span>Log out
-                            </button>
-                        </form>
-                    </li>
-                </ul>
+                <div class="nav-container">
+                    <div class="search-bar">
+                        <BlazoredTypeahead SearchMethod="SearchCourse"
+                                           TValue="CourseVM"
+                                           TItem="CourseVM"
+                                           Value="SelectedCourse"
+                                           ValueChanged="HandleSearch"
+                                           ValueExpression="@(() => SelectedCourse)"
+                                           placeholder="Search for any courses"
+                                           Debounce="500">
+                            <SelectedTemplate>
+                                @context.Id
+                            </SelectedTemplate>
+                            <ResultTemplate>
+                                <div class="result-content">
+                                    <img class="shadow" src="http://localhost:39699/@context.ImagePath" />
+                                    <div class="name">@context.Name</div>
+                                </div>
+                            </ResultTemplate>
+                            <NotFoundTemplate>
+                                Sorry, there weren't any search results.
+                            </NotFoundTemplate>
+                        </BlazoredTypeahead>
+                    </div>
+                    <ul class="logged-in nav fw-bold text-center ms-auto">
+                        <li class="nav-item">
+                            <a href="Identity/Account/Manage" class="nav-link link-dark px-2">
+                                Student @student.User.Identity.Name!
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <form method="post" action="Identity/Account/LogOut">
+                                <button type="submit" class="nav-link btn link-dark fw-bold">
+                                    <span class="material-icons">logout</span>Log out
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
             </Authorized>
             <NotAuthorized></NotAuthorized>
         </AuthorizeView>
         <AuthorizeView Roles="teacher" Context="teacher">
             <Authorized>
-                <ul class="logged-in nav fw-bold text-center ms-auto">
-                    <li class="nav-item">
-                        <a href="Identity/Account/Manage" class="nav-link link-dark px-2">
-                            Teacher @teacher.User.Identity.Name!
-                        </a>
+                <div class="nav-container">
+                    <div class="search-bar">
+                        <BlazoredTypeahead SearchMethod="SearchCourse"
+                                           TValue="CourseVM"
+                                           TItem="CourseVM"
+                                           Value="SelectedCourse"
+                                           ValueChanged="HandleSearch"
+                                           ValueExpression="@(() => SelectedCourse)"
+                                           placeholder="Search for any courses"
+                                           Debounce="500">
+                            <SelectedTemplate>
+                                @context.Id
+                            </SelectedTemplate>
+                            <ResultTemplate>
+                                <div class="result-content">
+                                    <img src="http://localhost:39699/@context.ImagePath" />
+                                    <div class="name">@context.Name</div>
+                                </div>
+                            </ResultTemplate>
+                            <NotFoundTemplate>
+                                Sorry, there weren't any search results.
+                            </NotFoundTemplate>
+                        </BlazoredTypeahead>
+                    </div>
+                    <ul class="logged-in nav fw-bold text-center ms-auto">
+                        <li class="nav-item">
+                            <a href="Identity/Account/Manage" class="nav-link link-dark px-2">
+                                Teacher @teacher.User.Identity.Name!
+                            </a>
 
-                    </li>
-                    <li class="nav-item">
-                        <form method="post" action="Identity/Account/LogOut">
-                            <button type="submit" class="nav-link btn link-dark fw-bold">
-                                <span class="material-icons">logout</span>Log out
-                            </button>
-                        </form>
-                    </li>
-                </ul>
+                        </li>
+                        <li class="nav-item">
+                            <form method="post" action="Identity/Account/LogOut">
+                                <button type="submit" class="nav-link btn link-dark fw-bold">
+                                    <span class="material-icons">logout</span>Log out
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
             </Authorized>
         </AuthorizeView>
     </Authorized>
     <NotAuthorized>
-        <ul class="anonymous nav">
-            <li class="nav-item">
-                <a href="Identity/Account/Register" class="nav-link link-dark px-2">
-                    <span class="material-icons me-2">person_add</span>
-                    Register
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="Identity/Account/Login" class="nav-link link-dark px-2">
-                    <span class="material-icons me-2">login</span>Log in
-                </a>
-            </li>
-        </ul>
+        <div class="nav-container">
+            <div class="search-bar">
+                <BlazoredTypeahead SearchMethod="SearchCourse"
+                                   TValue="CourseVM"
+                                   TItem="CourseVM"
+                                   Value="SelectedCourse"
+                                   ValueChanged="HandleSearch"
+                                   ValueExpression="@(() => SelectedCourse)"
+                                   placeholder="Search for any courses"
+                                   Debounce="500">
+                    <SelectedTemplate>
+                        @context.Id
+                    </SelectedTemplate>
+                    <ResultTemplate>
+                        <div class="result-content">
+                            <img src="http://localhost:39699/@context.ImagePath" />
+                            <div class="name">@context.Name</div>
+                        </div>
+                    </ResultTemplate>
+                    <NotFoundTemplate>
+                        Sorry, there weren't any search results.
+                    </NotFoundTemplate>
+                </BlazoredTypeahead>
+            </div>
+            <ul class="anonymous nav">
+                <li class="nav-item">
+                    <a href="Identity/Account/Register" class="nav-link link-dark px-2">
+                        <span class="material-icons me-2">person_add</span>
+                        Register
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="Identity/Account/Login" class="nav-link link-dark px-2">
+                        <span class="material-icons me-2">login</span>Log in
+                    </a>
+                </li>
+            </ul>
+        </div>
     </NotAuthorized>
 </AuthorizeView>
+
+@code {
+    [Parameter]
+    public IEnumerable<CourseVM> Courses { get; set; }
+    [Parameter]
+    public CourseVM SelectedCourse { get; set; }
+
+    private async Task<IEnumerable<CourseVM>> SearchCourse(string context)
+    {
+        return await courseService.SearchCourseAsync(context);
+    }
+
+    private void HandleSearch(CourseVM course)
+    {
+        if (course is null) return;
+        SelectedCourse = course;
+        nav.NavigateTo($"/courses/{SelectedCourse.Id}");
+    }
+}

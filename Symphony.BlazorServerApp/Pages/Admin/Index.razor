@@ -23,7 +23,7 @@
 
 <AuthorizeView Roles="admin" Context="adminPage">
     <Authorized>
-        @if (Enrollments is null || CourseRegs is null || Subjects is null || Batches is null)
+        @if (Enrollments is null || CourseRegs is null || Subjects is null || Batches is null || Payments is null)
         {
             <div class="text-center">
                 <div class="loadingio-spinner-bars-f8jbu6upslt">
@@ -444,7 +444,7 @@
     {
         Batches = (await batchService.GetBatchesVMsAsync()).Where(b => b.EndDate > DateTime.Now).ToList();
         Courses = (await courseService.GetCourseVMsAsync()).ToList();
-        CourseRegs = (await courseRegService.GetAllCourseRegistrationVMsAsync()).OrderByDescending(c => c.CreatedAt).ToList();
+        CourseRegs = (await courseRegService.GetAllCourseRegistrationVMsAsync()).OrderByDescending(c => c.CreatedAt).Where(c => c.IsDelete == false).ToList();
         Subjects = (await subjectService.GetSubjectVMsAsync()).ToList();
         Students = (await userManager.GetUsersInRoleAsync("student")).ToList();
         Teachers = await userManager.GetUsersInRoleAsync("teacher");

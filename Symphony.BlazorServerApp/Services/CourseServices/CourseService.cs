@@ -52,6 +52,23 @@ namespace Symphony.BlazorServerApp.Services.CourseServices
                 return null;
             }
         }
+        
+        public async Task<IEnumerable<CourseVM>> SearchCourseAsync(string context)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, $"courses/search/{context}");
+            var client = clientFactory.CreateClient("symphony");
+            var response = await client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                using var reponseStream = await response.Content.ReadAsStreamAsync();
+                return await JsonSerializer.DeserializeAsync<IEnumerable<CourseVM>>(reponseStream, options);
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         public async Task<int> UpdateCourseStatusAsync(int id)
         {

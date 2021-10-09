@@ -15,11 +15,18 @@
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link href="css/site.css" rel="stylesheet" />
     <link href="Symphony.BlazorServerApp.styles.css" rel="stylesheet" />
+
+    @* Google font *@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    @* Css for loading component for page *@
     <link rel="stylesheet" href="~/css/loading.css" />
+
+    @*Type ahead for search bar*@
+    <link href="_content/Blazored.Typeahead/blazored-typeahead.css" rel="stylesheet" />
 </head>
 <body>
     <component type="typeof(App)" render-mode="ServerPrerendered" />
@@ -36,7 +43,11 @@
     </div>
 
     <script src="_framework/blazor.server.js"></script>
+
+    <!-- bootstrap -->
     <script src="~/js/bootstrap/bootstrap.bundle.min.js"></script>
+
+    <!-- Js interop for blazor -->
     <script>
         window.convertArray = (win1251Array) => {
             var win1251decoder = new TextDecoder('windows-1251');
@@ -46,10 +57,15 @@
             return decodedArray;
         };
     </script>
+
+    <!-- Chart JS for blazor -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
 
     <!-- This is the glue between Blazor and Chart.js -->
     <script src="_content/ChartJs.Blazor.Fork/ChartJsBlazorInterop.js"></script>
+
+    <!-- Js for blazor typeahead -->
+    <script src="_content/Blazored.Typeahead/blazored-typeahead.js"></script>
 </body>
 </html>
