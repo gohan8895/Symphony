@@ -13,9 +13,9 @@ namespace Symphony.Data.Entities
         public string FullName { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public DateTime CreatedAt { get; set; }
         public string Message { get; set; }
         public bool IsContacted { get; set; }
         public AppUser AppUser { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

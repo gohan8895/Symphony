@@ -2,6 +2,7 @@
 
 @using Symphony.BlazorServerApp.Services.BatchServices
 @using Symphony.BlazorServerApp.Services.CourseRegistrationService
+@using Symphony.BlazorServerApp.Services.CourseServices
 
 @inject IBatchService batchService
 @inject UserManager<AppUser> userManager
@@ -96,7 +97,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="h-100 p-5 border rounded-3 style="background: #d7d7d7a6;"">
+                            <div class="h-100 p-5 border rounded-3 style=" background: #d7d7d7a6;"">
                                 <h2 class="fw-bold">Entrance Examination</h2>
                                 <a class="nav-link" href="#"><p>If there are any entrance examinations, display here!</p></a>
                             </div>
@@ -138,7 +139,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="h-100 p-5 border rounded-3 style="background: #d7d7d7a6;"">
+                            <div class="h-100 p-5 border rounded-3 style=" background: #d7d7d7a6;"">
                                 <h2 class="fw-bold">Entrance Examination</h2>
                                 <a class="nav-link" href="#"><p>If there are any entrance examinations, display here!</p></a>
                             </div>
@@ -157,27 +158,37 @@
 </AuthorizeView>
 
 @code {
-    #region
+    #region props & params
     private EnrollmentVM Enrollment { get; set; }
     private BatchVM Batch { get; set; }
     private AuthenticationState AuthState { get; set; }
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    private IEnumerable<CourseRegistrationWithDataVM> CurrentCourseRegs { get; set; }
+    private AppUser User { get; set; }
     #endregion
-    
-    // TODO: Add more detail to student corner
+
 
     protected async override Task OnInitializedAsync()
     {
         AuthState = await authenticationStateTask;
 
-        @if (AuthState.User.Identity.IsAuthenticated)
+        // Get the current logged in user and his/her batch
+
+        if (AuthState.User.Identity.IsAuthenticated)
         {
             var userId = Guid.Parse(AuthState.User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value);
 
-            var user = userManager.Users.FirstOrDefault(u => u.Id == userId);
+            User = userManager.Users.FirstOrDefault(u => u.Id == userId);
 
-            Batch = await batchService.GetBatchVMAsync(user.BatchId.GetValueOrDefault());
+            Batch = await batchService.GetBatchVMAsync(User.BatchId.GetValueOrDefault());
         }
+
+        // Get all course registrations that are currently on
+        CurrentCourseRegs = (await courseRegService.GetCourseRegistrationWithDataVMsAsync())
+            .Where(c => c.UserId == User.Id
+            && c.IsApproved == true
+            && c.CourseVM.EndDate >= DateTime.UtcNow);
     }
 }

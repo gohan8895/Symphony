@@ -19,6 +19,7 @@ namespace Symphony.Data.Configurations
             builder.Property(x => x.HasPaid).HasDefaultValue(false);
             builder.Property(x => x.CreatedAt);
             builder.Property(x => x.UpdatedAt);
+            builder.Property(x => x.IsDeleted).HasDefaultValue(false);
         }
     }
 }

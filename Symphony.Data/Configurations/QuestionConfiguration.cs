@@ -25,6 +25,7 @@ namespace Symphony.Data.Configurations
             builder.Property(x => x.Opt4_value).HasMaxLength(512).IsRequired();
             builder.Property(x => x.Valid_Opt_key).IsRequired();
             builder.Property(x => x.Score).IsRequired().HasDefaultValue(20);
+            builder.Property(x => x.IsDelete).HasDefaultValue(false);
         }
     }
 }

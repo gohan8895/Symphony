@@ -17,6 +17,7 @@ namespace Symphony.ViewModels.Extensions
             CourseId = courseRegistration.CourseId,
             IsApproved = courseRegistration.IsApproved,
             CreatedAt = DateTime.Now,
+            IsDelete = courseRegistration.IsDelete,
             ExamRequired = courseRegistration.ExamRequired
         };
 
@@ -28,6 +29,7 @@ namespace Symphony.ViewModels.Extensions
             IsApproved = courseRegistration.IsApproved,
             CreatedAt = courseRegistration.CreatedAt,
             ExamRequired = courseRegistration.ExamRequired,
+            IsDelete = courseRegistration.IsDelete,
             AppUserVM = courseRegistration.AppUser.AsVM(),
             CourseVM = courseRegistration.Course.AsVM(),
             EntranceExamFee = courseRegistration.ExamRequired ? 50 : 0,

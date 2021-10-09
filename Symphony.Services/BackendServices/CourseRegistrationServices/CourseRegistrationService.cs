@@ -60,6 +60,7 @@ namespace Symphony.Services.BackendServices.CourseRegistrationServices
                     IsApproved = c.IsApproved,
                     CreatedAt = c.CreatedAt,
                     ExamRequired = c.ExamRequired,
+                    IsDelete = c.IsDelete,
                     AppUserVM = c.AppUser.AsVM(),
                     CourseVM = c.Course.AsVM(),
                     EntranceExamFee = c.ExamRequired ? 50 : 0,
@@ -78,7 +79,6 @@ namespace Symphony.Services.BackendServices.CourseRegistrationServices
             {
                 UserId = courseRegistration.UserId,
                 CourseId = courseRegistration.CourseId,
-                IsApproved = false,
                 CreatedAt = DateTime.Now
             };
 
@@ -160,7 +160,8 @@ namespace Symphony.Services.BackendServices.CourseRegistrationServices
                 return null;
             }
 
-            symphonyDBContext.Remove(courseRegis);
+            courseRegis.IsDelete = !courseRegis.IsDelete;
+
             await symphonyDBContext.SaveChangesAsync();
 
             return courseRegis.AsVM();
