@@ -1,0 +1,22 @@
+﻿@page "/admin/aboutManagement/editabout/{Id:int}"
+
+
+<div class="container">
+
+    <AuthorizeView Roles="admin">
+        <Authorized Context="User">
+            <h2 class="fw-bolder text-center fs">Update a About</h2>
+            <Symphony.BlazorServerApp.Controls.AboutComponents.UpdateAboutComponent aboutId="Id" />
+        </Authorized>
+        <NotAuthorized>
+            <UnauthorizedAccess />
+        </NotAuthorized>
+    </AuthorizeView>
+</div>
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+}
+

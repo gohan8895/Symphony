@@ -1,0 +1,61 @@
+﻿
+@inject IAboutService aboutService
+@using Symphony.ViewModels.AboutViewModel
+@using Symphony.BlazorServerApp.Services.AboutServices
+@inject NavigationManager Nav
+
+<EditForm Model="@InputAbout" OnValidSubmit="UpdateAbout" class="row g-3">
+    <DataAnnotationsValidator />
+    <div class="col-md-12">
+        <label class="form-label fw-bold">@nameof(InputAbout.Title) <span class="text-danger fw-bold">*</span></label>
+        <input value="@InputAbout.Title" disabled />
+      
+    </div>
+    <div class="col-md-12">
+        <label class="form-label fw-bold">@nameof(InputAbout.Content) <span class="text-danger fw-bold">*</span></label>
+        <div class="form-outline mb-4">
+            <textarea class="form-control" @bind="InputAbout.Content" id="textAreaExample6" rows="20"></textarea>
+            <label class="form-label" for="textAreaExample6">100% width of the parent</label>
+        </div>
+
+    </div>
+    <div class="col-md-6">
+        <label class="form-label fw-bold">@nameof(InputAbout.IsShown) <span class="text-danger fw-bold">*</span></label>
+        <input type="checkbox" @bind="InputAbout.IsShown" />
+       
+    </div>
+
+
+    <CreateButtonForForm />
+</EditForm>
+@code {
+    #region Parameter
+    public UpdateAboutVM InputAbout { get; set; } = new();
+
+    [Parameter]
+    public int aboutId { get; set; }
+
+    #endregion
+
+    protected async override Task OnInitializedAsync()
+    {
+        var about = await aboutService.GetAboutAsync(aboutId);
+
+        InputAbout = new UpdateAboutVM
+        {
+            Id = about.Id,
+            Title = about.Title,
+            Content = about.Content,
+            IsShown = about.IsShown
+        };
+    }
+
+    private async Task UpdateAbout()
+    {
+
+        await aboutService.UpdateAsync(InputAbout);
+
+        Nav.NavigateTo("/admin/aboutus/");
+
+    }
+}
