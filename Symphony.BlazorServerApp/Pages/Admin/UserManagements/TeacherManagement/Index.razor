@@ -3,6 +3,7 @@
 @inject UserManager<AppUser> userManager
 @inject RoleManager<AppRole> roleManager
 @using Symphony.BlazorServerApp.Controls.TableComponents
+@using Symphony.ViewModels.VMs
 
 <AuthorizeView Roles="admin">
     <Authorized>
@@ -18,39 +19,125 @@
         }
         else
         {
-            <div class="container-fluid">
-                <h1 class="text-center fw-bolder">Teacher Manager</h1>
-                <CreateButton Url="admin/usermanagement/createTeacher" Who="a New Teacher" />
-                <TableTemplate Caption="Teachers" Items="Users" Context="user">
-                    <TableHeader>
-                        <th><p>@nameof(User.FirstName)</p></th>
-                        <th><p>@nameof(User.LastName)</p></th>
-                        <th><p>@nameof(User.DOB)</p></th>
-                        <th><p>@nameof(User.Gender)</p></th>
-                        <th><p>@nameof(User.PhoneNumber)</p></th>
-                        <th><p>@nameof(User.Address)</p></th>
-                        <th><p>@nameof(User.Email)</p></th>
-                        <th><p>@nameof(User.EmailConfirmed)</p></th>
-                        <th><p>@nameof(User.CreatedAt)</p></th>
-                        <th></th>
-                    </TableHeader>
-                    <RowTemplate>
-                        <td><p>@user.FirstName</p></td>
-                        <td><p>@user.LastName</p></td>
-                        <td><p>@user.DOB</p></td>
-                        <td><p>@user.Gender</p></td>
-                        <td><p>@user.PhoneNumber</p></td>
-                        <td><p>@user.Address</p></td>
-                        <td><p>@user.Email</p></td>
-                        <td><p>@(user.EmailConfirmed ? "Confirmed" : "Unconfirmed")</p></td>
-                        <td><p>@user.CreatedAt</p></td>
-                        <td class="text-center">
-                            <NavLink href=@($"/admin/userManagement/editTeacher/{user.Id}") class="material-icons nav-item text-warning me-4">edit</NavLink>
-                            <button @onclick="() => DeleteTeacher(user.Email)" class="btn material-icons nav-item text-danger me-2">delete</button>
-                        </td>
-                    </RowTemplate>
-                </TableTemplate>
+    <div class="container-fluid">
+        <h1 class="text-center fw-bolder">Teacher Manager</h1>
+        <CreateButton Url="admin/usermanagement/createTeacher" Who="a New Teacher" />
+        <TableTemplate Caption="Teachers" Items="Users" Context="user">
+            <TableHeader>
+                <th>
+                    <span @onclick="SortFN" class="flex">
+                        First Name
+                        <span class="ps-1 material-icons hover-me">
+                            @(sortFN ? "arrow_downward" : "arrow_upward")
+                        </span>
+                    </span>
+                </th>
+                <th>
+                    <span @onclick="SortLN" class="flex">
+                        LastName
+                        <span class="ps-1 material-icons hover-me">
+                            @(sortLN ? "arrow_downward" : "arrow_upward")
+                        </span>
+                    </span>
+                </th>
+                <th>
+                    <span @onclick="SortDOB" class="flex">
+                        @nameof(User.DOB)
+                        <span class="ps-1 material-icons hover-me">
+                            @(sortDOB ? "arrow_downward" : "arrow_upward")
+                        </span>
+                    </span>
+                </th>
+                <th>
+                    <span @onclick="SortGender" class="flex">
+                        @nameof(User.Gender)
+                        <span class="ps-1 material-icons hover-me">
+                            @(sortGender ? "arrow_downward" : "arrow_upward")
+                        </span>
+                    </span>
+                </th>
+                <th>
+                    <span @onclick="SortPhone" class="flex">
+                        Phone Number
+                        <span class="ps-1 material-icons hover-me">
+                            @(sortPhone ? "arrow_downward" : "arrow_upward")
+                        </span>
+                    </span>
+                </th>
+                <th>
+                    <span @onclick="SortAddress" class="flex">
+                        @nameof(User.Address)
+                        <span class="ps-1 material-icons hover-me">
+                            @(sortAddress ? "arrow_downward" : "arrow_upward")
+                        </span>
+                    </span>
+                </th>
+                <th>
+                    <span @onclick="SortMail" class="flex">
+                        @nameof(User.Email)
+                        <span class="ps-1 material-icons hover-me">
+                            @(sortMail ? "arrow_downward" : "arrow_upward")
+                        </span>
+                    </span>
+                </th>
+                <th>
+                    <span @onclick="SortMailConfirm" class="flex">
+                        Email Confirmation
+                        <span class="ps-1 material-icons hover-me">
+                            @(sortMailConfirm ? "arrow_downward" : "arrow_upward")
+                        </span>
+                    </span>
+                </th>
+                <th>
+                    <span @onclick="SortCreateAt" class="flex">
+                        Created At
+                        <span class="ps-1 material-icons hover-me">
+                            @(sortCreateAt ? "arrow_downward" : "arrow_upward")
+                        </span>
+                    </span>
+                </th>
+                <th></th>
+            </TableHeader>
+            <RowTemplate>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>@user.DOB</td>
+                <td>@user.Gender</td>
+                <td>@user.PhoneNumber</td>
+                <td>@user.Address</td>
+                <td>@user.Email</td>
+                <td>@(user.EmailConfirmed ? "Confirmed" : "Unconfirmed")</td>
+                <td>@user.CreatedAt</td>
+                <td class="text-center">
+                    <a href=@($"/admin/userManagement/editTeacher/{user.Id}") class="material-icons btn text-warning me-4">edit</a>
+                    <button @onclick="() => email = user.Email" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                            class="btn material-icons nav-item text-danger me-2">
+                        delete
+                    </button>
+                </td>
+            </RowTemplate>
+        </TableTemplate>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Remove Teacher</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Do you want to remove this teacher?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @onclick="() => DeleteTeacher(email)">
+                            Yes
+                        </button>
+                    </div>
+                </div>
             </div>
+        </div>
+    </div>
         }
 
     </Authorized>
@@ -65,6 +152,154 @@
     #region DTO
     public List<AppUserVM> Users { get; set; } = null;
     public AppUserVM User { get; set; }
+    private string email;
+    #endregion
+
+    #region other
+    private bool sortFN = false;
+    private bool sortLN = false;
+    private bool sortDOB = false;
+    private bool sortGender = false;
+    private bool sortPhone = true;
+    private bool sortAddress = true;
+    private bool sortBatchId = true;
+    private bool sortMail = true;
+    private bool sortMailConfirm = true;
+    private bool sortCreateAt = true;
+    #endregion
+
+    #region fiter logic
+    private void SortFN()
+    {
+        if (sortFN)
+        {
+            Users = Users.OrderBy(s => s.FirstName).ToList();
+            sortFN = !sortFN;
+        }
+        else
+        {
+            Users = Users.OrderByDescending(s => s.FirstName).ToList();
+            sortFN = !sortFN;
+        }
+    }
+
+    private void SortLN()
+    {
+        if (sortLN)
+        {
+            Users = Users.OrderBy(s => s.LastName).ToList();
+            sortLN = !sortLN;
+        }
+        else
+        {
+            Users = Users.OrderByDescending(s => s.LastName).ToList();
+            sortLN = !sortLN;
+        }
+    }
+    private void SortDOB()
+    {
+        if (sortDOB)
+        {
+            Users = Users.OrderBy(s => s.DOB).ToList();
+            sortDOB = !sortDOB;
+        }
+        else
+        {
+            Users = Users.OrderByDescending(s => s.DOB).ToList();
+            sortDOB = !sortDOB;
+        }
+    }
+    private void SortGender()
+    {
+        if (sortGender)
+        {
+            Users = Users.OrderBy(s => s.Gender).ToList();
+            sortGender = !sortGender;
+        }
+        else
+        {
+            Users = Users.OrderByDescending(s => s.Gender).ToList();
+            sortGender = !sortGender;
+        }
+    }
+    private void SortPhone()
+    {
+        if (sortPhone)
+        {
+            Users = Users.OrderBy(s => s.PhoneNumber).ToList();
+            sortPhone = !sortPhone;
+        }
+        else
+        {
+            Users = Users.OrderByDescending(s => s.PhoneNumber).ToList();
+            sortPhone = !sortPhone;
+        }
+    }
+    private void SortAddress()
+    {
+        if (sortAddress)
+        {
+            Users = Users.OrderBy(s => s.Address).ToList();
+            sortAddress = !sortAddress;
+        }
+        else
+        {
+            Users = Users.OrderByDescending(s => s.Address).ToList();
+            sortAddress = !sortAddress;
+        }
+    }
+    private void SortBatchId()
+    {
+        if (sortBatchId)
+        {
+            Users = Users.OrderBy(s => s.BatchId).ToList();
+            sortBatchId = !sortBatchId;
+        }
+        else
+        {
+            Users = Users.OrderByDescending(s => s.BatchId).ToList();
+            sortBatchId = !sortBatchId;
+        }
+    }
+    private void SortMail()
+    {
+        if (sortMail)
+        {
+            Users = Users.OrderBy(s => s.Email).ToList();
+            sortMail = !sortMail;
+        }
+        else
+        {
+            Users = Users.OrderByDescending(s => s.Email).ToList();
+            sortMail = !sortMail;
+        }
+    }
+    private void SortMailConfirm()
+    {
+        if (sortMailConfirm)
+        {
+            Users = Users.OrderBy(s => s.EmailConfirmed).ToList();
+            sortMailConfirm = !sortMailConfirm;
+        }
+        else
+        {
+            Users = Users.OrderByDescending(s => s.EmailConfirmed).ToList();
+            sortMailConfirm = !sortMailConfirm;
+        }
+    }
+    private void SortCreateAt()
+    {
+        if (sortCreateAt)
+        {
+            Users = Users.OrderBy(s => s.CreatedAt).ToList();
+            sortCreateAt = !sortCreateAt;
+        }
+        else
+        {
+            Users = Users.OrderByDescending(s => s.CreatedAt).ToList();
+            sortCreateAt = !sortCreateAt;
+        }
+    }
     #endregion
 
     protected async override Task OnInitializedAsync()

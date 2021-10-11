@@ -4,6 +4,7 @@
 @inject ISubjectService subjectService
 
 @using Symphony.BlazorServerApp.Services.SubjectServices
+@using Symphony.ViewModels.VMs
 
 <div class="container-lg">
     <h1 class="text-center fw-bold">Create a new Subject</h1>
@@ -17,7 +18,7 @@
             </div>
             <div class="col-lg-6">
                 <label class="form-label fw-bold">@nameof(Input.Description) <span class="text-danger fw-bold">*</span></label>
-                <InputText @bind-Value="Input.Description" class="form-control" />
+                <InputTextArea @bind-Value="Input.Description" class="form-control" />
                 <ValidationMessage For="@(() => Input.Description)" />
             </div>
             <div class="col-lg-6">

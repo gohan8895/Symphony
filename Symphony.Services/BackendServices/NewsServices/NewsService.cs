@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Symphony.Data.EF;
 using Symphony.Data.Entities;
-using Symphony.ViewModels.Consult;
 using Symphony.ViewModels.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Symphony.ViewModels.VMs;
 
 namespace Symphony.Services.BackendServices.NewsServices
 {

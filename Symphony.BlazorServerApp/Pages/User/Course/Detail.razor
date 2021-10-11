@@ -1,7 +1,7 @@
 @page "/courses/{id:int}"
 @inject ICourseService courseService
 @using Symphony.BlazorServerApp.Services.CourseServices
-@using Symphony.ViewModels.CourseViewModel
+@using Symphony.ViewModels.VMs
 
 <div class="container">
     <div class="presentCourse mt-3">
@@ -22,9 +22,27 @@
                     <p>@Course.DetailDescription</p>
                 </div>
             </div>
-            <div class="col-lg-3 shadow-lg enroll-tab">
-                <img src="http:/localhost:39699/@Course.ImagePath" class="w-100"/>
-                <h2 class="fw-bolder text-center">$ @Course.Price</h2>
+            <div class="col-lg-3 bg-light rounded-3  shadow-lg enroll-tab">
+                <img src="http:/localhost:39699/@Course.ImagePath" class="w-100" />
+                <h2 class="fw-bolder text-center">
+                    @if (Course.IsExtra && !Course.IsBasic)
+                    {
+                        <span class="ps-4">$ @(Course.Price + 300 + 50)</span>
+
+                    }
+                    else if (Course.IsExtra && Course.IsBasic)
+                    {
+                        <span class="ps-4">$ @(Course.Price + 300)</span>
+                    }
+                    else if (!Course.IsExtra && !Course.IsBasic)
+                    {
+                        <span class="ps-4">$ @(Course.Price + 50)</span>
+                    }
+                    else
+                    {
+                        <span class="ps-4">$ @Course.Price</span>
+                    }
+                </h2>
                 <AuthorizeView>
                     <Authorized>
                         <a class="btn" href="course/registration/@Course.Id">Enroll</a>
@@ -46,9 +64,16 @@
         </div>
     </div>
     <div class="additional-info">
-        <h2 class="fw-bold mb-3">Who is this course for?</h2>
-        <p class="fw-bold lh-lg fs-4">
-            @(Course.IsBasic ? "This course is designed for the absolute beginner, meaning no previous programming experience is required." : "<a href=\"#\">This is an advanced course. You need to take an entrance exam to enroll. For more information, visit FAQ page. Thank you!</a>")
+        <h2 class="fw-bold py-1 mt-5 mb-2">Who is this course for?</h2>
+        <p class="fw-bold lh-lg fs-5 ">
+            @if (Course.IsBasic)
+            {
+                <span>This course is designed for the absolute beginner, meaning no previous programming experience is required.</span>
+            }
+            else
+            {
+                <a href="#">"This is an advanced course. You need to take an entrance exam to enroll. For more information, visit FAQ page. Thank you!"</a>
+            }
         </p>
     </div>
 </div>

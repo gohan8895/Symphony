@@ -1,9 +1,9 @@
 ﻿@page "/admin/faq"
 
 @inject IFaqService faqService
-@using Symphony.ViewModels.Consult
 @using Symphony.BlazorServerApp.Services.FaqServices
 @using Symphony.BlazorServerApp.Controls.TableComponents
+@using Symphony.ViewModels.VMs
 @inject NavigationManager nav
 
 <AuthorizeView Roles="admin">
@@ -51,7 +51,6 @@
 @code {
     private List<FAQVM> Faqs = null;
     private FAQVM FAQ { get; set; }
-    private bool render = false;
     protected async override Task OnInitializedAsync()
     {
         var result = await faqService.GetFaqsAsync();

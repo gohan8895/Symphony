@@ -1,1 +1,24 @@
-﻿
+﻿.flex {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: auto;
+}
+
+.hover-me:hover {
+    text-decoration: underline;
+    color: white;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.batch-id {
+    text-decoration: none;
+    color: #1d1d1d;
+}
+
+.batch-id:hover {
+    text-decoration: underline;
+    font-weight: bolder;
+    color: #102498;
+}

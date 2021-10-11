@@ -1,9 +1,9 @@
 ﻿
 @inject IEventService newService
-@using Symphony.ViewModels.Consult
 @using Symphony.BlazorServerApp.Services.EventServices
 @inject NavigationManager Nav
 @using Symphony.BlazorServerApp.Controls.Utilities
+@using Symphony.ViewModels.VMs
 
 <EditForm Model="@InputNew" OnValidSubmit="UpdateNew" class="row g-3">
     <DataAnnotationsValidator />

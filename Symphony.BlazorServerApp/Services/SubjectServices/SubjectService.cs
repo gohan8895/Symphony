@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
-using Symphony.ViewModels.Consult;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Symphony.ViewModels.VMs;
 
 namespace Symphony.BlazorServerApp.Services.SubjectServices
 {

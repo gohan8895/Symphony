@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Symphony.ViewModels.AboutViewModel
+namespace Symphony.ViewModels.VMs
 {
     public class AboutVM
     {

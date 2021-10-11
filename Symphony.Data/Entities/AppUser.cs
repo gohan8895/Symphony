@@ -20,8 +20,6 @@ namespace Symphony.Data.Entities
         public char Gender { get; set; }
         public int? BatchId { get; set; }
         [PersonalData]
-        public int BatchId { get; set; }
-        [PersonalData]
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public Batch Batch { get; set; }

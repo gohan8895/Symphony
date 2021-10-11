@@ -1,9 +1,9 @@
-﻿using Symphony.ViewModels.CustomAttributes;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Symphony.ViewModels.CustomAttributes;
 
-namespace Symphony.ViewModels.Consult
+namespace Symphony.ViewModels.VMs
 {
     public class AppUserVM
     {

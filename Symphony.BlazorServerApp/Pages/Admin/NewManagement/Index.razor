@@ -1,11 +1,11 @@
 ﻿@page "/admin/new"
 
 @inject INewService newService
-@using Symphony.ViewModels.Consult
 @using Symphony.BlazorServerApp.Services.NewService
 @using Symphony.BlazorServerApp.Controls.TableComponents
 @inject NavigationManager nav
 @using Symphony.BlazorServerApp.Controls.Utilities
+@using Symphony.ViewModels.VMs
 
 <AuthorizeView Roles="admin">
     <Authorized>
@@ -53,7 +53,6 @@
 @code {
     private List<NewsVM> news = null;
     private NewsVM News { get; set; }
-    private bool render = false;
     protected async override Task OnInitializedAsync()
     {
         var result = await newService.GetNewsAsync();

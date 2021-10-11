@@ -1,5 +1,5 @@
 ﻿using Symphony.Data.Entities;
-using Symphony.ViewModels.Consult;
+using Symphony.ViewModels.VMs;
 
 namespace Symphony.ViewModels.Extensions
 {

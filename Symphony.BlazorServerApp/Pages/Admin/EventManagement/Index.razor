@@ -1,11 +1,11 @@
 ﻿@page "/admin/event"
 
 @inject IEventService eventService
-@using Symphony.ViewModels.Consult
 @using Symphony.BlazorServerApp.Services.EventServices
 @using Symphony.BlazorServerApp.Controls.TableComponents
 @inject NavigationManager nav
 @using Symphony.BlazorServerApp.Controls.Utilities
+@using Symphony.ViewModels.VMs
 
 <AuthorizeView Roles="admin">
     <Authorized>
@@ -52,7 +52,6 @@
 @code {
     private List<EventVM> events = null;
 
-    private bool render = false;
     protected async override Task OnInitializedAsync()
     {
         var result = await eventService.GetEventsAsync();

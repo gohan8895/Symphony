@@ -1,4 +1,4 @@
-﻿@using Symphony.ViewModels.Consult
+﻿@using Symphony.ViewModels.VMs
 @inject UserManager<AppUser> userManager
 @inject RoleManager<AppRole> roleManager
 @inject NavigationManager Nav
@@ -91,20 +91,24 @@
 
     #region Functions
 
-    protected async override Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         if (Id != Guid.Empty)
         {
             User = userManager.Users.FirstOrDefault(u => u.Id == Id);
-            InputUser = new UpdateAppUserVM
+
+            if (User is not null)
             {
-                FirstName = User.FirstName,
-                LastName = User.LastName,
-                DOB = User.DOB,
-                PhoneNumber = User.PhoneNumber,
-                Gender = User.Gender,
-                Email = User.Email
-            };
+                InputUser = new UpdateAppUserVM
+                {
+                    FirstName = User.FirstName,
+                    LastName = User.LastName,
+                    DOB = User.DOB,
+                    PhoneNumber = User.PhoneNumber,
+                    Gender = User.Gender,
+                    Email = User.Email
+                };
+            }
         }
     }
 

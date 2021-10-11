@@ -1,8 +1,7 @@
 ﻿@page "/admin/course/edit/{id:int}"
-
-@using Symphony.ViewModels.CourseViewModel
 @using Symphony.BlazorServerApp.Services.SubjectServices
 @using Symphony.BlazorServerApp.Services.CourseServices
+@using Symphony.ViewModels.VMs
 
 
 @inject NavigationManager Nav
@@ -137,16 +136,12 @@
     private bool isBasic { get; set; } = false;
     private bool updateSubject { get; set; } = false;
     private bool startDate { get; set; } = false;
-    private bool shouldRender;
     #endregion
 
     protected async override Task OnInitializedAsync()
     {
-        shouldRender = false;
 
         var course = await courseService.GetCourseVMAsync(id: Id);
-
-        if (course is not null) shouldRender = true;
 
         @* Get all courseWithSubjects and create a new UpdateRequestVM base on that *@
 

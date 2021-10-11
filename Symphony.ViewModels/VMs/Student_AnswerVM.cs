@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Symphony.ViewModels.Student_AnswerViewModel
+namespace Symphony.ViewModels.VMs
 {
     public class Student_AnswerVM
     {

@@ -2,6 +2,7 @@
 
 @using Symphony.BlazorServerApp.Services.SubjectServices
 @using System.Net.Http.Headers
+@using Symphony.ViewModels.VMs
 
 @inject ISubjectService subjectService
 @inject IHttpClientFactory ClientFactory
@@ -138,8 +139,6 @@
 
     #region constant
 
-    private bool shouldRender;
-    private bool IsSuccess;
     private bool upload;
     private const long maxFileSize = 1024 * 1024 * 15;
     private const int maxAllowedFiles = 3;
@@ -192,12 +191,7 @@
 
             if (response == 1)
             {
-                IsSuccess = true;
                 Subject = await subjectService.GetSubjectVMAsync(id: Id);
-            }
-            else
-            {
-                IsSuccess = false;
             }
         }
     }
@@ -206,7 +200,6 @@
     #region file upload
     private async Task OnInputFileChanged(InputFileChangeEventArgs e)
     {
-        shouldRender = false;
         upload = false;
 
         foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
@@ -240,12 +233,7 @@
 
             if (response.IsSuccessStatusCode)
             {
-                IsSuccess = true;
                 Subject = await subjectService.GetSubjectVMAsync(id: Id);
-            }
-            else
-            {
-                IsSuccess = false;
             }
         }
     }

@@ -2,6 +2,7 @@
 
 @using Symphony.BlazorServerApp.Services.CourseRegistrationService
 @using Symphony.BlazorServerApp.Controls.TableComponents
+@using Symphony.ViewModels.VMs
 
 @inject ICourseRegistrationService courseRegService;
 @inject NavigationManager nav
@@ -140,7 +141,6 @@
     private bool sortIsApp = false;
     private bool sortCreatedAt = true;
     private bool sortExamReg = true;
-    private bool approveStatus;
     #endregion
 
     protected async override Task OnInitializedAsync()

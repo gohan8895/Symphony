@@ -5,7 +5,6 @@ using Symphony.Data.EF;
 using Symphony.Data.Entities;
 using Symphony.Services.BackendServices.CourseServices;
 using Symphony.Services.BackendServices.QuestionServices;
-using Symphony.ViewModels.Consult;
 using Symphony.ViewModels.Extensions;
 using System;
 using System.Collections.Generic;
@@ -14,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Symphony.ViewModels.VMs;
 
 namespace Symphony.Services.BackendServices.ExamServices
 {

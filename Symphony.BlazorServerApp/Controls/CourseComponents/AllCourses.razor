@@ -1,6 +1,6 @@
-﻿@using Symphony.ViewModels.CourseViewModel
-@using Symphony.BlazorServerApp.Services.CourseServices
+﻿@using Symphony.BlazorServerApp.Services.CourseServices
 @using Symphony.BlazorServerApp.Services.SubjectServices
+@using Symphony.ViewModels.VMs
 @inject ICourseService courseService
 @inject ISubjectService subjectService
 
@@ -25,7 +25,7 @@
                                @onclick="@(() => Sort(sortByName, sortByNameClick))">
                                 Name
                                 <span class="material-icons ms-2">
-                                    @(sortByNameClick ? "arrow_downward" :
+                                    @(!sortByNameClick ? "arrow_downward" :
                                     "arrow_upward")
                                 </span>
                             </a>
@@ -35,15 +35,19 @@
                                @onclick="@(() => Sort(sortByPrice, sortByPriceClick))">
                                 Price
                                 <span class="material-icons ms-2">
-                                    @(sortByPriceClick ? "arrow_downward" :
+                                    @(!sortByPriceClick ? "arrow_downward" :
                                     "arrow_upward")
                                 </span>
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item sort-button-item btn">
+                            <a class="dropdown-item sort-button-item btn"
+                               @onclick="@(() => Sort(sortByDuration, sortByDurationClick))">
                                 Duration
-                                <span class="material-icons ms-2">arrow_upward</span>
+                                <span class="material-icons ms-2">
+                                    @(!sortByDurationClick ? "arrow_downward" :
+                                    "arrow_upward")
+                                </span>
                             </a>
                         </li>
                     </ul>
@@ -53,33 +57,43 @@
         </div>
         <!-- Filter sidebar -->
         <aside class="col-lg-2 col-md-12 col-sm-12 border-end filter-sidebar @(Filter is true ? "d-none" : "")">
+
+            @* Duration *@
+
             <div class="filter-item">
                 <h4>Course Duration</h4>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <input class="form-check-input" type="checkbox" @bind-value:event="oninput"
+                           @onchange="ActivateFilter" @bind-value="fast" id="flexCheckDefault">
                     <label class="form-check-label" for="flexCheckDefault">
-                        0 - 10 Hours
+                        0 - 30 Hours
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">
+                    <input class="form-check-input" type="checkbox" @bind-value:event="oninput"
+                           @onchange="ActivateFilter" @bind-value="ok" id="flexCheckDefault1">
                     <label class="form-check-label" for="flexCheckDefault1">
-                        10 - 20 Hours
+                        30 - 70 Hours
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">
+                    <input class="form-check-input" type="checkbox" @bind-value:event="oninput"
+                           @onchange="ActivateFilter" @bind-value="med" id="flexCheckDefault2">
                     <label class="form-check-label" for="flexCheckDefault2">
-                        20 - 30 Hours
+                        70 - 100 Hours
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">
+                    <input class="form-check-input" type="checkbox" @bind-value:event="oninput"
+                           @onchange="ActivateFilter" @bind-value="longTime" id="flexCheckDefault3">
                     <label class="form-check-label" for="flexCheckDefault3">
-                        Over 30 Hours
+                        Over 100 Hours
                     </label>
                 </div>
             </div>
+
+            @* Level *@
+
             <div class="filter-item">
                 <h4>Level</h4>
                 <div class="form-check">
@@ -97,7 +111,10 @@
                     </label>
                 </div>
             </div>
-            <div class="filter-item">
+
+            @* Subjects *@
+
+            @*<div class="filter-item">
                 <h4>Subject</h4>
                 @foreach (var sub in Subjects)
                 {
@@ -108,7 +125,10 @@
                         </label>
                     </div>
                 }
-            </div>
+            </div>*@
+
+            @* Prices *@
+
             <div class="filter-item">
                 <h4>Price</h4>
                 <div class="form-check">
@@ -228,15 +248,30 @@
     private int duration;
     #endregion
     #region filter props
+    #region sortButton
     private const string sortByName = "name";
     private bool sortByNameClick = false;
     private const string sortByPrice = "price";
     private bool sortByPriceClick = false;
+    private const string sortByDuration = "dur";
+    private bool sortByDurationClick = false;
+    #endregion
+    #region Durations
+    private bool fast = false;
+    private bool ok = false;
+    private bool med = false;
+    private bool longTime = false;
+    #endregion
+    #region Levels
     private bool beginner = false;
     private bool advanced = false;
+    #endregion
+    #region Prices
     private bool priceLow = false;
     private bool priceMed = false;
     private bool priceHi = false;
+    #endregion
+    #region subjects
     private bool java = false;
     private bool html = false;
     private bool css = false;
@@ -246,6 +281,7 @@
     private bool c = false;
     private bool cpp = false;
     private bool cs = false;
+    #endregion
     #endregion
 
     protected async override Task OnParametersSetAsync()
@@ -257,6 +293,40 @@
     {
         Courses = (await courseService.GetCourseVMsAsync()).ToList();
 
+        #region Durations
+        if (fast && !ok && !med && !longTime)
+        {
+            Courses = Courses.Where(c => (c.SimpleSubjectVMs.Select(s => s.Duration).Sum()) <= 30);
+        }
+        if (!fast && ok && !med && !longTime)
+        {
+            Courses = Courses.Where(c => (c.SimpleSubjectVMs.Select(s => s.Duration).Sum()) >= 30 && (c.SimpleSubjectVMs.Select(s => s.Duration).Sum()) <= 70);
+        }
+        if (!fast && !ok && med && !longTime)
+        {
+            Courses = Courses.Where(c => (c.SimpleSubjectVMs.Select(s => s.Duration).Sum()) >= 70 && (c.SimpleSubjectVMs.Select(s => s.Duration).Sum()) <= 100);
+        }
+        if (!fast && !ok && !med && longTime)
+        {
+            Courses = Courses.Where(c => (c.SimpleSubjectVMs.Select(s => s.Duration).Sum()) >= 100);
+        }
+        if (fast && ok && !med && !longTime)
+        {
+            Courses = Courses.Where(c => (c.SimpleSubjectVMs.Select(s => s.Duration).Sum()) <= 70);
+        }
+        if (!fast && !ok && med && longTime)
+        {
+            Courses = Courses.Where(c => (c.SimpleSubjectVMs.Select(s => s.Duration).Sum()) >= 70);
+        }
+        if (fast && ok && med && !longTime)
+        {
+            Courses = Courses.Where(c => (c.SimpleSubjectVMs.Select(s => s.Duration).Sum()) <= 100);
+        }
+        if (!fast && ok && med && longTime)
+        {
+            Courses = Courses.Where(c => (c.SimpleSubjectVMs.Select(s => s.Duration).Sum()) >= 30);
+        }
+        #endregion
         #region level
         if (beginner && !advanced)
         {
@@ -326,6 +396,14 @@
             case (sortByPrice, true):
                 Courses = Courses.OrderByDescending(c => c.Price);
                 sortByPriceClick = !sortByPriceClick;
+                break;
+            case (sortByDuration, false):
+                Courses = Courses.OrderBy(c => c.SimpleSubjectVMs.Select(s => s.Duration).Sum());
+                sortByDurationClick = !sortByDurationClick;
+                break;
+            case (sortByDuration, true):
+                Courses = Courses.OrderByDescending(c => c.SimpleSubjectVMs.Select(s => s.Duration).Sum());
+                sortByDurationClick = !sortByDurationClick;
                 break;
         }
     }

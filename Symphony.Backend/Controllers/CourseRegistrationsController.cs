@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Symphony.Data.Entities;
 using Symphony.Services.BackendServices.CourseRegistrationServices;
-using Symphony.ViewModels.Consult;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Symphony.ViewModels.VMs;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

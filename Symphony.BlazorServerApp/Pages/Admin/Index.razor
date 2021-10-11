@@ -1,7 +1,4 @@
 ﻿@page "/admin/dashboard"
-
-@using Symphony.ViewModels.Consult
-@using Symphony.ViewModels.CourseViewModel
 @using Symphony.BlazorServerApp.Services.CourseServices
 @using Symphony.BlazorServerApp.Services.CourseRegistrationService
 @using Symphony.BlazorServerApp.Services.SubjectServices
@@ -11,6 +8,7 @@
 @using ChartJs.Blazor.PieChart
 @using ChartJs.Blazor.BarChart
 @using ChartJs.Blazor.LineChart
+@using Symphony.ViewModels.VMs
 
 @inject IBatchService batchService
 @inject ICourseService courseService
@@ -77,7 +75,7 @@
                                 <div class="flex w-100 m-0 overview">
                                     <p>There are <span class="px-2 fw-bold fs-5">@Students.Count()</span> students enrolled right now.</p>
                                     <div class="overview-btn btn">
-                                        <a class="overview-tag" href="admin/userManager">Manage Students</a>
+                                        <a class="overview-tag" href="admin/userManagement/userManager">Manage Students</a>
                                     </div>
                                 </div>
                             }

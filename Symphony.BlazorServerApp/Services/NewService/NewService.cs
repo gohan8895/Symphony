@@ -1,11 +1,11 @@
-﻿using Symphony.ViewModels.Consult;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Text;
+using Symphony.ViewModels.VMs;
 
 namespace Symphony.BlazorServerApp.Services.NewService
 {

@@ -1,15 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using Symphony.Data.Entities;
-using Symphony.ViewModels.CourseViewModel;
-using Symphony.ViewModels.ExamRegistrations;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Symphony.Data.Entities;
 
-namespace Symphony.ViewModels.Consult
+namespace Symphony.ViewModels.VMs
 {
     public class ExamVM
     {

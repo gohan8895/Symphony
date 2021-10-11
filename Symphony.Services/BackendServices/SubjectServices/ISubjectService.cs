@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Http;
-using Symphony.ViewModels.Consult;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Symphony.ViewModels.VMs;
 
 namespace Symphony.Services.BackendServices.SubjectServices
 {
